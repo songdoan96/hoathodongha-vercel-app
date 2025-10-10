@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+td {
+  @apply !whitespace-normal;
+}
+th {
+  @apply !bg-[#27AE60] text-white uppercase font-semibold border border-black text-center;
+}

@@ -1,6 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+}
 
 html,
 body {
@@ -9,4 +16,268 @@ body {
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #ffffff;
+  --foreground: oklch(0.145 0 0);
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+  --primary: #155dfc;
+  --primary-foreground: #fafafa;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #171717;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --accent: #f5f5f5;
+  --accent-foreground: #171717;
+  --destructive: #e7000b;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #a1a1a1;
+  --chart-1: #f54900;
+  --chart-2: #009689;
+  --chart-3: #104e64;
+  --chart-4: #ffb900;
+  --chart-5: #fe9a00;
+  --sidebar: #fafafa;
+  --sidebar-foreground: #0a0a0a;
+  --sidebar-primary: #171717;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #f5f5f5;
+  --sidebar-accent-foreground: #171717;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: #a1a1a1;
+
+  --color-red-100: #ffe2e2;
+  --color-red-300: #ffa2a2;
+  --color-red-500: #fb2c36;
+  --color-red-600: #e7000b;
+  --color-red-700: #c10007;
+  --color-orange-200: #ffd6a7;
+  --color-green-300: #7bf1a7;
+  --color-green-500: #00c950;
+  --color-green-600: #00a63e;
+  --color-green-700: #008235;
+  --color-teal-100: #cbfbf1;
+  --color-teal-300: #46ecd4;
+  --color-teal-500: #00bba7;
+  --color-teal-600: #009689;
+  --color-sky-300: #74d4ff;
+  --color-blue-500: #2b7fff;
+  --color-blue-600: #155dfb;
+  --color-blue-700: #1447e6;
+  --color-blue-900: #1c398e;
+  --color-pink-100: #fce7f3;
+  --color-pink-500: #f6339a;
+  --color-pink-600: #e60076;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #99a1af;
+  --color-gray-500: #6a7282;
+  --color-gray-900: #101828;
+  --color-gray-950: #030712;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  --card: #171717;
+  --card-foreground: #fafafa;
+  --popover: #171717;
+  --popover-foreground: #fafafa;
+  --primary: #e5e5e5;
+  --primary-foreground: #171717;
+  --secondary: #262626;
+  --secondary-foreground: #fafafa;
+  --muted: #262626;
+  --muted-foreground: #a1a1a1;
+  --accent: #262626;
+  --accent-foreground: #fafafa;
+  --destructive: #ff6467;
+  --border: #ffffff1a;
+  --input: #ffffff26;
+  --ring: #737373;
+  --chart-1: #1447e6;
+  --chart-2: #00bc7d;
+  --chart-3: #fe9a00;
+  --chart-4: #ad46ff;
+  --chart-5: #ff2056;
+  --sidebar: #171717;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #1447e6;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #262626;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: #ffffff1a;
+  --sidebar-ring: #737373;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+.animate-blink {
+  animation: 2s infinite blink;
+}
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/* .loader {
+  height: 15px;
+  aspect-ratio: 6;
+  display: flex;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  flex: 1;
+  padding-left: calc(100% / 6);
+  background: radial-gradient(closest-side at calc(100% / 3) 50%, var(--primary) 90%, #0000) 0/75%
+    100% content-box;
+  animation: l20 2s infinite;
+}
+.loader:after {
+  --_s: -1;
+} 
+@keyframes l20 {
+  0% {
+    transform: scale(var(--_s, 1)) translate(0) rotate(0);
+  }
+  25% {
+    transform: scale(var(--_s, 1)) translate(-25%) rotate(0);
+  }
+  50% {
+    transform: scale(var(--_s, 1)) translate(-25%) rotate(1turn);
+  }
+  75%,
+  100% {
+    transform: scale(var(--_s, 1)) translate(0) rotate(1turn);
+  }
+}
+  */
+button {
+  cursor: pointer;
+}
+.btn {
+  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground shadow-xs h-9 px-4 py-2 has-[>svg]:px-3 min-w-32 text-base cursor-pointer;
+}
+.loader {
+  width: 106px;
+  height: 56px;
+  display: block;
+  margin: 30px auto;
+  background-image:
+    linear-gradient(var(--primary) 50px, transparent 0),
+    linear-gradient(var(--primary) 50px, transparent 0),
+    linear-gradient(var(--primary) 50px, transparent 0),
+    linear-gradient(var(--primary) 50px, transparent 0),
+    radial-gradient(circle 14px, var(--primary) 100%, transparent 0);
+  background-size:
+    48px 15px,
+    15px 35px,
+    15px 35px,
+    25px 15px,
+    28px 28px;
+  background-position:
+    25px 5px,
+    58px 20px,
+    25px 17px,
+    2px 37px,
+    76px 0px;
+  background-repeat: no-repeat;
+  position: relative;
+  transform: rotate(-45deg);
+  box-sizing: border-box;
+}
+.loader::after,
+.loader::before {
+  content: "";
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border: 6px solid var(--primary);
+  border-radius: 50%;
+  left: -45px;
+  top: -10px;
+  background-repeat: no-repeat;
+  background-image:
+    linear-gradient(var(--primary) 64px, transparent 0),
+    linear-gradient(var(--primary) 66px, transparent 0),
+    radial-gradient(circle 4px, var(--primary) 100%, transparent 0);
+  background-size:
+    40px 1px,
+    1px 40px,
+    8px 8px;
+  background-position: center center;
+  box-sizing: border-box;
+  animation: rotation 0.3s linear infinite;
+}
+.loader::before {
+  left: 25px;
+  top: 60px;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+li[data-sonner-toast] {
+  @apply w-auto!;
 }
