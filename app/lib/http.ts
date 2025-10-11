@@ -18,7 +18,9 @@ apiClient.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       // useAuthStore.getState().logout();
       const originalUrl = window.location.pathname + window.location.search;
-      window.location.href = routers.auth.login + "?redirectTo=" + originalUrl;
+      window.location.href = window.location.search.includes("redirectTo")
+        ? routers.auth.login
+        : routers.auth.login + "?redirectTo=" + originalUrl;
     }
     return Promise.reject(error.response.data);
   }

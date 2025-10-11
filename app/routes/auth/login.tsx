@@ -51,11 +51,12 @@ export default function LoginPage() {
       login(response);
       toast.success("Đăng nhập thành công");
       // const redirectPath = location.state?.from?.pathname || "/";
-      const redirectTo = searchParams.get("redirectTo") || "/";
+      const redirectTo = searchParams.get("redirectTo") || "/ky-nhan";
       return redirectTo ? navigate(redirectTo) : navigate(-1);
     },
     onError: () => {
       toast.error("Tài khoản hoặc mật khẩu chưa đúng");
+      navigate("/dang-nhap");
     },
   });
 

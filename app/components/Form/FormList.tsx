@@ -401,15 +401,27 @@ function FormListComponent() {
                               className="cursor-pointer"
                             />
                           )}
-                          <button
-                            onClick={() => {
-                              if (confirm("Xác nhận xóa?")) {
-                                handleDelete(form.id.toString());
-                              }
-                            }}
-                          >
-                            <Trash2 color="red" size={20} />
-                          </button>
+
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Trash2 color="red" size={20} />
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Xác nhận xóa?</AlertDialogTitle>
+                                <AlertDialogDescription />
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Hủy</AlertDialogCancel>
+                                <AlertDialogAction
+                                  className="bg-red-500 hover:bg-red-600"
+                                  onClick={() => handleDelete(form.id.toString())}
+                                >
+                                  Xóa
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
                       </td>
                     )}
