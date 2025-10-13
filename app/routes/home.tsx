@@ -1,7 +1,5 @@
 import { Link } from "react-router";
 import type { Route } from "./+types/home";
-import ENV_CONFIG from "~/lib/env";
-import configuration from "~/lib/configuration";
 import { ClipboardPenLine, Signature } from "lucide-react";
 
 export function meta({}: Route.MetaArgs) {

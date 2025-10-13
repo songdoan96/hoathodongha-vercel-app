@@ -1,10 +1,9 @@
 import axios from "axios";
 import useAuthStore from "~/stores/auth-store";
-import ENV_CONFIG from "./env";
 import routers from "./router";
 import configuration from "./configuration";
 const apiClient = axios.create({
-  baseURL: ENV_CONFIG.BACKEND_URL,
+  baseURL: configuration().BACKEND_URL,
   headers: {
     "Content-Type": "application/json",
   },

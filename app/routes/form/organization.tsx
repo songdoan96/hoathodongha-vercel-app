@@ -1,13 +1,12 @@
-import { Download, FileDown, FilePlus } from "lucide-react";
-import { Link } from "react-router";
-import { Button } from "../../components/ui/button";
-import routers from "~/lib/router";
-import { HeaderComponent, HeaderRight, HeaderTitle } from "~/components/Header";
-import FormListComponent from "~/components/Form/FormList";
-import type { Route } from "./+types";
-import { Input } from "~/components/ui/input";
-import ENV_CONFIG from "~/lib/env";
+import { format } from "date-fns";
+import { Download, FileDown } from "lucide-react";
 import { useState } from "react";
+import FormListComponent from "~/components/Form/FormList";
+import { HeaderComponent, HeaderTitle } from "~/components/Header";
+import { Input } from "~/components/ui/input";
+import configuration from "~/lib/configuration";
+import { Button } from "../../components/ui/button";
+import type { Route } from "./+types";
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Danh sách đơn nghỉ phép, ra cổng" },
@@ -20,7 +19,8 @@ function OrganizationPage() {
 
   function handleExportDate(queryDate?: string) {
     if (queryDate) {
-      window.location.href = ENV_CONFIG.BACKEND_URL + "/form/organization/export?date=" + queryDate;
+      window.location.href =
+        configuration().BACKEND_URL + "/form/organization/export?date=" + queryDate;
     }
   }
   return (
@@ -36,6 +36,7 @@ function OrganizationPage() {
               style={{ width: 200 }}
               type="date"
               onChange={(e) => setQueryDate(e.target.value)}
+              max={format(new Date(), "yyyy-MM-dd")}
             />
             <Button color="blue" onClick={() => handleExportDate(queryDate)}>
               <FileDown /> Xuất file
@@ -47,6 +48,7 @@ function OrganizationPage() {
               style={{ width: 200 }}
               type="month"
               onChange={(e) => setQueryDate(e.target.value)}
+              max={format(new Date(), "yyyy-MM")}
             />
             <Button color="blue" onClick={() => handleExportDate(queryDate)}>
               <FileDown /> Xuất file

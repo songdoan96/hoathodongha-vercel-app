@@ -119,7 +119,7 @@ export default function FormCreateOut() {
                 )}
               />
               <div className="bg-gray-100 mt-2 text-sm">
-                {employeeQuery.data && (
+                {employeeQuery.data && employeeQuery.data.length > 0 && (
                   <div className="p-2">
                     <h1 className="mb-4 text-red-500 font-bold uppercase">
                       Chọn tên để tự động điền thông tin
