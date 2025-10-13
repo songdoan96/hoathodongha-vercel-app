@@ -22,7 +22,7 @@ function Home() {
           </span>
         </div>
         <div className="flex flex-col md:flex-row justify-center items-center gap-8 uppercase text-xl text-center h-2/3">
-          <div className="bg-white min-w-52 border-2 border-orange-600 flex flex-col justify-center items-center rounded">
+          <div className="bg-gray-50 min-w-52 border-2 border-orange-600 flex flex-col justify-center items-center rounded">
             <div className="bg-blue-100 rounded-full p-2 w-20 h-20 flex justify-center items-center my-4">
               <ClipboardPenLine color="blue" size={30} className="" />
             </div>
@@ -30,7 +30,7 @@ function Home() {
               Tạo đơn
             </Link>
           </div>
-          <div className="bg-white min-w-52 border-2 border-orange-600 flex flex-col justify-center items-center rounded">
+          <div className="bg-gray-50 min-w-52 border-2 border-orange-600 flex flex-col justify-center items-center rounded">
             <div className="bg-blue-100 rounded-full p-2 w-20 h-20 flex justify-center items-center my-4">
               <Signature color="blue" size={30} className="" />
             </div>
