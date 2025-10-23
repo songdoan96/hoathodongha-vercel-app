@@ -21,7 +21,7 @@ export class SeedService {
   async index() {
     // await this.seedAccount();
     // await this.seedEmployee();
-    // await this.formEmployee();
+    await this.formEmployee();
   }
 
   async seedAccount() {
@@ -58,8 +58,8 @@ export class SeedService {
   async formEmployee() {
     const res = await fetch('http://172.17.0.30:8888/api/form');
     const data: Form[] = await res.json();
-    await this.prisma.form.deleteMany();
-    for (const form of data) {
+    // await this.prisma.form.deleteMany();
+    for (const form of data.reverse()) {
       const { id, ...rest } = form;
       await this.prisma.form.create({
         data: {
@@ -67,5 +67,6 @@ export class SeedService {
         },
       });
     }
+    return await this.prisma.form.findMany();
   }
 }
