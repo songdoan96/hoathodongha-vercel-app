@@ -16,12 +16,12 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import configuration from "~/lib/configuration";
 import imagesPath from "~/lib/images";
 import routers from "~/lib/router";
 import useAuthStore from "~/stores/auth-store";
 import type { AuthType } from "~/types/auth.type";
 import type { Route } from "./+types/login";
-import configuration from "~/lib/configuration";
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Đăng nhập" }, { name: "description", content: "Đăng nhập" }];
 }
