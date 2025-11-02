@@ -41,7 +41,7 @@ try {
     const initializeOneSignal = async () => {
       try {
         await OneSignal.init({
-          appId: configuration().ONESIGNAL_ID || "c073610c-d2e7-4dcd-9167-f5edfa8eb279",
+          appId: configuration().ONESIGNAL_ID || "97778f54-120f-414b-a4d6-bd6883637e41",
           // allowLocalhostAsSecureOrigin: true,
         });
       } catch (error) {
