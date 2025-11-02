@@ -134,7 +134,7 @@ export class FormService {
     )?.needQuanDoc;
     if (chucvu === 'quandoc' || (needToTruong && !needQuanDoc)) {
       await this.formSendNotification(form, 'lanhdao');
-    } else {
+    } else if (chucvu !== 'lanhdao') {
       await this.formSendNotification(form, 'quandoc');
     }
     return form;
@@ -231,7 +231,7 @@ export class FormService {
             value: bophan,
           },
         ],
-        url: 'https://hoathodongha.vercel.app/ky-nhan',
+        url: 'https://hoathodongha.vercel.app/tao-don/xem-don/' + form.id,
       }),
     };
 
