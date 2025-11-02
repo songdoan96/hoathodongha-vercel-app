@@ -42,7 +42,7 @@ try {
       try {
         await OneSignal.init({
           appId: configuration().ONESIGNAL_ID || "c073610c-d2e7-4dcd-9167-f5edfa8eb279",
-          allowLocalhostAsSecureOrigin: true,
+          // allowLocalhostAsSecureOrigin: true,
         });
       } catch (error) {
         console.error("Error initializing OneSignal:", error);
