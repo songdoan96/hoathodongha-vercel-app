@@ -18,7 +18,13 @@ import {
 import { useState } from "react";
 import { Link } from "react-router";
 import { toast } from "sonner";
-import { apiFormDelete, apiFormGetAll, apiFormUpdate } from "~/apis/form.api";
+import {
+  apiFormDelete,
+  apiFormGetAll,
+  apiFormSignature,
+  apiFormUpdate,
+  type SignatureFormDto,
+} from "~/apis/form.api";
 import { QUERY_KEY } from "~/lib/queryKey";
 import routers from "~/lib/router";
 import { checkRole } from "~/lib/utils";
@@ -66,6 +72,18 @@ function FormListComponent() {
   const mutationUpdate = useMutation({
     mutationFn: ({ id, values }: { id: string; values: Partial<FormType> }) =>
       apiFormUpdate(id, values),
+    onSuccess: () => {
+      toast.success("Cập nhật thành công");
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.form.GET_ALL] });
+      // navigate(routers.form.index);
+    },
+    onError: () => {
+      toast.error("Đã xảy ra lỗi, vui lòng thử lại");
+    },
+  });
+  const mutationSignature = useMutation({
+    mutationFn: ({ id, values }: { id: string; values: SignatureFormDto }) =>
+      apiFormSignature(id, values),
     onSuccess: () => {
       toast.success("Cập nhật thành công");
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.form.GET_ALL] });
@@ -310,7 +328,11 @@ function FormListComponent() {
                           <>
                             {!form.totruong && needToTruong && <X color="red" size={20} />}
                             {user && user.bophan === form.to && (
-                              <FormTT mutationUpdate={mutationUpdate} user={user} form={form} />
+                              <FormTT
+                                mutationSignature={mutationSignature}
+                                user={user}
+                                form={form}
+                              />
                             )}
                           </>
                         )}
@@ -328,10 +350,11 @@ function FormListComponent() {
                               <Button
                                 className="underline"
                                 onClick={() =>
-                                  mutationUpdate.mutate({
+                                  mutationSignature.mutate({
                                     id: form.id.toString(),
                                     values: {
-                                      quandoc: user.name,
+                                      hoten: user.name,
+                                      chucvu: "quandoc",
                                     },
                                   })
                                 }
@@ -356,10 +379,11 @@ function FormListComponent() {
                               <Button
                                 className="underline"
                                 onClick={() =>
-                                  mutationUpdate.mutate({
+                                  mutationSignature.mutate({
                                     id: form.id.toString(),
                                     values: {
-                                      lanhdao: user.name,
+                                      hoten: user.name,
+                                      chucvu: "lanhdao",
                                     },
                                   })
                                 }

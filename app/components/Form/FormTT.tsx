@@ -19,11 +19,11 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 function FormTT({
   form,
   user,
-  mutationUpdate,
+  mutationSignature,
 }: {
   form: FormType;
   user: AuthStoreType;
-  mutationUpdate: any;
+  mutationSignature: any;
 }) {
   const [replace, setReplace] = useState<string>(() => (form.thaythe === true ? "true" : "false"));
 
@@ -62,10 +62,11 @@ function FormTT({
           <AlertDialogCancel>Hủy</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
-              mutationUpdate.mutate({
+              mutationSignature.mutate({
                 id: form.id.toString(),
                 values: {
-                  totruong: user?.name,
+                  hoten: user?.name,
+                  chucvu: "totruong",
                   thaythe: replace === "true" ? true : false,
                 },
               });

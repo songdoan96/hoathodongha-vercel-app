@@ -22,6 +22,7 @@ import routers from "~/lib/router";
 import useAuthStore from "~/stores/auth-store";
 import type { AuthType } from "~/types/auth.type";
 import type { Route } from "./+types/login";
+import OneSignal from "react-onesignal";
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Đăng nhập" }, { name: "description", content: "Đăng nhập" }];
 }
@@ -47,6 +48,7 @@ export default function LoginPage() {
   const mutation = useMutation({
     mutationFn: (formData: Pick<AuthType, "username" | "password">) => apiAuthLogin(formData),
     onSuccess: async (response) => {
+      await OneSignal.User.addTag("forms", response.bophan);
       localStorage.setItem(configuration().TOKEN_KEY, response.token);
       login(response);
       toast.success("Đăng nhập thành công");

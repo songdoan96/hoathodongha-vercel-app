@@ -35,7 +35,7 @@ import type { Route } from "./+types/edit";
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Chỉnh sửa đơn" }, { name: "description", content: "Chỉnh sửa đơn" }];
 }
-export async function loader({ params: { id } }: Route.LoaderArgs) {
+export async function clientLoader({ params: { id } }: Route.LoaderArgs) {
   return id;
 }
 const formSchema = z.object({

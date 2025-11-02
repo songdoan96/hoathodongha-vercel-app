@@ -29,6 +29,16 @@ export const apiFormUpdate = async (id: string, body: Partial<FormType>) => {
   const { data } = await apiClient.patch(router + "/" + id, body);
   return data;
 };
+export interface SignatureFormDto {
+  chucvu: string;
+  hoten: string;
+  thaythe?: boolean;
+}
+
+export const apiFormSignature = async (id: string, body: SignatureFormDto) => {
+  const { data } = await apiClient.patch(router + "/signature/" + id, body);
+  return data;
+};
 export const apiFormDelete = async (id: string) => {
   const { data } = await apiClient.delete(router + "/" + id);
   return data;

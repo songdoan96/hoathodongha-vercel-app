@@ -43,7 +43,7 @@ const formSchema = z.object({
 });
 type FormValues = z.infer<typeof formSchema>;
 
-export async function loader({ params: { id } }: Route.LoaderArgs) {
+export async function clientLoader({ params: { id } }: Route.LoaderArgs) {
   return id;
 }
 function EmployeeEdit({ loaderData }: Route.ComponentProps) {

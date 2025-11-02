@@ -12,7 +12,7 @@ import type { Route } from "./+types/view";
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Xem đơn" }, { name: "description", content: "Xem đơn" }];
 }
-export async function loader({ params: { id } }: Route.LoaderArgs) {
+export async function clientLoader({ params: { id } }: Route.LoaderArgs) {
   return id;
 }
 function FormView({ loaderData: id }: Route.ComponentProps) {
