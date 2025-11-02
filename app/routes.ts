@@ -11,7 +11,7 @@ export default [
       index("routes/form/index.tsx"), //ok
       route("/xin-phep", "./routes/form/leave-create.tsx"), //ok
       route("/ra-cong", "./routes/form/out-create.tsx"), //ok
-      route("/xem-don/:id", "./routes/form/view.tsx"), //ok
+      // route("/xem-don/:id", "./routes/form/view.tsx"), //ok
     ]),
   ]),
 
@@ -21,7 +21,11 @@ export default [
 
     route("/ky-nhan", "./routes/form/signature.tsx"), //ok
     route("/to-chuc", "./routes/form/organization.tsx"), //ok
-    route("/tao-don/chinh-sua/:id", "./routes/form/edit.tsx"), //ok
+
+    ...prefix("/tao-don", [
+      route("/chinh-sua/:id", "./routes/form/edit.tsx"), //ok
+      route("/xem-don/:id", "./routes/form/view.tsx"), //ok
+    ]),
 
     ...prefix("users", [
       index("./routes/auth/dashboard.tsx"), //ok

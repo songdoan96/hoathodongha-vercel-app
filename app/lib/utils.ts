@@ -15,7 +15,7 @@ export function checkRole(role = "admin") {
   if (!bophan) {
     return false;
   }
-  if (bophan === role || bophan === "lanhdao" || bophan === "admin") {
+  if (bophan === role || bophan === "admin") {
     return true;
   }
   return false;

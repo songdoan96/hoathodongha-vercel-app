@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatDate } from "date-fns";
 import { Square, SquareCheck, X } from "lucide-react";
-import { apiFormGetOne } from "~/apis/form.api";
+import { apiFormGetOne, apiFormSignature, type SignatureFormDto } from "~/apis/form.api";
 import Loading from "~/components/Loading";
 import { Button } from "~/components/ui/button";
 import { QUERY_KEY } from "~/lib/queryKey";
@@ -9,6 +9,8 @@ import { linesList } from "~/lib/variables";
 import useAuthStore from "~/stores/auth-store";
 import type { FormType } from "~/types/form.type";
 import type { Route } from "./+types/view";
+import FormTT from "~/components/Form/FormTT";
+import { toast } from "sonner";
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Xem đơn" }, { name: "description", content: "Xem đơn" }];
 }
@@ -17,10 +19,24 @@ export async function clientLoader({ params: { id } }: Route.LoaderArgs) {
 }
 function FormView({ loaderData: id }: Route.ComponentProps) {
   const { user } = useAuthStore();
+  const queryClient = useQueryClient();
   const { data, isLoading } = useQuery<FormType>({
     queryKey: [QUERY_KEY.form.FIND_ONE, id],
     queryFn: () => apiFormGetOne(id),
     enabled: !!id,
+  });
+  const mutationSignature = useMutation({
+    mutationFn: ({ id, values }: { id: string; values: SignatureFormDto }) =>
+      apiFormSignature(id, values),
+    onSuccess: () => {
+      toast.success("Cập nhật thành công");
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.form.GET_ALL] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.form.FIND_ONE, id] });
+      // navigate(routers.form.index);
+    },
+    onError: () => {
+      toast.error("Đã xảy ra lỗi, vui lòng thử lại");
+    },
   });
   if (isLoading) {
     return <Loading fullScreen />;
@@ -111,17 +127,26 @@ function FormView({ loaderData: id }: Route.ComponentProps) {
                 <span className="uppercase font-bold mb-2">Duyệt</span>
                 <span className="italic">
                   <div className="flex items-center justify-center">
-                    {!data?.lanhdao && <X color="red" size={20} />}
-                    {data?.lanhdao
+                    {!data.lanhdao && <X color="red" size={20} />}
+                    {data.lanhdao
                       ? data.lanhdao
                       : user &&
                         user.bophan === "lanhdao" &&
                         ((!needToTruong && !needQuanDoc) ||
-                          (needToTruong && needQuanDoc && data?.quandoc) ||
-                          (needToTruong && !needQuanDoc && data?.totruong) ||
-                          (!needToTruong && needQuanDoc && data?.quandoc)) && (
+                          (needToTruong && needQuanDoc && data.quandoc) ||
+                          (needToTruong && !needQuanDoc && data.totruong) ||
+                          (!needToTruong && needQuanDoc && data.quandoc)) && (
                           <Button
-                            //   onClick={() => handleSignature("lanhdao")}
+                            className="underline"
+                            onClick={() =>
+                              mutationSignature.mutate({
+                                id: data.id.toString(),
+                                values: {
+                                  hoten: user.name,
+                                  chucvu: "lanhdao",
+                                },
+                              })
+                            }
                             variant="link"
                           >
                             Ký đơn
@@ -134,15 +159,24 @@ function FormView({ loaderData: id }: Route.ComponentProps) {
                 <span className="uppercase font-bold mb-2">Quản đốc</span>
                 <span className="italic">
                   <div className="flex items-center justify-center">
-                    {!data?.quandoc && needQuanDoc && <X color="red" size={20} />}
-                    {data?.quandoc
+                    {!data.quandoc && needQuanDoc && <X color="red" size={20} />}
+                    {data.quandoc
                       ? data.quandoc
                       : user &&
                         user.bophan === "quandoc" &&
-                        ((needToTruong && needQuanDoc && data?.totruong) ||
+                        ((needToTruong && needQuanDoc && data.totruong) ||
                           (!needToTruong && needQuanDoc)) && (
                           <Button
-                            //   onClick={() => handleSignature("quandoc")}
+                            className="underline"
+                            onClick={() =>
+                              mutationSignature.mutate({
+                                id: data.id.toString(),
+                                values: {
+                                  hoten: user.name,
+                                  chucvu: "quandoc",
+                                },
+                              })
+                            }
                             variant="link"
                           >
                             Ký đơn
@@ -155,7 +189,16 @@ function FormView({ loaderData: id }: Route.ComponentProps) {
                 <span className="uppercase font-bold mb-2">Tổ trưởng</span>
                 <span className="italic">
                   <div className="flex justify-center items-center">
-                    {data?.totruong}
+                    {data.totruong ? (
+                      data.totruong
+                    ) : (
+                      <>
+                        {!data.totruong && needToTruong && <X color="red" size={20} />}
+                        {user && user.bophan === data.to && (
+                          <FormTT mutationSignature={mutationSignature} user={user} form={data} />
+                        )}
+                      </>
+                    )}
                     {/* {!data?.totruong && needToTruong && <X color="red" size={20} />}
                     {data?.totruong
                       ? data.totruong
