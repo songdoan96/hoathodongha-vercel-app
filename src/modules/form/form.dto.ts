@@ -1,4 +1,6 @@
-import { $Enums, Prisma } from '../../../../generated/prisma';
+import { PartialType } from '@nestjs/mapped-types';
+import { $Enums, Prisma } from '../../../generated/prisma';
+import { IsOptional } from 'class-validator';
 
 export class CreateFormDto implements Prisma.FormCreateInput {
   ngaytao?: string | Date | undefined;
@@ -20,4 +22,12 @@ export class CreateFormDto implements Prisma.FormCreateInput {
   dengio?: string | null | undefined;
   giora?: string | null | undefined;
   giovao?: string | null | undefined;
+}
+export class UpdateFormDto extends PartialType(CreateFormDto) {}
+export class SignatureFormDto {
+  chucvu: string;
+  hoten: string;
+
+  @IsOptional()
+  thaythe?: boolean;
 }

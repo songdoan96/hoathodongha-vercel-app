@@ -10,7 +10,7 @@ export class AuthService {
     private prisma: PrismaService,
   ) {}
 
-  async signIn(body: LoginDto): Promise<{ token: string }> {
+  async signIn(body: LoginDto) {
     const { username, password } = body;
     const user = await this.findByUsername(username);
     if (user?.password !== password) {
@@ -25,6 +25,7 @@ export class AuthService {
     };
     // const payload = { sub: user.id, username: user.username };
     return {
+      id: user.id,
       ...payload,
       token: await this.jwtService.signAsync(payload),
     };

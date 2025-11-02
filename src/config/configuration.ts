@@ -6,4 +6,8 @@ export default () => ({
     // maxAge: Number(process.env.MAX_AGE),
   },
   frontendUrl: process.env.FRONTEND_URL,
+  onesignal: {
+    app_id: process.env.ONESIGNAL_APP_ID,
+    auth: process.env.ONESIGNAL_AUTH,
+  },
 });

@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
   endOfDay,
   endOfMonth,
@@ -6,11 +7,10 @@ import {
   startOfDay,
   startOfMonth,
 } from 'date-fns';
-import { linesList } from '../../lib/constant';
-import { CreateFormDto } from './dto/create-form.dto';
-import { UpdateFormDto } from './dto/update-form.dto';
-import { PrismaService } from '../prisma/prisma.service';
 import { Form } from '../../../generated/prisma';
+import { linesList } from '../../lib/constant';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateFormDto, UpdateFormDto, SignatureFormDto } from './form.dto';
 export enum LoaiDon {
   LEAVE = 'leave',
   OUT = 'out',
@@ -18,8 +18,11 @@ export enum LoaiDon {
 
 @Injectable()
 export class FormService {
-  constructor(private prisma: PrismaService) {}
-  async create(createFormDto: CreateFormDto & { to: string }) {
+  constructor(
+    private prisma: PrismaService,
+    private configService: ConfigService,
+  ) {}
+  async create(createFormDto: CreateFormDto) {
     const employee = await this.prisma.employee.findFirst({
       where: { msnv: createFormDto.msnv },
       select: { id: true, bophan: true },
@@ -30,30 +33,35 @@ export class FormService {
         data: { bophan: createFormDto.to },
       });
     }
+    if (createFormDto.tungay) {
+      createFormDto.tungay = new Date(createFormDto.tungay);
+    }
+    if (createFormDto.denngay) {
+      createFormDto.denngay = new Date(createFormDto.denngay);
+    }
+    if (createFormDto.rangay) {
+      createFormDto.rangay = new Date(createFormDto.rangay);
+    }
 
-    return await this.prisma.form.create({
-      data: {
-        ...createFormDto,
-        tungay: createFormDto.tungay ? new Date(createFormDto.tungay) : null,
-        denngay: createFormDto.denngay ? new Date(createFormDto.denngay) : null,
-        rangay: createFormDto.rangay ? new Date(createFormDto.rangay) : null,
-      },
+    const form = await this.prisma.form.create({
+      data: createFormDto,
     });
+    // Gửi thông báo
+    const needToTruong = linesList.find(
+      (line) => line.value === form.to,
+    )?.needToTruong;
+    const needQuanDoc = linesList.find(
+      (line) => line.value === form.to,
+    )?.needQuanDoc;
+    if (!needToTruong && !needQuanDoc)
+      await this.formSendNotification(form, 'lanhdao');
+    if (needToTruong) await this.formSendNotification(form, form.to);
+    if (!needToTruong && needQuanDoc)
+      await this.formSendNotification(form, 'quandoc');
+    return form;
   }
 
-  async findAll({
-    msnv,
-    to,
-    ngaytao,
-    type,
-    value,
-  }: {
-    msnv?: string;
-    to?: string;
-    ngaytao?: string;
-    type?: string;
-    value?: string;
-  }) {
+  async findAll({ type, value }: { type?: string; value?: string }) {
     const month = type === 'ngaytao' && value ? new Date(value) : new Date();
     if (type && value && type !== 'ngaytao') {
       return await this.prisma.form.findMany({
@@ -106,6 +114,30 @@ export class FormService {
       where: { id },
       data: updateFormDto,
     });
+  }
+
+  async signature(id: string, signatureFormDto: SignatureFormDto) {
+    const { chucvu, hoten, thaythe } = signatureFormDto;
+
+    const form = await this.prisma.form.update({
+      where: { id },
+      data: {
+        [chucvu]: hoten,
+        thaythe,
+      },
+    });
+    const needToTruong = linesList.find(
+      (line) => line.value === form.to,
+    )?.needToTruong;
+    const needQuanDoc = linesList.find(
+      (line) => line.value === form.to,
+    )?.needQuanDoc;
+    if (chucvu === 'quandoc' || (needToTruong && !needQuanDoc)) {
+      await this.formSendNotification(form, 'lanhdao');
+    } else {
+      await this.formSendNotification(form, 'quandoc');
+    }
+    return form;
   }
 
   async remove(id: string) {
@@ -172,6 +204,38 @@ export class FormService {
         return exportFile(forms);
       }
     }
+  }
+  async formSendNotification(form: Form, bophan: string) {
+    const url = 'https://api.onesignal.com/notifications?c=push';
+    const options = {
+      method: 'POST',
+      headers: {
+        Authorization: this.configService.get('onesignal.auth'),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        app_id: this.configService.get('onesignal.app_id'),
+        headings: {
+          en:
+            linesList.find((line) => line.value === form.to)?.name +
+            ' có đơn cần ký',
+        },
+        contents: {
+          en: `${form.msnv}: ${form.hoten}`,
+        },
+        filters: [
+          {
+            field: 'tag',
+            relation: '=',
+            key: 'forms',
+            value: bophan,
+          },
+        ],
+        url: 'https://hoathodongha.vercel.app/ky-nhan',
+      }),
+    };
+
+    return await fetch(url, options);
   }
 }
 
