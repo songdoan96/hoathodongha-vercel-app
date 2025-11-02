@@ -44,6 +44,7 @@ try {
           appId: configuration().ONESIGNAL_ID || "97778f54-120f-414b-a4d6-bd6883637e41",
           // allowLocalhostAsSecureOrigin: true,
         });
+        await OneSignal.Slidedown.promptPush();
       } catch (error) {
         console.error("Error initializing OneSignal:", error);
       }
