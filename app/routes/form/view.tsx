@@ -60,11 +60,11 @@ function FormView({ loaderData: id }: Route.ComponentProps) {
               </div>
             </div>
             <h1 className="uppercase font-bold text-3xl text-center mt-10">Giấy xin nghỉ phép</h1>
-            <p className="uppercase font-bold mt-4">
+            <p className="uppercase font-bold mt-4 text-center">
               <span className="underline">Kính gửi:</span> Ban lãnh đạo công ty may Hòa Thọ Đông Hà
             </p>
-            <div className="mt-10 flex gap-4 lg:gap-8">
-              <div className="">
+            <div className="mt-10 flex flex-wrap gap-4">
+              <div className="w-full md:w-auto">
                 <span className="font-semibold">Tôi tên là: </span>
                 <span className="underline text-blue-900 font-bold">{data?.hoten}</span>
               </div>
@@ -74,7 +74,7 @@ function FormView({ loaderData: id }: Route.ComponentProps) {
                   {linesList.find((line) => line.value === data?.to)?.name}
                 </span>
               </div>
-              <div className="">
+              <div className="ml-8">
                 <span className="font-semibold">MSNV: </span>
                 <span className="underline text-blue-900 font-bold">{data?.msnv}</span>
               </div>
@@ -84,14 +84,14 @@ function FormView({ loaderData: id }: Route.ComponentProps) {
               <span className="font-semibold">Kính xin BLĐ công ty cho phép tôi được nghỉ: </span>
               <span className="underline text-blue-900 font-bold">{data?.songaynghi} ngày</span>
             </div>
-            <div className="flex mt-4">
+            <div className="flex justify-between md:justify-start mt-4">
               <div className="">
                 <span className="font-semibold">Kể từ ngày: </span>
                 <span className="underline text-blue-900 font-bold">
-                  {data?.tungay && formatDate(data.tungay, "dd/MM/yyyy")}1
+                  {data?.tungay && formatDate(data.tungay, "dd/MM/yyyy")}
                 </span>
               </div>
-              <div className=" ml-10">
+              <div className="md:ml-10">
                 <span className="font-semibold">Đến ngày: </span>
                 <span className="underline text-blue-900 font-bold">
                   {data?.denngay && formatDate(data.denngay, "dd/MM/yyyy")}
@@ -284,7 +284,7 @@ function FormView({ loaderData: id }: Route.ComponentProps) {
                 </span>
               </div>
               <div className=" mt-2">
-                <span className="font-semibold">Xin ngày: </span>
+                <span className="font-semibold">Xin ra ngày: </span>
                 <span className="underline text-blue-900 font-bold">
                   {data?.rangay && formatDate(data.rangay, "dd/MM/yyyy")}
                 </span>
