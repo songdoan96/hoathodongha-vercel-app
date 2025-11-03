@@ -48,14 +48,13 @@ export default function LoginPage() {
   const mutation = useMutation({
     mutationFn: (formData: Pick<AuthType, "username" | "password">) => apiAuthLogin(formData),
     onSuccess: async (response) => {
-      await OneSignal.User.addTag("forms", response.bophan);
-      await OneSignal.login(response.id);
+      try {
+        await OneSignal.User.addTag("forms", response.bophan);
+        await OneSignal.login(response.id);
+      } catch (error) {}
       localStorage.setItem(configuration().TOKEN_KEY, response.token);
       login(response);
       toast.success("Đăng nhập thành công");
-      // const redirectPath = location.state?.from?.pathname || "/";
-      const redirectTo = searchParams.get("redirectTo") || "/ky-nhan";
-      return redirectTo ? navigate(redirectTo) : navigate(-1);
     },
     onError: () => {
       toast.error("Tài khoản hoặc mật khẩu chưa đúng");
