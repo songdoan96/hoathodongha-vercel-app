@@ -61,3 +61,58 @@ model Form {
 
   @@map("forms")
 }
+
+model Salary {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  // employee   Employee @relation(fields: [employeeId], references: [id])
+  // employeeId String   @db.ObjectId
+  year  Int
+  month Int
+
+  hoten String
+  msnv  String
+  to    String
+  cccd  String
+
+  luongToiThieu          Int
+  ngayCongBinhThuong     Float
+  gioCongCN              Float?
+  gioCongTangCa          Float?
+  gioCaBa                Float?
+  luongSPTheoCongDoan    Int
+  luongSPTrongGio        Int
+  luongTangCaCNCaBa      Int
+  caBaCaDem              Int?
+  huanLuyencongNhanMoi   Int?
+  gioNghiTangCa          Float?
+  luongNghiAnTangCa      Int?
+  luongHanhKinhPhuNu     Int?
+  gioConBuThai           Float?
+  gioBatDauMangThai      Float?
+  luongTanTatConNho      Int?
+  hoTroConNhoDuoiMotTuoi Int?
+  hoTroCongNhanMoi       Int?
+  luongPCCC              Int?
+  luongChuyenCan         Int?
+  luongTheoNgayCong      Int?
+  luongXangXe            Int?
+  gioNghiNgan            Float?
+  luongNghiNgan          Int?
+  luongConDiNhaTre       Int?
+  luongHoTroBoSung       Int?
+  luongPhuCapNongCaDem   Int?
+  luongATVSPCCC          Int?
+  // tongCongTienLuongSanPhamCanCuBu Float?
+  luongBu                Int?
+  hoanTraBHXHBHYT        Int?
+  ngayCheDo              Float?
+  ngayPhepNam            Float?
+  luongPhepCheDo         Int?
+  // tongCongTienLuong         Float?
+  luongBocXep            Int?
+  truLuongUng            Int?
+  truBHXH                Int?
+  // tienLuongThucLinhCuoiKy Float?
+
+  @@map("salaries")
+}
