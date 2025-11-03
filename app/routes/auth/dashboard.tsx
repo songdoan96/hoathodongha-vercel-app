@@ -55,6 +55,7 @@ function UserDashboard() {
           <thead>
             <tr>
               <th className="border p-1 px-2 bg-teal-300">STT</th>
+              <th className="border p-1 px-2 bg-teal-300">ID</th>
               <th className="border p-1 px-2 bg-teal-300">Username</th>
               <th className="border p-1 px-2 bg-teal-300">Name</th>
               <th className="border p-1 px-2 bg-teal-300">Password</th>
@@ -73,6 +74,7 @@ function UserDashboard() {
                     {++index}
                   </Link>
                 </td>
+                <td className="border p-1 px-2">{user.id}</td>
                 <td className="border p-1 px-2">{user.username}</td>
                 <td className="border p-1 px-2">{user.name}</td>
                 <td className="border p-1 px-2">{user.password}</td>
