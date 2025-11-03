@@ -55,6 +55,9 @@ export default function LoginPage() {
       localStorage.setItem(configuration().TOKEN_KEY, response.token);
       login(response);
       toast.success("Đăng nhập thành công");
+      // const redirectPath = location.state?.from?.pathname || "/";
+      const redirectTo = searchParams.get("redirectTo") || "/ky-nhan";
+      return redirectTo ? navigate(redirectTo) : navigate(-1);
     },
     onError: () => {
       toast.error("Tài khoản hoặc mật khẩu chưa đúng");
