@@ -49,6 +49,7 @@ export default function LoginPage() {
     mutationFn: (formData: Pick<AuthType, "username" | "password">) => apiAuthLogin(formData),
     onSuccess: async (response) => {
       await OneSignal.User.addTag("forms", response.bophan);
+      await OneSignal.login(response.id);
       localStorage.setItem(configuration().TOKEN_KEY, response.token);
       login(response);
       toast.success("Đăng nhập thành công");
