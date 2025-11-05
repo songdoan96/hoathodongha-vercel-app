@@ -344,9 +344,10 @@ function FormListComponent() {
                         {form.quandoc
                           ? form.quandoc
                           : user &&
-                            user.bophan === "quandoc" &&
+                            user.bophan.includes("quandoc") &&
                             ((needToTruong && needQuanDoc && form.totruong) ||
-                              (!needToTruong && needQuanDoc)) && (
+                              (!needToTruong && needQuanDoc)) &&
+                            user.bophan.startsWith(form.to.split("_")[0]) && (
                               <Button
                                 className="underline"
                                 onClick={() =>

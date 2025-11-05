@@ -148,14 +148,14 @@ export const linesList: LineListType[] = [
     needQuanDoc: false,
   },
   {
-    value: "chuyendung",
+    value: "X1_chuyendung",
     name: "Chuyên dùng 1",
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
   },
   {
-    value: "chuyendung2",
+    value: "X2_chuyendung",
     name: "Chuyên dùng 2",
     isHelp: true,
     needToTruong: true,
@@ -222,13 +222,13 @@ export const linesList: LineListType[] = [
     needQuanDoc: false,
   },
   {
-    value: "duphong1",
+    value: "X1_duphong",
     name: "Dự phòng X1",
     needToTruong: false,
     needQuanDoc: true,
   },
   {
-    value: "duphong2",
+    value: "X2_duphong",
     name: "Dự phòng X2",
     needToTruong: false,
     needQuanDoc: true,
