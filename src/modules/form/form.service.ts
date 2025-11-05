@@ -57,7 +57,7 @@ export class FormService {
       await this.formSendNotification(form, 'lanhdao');
     if (needToTruong) await this.formSendNotification(form, form.to);
     if (!needToTruong && needQuanDoc)
-      await this.formSendNotification(form, 'quandoc');
+      await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
     return form;
   }
 
@@ -135,7 +135,7 @@ export class FormService {
     if (chucvu === 'quandoc' || (needToTruong && !needQuanDoc)) {
       await this.formSendNotification(form, 'lanhdao');
     } else if (chucvu !== 'lanhdao') {
-      await this.formSendNotification(form, 'quandoc');
+      await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
     }
     return form;
   }
@@ -234,7 +234,6 @@ export class FormService {
         url: 'https://hoathodongha.vercel.app/tao-don/xem-don/' + form.id,
       }),
     };
-
     return await fetch(url, options);
   }
 }
