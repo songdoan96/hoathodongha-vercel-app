@@ -40,11 +40,13 @@ try {
   useEffect(() => {
     const initializeOneSignal = async () => {
       try {
-        await OneSignal.init({
-          appId: configuration().ONESIGNAL_APP_ID,
-          allowLocalhostAsSecureOrigin: process.env.NODE_ENV !== "production",
-        });
-        await OneSignal.Slidedown.promptPush();
+        if (typeof window !== "undefined") {
+          await OneSignal.init({
+            appId: configuration().ONESIGNAL_APP_ID,
+            allowLocalhostAsSecureOrigin: process.env.NODE_ENV !== "production",
+          });
+          await OneSignal.Slidedown.promptPush();
+        }
       } catch (error) {
         console.error("Error initializing OneSignal:", error);
       }

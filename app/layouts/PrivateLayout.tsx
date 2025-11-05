@@ -15,10 +15,12 @@ function PrivateLayout() {
     async function fetchProfile() {
       try {
         const user = await apiAuthProfile();
-        await OneSignal.User.addTags({
-          forms: user.bophan,
-          name: user.name,
-        });
+        if (typeof window !== "undefined") {
+          await OneSignal.User.addTags({
+            forms: user.bophan,
+            name: user.name,
+          });
+        }
         login(user);
       } catch (error) {
         logout();
