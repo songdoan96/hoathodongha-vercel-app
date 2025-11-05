@@ -110,10 +110,13 @@ export default function FormCreateLeave() {
                 name="msnv"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>MSNV</FormLabel>
+                    <FormLabel>
+                      MSNV:
+                      <span className="text-red-500">chọn tên ở dưới để tự động chọn tổ</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Tìm MSNV hoặc họ tên"
+                        placeholder="Tìm MSNV"
                         {...field}
                         onChange={(e) => {
                           setEmployeeSearch(e.target.value);
