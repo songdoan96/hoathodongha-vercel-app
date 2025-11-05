@@ -28,10 +28,7 @@ export class EmployeeService {
   async searchMany(query: string) {
     return await this.prisma.employee.findMany({
       where: {
-        OR: [
-          { msnv: { contains: query, mode: 'insensitive' } },
-          { hoten: { contains: query, mode: 'insensitive' } },
-        ],
+        msnv: { contains: query, mode: 'insensitive' },
         active: true,
       },
     });
