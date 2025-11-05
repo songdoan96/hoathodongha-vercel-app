@@ -21,7 +21,7 @@ export class SeedService {
   async index() {
     // await this.seedAccount();
     // await this.seedEmployee();
-    await this.formEmployee();
+    // await this.formEmployee();
   }
 
   async seedAccount() {
