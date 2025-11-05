@@ -1,6 +1,5 @@
 import axios from "axios";
 import useAuthStore from "~/stores/auth-store";
-import routers from "./router";
 import configuration from "./configuration";
 const apiClient = axios.create({
   baseURL: configuration().BACKEND_URL,
@@ -16,10 +15,10 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       useAuthStore.getState().logout();
-      const originalUrl = window.location.pathname + window.location.search;
-      window.location.href = window.location.search.includes("redirectTo")
-        ? routers.auth.login
-        : routers.auth.login + "?redirectTo=" + originalUrl;
+      // const originalUrl = window.location.pathname + window.location.search;
+      // window.location.href = window.location.search.includes("redirectTo")
+      //   ? routers.auth.login
+      //   : routers.auth.login + "?redirectTo=" + originalUrl;
     }
     return Promise.reject(error.response.data);
   }
