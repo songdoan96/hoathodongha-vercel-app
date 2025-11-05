@@ -41,8 +41,8 @@ try {
     const initializeOneSignal = async () => {
       try {
         await OneSignal.init({
-          appId: configuration().ONESIGNAL_ID || "97778f54-120f-414b-a4d6-bd6883637e41",
-          // allowLocalhostAsSecureOrigin: true,
+          appId: configuration().ONESIGNAL_APP_ID,
+          allowLocalhostAsSecureOrigin: process.env.NODE_ENV !== "production",
         });
         await OneSignal.Slidedown.promptPush();
       } catch (error) {

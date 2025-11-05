@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import OneSignal from "react-onesignal";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { apiAuthProfile } from "~/apis/auth.api";
 import routers from "~/lib/router";
@@ -14,6 +15,10 @@ function PrivateLayout() {
     async function fetchProfile() {
       try {
         const user = await apiAuthProfile();
+        await OneSignal.User.addTags({
+          forms: user.bophan,
+          name: user.name,
+        });
         login(user);
       } catch (error) {
         logout();

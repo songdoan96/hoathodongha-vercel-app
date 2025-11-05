@@ -48,12 +48,11 @@ export default function LoginPage() {
   const mutation = useMutation({
     mutationFn: (formData: Pick<AuthType, "username" | "password">) => apiAuthLogin(formData),
     onSuccess: (response) => {
-      try {
-        OneSignal.User.addTag("forms", response.bophan);
-        // await OneSignal.login(response.id);
-      } catch (error) {
-        // console.log(JSON.stringify(error));
-      }
+      // try {
+      //   await OneSignal.User.addTag("forms", response.bophan);
+      // } catch (error) {
+      //   // console.log(JSON.stringify(error));
+      // }
       localStorage.setItem(configuration().TOKEN_KEY, response.token);
       login(response);
       toast.success("Đăng nhập thành công");
