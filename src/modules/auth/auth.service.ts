@@ -1,7 +1,11 @@
+/*
+https://docs.nestjs.com/providers#services
+*/
+
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthUpdateDto, LoginDto, AuthCreateDto } from './auth.dto';
-import { JwtService } from '@nestjs/jwt';
+import { AuthCreateDto, AuthUpdateDto, LoginDto } from './auth.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
@@ -9,9 +13,8 @@ export class AuthService {
     private jwtService: JwtService,
     private prisma: PrismaService,
   ) {}
-
-  async signIn(body: LoginDto) {
-    const { username, password } = body;
+  async login(loginDto: LoginDto) {
+    const { username, password } = loginDto;
     const user = await this.findByUsername(username);
     if (user?.password !== password) {
       throw new UnauthorizedException({
@@ -38,18 +41,16 @@ export class AuthService {
     return await this.prisma.user.findMany();
   }
 
+  create(createAccDto: AuthCreateDto) {
+    return 'This action adds a new acc';
+  }
+
   async findOne(id: string) {
     return await this.prisma.user.findUnique({ where: { id } });
   }
-  async update(id: string, authUpdateDto: AuthUpdateDto) {
-    return await this.prisma.user.update({
-      where: { id },
-      data: authUpdateDto,
-    });
-  }
 
-  async create(authCreateDto: AuthCreateDto) {
-    return await this.prisma.user.create({ data: authCreateDto });
+  update(id: string, authUpdateDto: AuthUpdateDto) {
+    return `This action updates a #${id} acc`;
   }
 
   async remove(id: string) {

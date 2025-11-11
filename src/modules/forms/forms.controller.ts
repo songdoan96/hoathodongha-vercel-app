@@ -1,43 +1,50 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Patch,
-  Post,
   Query,
+  Post,
+  Delete,
   Res,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { FormsService } from './forms.service';
+import { CreateFormDto, SignatureFormDto, UpdateFormDto } from './forms.dto';
 import { utils, write } from 'xlsx';
-import { CreateFormDto, SignatureFormDto, UpdateFormDto } from './form.dto';
-import { FormService } from './form.service';
-@Controller('form')
-export class FormController {
-  constructor(private readonly formService: FormService) {}
+import { type Response } from 'express';
+
+@Controller('forms')
+export class FormsController {
+  constructor(private readonly formsService: FormsService) {}
 
   @Post()
   create(@Body() createFormDto: CreateFormDto) {
-    return this.formService.create(createFormDto);
+    return this.formsService.create(createFormDto);
+  }
+  @Get('/:id')
+  findOne(@Param('id') id: string) {
+    return this.formsService.findOne(id);
   }
 
   @Get()
-  findAll(@Query('type') type?: string, @Query('value') value?: string) {
-    return this.formService.findAll({
-      type,
-      value,
-    });
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.formService.findOne(id);
+  findAll(
+    @Query('month') month: string,
+    @Query('cursor') cursor?: string,
+    @Query('type') type?: string,
+    @Query('value') value?: string,
+  ) {
+    return this.formsService.findAll({ month, cursor, type, value });
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFormDto: UpdateFormDto) {
-    return this.formService.update(id, updateFormDto);
+    return this.formsService.update(id, updateFormDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.formsService.remove(id);
   }
 
   @Patch('signature/:id')
@@ -45,17 +52,12 @@ export class FormController {
     @Param('id') id: string,
     @Body() signatureFormDto: SignatureFormDto,
   ) {
-    return this.formService.signature(id, signatureFormDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.formService.remove(id);
+    return this.formsService.signature(id, signatureFormDto);
   }
 
   @Get('/security/get-go-out')
   securityGetGoOut() {
-    return this.formService.securityGetGoOut();
+    return this.formsService.securityGetGoOut();
   }
 
   @Get('/organization/export')
@@ -66,7 +68,7 @@ export class FormController {
       'Content-Disposition',
       `attachment; filename="${fileName}.xlsx"`,
     );
-    const data = await this.formService.organizationExport(date);
+    const data = await this.formsService.organizationExport(date);
     const ws = utils.aoa_to_sheet(data);
     const wb = utils.book_new();
     utils.book_append_sheet(wb, ws, fileName);

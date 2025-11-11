@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import {
   endOfDay,
   endOfMonth,
@@ -7,21 +6,19 @@ import {
   startOfDay,
   startOfMonth,
 } from 'date-fns';
-import { Form } from '../../../generated/prisma';
-import { linesList } from '../../lib/constant';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateFormDto, UpdateFormDto, SignatureFormDto } from './form.dto';
-export enum LoaiDon {
-  LEAVE = 'leave',
-  OUT = 'out',
-}
+import { CreateFormDto, SignatureFormDto, UpdateFormDto } from './forms.dto';
+import { linesList } from '../../lib/constant';
+import { Form, LOAIDON } from '../../../generated/prisma';
 
 @Injectable()
-export class FormService {
-  constructor(
-    private prisma: PrismaService,
-    private configService: ConfigService,
-  ) {}
+export class FormsService {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async findOne(id: string) {
+    return await this.prisma.form.findUnique({ where: { id } });
+  }
+
   async create(createFormDto: CreateFormDto) {
     const employee = await this.prisma.employee.findFirst({
       where: { msnv: createFormDto.msnv },
@@ -47,47 +44,61 @@ export class FormService {
       data: createFormDto,
     });
     // Gửi thông báo
-    const needToTruong = linesList.find(
-      (line) => line.value === form.to,
-    )?.needToTruong;
-    const needQuanDoc = linesList.find(
-      (line) => line.value === form.to,
-    )?.needQuanDoc;
-    if (!needToTruong && !needQuanDoc)
-      await this.formSendNotification(form, 'lanhdao');
-    if (needToTruong) await this.formSendNotification(form, form.to);
-    if (!needToTruong && needQuanDoc)
-      await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
+    // const needToTruong = linesList.find(
+    //   (line) => line.value === form.to,
+    // )?.needToTruong;
+    // const needQuanDoc = linesList.find(
+    //   (line) => line.value === form.to,
+    // )?.needQuanDoc;
+    // if (!needToTruong && !needQuanDoc)
+    //   await this.formSendNotification(form, 'lanhdao');
+    // if (needToTruong) await this.formSendNotification(form, form.to);
+    // if (!needToTruong && needQuanDoc)
+    //   await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
     return form;
   }
 
-  async findAll({ type, value }: { type?: string; value?: string }) {
-    const month = type === 'ngaytao' && value ? new Date(value) : new Date();
-    if (type && value && type !== 'ngaytao') {
-      return await this.prisma.form.findMany({
-        where: {
-          [type]: value,
-        },
-        orderBy: {
-          id: 'desc',
-        },
-      });
-    }
-    return await this.prisma.form.findMany({
+  async findAll({
+    month,
+    cursor,
+    type,
+    value,
+  }: {
+    month: string;
+    cursor?: string;
+    type?: string;
+    value?: string;
+  }) {
+    const limit = 30;
+    const query: {
+      where: { ngaytao: { gte: Date; lte: Date } };
+      take: number;
+      cursor?: { id: string };
+      skip?: number;
+      orderBy: { id: 'desc' };
+    } = {
       where: {
         ngaytao: {
           gte: startOfMonth(month),
           lte: endOfMonth(month),
         },
       },
-      orderBy: {
-        id: 'desc',
-      },
-    });
-  }
-
-  async findOne(id: string) {
-    return await this.prisma.form.findFirst({ where: { id } });
+      take: limit + 1,
+      orderBy: { id: 'desc' },
+    };
+    if (cursor) {
+      query.cursor = { id: cursor };
+      query.skip = 1;
+    }
+    if (type && value) {
+      query.where[type] = value;
+    }
+    const forms = await this.prisma.form.findMany(query);
+    const hasNext = forms.length > limit;
+    return {
+      forms: hasNext ? forms.slice(0, -1) : forms,
+      nextCursor: hasNext ? forms[limit - 1].id : null,
+    };
   }
 
   async update(id: string, updateFormDto: UpdateFormDto) {
@@ -97,12 +108,6 @@ export class FormService {
     if (!form) {
       throw new NotFoundException();
     }
-    // const { id: idForm, ...dataRemoveId } = form;
-    // const data = {
-    //   ...dataRemoveId,
-    //   ...updateFormDto,
-    // };
-
     if (updateFormDto.rangay)
       updateFormDto.rangay = new Date(updateFormDto.rangay);
     if (updateFormDto.tungay)
@@ -116,6 +121,21 @@ export class FormService {
     });
   }
 
+  async remove(id: string) {
+    return await this.prisma.form.delete({ where: { id } });
+  }
+  async securityGetGoOut() {
+    return await this.prisma.form.findMany({
+      where: {
+        loaidon: LOAIDON.out,
+      },
+      orderBy: {
+        id: 'desc',
+      },
+      take: 30,
+    });
+  }
+
   async signature(id: string, signatureFormDto: SignatureFormDto) {
     const { chucvu, hoten, thaythe } = signatureFormDto;
 
@@ -126,40 +146,56 @@ export class FormService {
         thaythe,
       },
     });
-    const needToTruong = linesList.find(
-      (line) => line.value === form.to,
-    )?.needToTruong;
-    const needQuanDoc = linesList.find(
-      (line) => line.value === form.to,
-    )?.needQuanDoc;
-    if (chucvu === 'quandoc' || (needToTruong && !needQuanDoc)) {
-      await this.formSendNotification(form, 'lanhdao');
-    } else if (chucvu !== 'lanhdao') {
-      await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
-    }
+    // const needToTruong = linesList.find(
+    //   (line) => line.value === form.to,
+    // )?.needToTruong;
+    // const needQuanDoc = linesList.find(
+    //   (line) => line.value === form.to,
+    // )?.needQuanDoc;
+    // if (chucvu === 'quandoc' || (needToTruong && !needQuanDoc)) {
+    //   await this.formSendNotification(form, 'lanhdao');
+    // } else if (chucvu !== 'lanhdao') {
+    //   await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
+    // }
     return form;
   }
+  // async formSendNotification(form: Form, bophan: string) {
+  //   const url = 'https://api.onesignal.com/notifications?c=push';
+  //   const options = {
+  //     method: 'POST',
+  //     headers: {
+  //       Authorization: this.configService.get('onesignal.auth'),
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       app_id: this.configService.get('onesignal.app_id'),
+  //       headings: {
+  //         en:
+  //           linesList.find((line) => line.value === form.to)?.name +
+  //           ' có đơn cần ký',
+  //       },
+  //       contents: {
+  //         en: `${form.msnv}: ${form.hoten}`,
+  //       },
+  //       filters: [
+  //         {
+  //           field: 'tag',
+  //           relation: '=',
+  //           key: 'forms',
+  //           value: bophan,
+  //         },
+  //       ],
+  //       url: 'https://hoathodongha.vercel.app/tao-don/xem-don/' + form.id,
+  //     }),
+  //   };
+  //   return await fetch(url, options);
+  // }
 
-  async remove(id: string) {
-    return await this.prisma.form.delete({ where: { id } });
-  }
-
-  async securityGetGoOut() {
-    return await this.prisma.form.findMany({
-      where: {
-        loaidon: LoaiDon.OUT,
-      },
-      orderBy: {
-        id: 'desc',
-      },
-      take: 50,
-    });
-  }
   async organizationExport(date: string) {
     if (date === 'leave') {
       const form = await this.prisma.form.findMany({
         where: {
-          loaidon: LoaiDon.LEAVE,
+          loaidon: LOAIDON.leave,
         },
         orderBy: { id: 'asc' },
       });
@@ -168,7 +204,7 @@ export class FormService {
     if (date === 'goout') {
       const forms = await this.prisma.form.findMany({
         where: {
-          loaidon: LoaiDon.OUT,
+          loaidon: LOAIDON.out,
         },
         orderBy: { id: 'asc' },
       });
@@ -177,7 +213,7 @@ export class FormService {
       if (date.length == 7) {
         const forms = await this.prisma.form.findMany({
           where: {
-            loaidon: LoaiDon.LEAVE,
+            loaidon: LOAIDON.leave,
             ngaytao: {
               gte: startOfMonth(new Date(date)),
               lte: endOfMonth(new Date(date)),
@@ -191,7 +227,7 @@ export class FormService {
       } else {
         const forms = await this.prisma.form.findMany({
           where: {
-            loaidon: LoaiDon.LEAVE,
+            loaidon: LOAIDON.leave,
             ngaytao: {
               gte: startOfDay(new Date(date)),
               lte: endOfDay(new Date(date)),
@@ -205,39 +241,7 @@ export class FormService {
       }
     }
   }
-  async formSendNotification(form: Form, bophan: string) {
-    const url = 'https://api.onesignal.com/notifications?c=push';
-    const options = {
-      method: 'POST',
-      headers: {
-        Authorization: this.configService.get('onesignal.auth'),
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        app_id: this.configService.get('onesignal.app_id'),
-        headings: {
-          en:
-            linesList.find((line) => line.value === form.to)?.name +
-            ' có đơn cần ký',
-        },
-        contents: {
-          en: `${form.msnv}: ${form.hoten}`,
-        },
-        filters: [
-          {
-            field: 'tag',
-            relation: '=',
-            key: 'forms',
-            value: bophan,
-          },
-        ],
-        url: 'https://hoathodongha.vercel.app/tao-don/xem-don/' + form.id,
-      }),
-    };
-    return await fetch(url, options);
-  }
 }
-
 function exportFile(forms: Form[], type = 'leave') {
   const data: any[] = [];
   const label =

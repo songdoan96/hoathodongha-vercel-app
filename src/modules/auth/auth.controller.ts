@@ -1,24 +1,28 @@
+/*
+https://docs.nestjs.com/controllers#controllers
+*/
+
 import {
   Body,
   Controller,
-  Delete,
   Get,
-  Param,
-  Patch,
   Post,
-  Request,
   UseGuards,
+  Request,
+  Param,
+  Delete,
+  Patch,
 } from '@nestjs/common';
-import { AuthGuard } from '../../guards/auth.guard';
-import { AuthCreateDto, AuthUpdateDto, LoginDto } from './auth.dto';
 import { AuthService } from './auth.service';
+import { AuthCreateDto, AuthUpdateDto, LoginDto } from './auth.dto';
+import { AuthGuard } from '../../guards/auth.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('login')
-  async signIn(@Body() signInDto: LoginDto) {
-    return await this.authService.signIn(signInDto);
+  async signIn(@Body() loginDto: LoginDto) {
+    return await this.authService.login(loginDto);
   }
 
   @UseGuards(AuthGuard)
@@ -32,21 +36,19 @@ export class AuthController {
     return this.authService.findAll();
   }
 
+  @Post()
+  create(@Body() createAccDto: AuthCreateDto) {
+    return this.authService.create(createAccDto);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.authService.findOne(id);
   }
 
-  @UseGuards(AuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() authUpdateDto: AuthUpdateDto) {
-    return this.authService.update(id, authUpdateDto);
-  }
-
-  @UseGuards(AuthGuard)
-  @Post()
-  create(@Body() authCreateDto: AuthCreateDto) {
-    return this.authService.create(authCreateDto);
+  update(@Param('id') id: string, @Body() updateAccDto: AuthUpdateDto) {
+    return this.authService.update(id, updateAccDto);
   }
 
   @UseGuards(AuthGuard)
