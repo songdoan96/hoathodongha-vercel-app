@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router";
-import imagesPath from "~/lib/images";
+import imagesPath from "~/lib/images-path";
 
 function HeaderComponent({
   logoLink,

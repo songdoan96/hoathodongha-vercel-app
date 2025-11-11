@@ -1,10 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { LoaderIcon, Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
-import { apiAuthCreate } from "~/apis/auth.api";
+import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -22,26 +19,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
+import { useAuthCreate } from "~/hooks/auth-hook";
+import routers from "~/lib/routers";
 import { linesList } from "~/lib/variables";
-import type { AuthType } from "~/types/auth.type";
-import type { Route } from "./+types/add";
-import { Link, useNavigate } from "react-router";
-import routers from "~/lib/router";
-export function meta({}: Route.MetaArgs) {
+import { type AuthCreateSchemaType, AuthCreateSchema } from "~/schemas/auth.schema";
+export function meta() {
   return [{ title: "Thêm tài khoản" }, { name: "description", content: "Thêm tài khoản" }];
 }
-
-const formSchema = z.object({
-  username: z.string().min(1, "Tài khoản không được trống."),
-  password: z.string().min(1, "Mật khẩu không được trống."),
-  name: z.string().min(1, "Mật khẩu không được trống."),
-  bophan: z.string().min(1, "Mật khẩu không được trống."),
-});
-type FormValues = z.infer<typeof formSchema>;
-function AuthAdd() {
-  const navigate = useNavigate();
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+function AuthAddPage() {
+  const createMutation = useAuthCreate();
+  const form = useForm<AuthCreateSchemaType>({
+    resolver: zodResolver(AuthCreateSchema),
     defaultValues: {
       username: "",
       password: "",
@@ -50,19 +38,19 @@ function AuthAdd() {
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: (formData: Partial<AuthType>) => apiAuthCreate(formData),
-    onSuccess: async () => {
-      toast.success("Tạo thành công");
-      navigate(routers.auth.dashboard);
-    },
-    onError: () => {
-      toast.error("Tạo thất bại");
-    },
-  });
+  //   const mutation = useMutation({
+  //     mutationFn: (formData: Partial<AuthType>) => apiAuthCreate(formData),
+  //     onSuccess: async () => {
+  //       toast.success("Tạo thành công");
+  //       //   navigate(routers.auth.dashboard);
+  //     },
+  //     onError: () => {
+  //       toast.error("Tạo thất bại");
+  //     },
+  //   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    mutation.mutate(values);
+  async function onSubmit(values: AuthCreateSchemaType) {
+    createMutation.mutate(values);
   }
   return (
     <div className="flex justify-center items-center h-screen">
@@ -137,14 +125,14 @@ function AuthAdd() {
 
             <div className="flex gap-4 justify-end items-center w-full">
               <Button asChild className="bg-red-500 hover:bg-red-600">
-                <Link to={routers.auth.dashboard}>Quay lại</Link>
+                <Link to={routers().auth.dashboard}>Quay lại</Link>
               </Button>
               <Button
-                disabled={mutation.isPending}
+                disabled={createMutation.isPending}
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-600"
               >
-                {mutation.isPending ? <LoaderIcon className="animate-spin" /> : <Plus />} Thêm
+                {createMutation.isPending ? <LoaderIcon className="animate-spin" /> : <Plus />} Thêm
               </Button>
             </div>
           </form>
@@ -154,4 +142,4 @@ function AuthAdd() {
   );
 }
 
-export default AuthAdd;
+export default AuthAddPage;

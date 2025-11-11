@@ -1,5 +1,11 @@
-import type { LineListType } from "~/types/line.type";
-
+export interface LineListType {
+  value: string;
+  name: string;
+  isHelp?: boolean;
+  needToTruong?: boolean;
+  needQuanDoc?: boolean;
+  onlyLanhDao?: boolean;
+}
 export const linesList: LineListType[] = [
   {
     value: "X1_01",

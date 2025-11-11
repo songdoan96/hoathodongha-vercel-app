@@ -1,0 +1,24 @@
+export default () => ({
+  main: {
+    home: "/",
+  },
+  auth: {
+    login: "/dang-nhap",
+    dashboard: "/users",
+    register: "/dang-ky",
+    add: "/users/add",
+    edit: (id?: number) => `/users/edit/${id}`,
+    logout: "/dang-xuat",
+  },
+  forms: {
+    signature: "/ky-nhan",
+    index: "/tao-don",
+    create: {
+      out: "/tao-don/ra-cong",
+      leave: "/tao-don/nghi-phep",
+    },
+    edit: (id: string) => "/tao-don/chinh-sua/" + id,
+    detail: (id: string) => "/tao-don/xem-don/" + id,
+    security: "/bao-ve",
+  },
+});

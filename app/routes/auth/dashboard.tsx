@@ -1,7 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
 import { EditIcon, FilePlus, Trash } from "lucide-react";
 import { Link } from "react-router";
-import { apiAuthFindAll } from "~/apis/auth.api";
 import Loading from "~/components/Loading";
 import {
   AlertDialog,
@@ -15,24 +13,19 @@ import {
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
 import { Button } from "~/components/ui/button";
-import { useAuth } from "~/hooks/useAuth";
-import { QUERY_KEY } from "~/lib/queryKey";
-import routers from "~/lib/router";
-import type { AuthType } from "~/types/auth.type";
-import type { Route } from "./+types/dashboard";
-export function meta({}: Route.MetaArgs) {
+import { useAuthDelete, useAuthFindAll } from "~/hooks/auth-hook";
+import routers from "~/lib/routers";
+import type { AuthType } from "~/types/auth-type";
+export function meta() {
   return [
     { title: "Tài khoản tổ trưởng" },
     { name: "description", content: "Tài khoản tổ trưởng" },
   ];
 }
 
-function UserDashboard() {
-  const { deleteMutation } = useAuth();
-  const { data, isPending } = useQuery<AuthType[]>({
-    queryKey: [QUERY_KEY.auth.GET_USERS],
-    queryFn: apiAuthFindAll,
-  });
+export default function AuthDashboardPage() {
+  const deleteMutation = useAuthDelete();
+  const { data, isPending } = useAuthFindAll();
   if (isPending) {
     return <Loading fullScreen />;
   }
@@ -43,7 +36,7 @@ function UserDashboard() {
           Tổ trưởng
         </span>
         <Link
-          to={routers.auth.add}
+          to={routers().auth.add}
           className="btn bg-teal-600 hover:bg-teal-500 min-w-32 text-base uppercase"
         >
           <FilePlus />
@@ -64,7 +57,7 @@ function UserDashboard() {
             </tr>
           </thead>
           <tbody>
-            {data.map((user, index) => (
+            {data.map((user: AuthType, index: number) => (
               <tr key={user.id}>
                 <td className="border p-1 px-2">
                   <Link
@@ -119,5 +112,3 @@ function UserDashboard() {
     </div>
   );
 }
-
-export default UserDashboard;

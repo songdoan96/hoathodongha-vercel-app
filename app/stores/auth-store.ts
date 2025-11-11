@@ -1,38 +1,34 @@
 import { create } from "zustand";
+import type { AuthType } from "~/types/auth-type";
 import { persist } from "zustand/middleware";
 import configuration from "~/lib/configuration";
-import type { AuthType } from "~/types/auth.type";
-
-export type AuthStoreType =
-  | (Pick<AuthType, "username" | "name" | "bophan"> & { token?: string })
-  | null;
-
-interface AuthStore {
-  // isLoading: boolean;
-  user: AuthStoreType;
-  login: (user: Pick<AuthType, "username" | "name" | "bophan"> & { token?: string }) => void;
+interface AuthState {
+  user: Omit<AuthType, "password"> | undefined;
+  login: (user: Omit<AuthType, "password">) => void;
   logout: () => void;
 }
 
-export const useAuthStore = create<AuthStore>()(
+const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => ({
-      user: null,
-      login: (user) =>
-        set({
-          user,
-        }),
+    (set) => ({
+      user: undefined,
+      login: (user: Omit<AuthType, "password">) => set({ user }),
       logout: () => {
         localStorage.removeItem(configuration().TOKEN_KEY);
-        // document.cookie = "accessToken=";
-        set({
-          user: null,
-        });
+        set({ user: undefined });
       },
     }),
     {
       name: "auth-storage",
+      partialize: (state) => ({
+        user: {
+          username: state.user?.username,
+          name: state.user?.name,
+          bophan: state.user?.bophan,
+        },
+      }),
     }
   )
 );
+
 export default useAuthStore;
