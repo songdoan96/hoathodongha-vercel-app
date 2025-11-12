@@ -21,9 +21,12 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { useFormsFindOne, useFormsUpdate } from "~/hooks/forms-hook";
-import { linesListFilter } from "~/lib/variables";
+import { linesList, linesListFilter } from "~/lib/variables";
 import { FormEditSchema, type FormEditSchemaType } from "~/schemas/forms.schema";
 import type { Route } from "./+types/edit";
+import { useAuthFindAll } from "~/hooks/auth-hook";
+import type { AuthType } from "~/types/auth-type";
+import { cn } from "~/lib/utils";
 
 export function meta() {
   return [{ title: "Sửa đơn" }, { name: "description", content: "Sửa đơn" }];
@@ -35,6 +38,7 @@ function FormEditPage({ loaderData: id }: Route.ComponentProps) {
   const navigate = useNavigate();
   const formFindOne = useFormsFindOne(id);
   const formUpdate = useFormsUpdate();
+  const authFindAll = useAuthFindAll();
   const form = useForm<FormEditSchemaType>({
     resolver: zodResolver(FormEditSchema),
   });
@@ -294,7 +298,7 @@ function FormEditPage({ loaderData: id }: Route.ComponentProps) {
                 </>
               )}
 
-              <div className="flex items-center gap-4 w-full">
+              <div className="flex items-center justify-center gap-4 md:col-span-6">
                 <Button
                   asChild
                   className="bg-red-500 hover:bg-red-600 cursor-pointer"
@@ -315,28 +319,32 @@ function FormEditPage({ loaderData: id }: Route.ComponentProps) {
         </div>
       )}
 
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 p-4">
-        {usersQuery.data && (
+      <div className="grid grid-cols-1 md:grid-cols-2 p-4 mt-10">
+        {authFindAll.data && (
           <>
-            {usersQuery.data.map((user) => (
-              <div
-                key={user.id}
-                className={cn(
-                  "flex flex-wrap gap-2 border-b",
-                  user.bophan === formFindOne?.data?.to && "bg-red-100"
-                )}
-              >
-                <span className="text-red-600">
-                  {linesList.find((line) => line.value === user.bophan)?.name || "--"}:
-                </span>
-                <span>{user.name} --</span>
-                <span>{user.bophan} --</span>
-                <span>{user.username}</span>
-              </div>
-            ))}
+            {authFindAll.data.map((user: AuthType) => {
+              if (linesListFilter.find((line) => line.value === user.bophan)) {
+                return (
+                  <div
+                    key={user.id}
+                    className={cn(
+                      "flex flex-wrap gap-2 border-b",
+                      user.bophan === formFindOne?.data?.to && "bg-red-100"
+                    )}
+                  >
+                    <span className="text-red-600">
+                      {linesList.find((line) => line.value === user.bophan)?.name || "--"}:
+                    </span>
+                    <span>{user.name} --</span>
+                    <span>{user.bophan} --</span>
+                    <span>{user.username}</span>
+                  </div>
+                );
+              }
+            })}
           </>
         )}
-      </div> */}
+      </div>
     </div>
   );
 }
