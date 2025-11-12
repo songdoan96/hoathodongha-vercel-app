@@ -86,7 +86,7 @@ export class FormsService {
       });
       const tokens = accounts.map((account) => account.fcm_token || '');
       if (tokens.length > 0) {
-        await this.firebaseService.sendToDevice(tokens[0], {
+        await this.firebaseService.sendToMultipleDevices(tokens, {
           title:
             linesList.find((line) => line.value === form.to)?.name +
             ' có đơn cần ký',
