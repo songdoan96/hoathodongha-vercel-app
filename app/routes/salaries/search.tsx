@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -11,9 +12,15 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import routers from "~/lib/routers";
 import { SalariesSchema, type SalariesSchemaType } from "~/schemas/salaries.schema";
 
+export function meta() {
+  return [{ title: "Tra cứu lương" }, { name: "description", content: "Tra cứu lương" }];
+}
+
 export default function SalariesSearch() {
+  const navigate = useNavigate();
   const form = useForm<SalariesSchemaType>({
     resolver: zodResolver(SalariesSchema),
     defaultValues: {
@@ -79,7 +86,7 @@ export default function SalariesSearch() {
             <Button
               asChild
               className="bg-red-500 hover:bg-red-600 cursor-pointer"
-              // onClick={() => navigate(-1)}
+              onClick={() => navigate(routers().main.home)}
             >
               <span>Quay lại</span>
             </Button>

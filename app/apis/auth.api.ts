@@ -3,6 +3,7 @@ import type { AuthType } from "~/types/auth-type";
 export interface AuthLoginDto {
   username: string;
   password: string;
+  fcm_token?: string;
 }
 export interface AuthCreateDto {
   username: string;

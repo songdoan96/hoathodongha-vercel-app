@@ -3,6 +3,7 @@ import z from "zod";
 export const AuthLoginSchema = z.object({
   username: z.string().min(1, "Tài khoản không được trống."),
   password: z.string().min(1, "Mật khẩu không được trống."),
+  fcm_token: z.string().optional(),
 });
 export type AuthLoginSchemaType = z.infer<typeof AuthLoginSchema>;
 

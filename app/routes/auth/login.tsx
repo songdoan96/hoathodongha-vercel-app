@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import { z } from "zod";
@@ -14,6 +15,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { useAuthLogin } from "~/hooks/auth-hook";
+import { getFCMToken, onMessageListener } from "~/lib/firebase";
 import imagesPath from "~/lib/images-path";
 import routers from "~/lib/routers";
 import { AuthLoginSchema, type AuthLoginSchemaType } from "~/schemas/auth.schema";
@@ -21,6 +23,34 @@ export function meta() {
   return [{ title: "Đăng nhập" }];
 }
 function LoginPage() {
+  const [token, setToken] = useState<string | null>(null);
+  const [notification, setNotification] = useState<any>(null);
+
+  useEffect(() => {
+    // Request permission and get token
+    const requestPermission = async () => {
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        const fcmToken = await getFCMToken();
+        if (fcmToken) {
+          setToken(fcmToken);
+        }
+      }
+    };
+
+    requestPermission();
+
+    // // Listen for foreground messages
+    // onMessageListener()
+    //   .then((payload: any) => {
+    //     setNotification({
+    //       title: payload.notification.title,
+    //       body: payload.notification.body,
+    //     });
+    //   })
+    //   .catch((err) => console.log("Failed to receive message:", err));
+  }, []);
+
   const { isPending, mutate } = useAuthLogin();
   const form = useForm<AuthLoginSchemaType>({
     resolver: zodResolver(AuthLoginSchema),
@@ -30,9 +60,11 @@ function LoginPage() {
     },
   });
 
-  function onSubmit(values: AuthLoginSchemaType) {
-    // loginMutation.mutate(values);
-    mutate(values);
+  async function onSubmit(values: AuthLoginSchemaType) {
+    mutate({
+      ...values,
+      fcm_token: token!,
+    });
   }
   return (
     <div className="flex flex-col justify-center items-center h-screen w-full p-2">
