@@ -31,7 +31,7 @@ export default function SalariesSearch() {
   });
 
   function onSubmit(values: SalariesSchemaType) {
-    console.log("🚀 ~ onSubmit ~ values:", values);
+    // console.log("🚀 ~ onSubmit ~ values:", values);
   }
   return (
     <div className="bg-gray-50">
