@@ -18,7 +18,7 @@ export class FirebaseService {
       clientEmail: this.configService.get('FIREBASE.CLIENT_EMAIL'),
       privateKey: this.configService
         .get('FIREBASE.PRIVATE_KEY')
-        .replace(/\\n/g, '\n'),
+        ?.replace(/\\n/g, '\n'),
     };
 
     if (!admin.apps.length) {
