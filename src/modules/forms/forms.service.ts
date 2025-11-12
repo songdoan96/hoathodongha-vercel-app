@@ -215,7 +215,7 @@ export class FormsService {
       // await this.formSendNotification(form, 'lanhdao');
       const accounts = await this.prisma.user.findMany({
         where: {
-          bophan: form.to.split('_')[0] + '_quandoc',
+          bophan: 'lanhdao',
           fcm_token: { not: null },
         },
         select: { fcm_token: true },
@@ -231,9 +231,10 @@ export class FormsService {
       }
     } else if (chucvu !== 'lanhdao') {
       // await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
+
       const accounts = await this.prisma.user.findMany({
         where: {
-          bophan: 'lanhdao',
+          bophan: form.to.split('_')[0] + '_quandoc',
           fcm_token: { not: null },
         },
         select: { fcm_token: true },
