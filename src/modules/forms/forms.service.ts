@@ -10,10 +10,15 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateFormDto, SignatureFormDto, UpdateFormDto } from './forms.dto';
 import { linesList } from '../../lib/constant';
 import { Form, LOAIDON } from '../../../generated/prisma';
+import { FirebaseService } from '../firebase/firebase.service';
 
 @Injectable()
 export class FormsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+
+    private readonly firebaseService: FirebaseService,
+  ) {}
 
   async findOne(id: string) {
     return await this.prisma.form.findUnique({ where: { id } });
@@ -43,18 +48,72 @@ export class FormsService {
     const form = await this.prisma.form.create({
       data: createFormDto,
     });
+
     // Gửi thông báo
-    // const needToTruong = linesList.find(
-    //   (line) => line.value === form.to,
-    // )?.needToTruong;
-    // const needQuanDoc = linesList.find(
-    //   (line) => line.value === form.to,
-    // )?.needQuanDoc;
-    // if (!needToTruong && !needQuanDoc)
-    //   await this.formSendNotification(form, 'lanhdao');
-    // if (needToTruong) await this.formSendNotification(form, form.to);
-    // if (!needToTruong && needQuanDoc)
-    //   await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
+    const needToTruong = linesList.find(
+      (line) => line.value === form.to,
+    )?.needToTruong;
+    const needQuanDoc = linesList.find(
+      (line) => line.value === form.to,
+    )?.needQuanDoc;
+
+    if (!needToTruong && !needQuanDoc) {
+      const accounts = await this.prisma.user.findMany({
+        where: {
+          bophan: 'lanhdao',
+          fcm_token: { not: null },
+        },
+        select: { fcm_token: true },
+      });
+      const tokens = accounts.map((account) => account.fcm_token || '');
+      if (tokens.length > 0) {
+        await this.firebaseService.sendToMultipleDevices(tokens, {
+          title:
+            linesList.find((line) => line.value === form.to)?.name +
+            ' có đơn cần ký',
+          body: `${form.msnv}: ${form.hoten}`,
+        });
+      }
+    }
+    if (needToTruong) {
+      //   await this.formSendNotification(form, form.to);
+      const accounts = await this.prisma.user.findMany({
+        where: {
+          bophan: form.to,
+          fcm_token: { not: null },
+        },
+        select: { fcm_token: true },
+      });
+      const tokens = accounts.map((account) => account.fcm_token || '');
+      if (tokens.length > 0) {
+        await this.firebaseService.sendToDevice(tokens[0], {
+          title:
+            linesList.find((line) => line.value === form.to)?.name +
+            ' có đơn cần ký',
+          body: `${form.msnv}: ${form.hoten}`,
+        });
+      }
+    }
+    if (!needToTruong && needQuanDoc) {
+      // await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
+      const accounts = await this.prisma.user.findMany({
+        where: {
+          bophan: form.to.split('_')[0] + '_quandoc',
+          fcm_token: { not: null },
+        },
+        select: { fcm_token: true },
+      });
+      const tokens = accounts.map((account) => account.fcm_token || '');
+      if (tokens.length > 0) {
+        await this.firebaseService.sendToMultipleDevices(tokens, {
+          title:
+            linesList.find((line) => line.value === form.to)?.name +
+            ' có đơn cần ký',
+          body: `${form.msnv}: ${form.hoten}`,
+        });
+      }
+    }
+
     return form;
   }
 
@@ -146,17 +205,49 @@ export class FormsService {
         thaythe,
       },
     });
-    // const needToTruong = linesList.find(
-    //   (line) => line.value === form.to,
-    // )?.needToTruong;
-    // const needQuanDoc = linesList.find(
-    //   (line) => line.value === form.to,
-    // )?.needQuanDoc;
-    // if (chucvu === 'quandoc' || (needToTruong && !needQuanDoc)) {
-    //   await this.formSendNotification(form, 'lanhdao');
-    // } else if (chucvu !== 'lanhdao') {
-    //   await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
-    // }
+    const needToTruong = linesList.find(
+      (line) => line.value === form.to,
+    )?.needToTruong;
+    const needQuanDoc = linesList.find(
+      (line) => line.value === form.to,
+    )?.needQuanDoc;
+    if (chucvu === 'quandoc' || (needToTruong && !needQuanDoc)) {
+      // await this.formSendNotification(form, 'lanhdao');
+      const accounts = await this.prisma.user.findMany({
+        where: {
+          bophan: form.to.split('_')[0] + '_quandoc',
+          fcm_token: { not: null },
+        },
+        select: { fcm_token: true },
+      });
+      const tokens = accounts.map((account) => account.fcm_token || '');
+      if (tokens.length > 0) {
+        await this.firebaseService.sendToMultipleDevices(tokens, {
+          title:
+            linesList.find((line) => line.value === form.to)?.name +
+            ' có đơn cần ký',
+          body: `${form.msnv}: ${form.hoten}`,
+        });
+      }
+    } else if (chucvu !== 'lanhdao') {
+      // await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
+      const accounts = await this.prisma.user.findMany({
+        where: {
+          bophan: 'lanhdao',
+          fcm_token: { not: null },
+        },
+        select: { fcm_token: true },
+      });
+      const tokens = accounts.map((account) => account.fcm_token || '');
+      if (tokens.length > 0) {
+        await this.firebaseService.sendToMultipleDevices(tokens, {
+          title:
+            linesList.find((line) => line.value === form.to)?.name +
+            ' có đơn cần ký',
+          body: `${form.msnv}: ${form.hoten}`,
+        });
+      }
+    }
     return form;
   }
   // async formSendNotification(form: Form, bophan: string) {

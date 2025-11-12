@@ -7,16 +7,17 @@ import configuration from './config/configuration';
 import { AuthModule } from './modules/auth/auth.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { EmployeesModule } from './modules/employees/employees.module';
+import { FirebaseModule } from './modules/firebase/firebase.module';
 
 @Module({
   imports: [
-    FormsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
       load: [configuration],
     }),
     PrismaModule,
+    FirebaseModule,
     AuthModule,
     FormsModule,
     EmployeesModule,

@@ -13,8 +13,10 @@ export class AuthService {
     private jwtService: JwtService,
     private prisma: PrismaService,
   ) {}
+
   async login(loginDto: LoginDto) {
-    const { username, password } = loginDto;
+    const { username, password, fcm_token } = loginDto;
+    console.log('🚀 ~ AuthService ~ login ~ fcm_token:', fcm_token);
     const user = await this.findByUsername(username);
     if (user?.password !== password) {
       throw new UnauthorizedException({
@@ -27,6 +29,11 @@ export class AuthService {
       bophan: user.bophan,
     };
     // const payload = { sub: user.id, username: user.username };
+    if (fcm_token)
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: { fcm_token },
+      });
     return {
       id: user.id,
       ...payload,

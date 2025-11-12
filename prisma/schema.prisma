@@ -14,12 +14,12 @@ enum LOAIDON {
 }
 
 model User {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  username String  @unique
-  name     String
-  password String?
-  bophan   String?
-  // line     String? 
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  username  String  @unique
+  name      String
+  password  String?
+  bophan    String?
+  fcm_token String?
 
   @@map("accounts")
 }

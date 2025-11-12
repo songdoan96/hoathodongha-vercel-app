@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 import { Prisma } from '../../../generated/prisma';
 
 export class LoginDto {
@@ -7,6 +7,10 @@ export class LoginDto {
 
   @IsString()
   password: string;
+
+  @IsString()
+  @IsOptional()
+  fcm_token: string;
 }
 // export class AuthCreateDto {
 //   @IsString()

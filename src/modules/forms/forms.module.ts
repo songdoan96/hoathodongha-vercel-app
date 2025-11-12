@@ -3,11 +3,12 @@ https://docs.nestjs.com/modules
 */
 
 import { Module } from '@nestjs/common';
-import { FormsService } from './forms.service';
 import { FormsController } from './forms.controller';
+import { FormsService } from './forms.service';
+import { FirebaseModule } from '../firebase/firebase.module';
 
 @Module({
-  imports: [],
+  imports: [FirebaseModule],
   controllers: [FormsController],
   providers: [FormsService],
 })
