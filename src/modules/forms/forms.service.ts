@@ -16,7 +16,6 @@ import { FirebaseService } from '../firebase/firebase.service';
 export class FormsService {
   constructor(
     private readonly prisma: PrismaService,
-
     private readonly firebaseService: FirebaseService,
   ) {}
 
@@ -58,62 +57,14 @@ export class FormsService {
     )?.needQuanDoc;
 
     if (!needToTruong && !needQuanDoc) {
-      const accounts = await this.prisma.user.findMany({
-        where: {
-          bophan: 'lanhdao',
-          fcm_token: { not: null },
-        },
-        select: { fcm_token: true },
-      });
-      const tokens = accounts.map((account) => account.fcm_token || '');
-      if (tokens.length > 0) {
-        await this.firebaseService.sendToMultipleDevices(tokens, {
-          title:
-            linesList.find((line) => line.value === form.to)?.name +
-            ' có đơn cần ký',
-          body: `${form.msnv}: ${form.hoten}`,
-        });
-      }
+      await this.formSendNotification(form, 'lanhdao');
     }
     if (needToTruong) {
-      //   await this.formSendNotification(form, form.to);
-      const accounts = await this.prisma.user.findMany({
-        where: {
-          bophan: form.to,
-          fcm_token: { not: null },
-        },
-        select: { fcm_token: true },
-      });
-      const tokens = accounts.map((account) => account.fcm_token || '');
-      if (tokens.length > 0) {
-        await this.firebaseService.sendToMultipleDevices(tokens, {
-          title:
-            linesList.find((line) => line.value === form.to)?.name +
-            ' có đơn cần ký',
-          body: `${form.msnv}: ${form.hoten}`,
-        });
-      }
+      await this.formSendNotification(form, form.to);
     }
     if (!needToTruong && needQuanDoc) {
-      // await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
-      const accounts = await this.prisma.user.findMany({
-        where: {
-          bophan: form.to.split('_')[0] + '_quandoc',
-          fcm_token: { not: null },
-        },
-        select: { fcm_token: true },
-      });
-      const tokens = accounts.map((account) => account.fcm_token || '');
-      if (tokens.length > 0) {
-        await this.firebaseService.sendToMultipleDevices(tokens, {
-          title:
-            linesList.find((line) => line.value === form.to)?.name +
-            ' có đơn cần ký',
-          body: `${form.msnv}: ${form.hoten}`,
-        });
-      }
+      await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
     }
-
     return form;
   }
 
@@ -212,76 +163,30 @@ export class FormsService {
       (line) => line.value === form.to,
     )?.needQuanDoc;
     if (chucvu === 'quandoc' || (needToTruong && !needQuanDoc)) {
-      // await this.formSendNotification(form, 'lanhdao');
-      const accounts = await this.prisma.user.findMany({
-        where: {
-          bophan: 'lanhdao',
-          fcm_token: { not: null },
-        },
-        select: { fcm_token: true },
-      });
-      const tokens = accounts.map((account) => account.fcm_token || '');
-      if (tokens.length > 0) {
-        await this.firebaseService.sendToMultipleDevices(tokens, {
-          title:
-            linesList.find((line) => line.value === form.to)?.name +
-            ' có đơn cần ký',
-          body: `${form.msnv}: ${form.hoten}`,
-        });
-      }
+      await this.formSendNotification(form, 'lanhdao');
     } else if (chucvu !== 'lanhdao') {
-      // await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
-
-      const accounts = await this.prisma.user.findMany({
-        where: {
-          bophan: form.to.split('_')[0] + '_quandoc',
-          fcm_token: { not: null },
-        },
-        select: { fcm_token: true },
-      });
-      const tokens = accounts.map((account) => account.fcm_token || '');
-      if (tokens.length > 0) {
-        await this.firebaseService.sendToMultipleDevices(tokens, {
-          title:
-            linesList.find((line) => line.value === form.to)?.name +
-            ' có đơn cần ký',
-          body: `${form.msnv}: ${form.hoten}`,
-        });
-      }
+      await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
     }
     return form;
   }
-  // async formSendNotification(form: Form, bophan: string) {
-  //   const url = 'https://api.onesignal.com/notifications?c=push';
-  //   const options = {
-  //     method: 'POST',
-  //     headers: {
-  //       Authorization: this.configService.get('onesignal.auth'),
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       app_id: this.configService.get('onesignal.app_id'),
-  //       headings: {
-  //         en:
-  //           linesList.find((line) => line.value === form.to)?.name +
-  //           ' có đơn cần ký',
-  //       },
-  //       contents: {
-  //         en: `${form.msnv}: ${form.hoten}`,
-  //       },
-  //       filters: [
-  //         {
-  //           field: 'tag',
-  //           relation: '=',
-  //           key: 'forms',
-  //           value: bophan,
-  //         },
-  //       ],
-  //       url: 'https://hoathodongha.vercel.app/tao-don/xem-don/' + form.id,
-  //     }),
-  //   };
-  //   return await fetch(url, options);
-  // }
+  async formSendNotification(form: Form, bophan: string) {
+    const accounts = await this.prisma.user.findMany({
+      where: {
+        bophan,
+        fcm_token: { not: null },
+      },
+      select: { fcm_token: true },
+    });
+    const tokens = accounts.map((account) => account.fcm_token || '');
+    if (tokens.length > 0) {
+      await this.firebaseService.sendToMultipleDevices(tokens, {
+        title:
+          linesList.find((line) => line.value === form.to)?.name +
+          ' có đơn cần ký',
+        body: `${form.msnv}: ${form.hoten}`,
+      });
+    }
+  }
 
   async organizationExport(date: string) {
     if (date === 'leave') {
