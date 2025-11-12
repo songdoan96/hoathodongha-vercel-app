@@ -3,7 +3,6 @@ import { LoaderIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
-import { z } from "zod";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -15,7 +14,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { useAuthLogin } from "~/hooks/auth-hook";
-import { getFCMToken, onMessageListener } from "~/lib/firebase";
+import { getFCMToken } from "~/lib/firebase";
 import imagesPath from "~/lib/images-path";
 import routers from "~/lib/routers";
 import { AuthLoginSchema, type AuthLoginSchemaType } from "~/schemas/auth.schema";
@@ -24,7 +23,7 @@ export function meta() {
 }
 function LoginPage() {
   const [token, setToken] = useState<string | null>(null);
-  const [notification, setNotification] = useState<any>(null);
+  // const [notification, setNotification] = useState<any>(null);
 
   useEffect(() => {
     // Request permission and get token
