@@ -7,6 +7,7 @@ interface NotificationPayload {
   body: string;
   imageUrl?: string;
   data?: Record<string, string>;
+  link?: string;
 }
 
 @Injectable()
@@ -60,6 +61,7 @@ export class FirebaseService {
             },
           },
         },
+        webpush: { fcmOptions: { link: payload.link } },
       };
 
       const response = await this.messaging.send(message);
@@ -94,6 +96,11 @@ export class FirebaseService {
               sound: 'default',
               badge: 1,
             },
+          },
+        },
+        webpush: {
+          fcmOptions: {
+            link: payload.link,
           },
         },
       };

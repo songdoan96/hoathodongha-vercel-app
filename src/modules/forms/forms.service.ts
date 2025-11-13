@@ -184,6 +184,7 @@ export class FormsService {
           linesList.find((line) => line.value === form.to)?.name +
           ' có đơn cần ký',
         body: `${form.msnv}: ${form.hoten}`,
+        link: 'https://hoathodongha.vercel.app/tao-don/xem-don/' + form.id,
       });
     }
   }
