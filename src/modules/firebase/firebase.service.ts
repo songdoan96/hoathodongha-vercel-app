@@ -45,22 +45,22 @@ export class FirebaseService {
           body: payload.body,
           imageUrl: payload.imageUrl,
         },
-        data: payload.data,
-        android: {
-          priority: 'high',
-          notification: {
-            sound: 'default',
-            channelId: 'default',
-          },
-        },
-        apns: {
-          payload: {
-            aps: {
-              sound: 'default',
-              badge: 1,
-            },
-          },
-        },
+        // data: payload.data,
+        // android: {
+        //   priority: 'high',
+        //   notification: {
+        //     sound: 'default',
+        //     channelId: 'default',
+        //   },
+        // },
+        // apns: {
+        //   payload: {
+        //     aps: {
+        //       sound: 'default',
+        //       badge: 1,
+        //     },
+        //   },
+        // },
         webpush: { fcmOptions: { link: payload.link } },
       };
 
@@ -83,21 +83,21 @@ export class FirebaseService {
           body: payload.body,
           imageUrl: payload.imageUrl,
         },
-        data: payload.data,
-        android: {
-          priority: 'high',
-          notification: {
-            sound: 'default',
-          },
-        },
-        apns: {
-          payload: {
-            aps: {
-              sound: 'default',
-              badge: 1,
-            },
-          },
-        },
+        // data: payload.data,
+        // android: {
+        //   priority: 'high',
+        //   notification: {
+        //     sound: 'default',
+        //   },
+        // },
+        // apns: {
+        //   payload: {
+        //     aps: {
+        //       sound: 'default',
+        //       badge: 1,
+        //     },
+        //   },
+        // },
         webpush: {
           fcmOptions: {
             link: payload.link,
