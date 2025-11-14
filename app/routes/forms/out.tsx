@@ -36,7 +36,7 @@ export default function FormCreateOut() {
   const create = useFormsCreate();
 
   const [employeeSearch, setEmployeeSearch] = useState("");
-  const [debouncedSearch] = useDebounce(employeeSearch, 1000);
+  const [debouncedSearch] = useDebounce(employeeSearch, 300);
   const employeeQuery = useEmployeesFindByStaffId(debouncedSearch);
 
   const form = useForm<FormOutCreateSchemaType>({
@@ -85,7 +85,7 @@ export default function FormCreateOut() {
                         placeholder="Tìm MSNV"
                         {...field}
                         onChange={(e) => {
-                          if (e.target.value.length >= 3) setEmployeeSearch(e.target.value);
+                          if (e.target.value.length > 3) setEmployeeSearch(e.target.value);
                           field.onChange(e.target.value);
                         }}
                       />
