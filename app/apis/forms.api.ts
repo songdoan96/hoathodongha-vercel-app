@@ -50,3 +50,7 @@ export async function apiFormSecurityGetGoOut() {
   const { data } = await apiClient.get(router + `/security/get-go-out`);
   return data;
 }
+export async function apiFormSecurityUpdateTime(id: string, body: Partial<FormsType>) {
+  const { data } = await apiClient.patch(router + "/security-update-time/" + id, body);
+  return data;
+}

@@ -32,12 +32,12 @@ export const useAuthLogin = () => {
       localStorage.setItem("token", response.token);
       login(response);
       toast.success("Đăng nhập thành công");
-      navigate(location.state?.from || "/", {
+      navigate(location.search.replace("?from=", "") || location.state?.from || "/", {
         replace: true,
       });
     },
-    onError: (error) => {
-      toast.error(error.message);
+    onError: () => {
+      toast.error("MSNV hoặc mật khẩu chưa đúng");
     },
   });
 };
@@ -58,6 +58,7 @@ export const useAuthProfile = () => {
   return useQuery({
     queryKey: [AUTH_QUERY_KEY.PROFILE],
     queryFn: apiAuthMe,
+    retry: false,
   });
 };
 export const useAuthFindAll = () => {

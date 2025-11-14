@@ -27,6 +27,7 @@ import type { Route } from "./+types/edit";
 import { useAuthFindAll } from "~/hooks/auth-hook";
 import type { AuthType } from "~/types/auth-type";
 import { cn } from "~/lib/utils";
+import routers from "~/lib/routers";
 
 export function meta() {
   return [{ title: "Sửa đơn" }, { name: "description", content: "Sửa đơn" }];
@@ -302,7 +303,7 @@ function FormEditPage({ loaderData: id }: Route.ComponentProps) {
                 <Button
                   asChild
                   className="bg-red-500 hover:bg-red-600 cursor-pointer"
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate(routers().forms.signature)}
                 >
                   <span>Quay lại</span>
                 </Button>

@@ -6,6 +6,7 @@ import {
   apiFormDelete,
   apiFormFindById,
   apiFormSecurityGetGoOut,
+  apiFormSecurityUpdateTime,
   apiFormsFindAll,
   apiFormSignature,
   apiFormUpdate,
@@ -75,8 +76,9 @@ export const useFormsUpdate = () => {
       toast.success("Cập nhật thành công");
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
     },
-    onError: () => {
+    onError: (err) => {
       toast.error("Đã xảy ra lỗi, vui lòng thử lại");
+      return Promise.reject(err);
     },
   });
 };
@@ -99,6 +101,21 @@ export const useFormsSecurity = () => {
   return useQuery({
     queryKey: [QUERY_KEY.FIND_ALL],
     queryFn: apiFormSecurityGetGoOut,
+  });
+};
+
+export const useFormsSecurityUpdate = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, formData }: { id: string; formData: Partial<FormsType> }) =>
+      apiFormSecurityUpdateTime(id, formData),
+    onSuccess: () => {
+      toast.success("Cập nhật thành công");
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
+    },
+    onError: () => {
+      toast.error("Đã xảy ra lỗi, vui lòng thử lại");
+    },
   });
 };
 export const useFormsFindOne = (id: string) => {

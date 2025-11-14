@@ -226,13 +226,15 @@ export default function FormCreateOut() {
               >
                 <span>Quay lại</span>
               </Button>
-              <Button
-                disabled={create.isPending}
-                type="submit"
-                className="bg-teal-500 hover:bg-teal-600"
-              >
-                Tạo đơn
-              </Button>
+              {!create.isPending && (
+                <Button
+                  disabled={create.isPending}
+                  type="submit"
+                  className="bg-teal-500 hover:bg-teal-600"
+                >
+                  Tạo đơn
+                </Button>
+              )}
             </div>
           </form>
         </Form>

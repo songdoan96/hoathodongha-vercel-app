@@ -1,7 +1,7 @@
 import { formatDate } from "date-fns";
 import { ChevronsRight, X } from "lucide-react";
 import { useState } from "react";
-import { useFormsSecurity, useFormsUpdate } from "~/hooks/forms-hook";
+import { useFormsSecurity, useFormsSecurityUpdate } from "~/hooks/forms-hook";
 import { linesList } from "~/lib/variables";
 import type { FormsType } from "~/types/forms-type";
 import Loading from "../Loading";
@@ -10,7 +10,7 @@ import { Input } from "../ui/input";
 
 export default function FormSecurityListComponent() {
   const { data, isLoading } = useFormsSecurity();
-  const update = useFormsUpdate();
+  const update = useFormsSecurityUpdate();
   const [gio, setGio] = useState<string>();
 
   if (isLoading || update.isPending) return <Loading fullScreen />;

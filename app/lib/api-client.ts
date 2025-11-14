@@ -1,7 +1,6 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import configuration from "./configuration";
 import routers from "./routers";
-// Configure your backend API URL here
 const API_BASE_URL = configuration().BACKEND_URL;
 
 export interface ApiError {
@@ -44,13 +43,15 @@ apiClient.interceptors.request.use(
 // Add response interceptor for error handling
 apiClient.interceptors.response.use(
   (response) => response,
-  (error: AxiosError<{ message?: string }>) => {
+  (error) => {
     const message = error.response?.data?.message || error.message || "An error occurred";
     const status = error.response?.status;
 
     if (status === 401 && location.pathname !== routers().auth.login) {
-      window.location.href = routers().auth.login;
+      window.location.href = routers().auth.login + "?from=" + location.pathname;
     }
+
+    // return Promise.reject(error);
     throw new ApiClientError(message, status);
   }
 );
