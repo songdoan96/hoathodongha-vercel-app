@@ -16,7 +16,6 @@ export class AuthService {
 
   async login(loginDto: LoginDto) {
     const { username, password, fcm_token } = loginDto;
-    console.log('🚀 ~ AuthService ~ login ~ fcm_token:', fcm_token);
     const user = await this.findByUsername(username);
     if (user?.password !== password) {
       throw new UnauthorizedException({
