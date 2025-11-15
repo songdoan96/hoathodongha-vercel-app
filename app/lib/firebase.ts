@@ -1,5 +1,5 @@
-import { initializeApp, getApps } from "firebase/app";
-import { getMessaging, getToken, onMessage, isSupported } from "firebase/messaging";
+import { getApps, initializeApp } from "firebase/app";
+import { getMessaging, getToken, isSupported } from "firebase/messaging";
 import configuration from "./configuration";
 
 const firebaseConfig = {
@@ -27,14 +27,14 @@ export const getFCMToken = async () => {
   }
 };
 
-export const onMessageListener = () =>
-  new Promise((resolve) => {
-    isSupported().then((supported) => {
-      if (supported) {
-        const messaging = getMessaging(app);
-        onMessage(messaging, (payload) => {
-          resolve(payload);
-        });
-      }
-    });
-  });
+// export const onMessageListener = () =>
+//   new Promise((resolve) => {
+//     isSupported().then((supported) => {
+//       if (supported) {
+//         const messaging = getMessaging(app);
+//         onMessage(messaging, (payload) => {
+//           resolve(payload);
+//         });
+//       }
+//     });
+//   });
