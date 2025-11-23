@@ -24,8 +24,12 @@ export class FormsController {
   create(@Body() createFormDto: CreateFormDto) {
     return this.formsService.create(createFormDto);
   }
+  @Get('/count-form')
+  countForms(@Query('month') month: string) {
+    return this.formsService.countForms(month);
+  }
 
-  @Get('/:id')
+  @Get(':id')
   findOne(@Param('id') id: string) {
     return this.formsService.findOne(id);
   }

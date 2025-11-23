@@ -44,9 +44,16 @@ export class FormsService {
       createFormDto.rangay = new Date(createFormDto.rangay);
     }
 
-    const form = await this.prisma.form.create({
-      data: createFormDto,
+    const isLeader = await this.prisma.formLeader.findFirst({
+      where: {
+        msnv: createFormDto.msnv.trim(),
+      },
     });
+    const form = await this.prisma.form.create({
+      data: { ...createFormDto, giamdocky: isLeader ? true : false },
+    });
+
+    /*
 
     // Gửi thông báo
     const needToTruong = linesList.find(
@@ -65,6 +72,7 @@ export class FormsService {
     if (!needToTruong && needQuanDoc) {
       await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
     }
+    */
     return form;
   }
 
@@ -109,6 +117,29 @@ export class FormsService {
       forms: hasNext ? forms.slice(0, -1) : forms,
       nextCursor: hasNext ? forms[limit - 1].id : null,
     };
+  }
+
+  async countForms(month: string) {
+    const counts = await this.prisma.form.groupBy({
+      by: ['msnv', 'loaidon'],
+      where: {
+        ngaytao: {
+          gte: startOfMonth(month),
+          lte: endOfMonth(month),
+        },
+      },
+      _count: {
+        _all: true,
+      },
+      orderBy: {
+        msnv: 'asc',
+      },
+    });
+    return counts.map((item) => ({
+      msnv: item.msnv,
+      loaidon: item.loaidon,
+      count: item._count._all,
+    }));
   }
 
   async update(id: string, updateFormDto: UpdateFormDto) {

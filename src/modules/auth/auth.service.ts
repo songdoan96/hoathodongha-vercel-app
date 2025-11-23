@@ -40,7 +40,14 @@ export class AuthService {
     };
   }
   async findByUsername(username: string) {
-    return await this.prisma.user.findUnique({ where: { username } });
+    return await this.prisma.user.findFirst({
+      where: {
+        username: {
+          equals: username,
+          mode: 'insensitive',
+        },
+      },
+    });
   }
 
   async findAll() {

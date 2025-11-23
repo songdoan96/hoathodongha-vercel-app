@@ -24,6 +24,15 @@ model User {
   @@map("accounts")
 }
 
+model FormLeader {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  msnv  String  @unique
+  hoten String?
+  to    String?
+
+  @@map("form_leaders")
+}
+
 model Employee {
   id     String  @id @default(auto()) @map("_id") @db.ObjectId
   msnv   String  @unique
@@ -56,8 +65,9 @@ model Form {
   tugio  String?
   dengio String?
 
-  giora  String?
-  giovao String?
+  giora     String?
+  giovao    String?
+  giamdocky Boolean @default(false)
 
   @@map("forms")
 }
