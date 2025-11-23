@@ -53,8 +53,6 @@ export class FormsService {
       data: { ...createFormDto, giamdocky: isLeader ? true : false },
     });
 
-    /*
-
     // Gửi thông báo
     const needToTruong = linesList.find(
       (line) => line.value === form.to,
@@ -72,7 +70,7 @@ export class FormsService {
     if (!needToTruong && needQuanDoc) {
       await this.formSendNotification(form, form.to.split('_')[0] + '_quandoc');
     }
-    */
+
     return form;
   }
 
