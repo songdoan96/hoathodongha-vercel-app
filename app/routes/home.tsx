@@ -8,7 +8,6 @@ export function meta() {
     { name: "description", content: "Công ty may Hòa Thọ Đông Hà" },
   ];
 }
-
 function Home() {
   return (
     <div className="min-h-screen w-full relative">
