@@ -33,7 +33,12 @@ export const apiFormsFindAll = async ({
   });
   return data;
 };
-
+export const apiFormsCount = async (month: string) => {
+  const { data } = await apiClient.get(router + "/count-form", {
+    params: { month },
+  });
+  return data;
+};
 export const apiFormDelete = async (id: string) => {
   const { data } = await apiClient.delete(router + "/" + id);
   return data;

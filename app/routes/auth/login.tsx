@@ -23,7 +23,7 @@ export function meta() {
 }
 function LoginPage() {
   const [token, setToken] = useState<string | null>(null);
-  console.log("🚀 ~ LoginPage ~ token:", token);
+  // console.log("🚀 ~ LoginPage ~ token:", token);
   // const [notification, setNotification] = useState<any>(null);
 
   useEffect(() => {

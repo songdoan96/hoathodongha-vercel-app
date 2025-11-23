@@ -22,6 +22,13 @@ export interface FormsType {
 
   thaythe?: boolean;
   chuaxong?: boolean;
+
+  giamdocky: boolean;
+}
+export interface FormsCountType {
+  count: number;
+  loaidon: LoaiDon;
+  msnv: string;
 }
 export enum LoaiDon {
   LEAVE = "leave",

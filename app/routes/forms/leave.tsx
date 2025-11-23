@@ -82,7 +82,7 @@ export default function FormCreateLeave() {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Tìm MSNV hoặc họ tên"
+                        placeholder="Tìm MSNV"
                         {...field}
                         onChange={(e) => {
                           if (e.target.value.length > 3) setEmployeeSearch(e.target.value);

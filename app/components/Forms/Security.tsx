@@ -7,6 +7,7 @@ import type { FormsType } from "~/types/forms-type";
 import Loading from "../Loading";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { cn } from "~/lib/utils";
 
 export default function FormSecurityListComponent() {
   const { data, isLoading } = useFormsSecurity();
@@ -93,7 +94,11 @@ export default function FormSecurityListComponent() {
                         {form.quandoc}
                       </div>
                     </td>
-                    <td className="p-2 border border-black text-center">
+                    <td
+                      className={cn("p-2 border border-black text-center", {
+                        "bg-red-100": form.giamdocky,
+                      })}
+                    >
                       <div className="flex justify-center items-center">
                         {!form.lanhdao && <X color="red" size={20} />}
                         {form.lanhdao}

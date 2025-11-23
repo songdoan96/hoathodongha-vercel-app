@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
-import { useFormsFindAll } from "~/hooks/forms-hook";
+import { useFormsCount, useFormsFindAll } from "~/hooks/forms-hook";
 import { checkRole } from "~/lib/helpers";
 import { linesListFilter } from "~/lib/variables";
 import type { FormsType } from "~/types/forms-type";
@@ -42,6 +42,7 @@ function FormsListComponent() {
     type,
     value,
   });
+  const { data: formsCount } = useFormsCount(month);
 
   const { ref, inView } = useInView();
 
@@ -174,6 +175,9 @@ function FormsListComponent() {
                   Loại đơn
                 </th>
                 <th scope="col" className="p-1 border border-black text-center">
+                  Số lần
+                </th>
+                <th scope="col" className="p-1 border border-black text-center">
                   Thời gian
                 </th>
                 <th scope="col" className="p-1 border border-black text-center">
@@ -201,7 +205,16 @@ function FormsListComponent() {
             </thead>
             <tbody>
               {allForms.map((form: FormsType) => {
-                return <FormTRow form={form} key={form.id} />;
+                return (
+                  <FormTRow
+                    form={form}
+                    count={
+                      formsCount?.find((f) => f.msnv === form.msnv && f.loaidon === form.loaidon)
+                        ?.count
+                    }
+                    key={form.id}
+                  />
+                );
               })}
             </tbody>
           </table>

@@ -29,8 +29,9 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
+import { cn } from "~/lib/utils";
 
-function FormTRow({ form }: { form: FormsType }) {
+function FormTRow({ form, count }: { form: FormsType; count: number }) {
   const { user } = useAuthStore();
   const deleteForm = useFormsDelete();
   const updateForm = useFormsUpdate();
@@ -75,6 +76,19 @@ function FormTRow({ form }: { form: FormsType }) {
               Ra cổng
             </Link>
           )}
+        </div>
+      </td>
+      <td className="p-1 border border-black">
+        <div
+          className={cn(
+            "flex justify-center items-center w-6 h-6 mx-auto rounded-full text-white bg-red-500",
+            {
+              "bg-green-500": count === 1,
+              "bg-yellow-500": count === 2,
+            }
+          )}
+        >
+          <span className="text-center font-bold">{count}</span>
         </div>
       </td>
       <td className="p-1 border border-black min-w-28">
@@ -157,7 +171,56 @@ function FormTRow({ form }: { form: FormsType }) {
       <td className="p-1 border border-black">
         <div className="flex items-center justify-center text-center">
           {!form.lanhdao && <X color="red" size={20} />}
-          {form.lanhdao
+          {form.giamdocky
+            ? form.lanhdao
+              ? form.lanhdao
+              : user &&
+                user.bophan === "giamdoc" &&
+                ((!needToTruong && !needQuanDoc) ||
+                  (needToTruong && needQuanDoc && form.quandoc) ||
+                  (needToTruong && !needQuanDoc && form.totruong) ||
+                  (!needToTruong && needQuanDoc && form.quandoc)) && (
+                  <Button
+                    className="underline"
+                    onClick={() =>
+                      updateFormSignature.mutate({
+                        id: form.id,
+                        formData: {
+                          hoten: user.name,
+                          chucvu: "lanhdao",
+                        },
+                      })
+                    }
+                    variant="link"
+                  >
+                    Ký đơn
+                  </Button>
+                )
+            : form.lanhdao
+              ? form.lanhdao
+              : user &&
+                (user.bophan === "lanhdao" || user.bophan === "giamdoc") &&
+                ((!needToTruong && !needQuanDoc) ||
+                  (needToTruong && needQuanDoc && form.quandoc) ||
+                  (needToTruong && !needQuanDoc && form.totruong) ||
+                  (!needToTruong && needQuanDoc && form.quandoc)) && (
+                  <Button
+                    className="underline"
+                    onClick={() =>
+                      updateFormSignature.mutate({
+                        id: form.id,
+                        formData: {
+                          hoten: user.name,
+                          chucvu: "lanhdao",
+                        },
+                      })
+                    }
+                    variant="link"
+                  >
+                    Ký đơn
+                  </Button>
+                )}
+          {/* {form.lanhdao
             ? form.lanhdao
             : user &&
               user.bophan === "lanhdao" &&
@@ -180,7 +243,7 @@ function FormTRow({ form }: { form: FormsType }) {
                 >
                   Ký đơn
                 </Button>
-              )}
+              )} */}
         </div>
       </td>
       <td className="p-1 border border-black">

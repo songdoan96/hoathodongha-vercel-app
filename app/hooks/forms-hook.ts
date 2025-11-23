@@ -5,6 +5,7 @@ import {
   apiFormCreate,
   apiFormDelete,
   apiFormFindById,
+  apiFormsCount,
   apiFormSecurityGetGoOut,
   apiFormSecurityUpdateTime,
   apiFormsFindAll,
@@ -13,12 +14,13 @@ import {
   type SignatureFormDto,
 } from "~/apis/forms.api";
 import routers from "~/lib/routers";
-import type { FormsType } from "~/types/forms-type";
+import type { FormsCountType, FormsType } from "~/types/forms-type";
 
 const QUERY_KEY = {
-  FIND_ALL: "forms/findAll",
-  FIND_ONE: "forms/findOne",
-  SECURITY: "forms/security",
+  FIND_ALL: "forms/FIND_ALL",
+  FIND_ONE: "forms/FIND_ONE",
+  SECURITY: "forms/SECURITY",
+  COUNT: "forms/COUNT",
 };
 
 export const useFormsCreate = () => {
@@ -51,6 +53,12 @@ export const useFormsFindAll = ({
     queryFn: ({ pageParam }) => apiFormsFindAll({ pageParam, month, type, value }),
     initialPageParam: undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+  });
+
+export const useFormsCount = (month: string) =>
+  useQuery<FormsCountType[]>({
+    queryKey: [QUERY_KEY.COUNT, month],
+    queryFn: () => apiFormsCount(month),
   });
 
 export const useFormsDelete = () => {
