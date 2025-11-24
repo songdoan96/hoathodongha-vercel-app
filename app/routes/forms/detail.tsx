@@ -1,12 +1,10 @@
-import { HeaderComponent, HeaderTitle } from "~/components/Header";
-import type { Route } from "./+types/detail";
-import { Link, useSearchParams } from "react-router";
 import { format, formatDate } from "date-fns";
-import { useFormsEmployeeDetail } from "~/hooks/forms-hook";
-import Loading from "~/components/Loading";
-import { linesList } from "~/lib/variables";
 import { ChevronsRight, History } from "lucide-react";
+import { Link, useSearchParams } from "react-router";
+import Loading from "~/components/Loading";
+import { useFormsEmployeeDetail } from "~/hooks/forms-hook";
 import routers from "~/lib/routers";
+import { linesList } from "~/lib/variables";
 export function meta() {
   return [{ title: "Chi tiết nhân viên" }, { name: "description", content: "Chi tiết nhân viên" }];
 }
@@ -37,17 +35,17 @@ export default function DetailPage() {
         </div>
         <div className="md:grid md:grid-cols-2 gap-4 p-2 md:p-4">
           <div className="">
-            <div className="border rounded overflow-hidden shadow-xl bg-white gap-2 uppercase font-bold text-xl h-full p-4 flex flex-col justify-between">
+            <div className="border-2 border-blue-700 rounded overflow-hidden shadow-xl bg-white gap-2 uppercase font-bold text-xl h-full p-2 flex flex-col justify-between">
               <div className="flex">
-                <span className="w-1/3 text-blue-700">Họ tên</span>
+                <span className="w-1/4 md:w-1/3 text-blue-700">Họ tên</span>
                 <span>: {forms[0].hoten}</span>
               </div>
               <div className="flex">
-                <span className="w-1/3 text-blue-700">Tổ</span>
+                <span className="w-1/4 md:w-1/3 text-blue-700">Tổ</span>
                 <span>: {linesList.find((line) => line.value === forms[0].to)?.name}</span>
               </div>
               <div className="flex">
-                <span className="w-1/3 text-blue-700">MSNV</span>
+                <span className="w-1/4 md:w-1/3 text-blue-700">MSNV</span>
                 <span>: {forms[0].msnv}</span>
               </div>
             </div>

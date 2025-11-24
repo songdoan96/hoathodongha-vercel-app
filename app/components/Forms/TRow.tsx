@@ -88,17 +88,15 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
             }
           )}
         >
-          {user && (
-            <Link
-              to={{
-                pathname: routers().forms.detail,
-                search: `?month=${format(form.ngaytao, "yyyy-MM")}&msnv=${form.msnv}`,
-              }}
-              className="text-center font-bold"
-            >
-              {count}
-            </Link>
-          )}
+          <Link
+            to={{
+              pathname: routers().forms.detail,
+              search: `?month=${format(form.ngaytao, "yyyy-MM")}&msnv=${form.msnv}`,
+            }}
+            className="text-center font-bold"
+          >
+            {count}
+          </Link>
         </div>
       </td>
       <td className="p-1 border border-black min-w-28">
