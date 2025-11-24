@@ -77,11 +77,19 @@ export default function DetailPage() {
           <table className="w-full bg-white text-black text-center">
             <thead className="uppercase">
               <tr>
-                <th className="border border-black bg-[#27AE60] text-white">Ngày</th>
-                <th className="border border-black bg-[#27AE60] text-white min-w-28">Loại đơn</th>
-                <th className="border border-black bg-[#27AE60] text-white min-w-32">Thời gian</th>
-                <th className="border border-black bg-[#27AE60] text-white min-w-28">Lý do</th>
-                <th className="border border-black bg-[#27AE60] text-white">Giờ ra-vào</th>
+                <th className="border border-black bg-[#27AE60] py-2 px-1 text-white">Ngày</th>
+                <th className="border border-black bg-[#27AE60] py-2 px-1 text-white min-w-28">
+                  Loại đơn
+                </th>
+                <th className="border border-black bg-[#27AE60] py-2 px-1 text-white min-w-32">
+                  Thời gian
+                </th>
+                <th className="border border-black bg-[#27AE60] py-2 px-1 text-white min-w-28">
+                  Lý do
+                </th>
+                <th className="border border-black bg-[#27AE60] py-2 px-1 text-white min-w-28">
+                  Giờ ra-vào
+                </th>
               </tr>
             </thead>
             <tbody>
