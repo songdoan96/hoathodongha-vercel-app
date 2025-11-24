@@ -30,9 +30,11 @@ export default function DetailPage() {
   if (forms) {
     return (
       <div className="bg-gray-200 h-screen w-screen">
-        <Link to={routers().forms.index} className="w-full flex justify-center items-center py-2">
-          <img src="/images/logo.png" alt="" className="w-16" />
-        </Link>
+        <div className="py-2 w-full flex justify-center items-center">
+          <Link to={routers().forms.index}>
+            <img src="/images/logo.png" alt="" className="w-16 inline-block" />
+          </Link>
+        </div>
         <div className="md:grid md:grid-cols-2 gap-4 p-2 md:p-4">
           <div className="">
             <div className="border rounded overflow-hidden shadow-xl bg-white gap-2 uppercase font-bold text-xl h-full p-4 flex flex-col justify-between">
