@@ -127,7 +127,7 @@ export const useFormsSecurityUpdate = () => {
   });
 };
 export const useFormsFindOne = (id: string) => {
-  return useQuery({
+  return useQuery<FormsType>({
     queryKey: [QUERY_KEY.FIND_ONE, id],
     queryFn: () => apiFormFindById(id),
     enabled: !!id,

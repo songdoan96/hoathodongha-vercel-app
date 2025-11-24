@@ -210,7 +210,7 @@ function FormsListComponent() {
                     form={form}
                     count={
                       formsCount?.find((f) => f.msnv === form.msnv && f.loaidon === form.loaidon)
-                        ?.count
+                        ?.count || 0
                     }
                     key={form.id}
                   />
