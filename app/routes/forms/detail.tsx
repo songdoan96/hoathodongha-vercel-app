@@ -35,7 +35,7 @@ export default function DetailPage() {
         </Link>
         <div className="md:grid md:grid-cols-2 gap-4 p-2 md:p-4">
           <div className="">
-            <div className="border rounded overflow-hidden shadow-xl bg-white gap-2 uppercase font-bold text-xl h-full p-4">
+            <div className="border rounded overflow-hidden shadow-xl bg-white gap-2 uppercase font-bold text-xl h-full p-4 flex flex-col justify-between">
               <div className="flex">
                 <span className="w-1/3 text-blue-700">Họ tên</span>
                 <span>: {forms[0].hoten}</span>
@@ -51,7 +51,7 @@ export default function DetailPage() {
             </div>
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4 md:mt-0">
             <div className="w-full grid grid-cols-2 gap-4">
               <div className="border rounded-xl overflow-hidden shadow-xl bg-white">
                 <p className="flex justify-center items-center text-7xl font-black py-2 text-teal-700">
