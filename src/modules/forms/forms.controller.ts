@@ -29,6 +29,11 @@ export class FormsController {
     return this.formsService.countForms(month);
   }
 
+  @Get('/employee-detail')
+  employeeDetail(@Query('month') month: string, @Query('msnv') msnv: string) {
+    return this.formsService.employeeDetail(month, msnv);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.formsService.findOne(id);

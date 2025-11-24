@@ -198,6 +198,20 @@ export class FormsService {
     }
     return form;
   }
+
+  async employeeDetail(month: string, msnv: string) {
+    return await this.prisma.form.findMany({
+      where: {
+        msnv,
+        ngaytao: {
+          gte: startOfMonth(month),
+          lte: endOfMonth(month),
+        },
+      },
+      orderBy: [{ id: 'desc' }, { loaidon: 'asc' }],
+    });
+  }
+
   async formSendNotification(form: Form, bophan: string) {
     const accounts = await this.prisma.user.findMany({
       where: {
