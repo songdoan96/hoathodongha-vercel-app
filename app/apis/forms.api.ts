@@ -55,6 +55,10 @@ export async function apiFormSecurityGetGoOut() {
   const { data } = await apiClient.get(router + `/security/get-go-out`);
   return data;
 }
+export async function apiFormEmployeeDetail(month: string, msnv: string) {
+  const { data } = await apiClient.get(router + `/employee-detail?month=${month}&msnv=${msnv}`);
+  return data;
+}
 export async function apiFormSecurityUpdateTime(id: string, body: Partial<FormsType>) {
   const { data } = await apiClient.patch(router + "/security-update-time/" + id, body);
   return data;

@@ -10,7 +10,7 @@ import {
   X,
 } from "lucide-react";
 import { memo } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useFormsDelete, useFormsSignature, useFormsUpdate } from "~/hooks/forms-hook";
 import { checkRole } from "~/lib/helpers";
 import routers from "~/lib/routers";
@@ -63,14 +63,14 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
         <div className="flex justify-center items-center">
           {form.loaidon === "leave" ? (
             <Link
-              to={routers().forms.detail(form.id)}
+              to={routers().forms.view(form.id)}
               className="inline-block text-center font-semibold min-w-20 text-teal-100 bg-teal-500 p-1 rounded"
             >
               Nghỉ phép
             </Link>
           ) : (
             <Link
-              to={routers().forms.detail(form.id)}
+              to={routers().forms.view(form.id)}
               className="inline-block text-center font-semibold min-w-20 text-pink-100 bg-pink-500 p-1 rounded"
             >
               Ra cổng
@@ -88,7 +88,17 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
             }
           )}
         >
-          <span className="text-center font-bold">{count}</span>
+          {user && (
+            <Link
+              to={{
+                pathname: routers().forms.detail,
+                search: `?month=${format(form.ngaytao, "yyyy-MM")}&msnv=${form.msnv}`,
+              }}
+              className="text-center font-bold"
+            >
+              {count}
+            </Link>
+          )}
         </div>
       </td>
       <td className="p-1 border border-black min-w-28">

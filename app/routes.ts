@@ -27,6 +27,8 @@ export default [
     ...prefix("tao-don", [
       route("/xem-don/:id", "./routes/forms/view.tsx"),
       route("/chinh-sua/:id", "./routes/forms/edit.tsx"),
+
+      route("/chi-tiet", "./routes/forms/detail.tsx"),
     ]),
     // End Forms
 

@@ -18,7 +18,8 @@ export default () => ({
       leave: "/tao-don/nghi-phep",
     },
     edit: (id: string) => "/tao-don/chinh-sua/" + id,
-    detail: (id: string) => "/tao-don/xem-don/" + id,
+    view: (id: string) => "/tao-don/xem-don/" + id,
+    detail: "/tao-don/chi-tiet",
     security: "/bao-ve",
   },
 });

@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import {
   apiFormCreate,
   apiFormDelete,
+  apiFormEmployeeDetail,
   apiFormFindById,
   apiFormsCount,
   apiFormSecurityGetGoOut,
@@ -21,6 +22,7 @@ const QUERY_KEY = {
   FIND_ONE: "forms/FIND_ONE",
   SECURITY: "forms/SECURITY",
   COUNT: "forms/COUNT",
+  EMPLOYEE_DETAIL: "forms/EMPLOYEE_DETAIL",
 };
 
 export const useFormsCreate = () => {
@@ -131,5 +133,12 @@ export const useFormsFindOne = (id: string) => {
     queryKey: [QUERY_KEY.FIND_ONE, id],
     queryFn: () => apiFormFindById(id),
     enabled: !!id,
+  });
+};
+export const useFormsEmployeeDetail = (month: string, msnv: string) => {
+  return useQuery<FormsType[]>({
+    queryKey: [QUERY_KEY.EMPLOYEE_DETAIL, month, msnv],
+    queryFn: () => apiFormEmployeeDetail(month, msnv),
+    enabled: !!msnv && !!month,
   });
 };
