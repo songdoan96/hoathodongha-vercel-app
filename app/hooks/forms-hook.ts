@@ -111,7 +111,7 @@ export const useFormsSecurity = () => {
   return useQuery({
     queryKey: [QUERY_KEY.FIND_ALL],
     queryFn: apiFormSecurityGetGoOut,
-    refetchInterval: 1800000,
+    refetchInterval: 1000000,
   });
 };
 
