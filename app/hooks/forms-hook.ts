@@ -17,7 +17,7 @@ import {
 import routers from "~/lib/routers";
 import type { FormsCountType, FormsType } from "~/types/forms-type";
 
-const QUERY_KEY = {
+export const FORMS_QUERY_KEY = {
   FIND_ALL: "forms/FIND_ALL",
   FIND_ONE: "forms/FIND_ONE",
   SECURITY: "forms/SECURITY",
@@ -32,7 +32,7 @@ export const useFormsCreate = () => {
     mutationFn: ({ formData }: { formData: Partial<FormsType> }) => apiFormCreate(formData),
     onSuccess: () => {
       toast.success("Tạo thành công");
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
+      queryClient.invalidateQueries({ queryKey: [FORMS_QUERY_KEY.FIND_ALL] });
       navigate(routers().forms.index);
     },
     onError: () => {
@@ -51,7 +51,7 @@ export const useFormsFindAll = ({
   value?: string;
 }) =>
   useInfiniteQuery({
-    queryKey: [QUERY_KEY.FIND_ALL, month, type, value],
+    queryKey: [FORMS_QUERY_KEY.FIND_ALL, month, type, value],
     queryFn: ({ pageParam }) => apiFormsFindAll({ pageParam, month, type, value }),
     initialPageParam: undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
@@ -59,7 +59,7 @@ export const useFormsFindAll = ({
 
 export const useFormsCount = (month: string) =>
   useQuery<FormsCountType[]>({
-    queryKey: [QUERY_KEY.COUNT, month],
+    queryKey: [FORMS_QUERY_KEY.COUNT, month],
     queryFn: () => apiFormsCount(month),
   });
 
@@ -69,7 +69,7 @@ export const useFormsDelete = () => {
     mutationFn: (id: string) => apiFormDelete(id),
     onSuccess: () => {
       toast.success("Xóa thành công");
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
+      queryClient.invalidateQueries({ queryKey: [FORMS_QUERY_KEY.FIND_ALL] });
     },
     onError: () => {
       toast.error("Đã xảy ra lỗi, vui lòng thử lại");
@@ -84,7 +84,7 @@ export const useFormsUpdate = () => {
       apiFormUpdate(id, formData),
     onSuccess: () => {
       toast.success("Cập nhật thành công");
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
+      queryClient.invalidateQueries({ queryKey: [FORMS_QUERY_KEY.FIND_ALL] });
     },
     onError: (err) => {
       toast.error("Đã xảy ra lỗi, vui lòng thử lại");
@@ -99,8 +99,8 @@ export const useFormsSignature = () => {
       apiFormSignature(id, formData),
     onSuccess: (res) => {
       toast.success("Cập nhật thành công");
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ONE, res.id] });
+      queryClient.invalidateQueries({ queryKey: [FORMS_QUERY_KEY.FIND_ALL] });
+      queryClient.invalidateQueries({ queryKey: [FORMS_QUERY_KEY.FIND_ONE, res.id] });
     },
     onError: () => {
       toast.error("Đã xảy ra lỗi, vui lòng thử lại");
@@ -109,7 +109,7 @@ export const useFormsSignature = () => {
 };
 export const useFormsSecurity = () => {
   return useQuery({
-    queryKey: [QUERY_KEY.FIND_ALL],
+    queryKey: [FORMS_QUERY_KEY.SECURITY],
     queryFn: apiFormSecurityGetGoOut,
     refetchInterval: 1000000,
   });
@@ -122,7 +122,7 @@ export const useFormsSecurityUpdate = () => {
       apiFormSecurityUpdateTime(id, formData),
     onSuccess: () => {
       toast.success("Cập nhật thành công");
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
+      queryClient.invalidateQueries({ queryKey: [FORMS_QUERY_KEY.FIND_ALL] });
     },
     onError: () => {
       toast.error("Đã xảy ra lỗi, vui lòng thử lại");
@@ -131,14 +131,14 @@ export const useFormsSecurityUpdate = () => {
 };
 export const useFormsFindOne = (id: string) => {
   return useQuery<FormsType>({
-    queryKey: [QUERY_KEY.FIND_ONE, id],
+    queryKey: [FORMS_QUERY_KEY.FIND_ONE, id],
     queryFn: () => apiFormFindById(id),
     enabled: !!id,
   });
 };
 export const useFormsEmployeeDetail = (month: string, msnv: string) => {
   return useQuery<FormsType[]>({
-    queryKey: [QUERY_KEY.EMPLOYEE_DETAIL, month, msnv],
+    queryKey: [FORMS_QUERY_KEY.EMPLOYEE_DETAIL, month, msnv],
     queryFn: () => apiFormEmployeeDetail(month, msnv),
     enabled: !!msnv && !!month,
   });
