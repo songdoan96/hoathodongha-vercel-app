@@ -131,7 +131,9 @@ export default function FormCreateOut() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tổ, bộ phận</FormLabel>
+                  <FormLabel>
+                    Tổ, bộ phận: <span className="text-red-500">chọn lại tổ nếu chưa đúng</span>
+                  </FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl className="w-full">
                       <SelectTrigger>
