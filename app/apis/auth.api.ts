@@ -11,6 +11,12 @@ export interface AuthCreateDto {
   name: string;
   bophan: string;
 }
+export interface AuthUpdateDto {
+  username: string;
+  password: string;
+  name: string;
+  bophan: string;
+}
 
 const router = "/auth";
 
@@ -37,5 +43,9 @@ export const apiAuthCreate = async (formData: Partial<AuthType>) => {
 };
 export const apiAuthDelete = async (id: string) => {
   const { data } = await apiClient.delete(router + "/" + id);
+  return data;
+};
+export const apiAuthUpdate = async (id: string, formData: AuthUpdateDto) => {
+  const { data } = await apiClient.patch(router + "/" + id, formData);
   return data;
 };

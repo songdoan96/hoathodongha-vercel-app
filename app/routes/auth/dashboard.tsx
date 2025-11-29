@@ -1,5 +1,6 @@
 import { EditIcon, FilePlus, Trash } from "lucide-react";
 import { Link } from "react-router";
+import { HeaderComponent, HeaderTitle } from "~/components/Header";
 import Loading from "~/components/Loading";
 import {
   AlertDialog,
@@ -30,14 +31,14 @@ export default function AuthDashboardPage() {
     return <Loading fullScreen />;
   }
   return (
-    <div className="flex flex-col p-4">
-      <div className="flex mb-4">
-        <span className="font-bold w-full text-2xl uppercase flex justify-center items-center text-blue-500">
-          Tổ trưởng
-        </span>
+    <div className="flex flex-col">
+      <HeaderComponent>
+        <HeaderTitle>Thông tin tổ trưởng</HeaderTitle>
+      </HeaderComponent>
+      <div className="flex flex-end mb-4 w-full p-4">
         <Link
           to={routers().auth.add}
-          className="btn bg-teal-600 hover:bg-teal-500 min-w-32 text-base uppercase"
+          className="btn bg-teal-600 hover:bg-teal-500 min-w-32 text-base uppercase ml-auto"
         >
           <FilePlus />
           <span>Tài khoản</span>

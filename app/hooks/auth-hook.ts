@@ -8,8 +8,10 @@ import {
   apiAuthFindOne,
   apiAuthLogin,
   apiAuthMe,
+  apiAuthUpdate,
   type AuthCreateDto,
   type AuthLoginDto,
+  type AuthUpdateDto,
 } from "~/apis/auth.api";
 import useAuthStore from "~/stores/auth-store";
 import type { AuthType } from "~/types/auth-type";
@@ -68,8 +70,8 @@ export const useAuthFindAll = () => {
   });
 };
 export const useAuthFindOne = (id: string) => {
-  return useQuery({
-    queryKey: [AUTH_QUERY_KEY.FIND_ONE],
+  return useQuery<AuthType>({
+    queryKey: [AUTH_QUERY_KEY.FIND_ONE, id],
     queryFn: () => apiAuthFindOne(id),
     enabled: !!id,
   });
@@ -81,6 +83,22 @@ export const useAuthDelete = () => {
     onSuccess: () => {
       toast.success("Xóa thành công");
       queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY.FIND_ALL] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+export const useAuthUpdate = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, formData }: { id: string; formData: AuthUpdateDto }) =>
+      await apiAuthUpdate(id, formData),
+    onSuccess: () => {
+      toast.success("Cập nhật thành công");
+      queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY.FIND_ALL] });
+      navigate(-1);
     },
     onError: (error) => {
       toast.error(error.message);

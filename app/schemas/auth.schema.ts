@@ -14,3 +14,11 @@ export const AuthCreateSchema = z.object({
   bophan: z.string().min(1, "Mật khẩu không được trống."),
 });
 export type AuthCreateSchemaType = z.infer<typeof AuthCreateSchema>;
+
+export const AuthUpdateSchema = z.object({
+  username: z.string().min(1, "Tài khoản không được trống."),
+  name: z.string().min(1, "Mật khẩu không được trống."),
+  password: z.string().min(1, "Mật khẩu không được trống."),
+  bophan: z.string().min(1, "Mật khẩu không được trống."),
+});
+export type AuthUpdateSchemaType = z.infer<typeof AuthUpdateSchema>;
