@@ -1,3 +1,4 @@
+import { differenceInMinutes, max, min, parse } from "date-fns";
 import useAuthStore from "~/stores/auth-store";
 
 export function checkRole(role = "admin") {
@@ -12,4 +13,30 @@ export function checkRole(role = "admin") {
     return true;
   }
   return false;
+}
+export function diffHoursOut(start: string, end?: string) {
+  const format = "HH:mm";
+
+  const endTime = end && end.trim() !== "" ? end : "17:00";
+
+  const baseDate = new Date();
+
+  const dStart = parse(start, format, baseDate);
+  const dEnd = parse(endTime, format, baseDate);
+
+  const breakStart = parse("11:30", format, baseDate);
+  const breakEnd = parse("12:30", format, baseDate);
+
+  let totalMinutes = differenceInMinutes(dEnd, dStart);
+
+  const intersectStart = max([dStart, breakStart]);
+  const intersectEnd = min([dEnd, breakEnd]);
+
+  const breakMinutes = differenceInMinutes(intersectEnd, intersectStart);
+
+  if (breakMinutes > 0) {
+    totalMinutes -= breakMinutes;
+  }
+
+  return totalMinutes / 60;
 }

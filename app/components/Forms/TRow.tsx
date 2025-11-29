@@ -3,6 +3,7 @@ import {
   CheckCircle,
   ChevronsRight,
   CircleXIcon,
+  Clock,
   History,
   Square,
   SquareCheck,
@@ -10,10 +11,11 @@ import {
   X,
 } from "lucide-react";
 import { memo } from "react";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useFormsDelete, useFormsSignature, useFormsUpdate } from "~/hooks/forms-hook";
-import { checkRole } from "~/lib/helpers";
+import { checkRole, diffHoursOut } from "~/lib/helpers";
 import routers from "~/lib/routers";
+import { cn } from "~/lib/utils";
 import { linesList } from "~/lib/variables";
 import useAuthStore from "~/stores/auth-store";
 import type { FormsType } from "~/types/forms-type";
@@ -29,7 +31,6 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
-import { cn } from "~/lib/utils";
 
 function FormTRow({ form, count }: { form: FormsType; count: number }) {
   const { user } = useAuthStore();
@@ -258,16 +259,24 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
               )} */}
         </div>
       </td>
-      <td className="p-1 border border-black">
+      <td className="border border-black">
         {form.loaidon === "out" && (
-          <div className="flex items-center justify-center gap-1">
-            <span className="text-blue-500 font-bold">
-              {form.giora || <History color="red" size={18} />}
-            </span>
-            <ChevronsRight size={14} />
-            <span className="text-blue-500 font-bold">
-              {form.giovao || <History color="red" size={18} />}
-            </span>
+          <div className="flex flex-col">
+            <div className="flex flex-wrap items-center justify-center gap-1 line-clamp-1">
+              <span className="text-blue-500 font-bold">
+                {form.giora || <History color="red" size={18} />}
+              </span>
+              <ChevronsRight size={14} />
+              <span className="text-blue-500 font-bold">
+                {form.giovao || <History color="red" size={18} />}
+              </span>
+            </div>
+            {form.giora && (
+              <div className="flex justify-center items-center font-bold gap-1">
+                <Clock size={14} />
+                <span>{diffHoursOut(form.giora, form.giovao).toFixed(1) + "h"}</span>
+              </div>
+            )}
           </div>
         )}
       </td>
