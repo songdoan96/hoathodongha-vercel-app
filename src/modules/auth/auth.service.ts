@@ -62,8 +62,11 @@ export class AuthService {
     return await this.prisma.user.findUnique({ where: { id } });
   }
 
-  update(id: string, authUpdateDto: AuthUpdateDto) {
-    return `This action updates a #${id} acc`;
+  async update(id: string, authUpdateDto: AuthUpdateDto) {
+    return await this.prisma.user.update({
+      where: { id },
+      data: authUpdateDto,
+    });
   }
 
   async remove(id: string) {
