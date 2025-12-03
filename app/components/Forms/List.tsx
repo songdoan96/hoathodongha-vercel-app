@@ -1,5 +1,13 @@
 import { addMonths, format, subMonths } from "date-fns";
-import { ChevronsLeft, ChevronsRight, FilterIcon, FilterX, Search, SearchX } from "lucide-react";
+import {
+  CalendarX,
+  ChevronsLeft,
+  ChevronsRight,
+  FilterIcon,
+  FilterX,
+  Search,
+  SearchX,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSearchParams } from "react-router";
@@ -66,7 +74,21 @@ function FormsListComponent() {
             <thead className="text-white uppercase bg-[#27AE60]">
               <tr>
                 <th scope="col" className="p-1 border border-black text-center">
-                  Ngày tạo
+                  <div className="flex items-center justify-center gap-1">
+                    <span>Ngày tạo</span>
+                    {month !== format(new Date(), "yyyy-MM") && (
+                      <CalendarX
+                        className="ml-2 cursor-pointer"
+                        color="red"
+                        size={18}
+                        onClick={() =>
+                          setSearchParams({
+                            month: format(new Date(), "yyyy-MM"),
+                          })
+                        }
+                      />
+                    )}
+                  </div>
                 </th>
                 <th scope="col" className="p-1 border border-black text-center">
                   Họ tên
