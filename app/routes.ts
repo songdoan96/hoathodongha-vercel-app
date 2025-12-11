@@ -20,7 +20,10 @@ export default [
   ]),
   // End Forms
 
-  ...prefix("luong", [index("./routes/salaries/search.tsx")]),
+  ...prefix("luong", [
+    index("./routes/salaries/search.tsx"),
+    route("/tai-len", "./routes/salaries/upload.tsx"),
+  ]),
 
   layout("./components/providers/PrivateProvider.tsx", [
     // Forms

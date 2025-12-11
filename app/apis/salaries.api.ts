@@ -25,3 +25,7 @@ export const apiSalariesSearch = async ({
   });
   return data;
 };
+export const apiSalariesUpload = async (body) => {
+  const { data } = await apiClient.post(router + "/upload", body);
+  return data;
+};
