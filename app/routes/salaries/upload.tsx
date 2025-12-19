@@ -13,7 +13,6 @@ export default function Upload() {
     const res = await axios.post("http://localhost:8888/upload/excel", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-
     console.log(res.data);
   };
 
