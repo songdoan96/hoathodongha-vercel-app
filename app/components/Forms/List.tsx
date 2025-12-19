@@ -13,7 +13,6 @@ import { useInView } from "react-intersection-observer";
 import { useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
 import { useFormsCount, useFormsFindAll } from "~/hooks/forms-hook";
-import { checkRole } from "~/lib/helpers";
 import { linesListFilter } from "~/lib/variables";
 import type { FormsType } from "~/types/forms-type";
 import {
