@@ -63,7 +63,7 @@ export class FormsController {
     return this.formsService.update(id, updateFormDto);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.formsService.remove(id);
