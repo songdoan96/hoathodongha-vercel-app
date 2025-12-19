@@ -6,7 +6,6 @@ export default function Upload() {
 
   const handleUpload = async () => {
     if (!file) return alert("Chưa chọn file");
-
     const formData = new FormData();
     formData.append("file", file);
 
