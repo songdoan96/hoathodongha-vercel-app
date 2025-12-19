@@ -13,7 +13,7 @@ import {
 import { memo } from "react";
 import { Link } from "react-router";
 import { useFormsDelete, useFormsSignature, useFormsUpdate } from "~/hooks/forms-hook";
-import { checkRole, diffHoursOut } from "~/lib/helpers";
+import { checkFive5Minutes, checkRole, diffHoursOut } from "~/lib/helpers";
 import routers from "~/lib/routers";
 import { cn } from "~/lib/utils";
 import { linesList } from "~/lib/variables";
@@ -280,7 +280,49 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
           </div>
         )}
       </td>
-      {checkRole("tochuc") && (
+      <td className="p-1 border border-black">
+        <div className="flex justify-center items-center gap-1">
+          {(checkFive5Minutes(form.ngaytao) || checkRole("tochuc")) && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Trash2 color="red" size={20} />
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Xác nhận xóa?</AlertDialogTitle>
+                  <AlertDialogDescription />
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Hủy</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-red-500 hover:bg-red-600"
+                    onClick={() => deleteForm.mutate(form.id)}
+                  >
+                    Xóa
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+          {checkRole("tochuc") && (
+            <button
+              onClick={() =>
+                updateForm.mutate({
+                  id: form.id.toString(),
+                  formData: { chuaxong: !form.chuaxong },
+                })
+              }
+            >
+              {form.chuaxong ? (
+                <Square color="red" size={20} />
+              ) : (
+                <SquareCheck color="green" size={20} />
+              )}
+            </button>
+          )}
+        </div>
+      </td>
+      {/* {checkRole("tochuc") && (
         <td className="p-1 border border-black">
           <div className="flex justify-center items-center gap-1">
             <button
@@ -320,7 +362,7 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
             </AlertDialog>
           </div>
         </td>
-      )}
+      )} */}
     </tr>
   );
 }

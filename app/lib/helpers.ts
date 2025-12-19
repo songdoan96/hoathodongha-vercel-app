@@ -1,4 +1,4 @@
-import { differenceInMinutes, max, min, parse } from "date-fns";
+import { differenceInMinutes, isAfter, isBefore, max, min, parse, subMinutes } from "date-fns";
 import useAuthStore from "~/stores/auth-store";
 
 export function checkRole(role = "admin") {
@@ -39,4 +39,10 @@ export function diffHoursOut(start: string, end?: string) {
   }
 
   return totalMinutes / 60;
+}
+
+export function checkFive5Minutes(time: Date) {
+  const createdDate = new Date(time);
+  const fiveMinutesAgo = subMinutes(new Date(), 5);
+  return isAfter(createdDate, fiveMinutesAgo);
 }

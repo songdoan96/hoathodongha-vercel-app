@@ -220,9 +220,10 @@ function FormsListComponent() {
                 <th scope="col" className="p-1 border border-black text-center">
                   Giờ ra - vào
                 </th>
-                {checkRole("tochuc") && (
+                <th scope="col" className="p-1 border border-black text-center"></th>
+                {/* {checkRole("tochuc") && (
                   <th scope="col" className="p-1 border border-black text-center"></th>
-                )}
+                )} */}
               </tr>
             </thead>
             <tbody>

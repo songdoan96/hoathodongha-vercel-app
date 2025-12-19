@@ -18,7 +18,7 @@ export interface FormsType {
   totruong?: string;
   quandoc?: string;
   lanhdao?: string;
-  ngaytao: Date | string;
+  ngaytao: Date;
 
   thaythe?: boolean;
   chuaxong?: boolean;
