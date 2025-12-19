@@ -64,6 +64,7 @@ export class FormsController {
   }
 
   // @UseGuards(AuthGuard)
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.formsService.remove(id);
