@@ -106,7 +106,7 @@ export class FormsController {
     @Query('type') type: string,
     @Query('time') time: string,
   ) {
-    const fileName = (type === 'leave' ? 'Nghi-Phep' : `Ra-Cong`) + '_' + time;
+    const fileName = (type === 'leave' ? 'Nghi-Phep_' : `Ra-Cong_`) + time;
     res.setHeader(
       'Content-Disposition',
       `attachment; filename="${fileName}.xlsx"`,
