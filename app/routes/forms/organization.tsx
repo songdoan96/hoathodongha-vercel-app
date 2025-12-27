@@ -13,17 +13,17 @@ export function meta() {
   ];
 }
 export default function FormOrganizationPage() {
-  const [queryDate, setQueryDate] = useState<string>();
+  // const [queryDate, setQueryDate] = useState<string>();
 
   const [date, setDate] = useState<string>();
   const [month, setMonth] = useState<string>();
 
-  function handleExportDate(queryDate?: string) {
-    if (queryDate) {
-      window.location.href =
-        configuration().BACKEND_URL + "/forms/organization/export?date=" + queryDate;
-    }
-  }
+  // function handleExportDate(queryDate?: string) {
+  //   if (queryDate) {
+  //     window.location.href =
+  //       configuration().BACKEND_URL + "/forms/organization/export?date=" + queryDate;
+  //   }
+  // }
 
   function handleExport(type: string) {
     console.log("🚀 ~ handleExport ~ type:", type);
