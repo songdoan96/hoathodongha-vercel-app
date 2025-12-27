@@ -99,4 +99,24 @@ export class FormsController {
     const buf = write(wb, { type: 'buffer', bookType: 'xlsx' });
     return res.send(buf);
   }
+
+  @Get('/organization/export-file')
+  async organizationExportFile(
+    @Res() res: Response,
+    @Query('type') type: string,
+    @Query('time') time: string,
+  ) {
+    const fileName = (type === 'leave' ? 'Nghi-Phep' : `Ra-Cong`) + '_' + time;
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${fileName}.xlsx"`,
+    );
+
+    const data = await this.formsService.organizationExportFile(type, time);
+    const ws = utils.aoa_to_sheet(data);
+    const wb = utils.book_new();
+    utils.book_append_sheet(wb, ws, fileName);
+    const buf = write(wb, { type: 'buffer', bookType: 'xlsx' });
+    return res.send(buf);
+  }
 }

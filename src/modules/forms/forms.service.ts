@@ -11,6 +11,7 @@ import { CreateFormDto, SignatureFormDto, UpdateFormDto } from './forms.dto';
 import { linesList } from '../../lib/constant';
 import { Form, LOAIDON } from '../../../generated/prisma';
 import { FirebaseService } from '../firebase/firebase.service';
+import { diffHoursOut } from '../../lib/helpers';
 
 @Injectable()
 export class FormsService {
@@ -50,7 +51,11 @@ export class FormsService {
       },
     });
     const form = await this.prisma.form.create({
-      data: { ...createFormDto, giamdocky: isLeader ? true : false },
+      data: {
+        ...createFormDto,
+        msnv: createFormDto.msnv.trim(),
+        giamdocky: isLeader ? true : false,
+      },
     });
 
     // Gửi thông báo
@@ -282,6 +287,26 @@ export class FormsService {
       }
     }
   }
+
+  async organizationExportFile(type: string, time: string) {
+    const forms = await this.prisma.form.findMany({
+      where: {
+        loaidon: type === 'leave' ? LOAIDON.leave : LOAIDON.out,
+        ngaytao: {
+          gte:
+            time.length === 7
+              ? startOfMonth(new Date(time))
+              : startOfDay(new Date(time)),
+          lte:
+            time.length === 7
+              ? endOfMonth(new Date(time))
+              : endOfDay(new Date(time)),
+        },
+      },
+      orderBy: { id: 'asc' },
+    });
+    return exportFile(forms, type === 'leave' ? LOAIDON.leave : LOAIDON.out);
+  }
 }
 function exportFile(forms: Form[], type = 'leave') {
   const data: any[] = [];
@@ -313,6 +338,7 @@ function exportFile(forms: Form[], type = 'leave') {
           'Tổ trưởng',
           'Quản đốc',
           'Lãnh đạo',
+          'Số giờ ra',
         ];
 
   if (type === 'leave') {
@@ -346,6 +372,7 @@ function exportFile(forms: Form[], type = 'leave') {
         l.totruong,
         l.quandoc,
         l.lanhdao,
+        l.giora ? Number(diffHoursOut(l.giora, l.giovao || '').toFixed(1)) : '',
       ]),
     );
   }
