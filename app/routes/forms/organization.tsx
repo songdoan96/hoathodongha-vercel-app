@@ -15,10 +15,25 @@ export function meta() {
 export default function FormOrganizationPage() {
   const [queryDate, setQueryDate] = useState<string>();
 
+  const [date, setDate] = useState<string>();
+  const [month, setMonth] = useState<string>();
+
   function handleExportDate(queryDate?: string) {
     if (queryDate) {
       window.location.href =
         configuration().BACKEND_URL + "/forms/organization/export?date=" + queryDate;
+    }
+  }
+
+  function handleExport(type: string) {
+    console.log("🚀 ~ handleExport ~ type:", type);
+    if ((date || month) && type) {
+      window.location.href =
+        configuration().BACKEND_URL +
+        "/forms/organization/export-file?type=" +
+        type +
+        "&time=" +
+        (date || month);
     }
   }
   return (
@@ -26,7 +41,7 @@ export default function FormOrganizationPage() {
       <HeaderComponent>
         <HeaderTitle>Tổ chức</HeaderTitle>
       </HeaderComponent>
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 my-2 p-2 w-full">
+      {/* <div className="flex flex-col md:flex-row items-center justify-between gap-4 my-2 p-2 w-full">
         <div className="flex flex-col md:flex-row gap-4 flex-1">
           <div className="flex items-center gap-2">
             <h1 className="uppercase font-bold">Xuất theo ngày</h1>
@@ -72,6 +87,60 @@ export default function FormOrganizationPage() {
             <Download /> Ra cổng
           </Button>
         </div>
+      </div> */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 my-2 p-2 w-full">
+        <div className="flex flex-col md:flex-row gap-4 flex-1">
+          <div className="flex items-center gap-2">
+            <h1 className="uppercase font-bold">Xuất theo ngày</h1>
+            <Input
+              style={{ width: 200 }}
+              type="date"
+              onChange={(e) => {
+                setMonth("");
+                setDate(e.target.value);
+              }}
+              max={format(new Date(), "yyyy-MM-dd")}
+            />
+            {/* <Button color="blue" onClick={() => handleExportDate(queryDate)}>
+              <FileDown /> Xuất file
+            </Button> */}
+          </div>
+          <div className="flex items-center gap-2">
+            <h1 className="uppercase font-bold">Xuất theo tháng</h1>
+            <Input
+              style={{ width: 200 }}
+              type="month"
+              onChange={(e) => {
+                setDate("");
+                setMonth(e.target.value);
+              }}
+              max={format(new Date(), "yyyy-MM")}
+            />
+            {/* <Button color="blue" onClick={() => handleExportDate(queryDate)}>
+              <FileDown /> Xuất file
+            </Button> */}
+          </div>
+        </div>
+        {(date || month) && (
+          <div className="flex items-center gap-2">
+            <Button
+              className="inline-flex text-center font-semibold min-w-20 text-teal-100 bg-teal-500 hover:bg-teal-600 px-1 rounded"
+              onClick={() => {
+                handleExport("leave");
+              }}
+            >
+              <Download /> Nghỉ phép
+            </Button>
+            <Button
+              className="inline-flex text-center font-semibold min-w-20 text-pink-100 bg-pink-500 hover:bg-pink-600 px-1 rounded"
+              onClick={() => {
+                handleExport("out");
+              }}
+            >
+              <Download /> Ra cổng
+            </Button>
+          </div>
+        )}
       </div>
       <FormsListComponent />
     </div>
