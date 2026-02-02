@@ -1,7 +1,7 @@
 import axios from "axios";
 import configuration from "./configuration";
 import routers from "./routers";
-const API_BASE_URL = configuration().BACKEND_URL;
+export const API_BASE_URL = configuration().BACKEND_URL;
 
 export interface ApiError {
   message: string;
@@ -37,7 +37,7 @@ apiClient.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Add response interceptor for error handling
@@ -53,7 +53,7 @@ apiClient.interceptors.response.use(
 
     // return Promise.reject(error);
     throw new ApiClientError(message, status);
-  }
+  },
 );
 
 // export async function apiClient<T>(endpoint: string, options?: AxiosRequestConfig): Promise<T> {

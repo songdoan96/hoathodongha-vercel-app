@@ -1,87 +1,47 @@
-// import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-// import { useLocation, useNavigate } from "react-router";
-// import { toast } from "sonner";
-// import {
-//   apiAuthCreate,
-//   apiAuthDelete,
-//   apiAuthFindAll,
-//   apiAuthFindOne,
-//   apiAuthLogin,
-//   apiAuthMe,
-//   type AuthCreateDto,
-//   type AuthLoginDto,
-// } from "~/apis/auth.api";
-// import useAuthStore from "~/stores/auth-store";
-// import type { AuthType } from "~/types/auth-type";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  apiSalariesDetails,
+  apiSalaryCreateNote,
+  type SalaryCreateNoteDto,
+} from "~/apis/salaries.api";
+import type { SalariesType, SalaryNoteType } from "~/types/salaries-type";
+export const FORMS_QUERY_KEY = {
+  FIND_ALL: "salaries/FIND_ALL",
+  FIND_ONE: "salaries/FIND_ONE",
+  SECURITY: "salaries/SECURITY",
+  COUNT: "salaries/COUNT",
+  DETAIL: "salaries/DETAIL",
+};
 
-// const AUTH_QUERY_KEY = {
-//   FIND_ALL: "salaries/findAll",
-//   FIND_ONE: "salaries/findOne",
-// };
-
-// // const queryClient = useQueryClient();
-// export const useAuthLogin = () => {
-//   const { login } = useAuthStore();
-//   const navigate = useNavigate();
-//   const location = useLocation();
-//   return useMutation({
-//     mutationFn: async (formData: AuthLoginDto): Promise<AuthType & { token: string }> =>
-//       await apiAuthLogin(formData),
-//     onSuccess: (response) => {
-//       localStorage.setItem("token", response.token);
-//       login(response);
-//       toast.success("Đăng nhập thành công");
-//       navigate(location.state?.from || "/", {
-//         replace: true,
-//       });
-//     },
-//     onError: (error) => {
-//       toast.error(error.message);
-//     },
+// export const useSalariesDetail = (month: string) => {
+//   return useQuery<SalariesType[]>({
+//     queryKey: [FORMS_QUERY_KEY.DETAIL, month],
+//     queryFn: () => apiSalariesDetailsMonth(month),
+//     enabled: !!month,
 //   });
 // };
-
-// export const useAuthCreate = () => {
-//   return useMutation({
-//     mutationFn: async (formData: AuthCreateDto) => await apiAuthCreate(formData),
-//     onSuccess: () => {
-//       toast.success("Tạo thành công");
-//     },
-//     onError: (error) => {
-//       toast.error(error.message);
-//     },
-//   });
-// };
-
-// export const useAuthProfile = () => {
-//   return useQuery({
-//     queryKey: [AUTH_QUERY_KEY.PROFILE],
-//     queryFn: apiAuthMe,
-//   });
-// };
-// export const useAuthFindAll = () => {
-//   return useQuery({
-//     queryKey: [AUTH_QUERY_KEY.FIND_ALL],
-//     queryFn: apiAuthFindAll,
-//   });
-// };
-// export const useAuthFindOne = (id: string) => {
-//   return useQuery({
-//     queryKey: [AUTH_QUERY_KEY.FIND_ONE],
-//     queryFn: () => apiAuthFindOne(id),
-//     enabled: !!id,
-//   });
-// };
-// export const useAuthDelete = () => {
-//   const queryClient = useQueryClient();
-//   return useMutation({
-//     mutationFn: async (id: string) => await apiAuthDelete(id),
-//     onSuccess: () => {
-//       toast.success("Xóa thành công");
-//       queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY.FIND_ALL] });
-//     },
-//     onError: (error) => {
-//       toast.error(error.message);
-//     },
-//   });
-// };
+export const useSalariesDetails = ({
+  msnv,
+  cccd,
+  month,
+}: {
+  msnv: string;
+  cccd: string;
+  month: string;
+}) => {
+  return useQuery<{
+    salary: SalariesType;
+    note: SalaryNoteType[];
+  }>({
+    queryKey: [FORMS_QUERY_KEY.DETAIL, msnv, cccd, month],
+    queryFn: () => apiSalariesDetails({ msnv, cccd, month }),
+    enabled: !!msnv && !!cccd && !!month,
+  });
+};
+export const useSalaryCreateNote = () => {
+  return useMutation({
+    mutationFn: async (formData: SalaryCreateNoteDto) => await apiSalaryCreateNote(formData),
+    onSuccess: () => {},
+    onError: (error) => {},
+  });
+};

@@ -4,7 +4,10 @@ export interface SalariesDto {
   msnv: string;
   cccd: string;
 }
-
+export interface SalaryCreateNoteDto {
+  note: string;
+  salaryId: string;
+}
 const router = "/salaries";
 
 export const apiSalariesSearch = async ({
@@ -25,7 +28,36 @@ export const apiSalariesSearch = async ({
   });
   return data;
 };
-export const apiSalariesUpload = async (body) => {
-  const { data } = await apiClient.post(router + "/upload", body);
+export const apiSalariesUpload = async (body: any) => {
+  console.log("🚀 ~ apiSalariesUpload ~ body:", body);
+  const { data } = await apiClient.post(router + "/upload", body, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return data;
+};
+export const apiSalariesCheck = async (body: any) => {
+  const { data } = await apiClient.post(router + "/check", body);
+  return data;
+};
+export const apiSalariesDownloadFile = async () => {
+  const { data } = await apiClient.get(router + "/file-download");
+  return data;
+};
+export const apiSalariesDetails = async ({
+  msnv,
+  cccd,
+  month,
+}: {
+  msnv: string;
+  cccd: string;
+  month: string;
+}) => {
+  const { data } = await apiClient.get(
+    router + `/details?month=${month}&msnv=${msnv}&cccd=${cccd}`,
+  );
+  return data;
+};
+export const apiSalaryCreateNote = async (formData: SalaryCreateNoteDto) => {
+  const { data } = await apiClient.post(router + "/note", formData);
   return data;
 };

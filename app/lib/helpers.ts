@@ -46,3 +46,13 @@ export function checkFive5Minutes(time: Date) {
   const fiveMinutesAgo = subMinutes(new Date(), 5);
   return isAfter(createdDate, fiveMinutesAgo);
 }
+
+export function formatMoney1(money: number) {
+  return money.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+}
+export function formatMoney(amount: any) {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(amount);
+}
