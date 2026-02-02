@@ -72,63 +72,9 @@ model Form {
   @@map("forms")
 }
 
-// model Salary {
-//   id    String   @id @default(auto()) @map("_id") @db.ObjectId
-//   // employee   Employee @relation(fields: [employeeId], references: [id])
-//   // employeeId String   @db.ObjectId
-//   // year  Int
-//   month DateTime @db.Date()
-
-//   hoten String
-//   msnv  String
-//   to    String
-//   cccd  String
-
-//   luongToiThieu          Int
-//   ngayCongBinhThuong     Float
-//   gioCongCN              Float?
-//   gioCongTangCa          Float?
-//   gioCaBa                Float?
-//   luongSPTheoCongDoan    Int
-//   luongSPTrongGio        Int
-//   luongTangCaCNCaBa      Int
-//   caBaCaDem              Int?
-//   huanLuyencongNhanMoi   Int?
-//   gioNghiTangCa          Float?
-//   luongNghiAnTangCa      Int?
-//   luongHanhKinhPhuNu     Int?
-//   gioConBuThai           Float?
-//   gioBatDauMangThai      Float?
-//   luongTanTatConNho      Int?
-//   hoTroConNhoDuoiMotTuoi Int?
-//   hoTroCongNhanMoi       Int?
-//   luongPCCC              Int?
-//   luongChuyenCan         Int?
-//   luongTheoNgayCong      Int?
-//   luongXangXe            Int?
-//   gioNghiNgan            Float?
-//   luongNghiNgan          Int?
-//   luongConDiNhaTre       Int?
-//   luongHoTroBoSung       Int?
-//   luongPhuCapNongCaDem   Int?
-//   luongATVSPCCC          Int?
-//   // tongCongTienLuongSanPhamCanCuBu Float?
-//   luongBu                Int?
-//   hoanTraBHXHBHYT        Int?
-//   ngayCheDo              Float?
-//   ngayPhepNam            Float?
-//   luongPhepCheDo         Int?
-//   // tongCongTienLuong         Float?
-//   luongBocXep            Int?
-//   truLuongUng            Int?
-//   truBHXH                Int?
-//   // tienLuongThucLinhCuoiKy Float?
-
-//   @@map("salaries")
-// }
 model Salary {
   id    String   @id @default(auto()) @map("_id") @db.ObjectId
-  month DateTime @db.Date()
+  thang DateTime @db.Date
   to    String
   cccd  String
   msnv  String
@@ -147,7 +93,7 @@ model Salary {
   tong_cong_tien_luong_sp                        Int?
   so_gio_nghi_tang_ca                            Float?
   tien_luong_nghi_an_tang_ca                     Int?
-  tien_luong_hanh_kinh_nu                        Int?
+  tien_luong_1h5_hanh_kinh_nu                    Int?
   so_gio_thai_duoi_7_thang                       Float?
   so_gio_cho_con_bu_thai_tren_7_thang            Float?
   tien_luong_1h_cho_con_bu                       Int?
@@ -163,7 +109,28 @@ model Salary {
   ho_tro_luong                                   Int?
   phu_cap_nong                                   Int?
   bo_sung_luong                                  Int?
+  tong_cong_tien_luong_sp_bu_luong_toi_thieu     Int?
+  tien_luong_bu                                  Int?
+  hoan_tra_bhxh_bhtn_bhyt                        Int?
+  ngay_che_do                                    Float?
+  ngay_phep_nam                                  Float?
+  tien_luong_phep                                Int?
   tong_cong_tien_luong                           Int?
+  boc_xep                                        Int?
+  tru_ung_truy_thu                               Int?
+  bhxh_bhtn_bhyt                                 Int?
+  tien_luong_thuc_linh                           Int?
+  salaryNotes                                    SalaryNote[]
 
   @@map("salaries")
+}
+
+model SalaryNote {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  salary   Salary  @relation(fields: [salaryId], references: [id], onDelete: Cascade)
+  salaryId String
+  note     String
+  done     Boolean @default(false)
+
+  @@map("salary_notes")
 }
