@@ -64,4 +64,9 @@ export class SalariesController {
   async salaryNote(@Body() salariesCreateNoteDto: SalariesCreateNoteDto) {
     return this.salariesService.salaryNote(salariesCreateNoteDto);
   }
+
+  @Get('get-by-month')
+  async getSalariesByMonth(@Query('month') month: string) {
+    return this.salariesService.getSalariesByMonth(month);
+  }
 }

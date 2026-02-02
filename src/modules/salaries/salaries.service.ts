@@ -42,7 +42,7 @@ export class SalariesService {
           lte: endOfMonth(date),
         },
       },
-      orderBy: { thang: 'desc' },
+      orderBy: [{ thang: 'desc' }, { id: 'desc' }],
     });
     if (!salary) return { salary: null, note: [] };
     const note = await this.prisma.salaryNote.findMany({
@@ -60,5 +60,22 @@ export class SalariesService {
     return await this.prisma.salaryNote.create({
       data: salariesCreateNoteDto,
     });
+  }
+
+  async getSalariesByMonth(month: string) {
+    const date = new Date(month);
+    const salaries = await this.prisma.salary.findMany({
+      where: {
+        thang: {
+          gt: startOfMonth(date),
+          lte: endOfMonth(date),
+        },
+      },
+      include: {
+        salaryNotes: true,
+      },
+      orderBy: [{ thang: 'desc' }, { id: 'desc' }],
+    });
+    return salaries;
   }
 }
