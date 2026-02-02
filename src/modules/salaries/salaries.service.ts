@@ -26,6 +26,7 @@ export class SalariesService {
       },
       orderBy: { id: 'desc' },
     });
+
     if (!salary)
       throw new NotFoundException('Không tìm thấy thông tin tra cứu');
     return salary;
