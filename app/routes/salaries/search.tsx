@@ -19,7 +19,15 @@ import routers from "~/lib/routers";
 import { SalariesSchema, type SalariesSchemaType } from "~/schemas/salaries.schema";
 
 export function meta() {
-  return [{ title: "Tra cứu lương" }, { name: "description", content: "Tra cứu lương" }];
+  return [
+    {
+      title: "Tra cứu lương",
+    },
+    {
+      name: "description",
+      content: "Tra cứu lương",
+    },
+  ];
 }
 export default function SalariesSearch() {
   const navigate = useNavigate();
@@ -28,7 +36,7 @@ export default function SalariesSearch() {
     defaultValues: {
       msnv: "",
       cccd: "",
-      month: format(new Date(), "yyyy-MM"),
+      // month: format(new Date(), "yyyy-MM"),
     },
   });
   const mutation = useMutation({
@@ -40,7 +48,7 @@ export default function SalariesSearch() {
           "&cccd=" +
           res.cccd +
           "&month=" +
-          form.getValues("month"),
+          format(new Date(res.thang), "yyyy-MM"),
       );
     },
     onError: (error) => {
@@ -52,8 +60,8 @@ export default function SalariesSearch() {
     mutation.mutate(values);
   }
   return (
-    <div className="bg-[#ebeaea] h-screen w-screen flex justify-center items-center p-2">
-      <div className="w-full md:w-1/3 h-full md:h-2/3 mx-auto border bg-white rounded-xl overflow-hidden shadow-2xl">
+    <div className="bg-[#ebeaea] h-screen w-screen flex justify-center items-center p-2 md:py-8">
+      <div className="w-full md:w-1/3 mx-auto border bg-white rounded-xl overflow-hidden shadow-2xl">
         <div className="flex items-center w-full bg-blue-600 text-white p-2">
           <Link to={"/"}>
             <img src="/images/logo.png" className="w-10" alt="" />
@@ -80,7 +88,7 @@ export default function SalariesSearch() {
                   <FormItem>
                     <FormLabel className="font-bold">MSNV:</FormLabel>
                     <FormControl>
-                      <Input {...field} required />
+                      <Input {...field} required autoComplete="on" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -93,13 +101,13 @@ export default function SalariesSearch() {
                   <FormItem>
                     <FormLabel className="font-bold">CCCD:</FormLabel>
                     <FormControl>
-                      <Input {...field} required />
+                      <Input {...field} required autoComplete="on" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="month"
                 render={({ field }) => (
@@ -111,13 +119,13 @@ export default function SalariesSearch() {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
             </div>
 
             <div className="flex gap-4 justify-center items-center w-full col-span-2 mt-8">
               <Button
                 asChild
-                className="bg-red-500 hover:bg-red-600 cursor-pointer"
+                className="bg-red-500 hover:bg-red-600 cursor-pointer min-w-[100px]"
                 onClick={() => navigate(routers().main.home)}
               >
                 <span>Quay lại</span>
@@ -125,7 +133,7 @@ export default function SalariesSearch() {
               <Button
                 disabled={mutation.isPending}
                 type="submit"
-                className="bg-teal-500 hover:bg-teal-600"
+                className="bg-teal-500 hover:bg-teal-600 min-w-[100px]"
               >
                 Tra cứu
               </Button>

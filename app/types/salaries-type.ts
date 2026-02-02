@@ -45,6 +45,8 @@ export interface SalariesType {
   tru_ung_truy_thu?: number | null;
   bhxh_bhtn_bhyt?: number | null;
   tien_luong_thuc_linh: number;
+
+  salaryNotes?: SalaryNoteType[];
 }
 export interface SalaryNoteType {
   id: string;

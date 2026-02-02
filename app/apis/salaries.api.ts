@@ -29,7 +29,6 @@ export const apiSalariesSearch = async ({
   return data;
 };
 export const apiSalariesUpload = async (body: any) => {
-  console.log("🚀 ~ apiSalariesUpload ~ body:", body);
   const { data } = await apiClient.post(router + "/upload", body, {
     headers: { "Content-Type": "multipart/form-data" },
   });
@@ -59,5 +58,9 @@ export const apiSalariesDetails = async ({
 };
 export const apiSalaryCreateNote = async (formData: SalaryCreateNoteDto) => {
   const { data } = await apiClient.post(router + "/note", formData);
+  return data;
+};
+export const apiSalariesDetailsMonth = async (month: string) => {
+  const { data } = await apiClient.get(router + `/get-by-month?month=${month}`);
   return data;
 };

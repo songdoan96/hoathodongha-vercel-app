@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   apiSalariesDetails,
+  apiSalariesDetailsMonth,
   apiSalaryCreateNote,
   type SalaryCreateNoteDto,
 } from "~/apis/salaries.api";
@@ -11,15 +12,9 @@ export const FORMS_QUERY_KEY = {
   SECURITY: "salaries/SECURITY",
   COUNT: "salaries/COUNT",
   DETAIL: "salaries/DETAIL",
+  DETAIL_ALL: "salaries/DETAIL_ALL",
 };
 
-// export const useSalariesDetail = (month: string) => {
-//   return useQuery<SalariesType[]>({
-//     queryKey: [FORMS_QUERY_KEY.DETAIL, month],
-//     queryFn: () => apiSalariesDetailsMonth(month),
-//     enabled: !!month,
-//   });
-// };
 export const useSalariesDetails = ({
   msnv,
   cccd,
@@ -43,5 +38,12 @@ export const useSalaryCreateNote = () => {
     mutationFn: async (formData: SalaryCreateNoteDto) => await apiSalaryCreateNote(formData),
     onSuccess: () => {},
     onError: (error) => {},
+  });
+};
+export const useSalariesDetail = (month: string) => {
+  return useQuery<SalariesType[]>({
+    queryKey: [FORMS_QUERY_KEY.DETAIL_ALL, month],
+    queryFn: () => apiSalariesDetailsMonth(month),
+    enabled: !!month,
   });
 };

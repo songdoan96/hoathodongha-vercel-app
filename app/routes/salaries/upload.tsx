@@ -1,14 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
-import { format } from "date-fns";
+import { format, subMonths } from "date-fns";
 import { Columns4, Download, FileInput } from "lucide-react";
 import { useState, type ChangeEvent } from "react";
 import { Link } from "react-router";
 import { toast } from "sonner";
 import { apiSalariesUpload } from "~/apis/salaries.api";
 import { API_BASE_URL } from "~/lib/api-client";
-
+export function meta() {
+  return [
+    { title: "Tải lương lên hệ thống" },
+    { name: "description", content: "Tải lương lên hệ thống" },
+  ];
+}
 export default function Upload() {
-  const [month, setMonth] = useState(format(new Date(), "yyyy-MM"));
+  const [month, setMonth] = useState(format(subMonths(new Date(), 1), "yyyy-MM"));
   const mutation = useMutation({
     mutationFn: apiSalariesUpload,
     onSuccess: () => {
@@ -49,7 +54,7 @@ export default function Upload() {
           </h1>
         </div>
 
-        <Link to={"/luong/chitiet?month=" + month} className="text-white flex items-center gap-1">
+        <Link to={"/luong/thongtin?month=" + month} className="text-white flex items-center gap-1">
           <Columns4 />
           <span>Chi tiết</span>
         </Link>
@@ -68,7 +73,7 @@ export default function Upload() {
               <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="mt-2 col-span-full">
                   <label htmlFor="month" className="block text-sm/6 font-medium text-gray-900 mb-2">
-                    Tháng
+                    Lương tháng
                   </label>
                   <input
                     id="month"

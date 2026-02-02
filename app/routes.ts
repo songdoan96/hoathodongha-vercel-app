@@ -22,8 +22,9 @@ export default [
 
   ...prefix("luong", [
     index("./routes/salaries/search.tsx"),
-    route("/tai-len", "./routes/salaries/upload.tsx"),
     route("/chitiet", "./routes/salaries/details.tsx"),
+    route("/tai-len", "./routes/salaries/upload.tsx"),
+    route("/thongtin", "./routes/salaries/info.tsx"),
   ]),
 
   layout("./components/providers/PrivateProvider.tsx", [

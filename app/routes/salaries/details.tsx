@@ -8,6 +8,13 @@ import { Input } from "~/components/ui/input";
 import { useSalariesDetails, useSalaryCreateNote } from "~/hooks/salaries-hook";
 import { formatMoney } from "~/lib/helpers";
 
+export function meta() {
+  return [
+    { title: "Chi tiết lương trong tháng" },
+    { name: "description", content: "Chi tiết lương trong tháng" },
+  ];
+}
+
 function SalaryDetailsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const mutationCreateNote = useSalaryCreateNote();
@@ -42,14 +49,11 @@ function SalaryDetailsPage() {
     <div className="bg-[#ebeaea] h-full w-full min-h-screen py-2">
       <div className="min-h-screen p-2 sm:px-6 lg:px-8 font-sans">
         <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-lg overflow-hidden border border-gray-200">
-          <div className="bg-blue-600 text-white p-2 text-center font-bold tracking-wide flex gap-8 md:gap-8 items-center justify-between">
+          <div className="bg-blue-600 text-white p-2 text-center font-bold tracking-wide flex flex-col gap-2 items-center justify-between">
             <Link to={"/"}>
               <img src="/images/logo.png" className="w-12" alt="" />
             </Link>
-            <div className="flex flex-col justify-center items-center flex-1 md:flex-row text-2xl md:text-3xl gap-0 md:gap-2">
-              <span>CÔNG TY MAY</span>
-              <span>HOÀ THỌ ĐÔNG HÀ</span>
-            </div>
+            <h1 className="text-2xl md:text-3xl">CÔNG TY MAY HOÀ THỌ ĐÔNG HÀ</h1>
           </div>
           <div className="p-4 md:px-8">
             <div className="text-center mb-8 flex gap-2 md:gap-8 justify-center items-center">
@@ -64,7 +68,7 @@ function SalaryDetailsPage() {
               >
                 <ArrowLeftSquareIcon color="#f00" />
               </button>
-              <h1 className="text-2xl font-bold uppercase tracking-wider">
+              <h1 className="text-xl font-bold uppercase tracking-wider">
                 PHIẾU CHI TIẾT LƯƠNG THÁNG {format(month, "MM/yyyy")}
               </h1>
               <button
@@ -341,7 +345,7 @@ function SalaryDetailsPage() {
                 </div>
               </>
             ) : (
-              <div className="text-center justify-center font-semibold text-red-700 text-2xl flex gap-4 items-center my-8">
+              <div className="text-center justify-center font-semibold text-red-700 text-2xl flex gap-4 items-center my-12 border-2 border-red-700 py-8 rounded-xl">
                 <Ban /> <span>Không tìm thấy thông tin tra cứu</span>
               </div>
             )}
