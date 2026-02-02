@@ -47,7 +47,7 @@ function Home() {
               Duyệt đơn
             </Link>
           </div>
-          <div className="bg-gray-50 min-w-52 border-2 border-orange-600 flex flex-col justify-center items-center rounded ">
+          <div className="bg-gray-50 min-w-52 border-2 border-orange-600 flex flex-col justify-center items-center rounded hidden">
             <div className="bg-blue-100 rounded-full p-2 w-20 h-20 flex justify-center items-center my-4">
               <DollarSign color="blue" size={30} className="" />
             </div>
