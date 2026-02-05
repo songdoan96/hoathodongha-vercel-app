@@ -16,6 +16,7 @@ import { SalariesCheckDto, SalariesCreateNoteDto } from './salaries.dto';
 import { createReadStream } from 'fs';
 import { join } from 'path';
 import type { Response } from 'express';
+import { Salary } from '../../../generated/prisma';
 @Controller('salaries')
 export class SalariesController {
   constructor(private readonly salariesService: SalariesService) {}
@@ -23,12 +24,12 @@ export class SalariesController {
   @UseInterceptors(FileInterceptor('file'))
   async uploadExcel(
     @UploadedFile() file: Express.Multer.File,
-    @Body() body: any,
+    @Body() body: { month: string },
   ) {
     const workbook = read(file.buffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
-    const rows = utils.sheet_to_json(sheet);
+    const rows: Salary[] = utils.sheet_to_json(sheet);
     return this.salariesService.upfile(rows, body);
   }
 

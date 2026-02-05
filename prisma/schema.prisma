@@ -134,3 +134,11 @@ model SalaryNote {
 
   @@map("salary_notes")
 }
+
+model FCMToken {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  token String
+  msnv  String @unique
+
+  @@map("fcm_tokens")
+}

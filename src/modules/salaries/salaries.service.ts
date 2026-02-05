@@ -2,12 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { endOfMonth, startOfMonth } from 'date-fns';
 import { PrismaService } from '../prisma/prisma.service';
 import { SalariesCheckDto, SalariesCreateNoteDto } from './salaries.dto';
+import { Salary } from '../../../generated/prisma';
 
 @Injectable()
 export class SalariesService {
   constructor(private readonly prisma: PrismaService) {}
-  async upfile(rows: any, body: any) {
-    const data = rows.map((item) => ({
+  async upfile(rows: Salary[], body: { month: string }) {
+    const data = rows.map((item: Salary) => ({
       ...item,
       thang: new Date(body.month),
       cccd: String(item.cccd),
@@ -19,16 +20,25 @@ export class SalariesService {
   }
   async checkSalary(salariesCheckDto: SalariesCheckDto) {
     salariesCheckDto.msnv = salariesCheckDto.msnv.trim().replace(/dh/gi, '');
+    const { cccd, msnv, token } = salariesCheckDto;
     const salary = await this.prisma.salary.findFirst({
       where: {
-        msnv: salariesCheckDto.msnv,
-        cccd: salariesCheckDto.cccd,
+        msnv,
+        cccd,
       },
       orderBy: { id: 'desc' },
     });
 
     if (!salary)
       throw new NotFoundException('Không tìm thấy thông tin tra cứu');
+    if (token) {
+      await this.prisma.fCMToken.upsert({
+        where: { msnv },
+        update: { token },
+        create: { token, msnv },
+      });
+    }
+
     return salary;
   }
 
