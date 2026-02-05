@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { format } from "date-fns";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -15,8 +16,13 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { getFCMToken } from "~/lib/firebase";
 import routers from "~/lib/routers";
-import { SalariesSchema, type SalariesSchemaType } from "~/schemas/salaries.schema";
+import {
+  SalariesSchema,
+  type SalariesSchemaType,
+} from "~/schemas/salaries.schema";
+import useSalaryStore from "~/stores/salary-store";
 
 export function meta() {
   return [
@@ -30,6 +36,8 @@ export function meta() {
   ];
 }
 export default function SalariesSearch() {
+  const { setSalary } = useSalaryStore();
+  const [token, setToken] = useState<string | null>(null);
   const navigate = useNavigate();
   const form = useForm<SalariesSchemaType>({
     resolver: zodResolver(SalariesSchema),
@@ -39,17 +47,32 @@ export default function SalariesSearch() {
       // month: format(new Date(), "yyyy-MM"),
     },
   });
+  useEffect(() => {
+    const requestPermission = async () => {
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        const fcmToken = await getFCMToken();
+        console.log("🚀 ~ requestPermission ~ fcmToken:", fcmToken);
+        if (fcmToken) {
+          setToken(fcmToken);
+        }
+      }
+    };
+    requestPermission();
+  }, []);
   const mutation = useMutation({
     mutationFn: apiSalariesCheck,
     onSuccess: (res) => {
-      navigate(
-        "/luong/chitiet?msnv=" +
-          res.msnv +
-          "&cccd=" +
-          res.cccd +
-          "&month=" +
-          format(new Date(res.thang), "yyyy-MM"),
-      );
+      // navigate(
+      //   "/luong/chitiet?msnv=" +
+      //     res.msnv +
+      //     "&cccd=" +
+      //     res.cccd +
+      //     "&month=" +
+      //     format(new Date(res.thang), "yyyy-MM"),
+      // );
+      navigate("/luong/chitiet");
+      setSalary({ msnv: res.msnv, cccd: res.cccd });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -57,7 +80,10 @@ export default function SalariesSearch() {
   });
 
   function onSubmit(values: SalariesSchemaType) {
-    mutation.mutate(values);
+    mutation.mutate({
+      ...values,
+      token,
+    });
   }
   return (
     <div className="bg-[#ebeaea] h-screen w-screen flex justify-center items-center p-2 md:py-8">

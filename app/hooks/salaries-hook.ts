@@ -35,7 +35,8 @@ export const useSalariesDetails = ({
 };
 export const useSalaryCreateNote = () => {
   return useMutation({
-    mutationFn: async (formData: SalaryCreateNoteDto) => await apiSalaryCreateNote(formData),
+    mutationFn: async (formData: SalaryCreateNoteDto) =>
+      await apiSalaryCreateNote(formData),
     onSuccess: () => {},
     onError: (error) => {},
   });
