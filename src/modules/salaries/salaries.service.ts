@@ -1,12 +1,22 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { endOfMonth, startOfMonth } from 'date-fns';
+import {
+  endOfMonth,
+  endOfYear,
+  format,
+  startOfMonth,
+  startOfYear,
+} from 'date-fns';
+import { Salary } from '../../../generated/prisma';
+import { FirebaseService } from '../firebase/firebase.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { SalariesCheckDto, SalariesCreateNoteDto } from './salaries.dto';
-import { Salary } from '../../../generated/prisma';
 
 @Injectable()
 export class SalariesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly firebaseService: FirebaseService,
+  ) {}
   async upfile(rows: Salary[], body: { month: string }) {
     const data = rows.map((item: Salary) => ({
       ...item,
@@ -44,6 +54,19 @@ export class SalariesService {
 
   async details(msnv: string, cccd: string, month: string) {
     const date = new Date(month);
+    const salaries = await this.prisma.salary.findMany({
+      where: {
+        msnv,
+        cccd,
+        thang: {
+          gt: startOfYear(date),
+          lte: endOfYear(date),
+        },
+      },
+      select: {
+        tien_luong_thuc_linh: true,
+      },
+    });
     const salary = await this.prisma.salary.findFirst({
       where: {
         msnv,
@@ -53,18 +76,14 @@ export class SalariesService {
           lte: endOfMonth(date),
         },
       },
-      orderBy: [{ thang: 'desc' }, { id: 'desc' }],
-    });
-    if (!salary) return { salary: null, note: [] };
-    const note = await this.prisma.salaryNote.findMany({
-      where: {
-        salaryId: salary?.id,
+      include: {
+        salaryNotes: true,
+      },
+      orderBy: {
+        thang: 'desc',
       },
     });
-    return {
-      salary,
-      note,
-    };
+    return { salary, salaries };
   }
 
   async salaryNote(salariesCreateNoteDto: SalariesCreateNoteDto) {
@@ -88,5 +107,20 @@ export class SalariesService {
       orderBy: [{ thang: 'desc' }, { id: 'desc' }],
     });
     return salaries;
+  }
+  async sendNotification() {
+    const tokens = await this.prisma.fCMToken.findMany({
+      select: {
+        token: true,
+      },
+    });
+    await this.firebaseService.sendToMultipleDevices(
+      tokens.map((t) => t.token),
+      {
+        title: 'Công ty may Hòa Thọ Đông Hà',
+        body: 'Đã có thông tin lương tháng ' + format(new Date(), 'MM/yyyy'),
+        link: 'https://hoathodongha.vercel.app/tao-don/luong',
+      },
+    );
   }
 }

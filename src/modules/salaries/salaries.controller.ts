@@ -70,4 +70,9 @@ export class SalariesController {
   async getSalariesByMonth(@Query('month') month: string) {
     return this.salariesService.getSalariesByMonth(month);
   }
+
+  @Post('send-notification')
+  async sendNotification() {
+    return this.salariesService.sendNotification();
+  }
 }
