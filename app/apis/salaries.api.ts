@@ -64,3 +64,7 @@ export const apiSalariesDetailsMonth = async (month: string) => {
   const { data } = await apiClient.get(router + `/get-by-month?month=${month}`);
   return data;
 };
+export const apiSalariesSendNotification = async () => {
+  const { data } = await apiClient.post(router + `/send-notification`);
+  return data;
+};

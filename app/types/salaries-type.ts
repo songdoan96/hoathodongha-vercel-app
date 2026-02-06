@@ -1,5 +1,5 @@
 export interface SalariesType {
-  id?: string;
+  id: string;
   thang: Date;
   to: string;
   cccd: string;

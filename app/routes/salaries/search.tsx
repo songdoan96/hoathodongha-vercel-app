@@ -52,7 +52,6 @@ export default function SalariesSearch() {
       const permission = await Notification.requestPermission();
       if (permission === "granted") {
         const fcmToken = await getFCMToken();
-        console.log("🚀 ~ requestPermission ~ fcmToken:", fcmToken);
         if (fcmToken) {
           setToken(fcmToken);
         }
@@ -71,7 +70,9 @@ export default function SalariesSearch() {
       //     "&month=" +
       //     format(new Date(res.thang), "yyyy-MM"),
       // );
-      navigate("/luong/chitiet");
+      navigate(
+        "/luong/chitiet?month=" + format(new Date(res.thang), "yyyy-MM"),
+      );
       setSalary({ msnv: res.msnv, cccd: res.cccd });
     },
     onError: (error) => {
@@ -88,18 +89,18 @@ export default function SalariesSearch() {
   return (
     <div className="bg-[#ebeaea] h-screen w-screen flex justify-center items-center p-2 md:py-8">
       <div className="w-full md:w-1/3 mx-auto border bg-white rounded-xl overflow-hidden shadow-2xl">
-        <div className="flex items-center w-full bg-blue-600 text-white p-2">
+        <div className="flex flex-col md:flex-row gap-2 items-center w-full bg-blue-600 text-white p-0.5 md:p-2">
           <Link to={"/"}>
             <img src="/images/logo.png" className="w-10" alt="" />
           </Link>
-          <h1 className="font-bold text-2xl text-center flex-1 uppercase">
+          <h1 className="font-bold text-[18px] md:text-2xl text-center flex-1 uppercase">
             Công ty may Hòa Thọ Đông Hà
           </h1>
         </div>
-        <h1 className="my-4 font-bold uppercase text-center text-2xl text-blue-600">
+        <h1 className="my-4 font-bold uppercase text-center text-xl md:text-2xl text-blue-600">
           Hệ thống tra cứu lương
         </h1>
-        <div className="px-4">
+        <div className="px-2 md:px-4">
           <p className="font-semibold text-center italic">
             Nhập mã số nhân viên và căn cước công dân để xem chi tiết lương
           </p>

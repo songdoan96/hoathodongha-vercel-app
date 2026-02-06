@@ -26,7 +26,6 @@ export default function FormOrganizationPage() {
   // }
 
   function handleExport(type: string) {
-    console.log("🚀 ~ handleExport ~ type:", type);
     if ((date || month) && type) {
       window.location.href =
         configuration().BACKEND_URL +

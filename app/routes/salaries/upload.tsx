@@ -1,10 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { format, subMonths } from "date-fns";
-import { Columns4, Download, FileInput } from "lucide-react";
+import { Bell, Columns4, Download, FileInput } from "lucide-react";
 import { useState, type ChangeEvent } from "react";
 import { Link } from "react-router";
 import { toast } from "sonner";
-import { apiSalariesUpload } from "~/apis/salaries.api";
+import { apiSalariesSendNotification, apiSalariesUpload } from "~/apis/salaries.api";
+import { Button } from "~/components/ui/button";
 import { API_BASE_URL } from "~/lib/api-client";
 export function meta() {
   return [
@@ -21,6 +22,15 @@ export default function Upload() {
     },
     onError: () => {
       toast.error("Tải không thành công");
+    },
+  });
+  const mutationSendNotification = useMutation({
+    mutationFn: apiSalariesSendNotification,
+    onSuccess: () => {
+      toast.success("Gửi thông báo thành công");
+    },
+    onError: () => {
+      toast.error("Gửi thông báo không thành công");
     },
   });
   const [file, setFile] = useState<File | null>(null);
@@ -53,7 +63,13 @@ export default function Upload() {
             Tải lương lên hệ thống
           </h1>
         </div>
-
+        <Button
+          onClick={() => mutationSendNotification.mutate()}
+          className="text-white flex items-center gap-1 mr-2"
+        >
+          <Bell />
+          <span>Gửi thông báo</span>
+        </Button>
         <Link to={"/luong/thongtin?month=" + month} className="text-white flex items-center gap-1">
           <Columns4 />
           <span>Chi tiết</span>
@@ -80,7 +96,7 @@ export default function Upload() {
                     type="month"
                     value={month}
                     onChange={(e) => setMonth(e.target.value)}
-                    max={format(new Date(), "yyyy-MM")}
+                    max={format(subMonths(new Date(), 1), "yyyy-MM")}
                     className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   />
                 </div>
