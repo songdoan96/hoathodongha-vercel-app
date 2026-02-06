@@ -114,13 +114,14 @@ export class SalariesService {
         token: true,
       },
     });
-    await this.firebaseService.sendToMultipleDevices(
-      tokens.map((t) => t.token),
-      {
-        title: 'Công ty may Hòa Thọ Đông Hà',
-        body: 'Đã có thông tin lương tháng ' + format(new Date(), 'MM/yyyy'),
-        link: 'https://hoathodongha.vercel.app/tao-don/luong',
-      },
-    );
+    if (tokens.length > 0)
+      await this.firebaseService.sendToMultipleDevices(
+        tokens.map((t) => t.token),
+        {
+          title: 'Công ty may Hòa Thọ Đông Hà',
+          body: 'Đã có thông tin lương tháng ' + format(new Date(), 'MM/yyyy'),
+          link: 'https://hoathodongha.vercel.app/tao-don/luong',
+        },
+      );
   }
 }
