@@ -8,6 +8,7 @@ import {
   StreamableFile,
   Res,
   Query,
+  Param,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { read, utils } from 'xlsx';
@@ -74,5 +75,10 @@ export class SalariesController {
   @Post('send-notification')
   async sendNotification() {
     return this.salariesService.sendNotification();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.salariesService.findOne(id);
   }
 }

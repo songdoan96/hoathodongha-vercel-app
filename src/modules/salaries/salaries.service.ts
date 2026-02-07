@@ -124,4 +124,12 @@ export class SalariesService {
         },
       );
   }
+  async findOne(id: string) {
+    return await this.prisma.salary.findUnique({
+      where: { id },
+      include: {
+        salaryNotes: true,
+      },
+    });
+  }
 }
