@@ -68,3 +68,7 @@ export const apiSalariesSendNotification = async () => {
   const { data } = await apiClient.post(router + `/send-notification`);
   return data;
 };
+export const apiSalariesFindOne = async (id: string) => {
+  const { data } = await apiClient.get(router + `/${id}`);
+  return data;
+};

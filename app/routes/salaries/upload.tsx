@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { format, subMonths } from "date-fns";
-import { Bell, Columns4, Download, FileInput } from "lucide-react";
+import { Bell, Download, FileInput, TableProperties } from "lucide-react";
 import { useState, type ChangeEvent } from "react";
 import { Link } from "react-router";
 import { toast } from "sonner";
@@ -71,7 +71,7 @@ export default function Upload() {
           <span>Gửi thông báo</span>
         </Button>
         <Link to={"/luong/thongtin?month=" + month} className="text-white flex items-center gap-1">
-          <Columns4 />
+          <TableProperties />
           <span>Chi tiết</span>
         </Link>
       </div>

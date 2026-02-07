@@ -1,12 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import {
   apiSalariesDetails,
   apiSalariesDetailsMonth,
+  apiSalariesFindOne,
   apiSalaryCreateNote,
   type SalaryCreateNoteDto,
 } from "~/apis/salaries.api";
 import type { SalariesType } from "~/types/salaries-type";
-export const FORMS_QUERY_KEY = {
+export const QUERY_KEY = {
   FIND_ALL: "salaries/FIND_ALL",
   FIND_ONE: "salaries/FIND_ONE",
   SECURITY: "salaries/SECURITY",
@@ -26,7 +28,7 @@ export const useSalariesDetails = ({
 }) => {
   return useQuery<{ salary: SalariesType; salaries: Pick<SalariesType, "tien_luong_thuc_linh">[] }>(
     {
-      queryKey: [FORMS_QUERY_KEY.DETAIL, msnv, cccd, month],
+      queryKey: [QUERY_KEY.DETAIL, msnv, cccd, month],
       queryFn: () => apiSalariesDetails({ msnv, cccd, month }),
       enabled: !!msnv && !!cccd && !!month,
     },
@@ -37,15 +39,23 @@ export const useSalaryCreateNote = () => {
   return useMutation({
     mutationFn: async (formData: SalaryCreateNoteDto) => await apiSalaryCreateNote(formData),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [FORMS_QUERY_KEY.DETAIL] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.DETAIL] });
+      toast.success("Gửi phản hồi thành công");
     },
     onError: (error) => {},
   });
 };
 export const useSalariesDetail = (month: string) => {
   return useQuery<SalariesType[]>({
-    queryKey: [FORMS_QUERY_KEY.DETAIL_ALL, month],
+    queryKey: [QUERY_KEY.DETAIL_ALL, month],
     queryFn: () => apiSalariesDetailsMonth(month),
     enabled: !!month,
+  });
+};
+export const useSalariesFindOne = (id: string) => {
+  return useQuery<SalariesType>({
+    queryKey: [QUERY_KEY.FIND_ONE, id],
+    queryFn: () => apiSalariesFindOne(id),
+    enabled: !!id,
   });
 };
