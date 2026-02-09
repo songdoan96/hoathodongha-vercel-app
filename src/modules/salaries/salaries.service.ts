@@ -59,7 +59,7 @@ export class SalariesService {
         msnv,
         cccd,
         thang: {
-          gt: startOfYear(date),
+          gte: startOfYear(date),
           lte: endOfYear(date),
         },
       },
@@ -72,7 +72,7 @@ export class SalariesService {
         msnv,
         cccd,
         thang: {
-          gt: startOfMonth(date),
+          gte: startOfMonth(date),
           lte: endOfMonth(date),
         },
       },
