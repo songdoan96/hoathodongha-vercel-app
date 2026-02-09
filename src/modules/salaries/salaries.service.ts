@@ -53,8 +53,17 @@ export class SalariesService {
   }
 
   async details(msnv: string, cccd: string, month: string) {
-    console.log('🚀 ~ SalariesService ~ details ~ msnv:', msnv, cccd, month);
     const date = new Date(month);
+    console.log('🚀 ~ SalariesService ~ details ~ msnv:', msnv, cccd, month);
+    console.log('month', {
+      gte: startOfMonth(date),
+      lte: endOfMonth(date),
+    });
+    console.log('year', {
+      gte: startOfYear(date),
+      lte: endOfYear(date),
+    });
+
     const salaries = await this.prisma.salary.findMany({
       where: {
         msnv,
