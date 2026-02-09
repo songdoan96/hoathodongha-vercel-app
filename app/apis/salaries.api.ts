@@ -72,3 +72,7 @@ export const apiSalariesFindOne = async (id: string) => {
   const { data } = await apiClient.get(router + `/${id}`);
   return data;
 };
+export const apiSalariesFeedback = async (month: string) => {
+  const { data } = await apiClient.get(router + `/feedback?month=${month}`);
+  return data;
+};

@@ -26,6 +26,7 @@ export default [
     route("/tailen", "./routes/salaries/upload.tsx"),
     route("/thongtin", "./routes/salaries/info.tsx"),
     route("/bangluong/:id", "./routes/salaries/salary-table.tsx"),
+    route("/phanhoi", "./routes/salaries/feedback.tsx"),
   ]),
 
   layout("./components/providers/PrivateProvider.tsx", [

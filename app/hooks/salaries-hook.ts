@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import {
   apiSalariesDetails,
   apiSalariesDetailsMonth,
+  apiSalariesFeedback,
   apiSalariesFindOne,
   apiSalaryCreateNote,
   type SalaryCreateNoteDto,
@@ -14,6 +15,7 @@ export const QUERY_KEY = {
   SECURITY: "salaries/SECURITY",
   COUNT: "salaries/COUNT",
   DETAIL: "salaries/DETAIL",
+  FEEDBACK: "salaries/FEEDBACK",
   DETAIL_ALL: "salaries/DETAIL_ALL",
 };
 
@@ -57,5 +59,12 @@ export const useSalariesFindOne = (id: string) => {
     queryKey: [QUERY_KEY.FIND_ONE, id],
     queryFn: () => apiSalariesFindOne(id),
     enabled: !!id,
+  });
+};
+export const useSalariesFeedback = (month: string) => {
+  return useQuery<SalariesType[]>({
+    queryKey: [QUERY_KEY.FEEDBACK, month],
+    queryFn: () => apiSalariesFeedback(month),
+    enabled: !!month,
   });
 };
