@@ -167,7 +167,7 @@ export default function SalariesSearch() {
         </div>
       </div>
 
-      <div className="w-full flex items-center justify-center py-2 absolute bottom-8">
+      <div className="w-full flex items-center justify-center py-2 mt-8">
         <div className="flex gap-4">
           <Link
             to="/tao-don"
