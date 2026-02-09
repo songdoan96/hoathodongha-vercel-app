@@ -107,7 +107,7 @@ export class SalariesService {
     const salaries = await this.prisma.salary.findMany({
       where: {
         thang: {
-          gt: startOfMonth(date),
+          gte: startOfMonth(date),
           lte: endOfMonth(date),
         },
       },
