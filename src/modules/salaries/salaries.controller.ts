@@ -77,6 +77,11 @@ export class SalariesController {
     return this.salariesService.sendNotification();
   }
 
+  @Get('feedback')
+  async getSalariesFeedback(@Query('month') month: string) {
+    return this.salariesService.getSalariesFeedback(month);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.salariesService.findOne(id);

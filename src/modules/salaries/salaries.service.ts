@@ -142,4 +142,43 @@ export class SalariesService {
       },
     });
   }
+
+  async getSalariesFeedback(month: string) {
+    const date = new Date(month);
+
+    const salaries = await this.prisma.salary.findMany({
+      where: {
+        salaryNotes: {
+          some: {
+            done: false,
+          },
+        },
+        thang: {
+          gte: startOfMonth(date),
+          lte: endOfMonth(date),
+        },
+      },
+      include: {
+        salaryNotes: true,
+        // id: true,
+        // msnv: true,
+        // hoten: true,
+        // to: true,
+      },
+      orderBy: [{ thang: 'desc' }, { id: 'asc' }],
+    });
+    console.log(
+      '🚀 ~ SalariesService ~ getSalariesFeedback ~ salaries:',
+      salaries,
+    );
+    return await this.prisma.salary.findMany({
+      where: {
+        thang: {
+          gt: startOfMonth(date),
+          lte: endOfMonth(date),
+        },
+        salaryNotes: { some: {} },
+      },
+    });
+  }
 }
