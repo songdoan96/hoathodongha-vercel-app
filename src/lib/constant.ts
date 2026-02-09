@@ -6,7 +6,6 @@ export interface FormLineType {
   needQuanDoc?: boolean;
   onlyLanhDao?: boolean;
 }
-
 export const linesList: FormLineType[] = [
   {
     value: 'X1_01',
