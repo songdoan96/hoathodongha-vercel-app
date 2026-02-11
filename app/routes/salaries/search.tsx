@@ -1,32 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { CircleUser, ClipboardPenLine, InfoIcon, LockKeyhole, Search } from "lucide-react";
+import { CircleUser, ClipboardPenLine, LockKeyhole, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { apiSalariesCheck } from "~/apis/salaries.api";
-import { Button } from "~/components/ui/button";
 import { Field, FieldLabel } from "~/components/ui/field";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-  InputGroupText,
-} from "~/components/ui/input-group";
+import { Form, FormField } from "~/components/ui/form";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "~/components/ui/input-group";
 import { getFCMToken } from "~/lib/firebase";
-import routers from "~/lib/routers";
 import { SalariesSchema, type SalariesSchemaType } from "~/schemas/salaries.schema";
 import useSalaryStore from "~/stores/salary-store";
 

@@ -2,7 +2,6 @@ import { format } from "date-fns";
 import { ClipboardPenLine, DollarSign } from "lucide-react";
 import { Link, useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
-import SalaryAddNote from "~/components/Salaries/SalaryAddNote";
 import SalaryDetail from "~/components/Salaries/SalaryDetail";
 import SalaryFeedbackChat from "~/components/Salaries/SalaryFeedbackChat";
 import SalaryFeedbackFormComponent from "~/components/Salaries/SalaryFeedbackForm";

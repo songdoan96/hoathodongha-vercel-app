@@ -1,7 +1,6 @@
 import { FileInput, MessageCircleQuestionMark, Search } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
-import SalaryFeedbackChatComponent from "~/components/Salaries/SalaryFeedbackChat";
 import { useSalariesDetail } from "~/hooks/salaries-hook";
 
 export function meta() {

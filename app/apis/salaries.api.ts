@@ -57,7 +57,7 @@ export const apiSalariesDetails = async ({
   );
   return data;
 };
-export const apiSalaryCreateNote = async (formData: SalaryCreateNoteDto) => {
+export const apiSalaryCreateNote = async (formData: SalaryCreateChatDto) => {
   const { data } = await apiClient.post(router + "/chat", formData);
   return data;
 };
