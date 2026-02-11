@@ -93,7 +93,7 @@ function SalariesSearch() {
           className="h-full w-full bg-contain absolute top-0 left-0 z-10"
         />
       </div>
-      <div className="bg-white flex-1 rounded-t-4xl -mt-6 z-50 flex justify-center items-center md:mt-20 md:border md:h-2/3 md:rounded-2xl md:my-auto">
+      <div className="bg-white h-full rounded-t-4xl -mt-6 z-50 flex justify-center items-center md:mt-20 md:border md:h-2/3 md:rounded-2xl md:my-auto">
         <div className="p-4 h-full w-full">
           <h1 className="font-black uppercase text-center text-xl md:text-2xl text-primary scale-y-150">
             Hệ thống tra cứu lương
