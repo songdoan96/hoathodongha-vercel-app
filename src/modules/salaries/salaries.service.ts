@@ -56,12 +56,13 @@ export class SalariesService {
   async checkSalary(salariesCheckDto: SalariesCheckDto) {
     salariesCheckDto.msnv = salariesCheckDto.msnv.trim().replace(/dh/gi, '');
     const { cccd, msnv, token } = salariesCheckDto;
-    const salary = await this.prisma.salary.findFirst({
+    const salary = await this.prisma.employee.findFirst({
       where: {
         msnv,
         cccd,
       },
       orderBy: { id: 'desc' },
+      select: { msnv: true, cccd: true },
     });
 
     if (!salary)
