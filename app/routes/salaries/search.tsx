@@ -34,7 +34,7 @@ export function meta() {
   ];
 }
 export default function SalariesSearch() {
-  const { setSalary } = useSalaryStore();
+  const { setSalary, cccd, msnv } = useSalaryStore();
   const [token, setToken] = useState<string | null>(null);
   const navigate = useNavigate();
   const form = useForm<SalariesSchemaType>({
@@ -42,8 +42,8 @@ export default function SalariesSearch() {
     defaultValues: {
       msnv: "",
       cccd: "",
-      // month: format(new Date(), "yyyy-MM"),
     },
+    values: { cccd, msnv },
   });
   useEffect(() => {
     const requestPermission = async () => {
@@ -60,14 +60,6 @@ export default function SalariesSearch() {
   const mutation = useMutation({
     mutationFn: apiSalariesCheck,
     onSuccess: (res) => {
-      // navigate(
-      //   "/luong/chitiet?msnv=" +
-      //     res.msnv +
-      //     "&cccd=" +
-      //     res.cccd +
-      //     "&month=" +
-      //     format(new Date(res.thang), "yyyy-MM"),
-      // );
       navigate("/luong/chitiet?month=" + format(new Date(res.thang), "yyyy-MM"));
       setSalary({ msnv: res.msnv, cccd: res.cccd });
     },
@@ -131,19 +123,6 @@ export default function SalariesSearch() {
                     </FormItem>
                   )}
                 />
-                {/* <FormField
-                control={form.control}
-                name="month"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-bold">Tháng:</FormLabel>
-                    <FormControl>
-                      <Input type="month" {...field} required />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
               </div>
 
               <div className="flex gap-4 justify-center items-center w-full col-span-2 mt-8">

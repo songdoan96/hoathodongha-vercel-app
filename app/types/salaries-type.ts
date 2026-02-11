@@ -50,6 +50,7 @@ export interface SalariesType {
 }
 export interface SalaryNoteType {
   id: string;
-  note: string;
-  done: boolean;
+  chat: string;
+  isEmployee: boolean;
+  createdAt: Date;
 }

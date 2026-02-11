@@ -4,9 +4,10 @@ export interface SalariesDto {
   msnv: string;
   cccd: string;
 }
-export interface SalaryCreateNoteDto {
-  note: string;
+export interface SalaryCreateChatDto {
+  chat: string;
   salaryId: string;
+  isEmployee?: boolean;
 }
 const router = "/salaries";
 
@@ -57,7 +58,7 @@ export const apiSalariesDetails = async ({
   return data;
 };
 export const apiSalaryCreateNote = async (formData: SalaryCreateNoteDto) => {
-  const { data } = await apiClient.post(router + "/note", formData);
+  const { data } = await apiClient.post(router + "/chat", formData);
   return data;
 };
 export const apiSalariesDetailsMonth = async (month: string) => {
@@ -73,6 +74,6 @@ export const apiSalariesFindOne = async (id: string) => {
   return data;
 };
 export const apiSalariesFeedback = async (month: string) => {
-  const { data } = await apiClient.get(router + `/feedback?month=${month}`);
+  const { data } = await apiClient.get(router + `/check/feedback?month=${month}`);
   return data;
 };

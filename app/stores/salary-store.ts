@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 interface SalaryState {
   msnv: string;
   cccd: string;
@@ -15,7 +15,7 @@ const useSalaryStore = create<SalaryState>()(
     }),
     {
       name: "salary-storage",
-      storage: createJSONStorage(() => sessionStorage),
+      // storage: createJSONStorage(() => sessionStorage),
     },
   ),
 );

@@ -5,6 +5,7 @@ import Loading from "~/components/Loading";
 import SalaryDetail from "~/components/Salaries/SalaryDetail";
 import { useSalariesFindOne } from "~/hooks/salaries-hook";
 import type { Route } from "./+types/salary-table";
+import SalaryFeedbackChat from "~/components/Salaries/SalaryFeedbackChat";
 export function meta() {
   return [
     { title: "PHIẾU CHI TIẾT LƯƠNG" },
@@ -45,12 +46,8 @@ function SalaryTable({ loaderData: id }: Route.ComponentProps) {
       {salary && (
         <div className="w-1/2 mx-auto mt-4">
           <SalaryDetail salary={salary} />
-          <div className="mt-4">
-            {salary.salaryNotes?.map((note) => (
-              <div key={note.id} className="border border-gray-300 p-2 my-2 rounded-md">
-                <p className="font-semibold">{note.note}</p>
-              </div>
-            ))}
+          <div className="mt-4 bg-gray-100 p-2">
+            <SalaryFeedbackChat salary={salary} />
           </div>
         </div>
       )}

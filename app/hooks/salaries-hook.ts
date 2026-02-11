@@ -6,7 +6,7 @@ import {
   apiSalariesFeedback,
   apiSalariesFindOne,
   apiSalaryCreateNote,
-  type SalaryCreateNoteDto,
+  type SalaryCreateChatDto,
 } from "~/apis/salaries.api";
 import type { SalariesType } from "~/types/salaries-type";
 export const QUERY_KEY = {
@@ -36,12 +36,13 @@ export const useSalariesDetails = ({
     },
   );
 };
-export const useSalaryCreateNote = () => {
+export const useSalaryCreateChat = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (formData: SalaryCreateNoteDto) => await apiSalaryCreateNote(formData),
+    mutationFn: async (formData: SalaryCreateChatDto) => await apiSalaryCreateNote(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.DETAIL] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FEEDBACK] });
       toast.success("Gửi phản hồi thành công");
     },
     onError: (error) => {},

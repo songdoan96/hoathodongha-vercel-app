@@ -1,20 +1,20 @@
 import React, { useState } from "react";
-import { useSalaryCreateNote } from "~/hooks/salaries-hook";
+import { useSalaryCreateChat } from "~/hooks/salaries-hook";
 import type { SalariesType } from "~/types/salaries-type";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
 function SalaryAddNote({ salary }: { salary: SalariesType }) {
-  const [note, setNote] = useState("");
-  const mutationCreateNote = useSalaryCreateNote();
+  const [chat, setChat] = useState("");
+  const mutationCreateNote = useSalaryCreateChat();
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (note) {
+    if (chat) {
       mutationCreateNote.mutate({
-        note,
+        chat,
         salaryId: salary.id,
       });
-      setNote("");
+      setChat("");
     }
   }
   return (
@@ -24,8 +24,8 @@ function SalaryAddNote({ salary }: { salary: SalariesType }) {
       </p>
       <form onSubmit={handleSubmit} className="flex items-center gap-4">
         <Input
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
+          value={chat}
+          onChange={(e) => setChat(e.target.value)}
           type="text"
           required
           className="border border-blue-500"
@@ -35,7 +35,7 @@ function SalaryAddNote({ salary }: { salary: SalariesType }) {
       <div className="mt-2 text-left w-full">
         {salary.salaryNotes?.map((note, idx) => (
           <div key={note.id} className="text-red-700 text-sm">
-            {idx + 1}. {note.note}
+            {idx + 1}. {note.chat}
           </div>
         ))}
       </div>

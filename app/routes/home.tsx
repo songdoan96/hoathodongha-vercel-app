@@ -14,9 +14,9 @@ function Home() {
       <img src="/images/bg.JPG" alt="BG" className="absolute w-full h-full z-10" />
       <div className="w-full h-full z-20 absolute opacity-80 bg-black"></div>
       <div className="absolute z-30 w-full h-full text-white flex flex-col justify-center items-center">
-        <div className="flex flex-col md:flex-row items-center gap-4">
-          <img src="/images/logo.png" alt="Logo" className="w-20" />
-          <span className="uppercase text-3xl text-white font-bold flex flex-col text-center md:hidden">
+        <div className="flex flex-col md:flex-row items-center gap-4 p-2">
+          <img src="/images/logo.png" alt="Logo" className="w-14 md:w-20" />
+          <span className="uppercase text-2xl text-white font-bold flex flex-col text-center md:hidden">
             <span>Công ty may</span>
             <span>Hòa Thọ Đông Hà</span>
           </span>
@@ -24,9 +24,9 @@ function Home() {
             Công ty may Hòa Thọ Đông Hà
           </span>
         </div>
-        <div className="flex flex-col md:flex-row justify-center items-center gap-8 uppercase text-xl text-center h-2/3">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 uppercase text-xl text-center h-full md:h-2/3">
           <div className="bg-gray-50 min-w-52 border-2 border-orange-600 flex flex-col justify-center items-center rounded">
-            <div className="bg-blue-100 rounded-full p-2 w-20 h-20 flex justify-center items-center my-4">
+            <div className="bg-blue-100 rounded-full p-2 w-10 h-10 md:w-20 md:h-20 flex justify-center items-center my-4">
               <ClipboardPenLine color="blue" size={30} className="" />
             </div>
             <Link
@@ -37,7 +37,7 @@ function Home() {
             </Link>
           </div>
           <div className="bg-gray-50 min-w-52 border-2 border-orange-600 flex flex-col justify-center items-center rounded">
-            <div className="bg-blue-100 rounded-full p-2 w-20 h-20 flex justify-center items-center my-4">
+            <div className="bg-blue-100 rounded-full p-2 w-10 h-10 md:w-20 md:h-20 flex justify-center items-center my-4">
               <Signature color="blue" size={30} className="" />
             </div>
             <Link
@@ -48,7 +48,7 @@ function Home() {
             </Link>
           </div>
           <div className="bg-gray-50 min-w-52 border-2 border-orange-600 flex flex-col justify-center items-center rounded">
-            <div className="bg-blue-100 rounded-full p-2 w-20 h-20 flex justify-center items-center my-4">
+            <div className="bg-blue-100 rounded-full p-2 w-10 h-10 md:w-20 md:h-20 flex justify-center items-center my-4">
               <DollarSign color="blue" size={30} className="" />
             </div>
             <Link to={"/luong"} className="font-bold bg-blue-500 w-full inline-block my-1 py-2">

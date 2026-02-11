@@ -1,6 +1,7 @@
 import { FileInput, Search } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
+import SalaryFeedbackChatComponent from "~/components/Salaries/SalaryFeedbackChat";
 import { useSalariesDetail } from "~/hooks/salaries-hook";
 
 export function meta() {
@@ -184,9 +185,6 @@ export default function SalaryInfoPage() {
               <th className="border border-black p-1" data-key="h44">
                 CCCD
               </th>
-              <th className="border border-black p-1" data-key="h44">
-                Phản hồi
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -327,13 +325,6 @@ export default function SalaryInfoPage() {
                 </td>
                 <td className="border border-black text-center p-1" data-hey="b44">
                   {salary.cccd}
-                </td>
-                <td className="border border-black text-center p-1" data-hey="b44">
-                  <div className="flex">
-                    {salary.salaryNotes?.map((note) => (
-                      <span key={note.id}>{note.note},</span>
-                    ))}
-                  </div>
                 </td>
               </tr>
             ))}

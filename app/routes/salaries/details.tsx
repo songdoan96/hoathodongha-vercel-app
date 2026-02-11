@@ -4,6 +4,8 @@ import { Link, useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
 import SalaryAddNote from "~/components/Salaries/SalaryAddNote";
 import SalaryDetail from "~/components/Salaries/SalaryDetail";
+import SalaryFeedbackChat from "~/components/Salaries/SalaryFeedbackChat";
+import SalaryFeedbackFormComponent from "~/components/Salaries/SalaryFeedbackForm";
 import { Input } from "~/components/ui/input";
 import { useSalariesDetails } from "~/hooks/salaries-hook";
 import { formatMoney } from "~/lib/helpers";
@@ -61,8 +63,15 @@ function SalaryDetailsPage() {
         {salary && (
           <>
             <SalaryDetail salary={salary} />
-            <div className="bg-white p-4 mt-4 shadow-lg">
-              <SalaryAddNote salary={salary} />
+            <div className="py-4 bg-white p-4 mt-4 shadow-lg">
+              <p className="text-red-700 text-sm md:text-base text-center font-semibold">
+                Lưu ý: Nếu CBCNV nào có thắc mắc vui lòng nhập nội dung vào bên dưới để khiếu nại.
+              </p>
+              <SalaryFeedbackChat salary={salary} />
+
+              <div className="flex justify-center items-center w-full md:w-2/3 mx-auto mt-2">
+                <SalaryFeedbackFormComponent id={salary.id} isEmployee={true} />
+              </div>
             </div>
           </>
         )}
