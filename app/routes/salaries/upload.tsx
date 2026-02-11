@@ -1,6 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { format, subMonths } from "date-fns";
-import { Bell, Download, FileInput, TableProperties } from "lucide-react";
+import {
+  Bell,
+  Download,
+  FileInput,
+  MessageCircleQuestionMark,
+  Search,
+  TableProperties,
+} from "lucide-react";
 import { useState, type ChangeEvent } from "react";
 import { Link } from "react-router";
 import { toast } from "sonner";
@@ -63,17 +70,33 @@ export default function Upload() {
             Tải lương lên hệ thống
           </h1>
         </div>
-        <Button
-          onClick={() => mutationSendNotification.mutate()}
-          className="text-white flex items-center gap-1 mr-2"
-        >
-          <Bell />
-          <span>Gửi thông báo</span>
-        </Button>
-        <Link to={"/luong/thongtin?month=" + month} className="text-white flex items-center gap-1">
-          <TableProperties />
-          <span>Chi tiết</span>
-        </Link>
+        <div className="flex gap-4">
+          <Link
+            to={"/luong/thongtin?month=" + month}
+            className="text-white flex items-center gap-1"
+          >
+            <TableProperties />
+            <span>Chi tiết</span>
+          </Link>
+          <Link to={"/luong"} className="text-white flex items-center gap-1">
+            <Search />
+            <span>Tra cứu</span>
+          </Link>
+          <Link to={"/luong/tailen"} className="text-white flex items-center gap-1">
+            <FileInput />
+            <span>Tải file lên</span>
+          </Link>
+          <Link to={"/luong/phanhoi"} className="text-white flex items-center gap-1">
+            <MessageCircleQuestionMark />
+            <span>Phản hồi</span>
+          </Link>
+          <Button
+            onClick={() => mutationSendNotification.mutate()}
+            className="text-white flex items-center gap-1"
+          >
+            <Bell />
+          </Button>
+        </div>
       </div>
       <div className="w-1/2 mx-auto border p-8 bg-white">
         <form onSubmit={handleSubmit}>
