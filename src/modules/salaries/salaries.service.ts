@@ -20,15 +20,38 @@ export class SalariesService {
     private readonly firebaseService: FirebaseService,
   ) {}
   async upfile(rows: Salary[], body: { month: string }) {
-    const data = rows.map((item: Salary) => ({
-      ...item,
-      thang: new Date(body.month),
-      cccd: String(item.cccd),
-      msnv: String(item.msnv).replace(/dh/gi, ''),
-    }));
-    return await this.prisma.salary.createMany({
-      data,
-    });
+    const month = new Date(body.month);
+    for (const item of rows) {
+      const msnv = String(item.msnv).replace(/dh/gi, '');
+      const cccd = String(item.cccd);
+      const employee = await this.prisma.employee.findUnique({
+        where: {
+          msnv,
+          cccd,
+        },
+      });
+      if (!employee)
+        await this.prisma.employee.create({
+          data: { msnv, cccd, hoten: item.hoten, bophan: item.to },
+        });
+      await this.prisma.salary.create({
+        data: {
+          ...item,
+          thang: month,
+          cccd,
+          msnv,
+        },
+      });
+    }
+    // const data = rows.map((item: Salary) => ({
+    //   ...item,
+    //   thang: month,
+    //   cccd: String(item.cccd),
+    //   msnv: String(item.msnv).replace(/dh/gi, ''),
+    // }));
+    // return await this.prisma.salary.createMany({
+    //   data,
+    // });
   }
   async checkSalary(salariesCheckDto: SalariesCheckDto) {
     salariesCheckDto.msnv = salariesCheckDto.msnv.trim().replace(/dh/gi, '');
@@ -44,10 +67,9 @@ export class SalariesService {
     if (!salary)
       throw new NotFoundException('Không tìm thấy thông tin tra cứu');
     if (token) {
-      await this.prisma.fCMToken.upsert({
+      await this.prisma.employee.update({
         where: { msnv },
-        update: { token },
-        create: { token, msnv },
+        data: { fcm_token: token },
       });
     }
 
@@ -56,15 +78,6 @@ export class SalariesService {
 
   async details(msnv: string, cccd: string, month: string) {
     const date = new Date(month);
-    console.log('🚀 ~ SalariesService ~ details ~ msnv:', msnv, cccd, month);
-    console.log('month', {
-      gte: startOfMonth(date),
-      lte: endOfMonth(date),
-    });
-    console.log('year', {
-      gte: startOfYear(date),
-      lte: endOfYear(date),
-    });
 
     const salaries = await this.prisma.salary.findMany({
       where: {
@@ -109,13 +122,13 @@ export class SalariesService {
         },
       });
       if (salary) {
-        const token = await this.prisma.fCMToken.findFirst({
+        const employee = await this.prisma.employee.findFirst({
           where: {
             msnv: salary.msnv,
           },
         });
-        if (token) {
-          await this.firebaseService.sendToDevice(token.token, {
+        if (employee?.fcm_token) {
+          await this.firebaseService.sendToDevice(employee.fcm_token, {
             title: 'Kế toán Hòa Thọ Đông Hà',
             body: salariesCreateNoteDto.chat,
             link: 'https://hoathodongha.vercel.app/tao-don/luong',
@@ -143,20 +156,18 @@ export class SalariesService {
     return salaries;
   }
   async sendNotification() {
-    const tokens = await this.prisma.fCMToken.findMany({
-      select: {
-        token: true,
+    const employees = await this.prisma.employee.findMany({
+      where: {
+        fcm_token: { not: null },
       },
+      select: { fcm_token: true },
     });
-    if (tokens.length > 0)
-      await this.firebaseService.sendToMultipleDevices(
-        tokens.map((t) => t.token),
-        {
-          title: 'Công ty may Hòa Thọ Đông Hà',
-          body: 'Đã có thông tin lương tháng ' + format(new Date(), 'MM/yyyy'),
-          link: 'https://hoathodongha.vercel.app/tao-don/luong',
-        },
-      );
+    const tokens = employees.map((employee) => employee.fcm_token || '');
+    await this.firebaseService.sendToMultipleDevices(tokens, {
+      title: 'Công ty may Hòa Thọ Đông Hà',
+      body: 'Đã có thông tin lương tháng ' + format(new Date(), 'MM/yyyy'),
+      link: 'https://hoathodongha.vercel.app/tao-don/luong',
+    });
   }
   async findOne(id: string) {
     return await this.prisma.salary.findUnique({

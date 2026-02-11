@@ -20,6 +20,8 @@ async function bootstrap() {
     // optionsSuccessStatus: 204,
   });
   app.setGlobalPrefix('api');
-  await app.listen(process.env.PORT ?? 8888);
+  await app.listen(process.env.PORT ?? 8888, () =>
+    console.log(`Server running at http://localhost:${process.env.PORT}`),
+  );
 }
 bootstrap();

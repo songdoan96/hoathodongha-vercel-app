@@ -34,11 +34,13 @@ model FormLeader {
 }
 
 model Employee {
-  id     String  @id @default(auto()) @map("_id") @db.ObjectId
-  msnv   String  @unique
-  hoten  String
-  bophan String?
-  active Boolean @default(true)
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  msnv      String  @unique
+  hoten     String
+  bophan    String?
+  active    Boolean @default(true)
+  fcm_token String?
+  cccd      String?
 
   @@map("employees")
 }
@@ -136,10 +138,10 @@ model SalaryNote {
   @@map("salary_notes")
 }
 
-model FCMToken {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  token String
-  msnv  String @unique
+// model FCMToken {
+//   id    String @id @default(auto()) @map("_id") @db.ObjectId
+//   token String
+//   msnv  String @unique
 
-  @@map("fcm_tokens")
-}
+//   @@map("fcm_tokens")
+// }
