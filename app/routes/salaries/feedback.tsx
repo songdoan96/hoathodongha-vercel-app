@@ -1,4 +1,5 @@
 import { format, subMonths } from "date-fns";
+import { FileInput, MessageCircleQuestionMark, Search } from "lucide-react";
 import { Link, useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
 import SalaryFeedbackChatComponent from "~/components/Salaries/SalaryFeedbackChat";
@@ -17,13 +18,13 @@ function SalaryFeedback() {
         <Link to="/luong">
           <img src="/images/logo.png" className="w-8 md:w-10" alt="Logo" />
         </Link>
-        <div className="flex-1 flex justify-end items-center">
+        <div className="flex-1 flex gap-8 justify-end items-center">
           <h1 className="text-white font-bold text-2xl text-center uppercase mx-auto">
             Phản hồi lương tháng <span className="bg-blue-50 text-blue-700 px-4">{month}</span>
           </h1>
           <Input
             type="month"
-            className="w-40 text-white"
+            className="w-46 text-white"
             value={month}
             onChange={(e) =>
               setSearchParams({
@@ -31,6 +32,18 @@ function SalaryFeedback() {
               })
             }
           />
+          <Link to={"/luong"} className="text-white flex items-center gap-1">
+            <Search />
+            <span>Tra cứu</span>
+          </Link>
+          <Link to={"/luong/tailen"} className="text-white flex items-center gap-1">
+            <FileInput />
+            <span>Tải file lên</span>
+          </Link>
+          <Link to={"/luong/phanhoi"} className="text-white flex items-center gap-1">
+            <MessageCircleQuestionMark />
+            <span>Phản hồi</span>
+          </Link>
         </div>
       </div>
       <div className="p-4">

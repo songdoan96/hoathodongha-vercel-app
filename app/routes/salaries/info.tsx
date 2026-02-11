@@ -1,4 +1,4 @@
-import { FileInput, Search } from "lucide-react";
+import { FileInput, MessageCircleQuestionMark, Search } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
 import SalaryFeedbackChatComponent from "~/components/Salaries/SalaryFeedbackChat";
@@ -47,6 +47,10 @@ export default function SalaryInfoPage() {
         <Link to={"/luong/tailen"} className="text-white flex items-center gap-1">
           <FileInput />
           <span>Tải file lên</span>
+        </Link>
+        <Link to={"/luong/phanhoi"} className="text-white flex items-center gap-1">
+          <MessageCircleQuestionMark />
+          <span>Phản hồi</span>
         </Link>
       </div>
       <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
