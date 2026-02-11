@@ -62,9 +62,9 @@ export class SalariesController {
     return this.salariesService.details(msnv, cccd, month);
   }
 
-  @Post('note')
+  @Post('chat')
   async salaryNote(@Body() salariesCreateNoteDto: SalariesCreateNoteDto) {
-    return this.salariesService.salaryNote(salariesCreateNoteDto);
+    return this.salariesService.salaryChat(salariesCreateNoteDto);
   }
 
   @Get('get-by-month')
@@ -77,7 +77,7 @@ export class SalariesController {
     return this.salariesService.sendNotification();
   }
 
-  @Get('feedback')
+  @Get('check/feedback')
   async getSalariesFeedback(@Query('month') month: string) {
     return this.salariesService.getSalariesFeedback(month);
   }

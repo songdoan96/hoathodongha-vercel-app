@@ -126,11 +126,12 @@ model Salary {
 }
 
 model SalaryNote {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  salary   Salary  @relation(fields: [salaryId], references: [id], onDelete: Cascade)
-  salaryId String
-  note     String
-  done     Boolean @default(false)
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  chat       String
+  isEmployee Boolean  @default(true)
+  salary     Salary   @relation(fields: [salaryId], references: [id])
+  salaryId   String   @db.ObjectId
+  createdAt  DateTime @default(now())
 
   @@map("salary_notes")
 }

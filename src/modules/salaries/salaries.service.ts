@@ -3,10 +3,12 @@ import {
   endOfMonth,
   endOfYear,
   format,
+  parse,
+  parseISO,
   startOfMonth,
   startOfYear,
 } from 'date-fns';
-import { Salary } from '../../../generated/prisma';
+import { Prisma, PrismaClient, Salary } from '../../../generated/prisma';
 import { FirebaseService } from '../firebase/firebase.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { SalariesCheckDto, SalariesCreateNoteDto } from './salaries.dto';
@@ -96,10 +98,32 @@ export class SalariesService {
     return { salary, salaries };
   }
 
-  async salaryNote(salariesCreateNoteDto: SalariesCreateNoteDto) {
-    return await this.prisma.salaryNote.create({
+  async salaryChat(salariesCreateNoteDto: SalariesCreateNoteDto) {
+    const salaryNote = await this.prisma.salaryNote.create({
       data: salariesCreateNoteDto,
     });
+    if (!salariesCreateNoteDto.isEmployee) {
+      const salary = await this.prisma.salary.findFirst({
+        where: {
+          id: salariesCreateNoteDto.salaryId,
+        },
+      });
+      if (salary) {
+        const token = await this.prisma.fCMToken.findFirst({
+          where: {
+            msnv: salary.msnv,
+          },
+        });
+        if (token) {
+          await this.firebaseService.sendToDevice(token.token, {
+            title: 'Kế toán Hòa Thọ Đông Hà',
+            body: salariesCreateNoteDto.chat,
+            link: 'https://hoathodongha.vercel.app/tao-don/luong',
+          });
+        }
+      }
+    }
+    return salaryNote;
   }
 
   async getSalariesByMonth(month: string) {
@@ -145,39 +169,16 @@ export class SalariesService {
 
   async getSalariesFeedback(month: string) {
     const date = new Date(month);
-
-    const salaries = await this.prisma.salary.findMany({
+    return await this.prisma.salary.findMany({
       where: {
-        salaryNotes: {
-          some: {
-            done: false,
-          },
-        },
         thang: {
           gte: startOfMonth(date),
           lte: endOfMonth(date),
         },
+        salaryNotes: { some: {} },
       },
       include: {
         salaryNotes: true,
-        // id: true,
-        // msnv: true,
-        // hoten: true,
-        // to: true,
-      },
-      orderBy: [{ thang: 'desc' }, { id: 'asc' }],
-    });
-    console.log(
-      '🚀 ~ SalariesService ~ getSalariesFeedback ~ salaries:',
-      salaries,
-    );
-    return await this.prisma.salary.findMany({
-      where: {
-        thang: {
-          gt: startOfMonth(date),
-          lte: endOfMonth(date),
-        },
-        salaryNotes: { some: {} },
       },
     });
   }
