@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { format } from "date-fns";
+import { format, subMonths } from "date-fns";
 import { CircleUser, ClipboardPenLine, LockKeyhole, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -53,7 +53,7 @@ function SalariesSearch() {
   const mutation = useMutation({
     mutationFn: apiSalariesCheck,
     onSuccess: (res) => {
-      navigate("/luong/chitiet?month=" + format(new Date(res.thang), "yyyy-MM"));
+      navigate("/luong/chitiet?month=" + format(subMonths(new Date(), 1), "yyyy-MM"));
       setSalary({ msnv: res.msnv, cccd: res.cccd });
     },
     onError: (error) => {
