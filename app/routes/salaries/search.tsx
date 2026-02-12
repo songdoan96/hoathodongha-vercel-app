@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { format, subMonths } from "date-fns";
-import { CircleUser, ClipboardPenLine, LockKeyhole, Search } from "lucide-react";
+import { CircleUser, ClipboardPenLine, Loader, LockKeyhole, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
@@ -11,6 +11,7 @@ import { Field, FieldLabel } from "~/components/ui/field";
 
 import { Form, FormField } from "~/components/ui/form";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/components/ui/input-group";
+import { Spinner } from "~/components/ui/spinner";
 import { getFCMToken } from "~/lib/firebase";
 import { SalariesSchema, type SalariesSchemaType } from "~/schemas/salaries.schema";
 import useSalaryStore from "~/stores/salary-store";
@@ -166,8 +167,14 @@ function SalariesSearch() {
                   type="submit"
                   className="flex justify-center items-center  gap-2 py-2 bg-teal-500 hover:bg-teal-600 w-full rounded-3xl"
                 >
-                  <span className="text-white uppercase text-[18px] font-bold">Tra cứu</span>
-                  <Search size={30} color="#fff" />
+                  {mutation.isPending ? (
+                    <Loader color="#fff" size={30} className="animate-spin" />
+                  ) : (
+                    <>
+                      <span className="text-white uppercase text-[18px] font-bold">Tra cứu</span>
+                      <Search size={30} color="#fff" />
+                    </>
+                  )}
                 </button>
               </div>
             </form>
