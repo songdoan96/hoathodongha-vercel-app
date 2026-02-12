@@ -176,7 +176,7 @@ export class FormsService {
       orderBy: {
         id: 'desc',
       },
-      take: 100,
+      take: 200,
     });
   }
 
