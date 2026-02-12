@@ -1,88 +1,66 @@
-import { useQuery } from "@tanstack/react-query";
-import { apiEmployeesFindByStaffId } from "~/apis/employees.api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import {
+  apiEmployeesCreate,
+  apiEmployeesDelete,
+  apiEmployeesFindAll,
+  apiEmployeesFindByStaffId,
+  apiEmployeesUpdate,
+} from "~/apis/employees.api";
+import type { EmployeeType } from "~/types/employee-type";
 
 const QUERY_KEY = {
   FIND_BY_STAFF_ID: "employees/findByStaffId",
+  FIND_ALL: "employees/FIND_ALL",
+  FIND_ONE: "employees/FIND_ONE",
+  CREATE: "employees/CREATE",
+  UPDATE: "employees/UPDATE",
+  DELETE: "employees/DELETE",
 };
 
-// export const useFormsCreate = () => {
-//   const queryClient = useQueryClient();
-//   const navigate = useNavigate();
-//   return useMutation({
-//     mutationFn: (formData: Partial<FormsType>) => apiFormCreate(formData),
-//     onSuccess: () => {
-//       toast.success("Tạo thành công");
-//       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
-//       navigate(routers().forms.index);
-//     },
-//     onError: () => {
-//       toast.error("Đã xảy ra lỗi, vui lòng thử lại");
-//     },
-//   });
-// };
-
-// export const useFormsFindAll = ({
-//   month,
-//   type,
-//   value,
-// }: {
-//   month: string;
-//   type?: string;
-//   value?: string;
-// }) =>
-//   useInfiniteQuery({
-//     queryKey: [QUERY_KEY.FIND_ALL, month, type, value],
-//     queryFn: ({ pageParam }) => apiFormsFindAll({ pageParam, month, type, value }),
-//     initialPageParam: undefined,
-//     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
-//   });
-
-// export const useFormsDelete = () => {
-//   const queryClient = useQueryClient();
-//   return useMutation({
-//     mutationFn: (id: string) => apiFormDelete(id),
-//     onSuccess: () => {
-//       toast.success("Xóa thành công");
-//       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
-//     },
-//     onError: () => {
-//       toast.error("Đã xảy ra lỗi, vui lòng thử lại");
-//     },
-//   });
-// };
-
-// export const useFormsUpdate = () => {
-//   const queryClient = useQueryClient();
-//   return useMutation({
-//     mutationFn: ({ id, formData }: { id: string; formData: Partial<FormsType> }) =>
-//       apiFormUpdate(id, formData),
-//     onSuccess: () => {
-//       toast.success("Cập nhật thành công");
-//       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
-//     },
-//     onError: () => {
-//       toast.error("Đã xảy ra lỗi, vui lòng thử lại");
-//     },
-//   });
-// };
-// export const useFormsSignature = () => {
-//   const queryClient = useQueryClient();
-//   return useMutation({
-//     mutationFn: ({ id, formData }: { id: string; formData: SignatureFormDto }) =>
-//       apiFormSignature(id, formData),
-//     onSuccess: () => {
-//       toast.success("Cập nhật thành công");
-//       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
-//     },
-//     onError: () => {
-//       toast.error("Đã xảy ra lỗi, vui lòng thử lại");
-//     },
-//   });
-// };
 export const useEmployeesFindByStaffId = (msnv: string) => {
   return useQuery({
     queryKey: [QUERY_KEY.FIND_BY_STAFF_ID, msnv],
     queryFn: () => apiEmployeesFindByStaffId(msnv),
     enabled: !!msnv,
+  });
+};
+export const useEmployeesFindAll = () => {
+  return useQuery<EmployeeType[]>({
+    queryKey: [QUERY_KEY.FIND_ALL],
+    queryFn: apiEmployeesFindAll,
+  });
+};
+
+export const useEmployeesDeleteOne = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => apiEmployeesDelete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
+    },
+  });
+};
+export const useEmployeesUpdate = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, formData }: { id: string; formData: Partial<EmployeeType> }) =>
+      apiEmployeesUpdate(id, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
+    },
+  });
+};
+export const useEmployeesCreate = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (formData: Partial<EmployeeType>) => apiEmployeesCreate(formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ALL] });
+      toast.success("Tạo thành công");
+    },
+    onError: () => {
+      toast.error("Tạo không thành công");
+    },
   });
 };
