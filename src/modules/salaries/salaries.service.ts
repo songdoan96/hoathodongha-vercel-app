@@ -3,12 +3,10 @@ import {
   endOfMonth,
   endOfYear,
   format,
-  parse,
-  parseISO,
   startOfMonth,
   startOfYear,
 } from 'date-fns';
-import { Prisma, PrismaClient, Salary } from '../../../generated/prisma';
+import { Salary } from '../../../generated/prisma';
 import { FirebaseService } from '../firebase/firebase.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { SalariesCheckDto, SalariesCreateNoteDto } from './salaries.dto';
@@ -21,19 +19,26 @@ export class SalariesService {
   ) {}
   async upfile(rows: Salary[], body: { month: string }) {
     const month = new Date(body.month);
+    const data: Salary[] = [];
     for (const item of rows) {
       const msnv = String(item.msnv).replace(/dh/gi, '');
       const cccd = String(item.cccd);
       const employee = await this.prisma.employee.findUnique({
         where: {
           msnv,
-          cccd,
+          // cccd,
         },
       });
       if (!employee)
         await this.prisma.employee.create({
           data: { msnv, cccd, hoten: item.hoten, bophan: item.to },
         });
+      data.push({
+        ...item,
+        thang: month,
+        cccd,
+        msnv,
+      });
       await this.prisma.salary.create({
         data: {
           ...item,
@@ -43,6 +48,7 @@ export class SalariesService {
         },
       });
     }
+
     // const data = rows.map((item: Salary) => ({
     //   ...item,
     //   thang: month,
@@ -56,21 +62,28 @@ export class SalariesService {
   async checkSalary(salariesCheckDto: SalariesCheckDto) {
     salariesCheckDto.msnv = salariesCheckDto.msnv.trim().replace(/dh/gi, '');
     const { cccd, msnv, token } = salariesCheckDto;
-    const salary = await this.prisma.employee.findFirst({
+    const salary = await this.prisma.salary.findFirst({
       where: {
         msnv,
         cccd,
       },
       orderBy: { id: 'desc' },
-      select: { msnv: true, cccd: true },
+      select: { msnv: true, cccd: true, hoten: true, to: true },
     });
 
     if (!salary)
       throw new NotFoundException('Không tìm thấy thông tin tra cứu');
     if (token) {
-      await this.prisma.employee.update({
+      await this.prisma.employee.upsert({
         where: { msnv },
-        data: { fcm_token: token },
+        update: { fcm_token: token },
+        create: {
+          msnv,
+          cccd,
+          fcm_token: token,
+          hoten: salary.hoten,
+          bophan: salary.to,
+        },
       });
     }
 

@@ -1,23 +1,23 @@
 import {
+  Body,
   Controller,
-  Post,
   Get,
+  Param,
+  Post,
+  Query,
+  Res,
+  StreamableFile,
   UploadedFile,
   UseInterceptors,
-  Body,
-  StreamableFile,
-  Res,
-  Query,
-  Param,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { read, utils } from 'xlsx';
-import { SalariesService } from './salaries.service';
-import { SalariesCheckDto, SalariesCreateNoteDto } from './salaries.dto';
+import type { Response } from 'express';
 import { createReadStream } from 'fs';
 import { join } from 'path';
-import type { Response } from 'express';
+import { read, utils } from 'xlsx';
 import { Salary } from '../../../generated/prisma';
+import { SalariesCheckDto, SalariesCreateNoteDto } from './salaries.dto';
+import { SalariesService } from './salaries.service';
 @Controller('salaries')
 export class SalariesController {
   constructor(private readonly salariesService: SalariesService) {}

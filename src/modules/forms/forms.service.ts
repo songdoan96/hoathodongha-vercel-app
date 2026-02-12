@@ -5,6 +5,7 @@ import {
   format,
   startOfDay,
   startOfMonth,
+  subDays,
 } from 'date-fns';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateFormDto, SignatureFormDto, UpdateFormDto } from './forms.dto';
@@ -172,11 +173,13 @@ export class FormsService {
     return await this.prisma.form.findMany({
       where: {
         loaidon: LOAIDON.out,
+        ngaytao: {
+          gte: subDays(new Date(), 3),
+        },
       },
       orderBy: {
         id: 'desc',
       },
-      take: 200,
     });
   }
 
