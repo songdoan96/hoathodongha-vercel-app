@@ -63,31 +63,33 @@ export default function Upload() {
     mutation.mutate(formData);
   };
   return (
-    <div className="h-screen w-screen bg-gray-200">
-      <div className="h-12 bg-blue-500 flex items-center justify-between px-4">
+    <div className="h-screen w-full bg-gray-200">
+      <div className="w-full bg-blue-500 flex flex-col md:flex-row p-1 md:p-2 gap-2 items-center justify-between">
         <img src="/images/logo.png" alt="" className="w-10" />
-        <div className="flex flex-1 justify-center items-center gap-12">
-          <h1 className="text-white text-2xl uppercase text-center font-bold">
-            Tải lương lên hệ thống
-          </h1>
-        </div>
-        <div className="flex gap-4">
+
+        <div className="w-full md:w-auto flex gap-1 md:gap-4 justify-between items-center">
           <Link
             to={"/luong/thongtin?month=" + month}
-            className="text-white flex items-center gap-1"
+            className="text-white flex items-center gap-1 flex-col md:flex-row"
           >
             <TableProperties />
             <span>Chi tiết</span>
           </Link>
-          <Link to={"/luong"} className="text-white flex items-center gap-1">
+          <Link to={"/luong"} className="text-white flex items-center gap-1 flex-col md:flex-row">
             <Search />
             <span>Tra cứu</span>
           </Link>
-          <Link to={"/luong/tailen"} className="text-white flex items-center gap-1">
+          <Link
+            to={"/luong/tailen"}
+            className="text-white flex items-center gap-1 flex-col md:flex-row"
+          >
             <FileInput />
             <span>Tải file lên</span>
           </Link>
-          <Link to={"/luong/phanhoi"} className="text-white flex items-center gap-1">
+          <Link
+            to={"/luong/phanhoi"}
+            className="text-white flex items-center gap-1 flex-col md:flex-row"
+          >
             <MessageCircleQuestionMark />
             <span>Phản hồi</span>
           </Link>
@@ -103,7 +105,10 @@ export default function Upload() {
       {mutation.isPending || mutationSendNotification.isPending ? (
         <Loading fullScreen />
       ) : (
-        <div className="w-1/2 mx-auto border p-8 bg-white">
+        <div className="w-full md:w-1/2 mx-auto border p-2 md:px-8 bg-white">
+          <h1 className="text-blue-500 text-2xl uppercase text-center font-bold">
+            Tải lương lên hệ thống
+          </h1>
           <form onSubmit={handleSubmit}>
             <div className="space-y-12 ">
               <div className="border-b border-gray-900/10 pb-12">
@@ -144,7 +149,7 @@ export default function Upload() {
                           >
                             <FileInput
                               aria-hidden="true"
-                              className="mx-auto size-12 text-gray-300"
+                              className="mx-auto size-8 text-gray-300"
                             />
                           </label>
                           <input id="file" name="file" type="file" onChange={handleFileChange} />

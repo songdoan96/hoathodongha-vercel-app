@@ -23,13 +23,16 @@ export default [
   ...prefix("luong", [
     index("./routes/salaries/search.tsx"),
     route("/chitiet", "./routes/salaries/details.tsx"),
-    route("/tailen", "./routes/salaries/upload.tsx"),
-    route("/thongtin", "./routes/salaries/info.tsx"),
-    route("/bangluong/:id", "./routes/salaries/salary-table.tsx"),
-    route("/phanhoi", "./routes/salaries/feedback.tsx"),
   ]),
 
   layout("./components/providers/PrivateProvider.tsx", [
+    //luong
+    ...prefix("luong", [
+      route("/tailen", "./routes/salaries/upload.tsx"),
+      route("/phanhoi", "./routes/salaries/feedback.tsx"),
+      route("/thongtin", "./routes/salaries/info.tsx"),
+      route("/bangluong/:id", "./routes/salaries/salary-table.tsx"),
+    ]),
     // Forms
     route("/to-chuc", "./routes/forms/organization.tsx"),
     route("ky-nhan", "./routes/forms/signature.tsx"),

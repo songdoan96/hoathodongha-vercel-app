@@ -62,6 +62,9 @@ export default function SalaryInfoPage() {
               <th className="border border-black p-1" data-key="h2">
                 MSNV
               </th>
+              <th className="border border-black p-1" data-key="h44">
+                CCCD
+              </th>
               <th className="border border-black p-1" data-key="h3">
                 Họ và tên
               </th>
@@ -185,9 +188,6 @@ export default function SalaryInfoPage() {
               <th className="border border-black p-1" data-key="h43">
                 Tiền lương thực lĩnh cuối kỳ
               </th>
-              <th className="border border-black p-1" data-key="h44">
-                CCCD
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -198,6 +198,9 @@ export default function SalaryInfoPage() {
                 </td>
                 <td className="border border-black text-center p-1" data-hey="b2">
                   {salary.msnv}
+                </td>
+                <td className="border border-black text-center p-1" data-hey="b44">
+                  {salary.cccd}
                 </td>
                 <td
                   className="border border-black text-center p-1 underline text-blue-600 cursor-pointer font-semibold"
@@ -325,9 +328,6 @@ export default function SalaryInfoPage() {
                 </td>
                 <td className="border border-black text-center p-1" data-hey="b43">
                   {salary.tien_luong_thuc_linh}
-                </td>
-                <td className="border border-black text-center p-1" data-hey="b44">
-                  {salary.cccd}
                 </td>
               </tr>
             ))}

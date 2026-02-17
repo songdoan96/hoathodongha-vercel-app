@@ -22,10 +22,10 @@ function SalaryTable({ loaderData: id }: Route.ComponentProps) {
     return <Loading fullScreen />;
   }
   return (
-    <>
-      <div className="h-12 bg-blue-500 flex gap-4 items-center justify-between px-4">
-        <img src="/images/logo.png" alt="" className="w-10" />
-        <div className="flex items-center gap-4">
+    <div className="w-full">
+      <div className="w-full p-2 bg-blue-500 flex flex-col md:flex-row gap-1 items-center justify-between">
+        <img src="/images/logo.png" alt="" className="w-10 h-full" />
+        <div className="flex items-center justify-center gap-4">
           <Link to={"/luong"} className="text-white flex items-center gap-1">
             <Search />
             <span>Tra cứu</span>
@@ -44,14 +44,14 @@ function SalaryTable({ loaderData: id }: Route.ComponentProps) {
         </div>
       </div>
       {salary && (
-        <div className="w-1/2 mx-auto mt-4">
+        <div className="w-full md:w-1/2 mx-auto p-1">
           <SalaryDetail salary={salary} />
           <div className="mt-4 bg-gray-100 p-2">
             <SalaryFeedbackChat salary={salary} />
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
