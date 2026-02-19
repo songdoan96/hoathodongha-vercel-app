@@ -68,6 +68,9 @@ export default function SalaryInfoPage() {
               <th className="border border-black p-1" data-key="h3">
                 Họ và tên
               </th>
+              <th className="border border-black p-1" data-key="h43">
+                Tiền lương thực lĩnh cuối kỳ
+              </th>
               <th className="border border-black p-1" data-key="h4">
                 Lương tối thiểu Cty
               </th>
@@ -179,155 +182,152 @@ export default function SalaryInfoPage() {
               {/* <th className="border border-black p-1" data-key="h40">
                 Bốc xếp
               </th> */}
-              <th className="border border-black p-1" data-key="h41">
+              {/* <th className="border border-black p-1" data-key="h41">
                 Trừ ứng+ truy thu BHXH+BHYT+BHTN
-              </th>
+              </th> */}
               <th className="border border-black p-1" data-key="h42">
                 8% BHXH 1.5% BHYT 1% BHTN
-              </th>
-              <th className="border border-black p-1" data-key="h43">
-                Tiền lương thực lĩnh cuối kỳ
               </th>
             </tr>
           </thead>
           <tbody>
             {data?.map((salary) => (
               <tr key={salary.id} data-id={salary.id}>
-                <td className="border border-black text-center p-1" data-hey="b1">
+                <td className="border border-black text-center p-1" data-key="b1">
                   {salary.to}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b2">
+                <td className="border border-black text-center p-1" data-key="b2">
                   {salary.msnv}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b44">
+                <td className="border border-black text-center p-1" data-key="b44">
                   {salary.cccd}
                 </td>
                 <td
                   className="border border-black text-center p-1 underline text-blue-600 cursor-pointer font-semibold"
-                  data-hey="b3"
+                  data-key="b3"
                   onClick={() => navigate("/luong/bangluong/" + salary.id)}
                 >
                   {salary.hoten}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b4">
+                <td className="border border-black text-center p-1" data-key="b43">
+                  {salary.tien_luong_thuc_linh}
+                </td>
+                <td className="border border-black text-center p-1" data-key="b4">
                   {salary.luong_toi_thieu_cty}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b5">
+                <td className="border border-black text-center p-1" data-key="b5">
                   {salary.ngay_cong_binh_thuong}
                 </td>
-                {/* <td className="border border-black text-center p-1" data-hey="b6">
+                {/* <td className="border border-black text-center p-1" data-key="b6">
                   {salary.gio_cong_chu_nhat}
                 </td> */}
-                <td className="border border-black text-center p-1" data-hey="b7">
+                <td className="border border-black text-center p-1" data-key="b7">
                   {salary.gio_cong_tang_ca}
                 </td>
-                {/* <td className="border border-black text-center p-1" data-hey="b8">
+                {/* <td className="border border-black text-center p-1" data-key="b8">
                   {salary.ngay_gio_cong_ca_dem_ca3}
                 </td> */}
-                <td className="border border-black text-center p-1" data-hey="b9">
+                <td className="border border-black text-center p-1" data-key="b9">
                   {salary.tien_luong_sp_theo_cong_doan}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b10">
+                <td className="border border-black text-center p-1" data-key="b10">
                   {salary.tien_luong_sp_trong_gio}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b11">
+                <td className="border border-black text-center p-1" data-key="b11">
                   {salary.tien_luong_tang_ca_cn_ca3}
                 </td>
-                {/* <td className="border border-black text-center p-1" data-hey="b12">
+                {/* <td className="border border-black text-center p-1" data-key="b12">
                   {salary.phu_cap_ca3_ca_dem}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b13">
+                <td className="border border-black text-center p-1" data-key="b13">
                   {salary.bo_sung_luong_qd_943}
                 </td> */}
-                <td className="border border-black text-center p-1" data-hey="b14">
+                <td className="border border-black text-center p-1" data-key="b14">
                   {salary.tong_cong_tien_luong_sp}
                 </td>
-                {/* <td className="border border-black text-center p-1" data-hey="b15">
+                {/* <td className="border border-black text-center p-1" data-key="b15">
                   {salary.so_gio_nghi_tang_ca}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b16">
+                <td className="border border-black text-center p-1" data-key="b16">
                   {salary.tien_luong_nghi_an_tang_ca}
                 </td> */}
-                <td className="border border-black text-center p-1" data-hey="b17">
+                <td className="border border-black text-center p-1" data-key="b17">
                   {salary.tien_luong_1h5_hanh_kinh_nu}
                 </td>
-                {/* <td className="border border-black text-center p-1" data-hey="b18">
+                {/* <td className="border border-black text-center p-1" data-key="b18">
                   {salary.so_gio_thai_duoi_7_thang}
                 </td> */}
-                <td className="border border-black text-center p-1" data-hey="b19">
+                <td className="border border-black text-center p-1" data-key="b19">
                   {salary.so_gio_cho_con_bu_thai_tren_7_thang}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b20">
+                <td className="border border-black text-center p-1" data-key="b20">
                   {salary.tien_luong_1h_cho_con_bu}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b21">
+                <td className="border border-black text-center p-1" data-key="b21">
                   {salary.ho_tro_10_phan_tram_luong_sp_con_duoi_12_thang}
                 </td>
-                {/* <td className="border border-black text-center p-1" data-hey="b22">
+                {/* <td className="border border-black text-center p-1" data-key="b22">
                   {salary.ho_tro_cn_moi_thang_1_2}
                 </td> */}
-                <td className="border border-black text-center p-1" data-hey="b23">
+                <td className="border border-black text-center p-1" data-key="b23">
                   {salary.tien_gio_hoc_tap_huan_luyen}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b24">
+                <td className="border border-black text-center p-1" data-key="b24">
                   {salary.tien_thuong_chuyen_can}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b25">
+                <td className="border border-black text-center p-1" data-key="b25">
                   {salary.bo_sung_luong_theo_ngay_cong}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b26">
+                <td className="border border-black text-center p-1" data-key="b26">
                   {salary.ho_tro_tien_xang_xe}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b27">
+                <td className="border border-black text-center p-1" data-key="b27">
                   {salary.gio_nghi_ngan}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b28">
+                <td className="border border-black text-center p-1" data-key="b28">
                   {salary.tien_luong_nghi_ngan}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b29">
+                <td className="border border-black text-center p-1" data-key="b29">
                   {salary.tien_ho_tro_con_nha_tre}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b30">
+                <td className="border border-black text-center p-1" data-key="b30">
                   {salary.ho_tro_luong}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b31">
+                <td className="border border-black text-center p-1" data-key="b31">
                   {salary.phu_cap_nong}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b32">
+                <td className="border border-black text-center p-1" data-key="b32">
                   {salary.bo_sung_luong}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b33">
+                <td className="border border-black text-center p-1" data-key="b33">
                   {salary.tong_cong_tien_luong_sp_bu_luong_toi_thieu}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b34">
+                <td className="border border-black text-center p-1" data-key="b34">
                   {salary.tien_luong_bu}
                 </td>
-                {/* <td className="border border-black text-center p-1" data-hey="b35">
+                {/* <td className="border border-black text-center p-1" data-key="b35">
                   {salary.hoan_tra_bhxh_bhtn_bhyt}
                 </td> */}
-                <td className="border border-black text-center p-1" data-hey="b36">
+                <td className="border border-black text-center p-1" data-key="b36">
                   {salary.ngay_che_do}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b37">
+                <td className="border border-black text-center p-1" data-key="b37">
                   {salary.ngay_phep_nam}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b38">
+                <td className="border border-black text-center p-1" data-key="b38">
                   {salary.tien_luong_phep}
                 </td>
-                <td className="border border-black text-center p-1" data-hey="b39">
+                <td className="border border-black text-center p-1" data-key="b39">
                   {salary.tong_cong_tien_luong}
                 </td>
-                {/* <td className="border border-black text-center p-1" data-hey="b40">
+                {/* <td className="border border-black text-center p-1" data-key="b40">
                   {salary.boc_xep}
                 </td> */}
-                <td className="border border-black text-center p-1" data-hey="b41">
+                {/* <td className="border border-black text-center p-1" data-key="b41">
                   {salary.tru_ung_truy_thu}
-                </td>
-                <td className="border border-black text-center p-1" data-hey="b42">
+                </td> */}
+                <td className="border border-black text-center p-1" data-key="b42">
                   {salary.bhxh_bhtn_bhyt}
-                </td>
-                <td className="border border-black text-center p-1" data-hey="b43">
-                  {salary.tien_luong_thuc_linh}
                 </td>
               </tr>
             ))}

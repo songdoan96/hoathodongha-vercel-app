@@ -33,7 +33,7 @@ function SalaryDetailsPage() {
     }, 0) || 0;
 
   return (
-    <div className="bg-[#f4f7fd] min-h-screen w-screen flex flex-col">
+    <div className="bg-[#f4f7fd] min-h-screen w-full flex flex-col">
       <div className="bg-primary p-1 md:p-2 flex items-center gap-2">
         <Link to="/luong">
           <img src="/images/logo.png" className="w-8 md:w-10" alt="Logo" />
