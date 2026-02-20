@@ -21,7 +21,6 @@ export class AppService {
       date: new Date(),
       format: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
     });
-
     return {
       startOfMonth: startOfMonth(new Date('2026-02')),
       endOfMonth: endOfMonth(new Date('2026-02')),
