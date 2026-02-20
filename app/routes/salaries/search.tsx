@@ -8,7 +8,6 @@ import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { apiSalariesCheck } from "~/apis/salaries.api";
 import { Field, FieldLabel } from "~/components/ui/field";
-
 import { Form, FormField } from "~/components/ui/form";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/components/ui/input-group";
 import { getFCMToken } from "~/lib/firebase";
