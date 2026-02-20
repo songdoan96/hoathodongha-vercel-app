@@ -5,6 +5,7 @@ import {
   format,
   startOfMonth,
   startOfYear,
+  subMonths,
 } from 'date-fns';
 import { Salary } from '../../../generated/prisma';
 import { FirebaseService } from '../firebase/firebase.service';
@@ -19,26 +20,9 @@ export class SalariesService {
   ) {}
   async upfile(rows: Salary[], body: { month: string }) {
     const month = new Date(body.month);
-    const data: Salary[] = [];
     for (const item of rows) {
       const msnv = String(item.msnv).replace(/dh/gi, '');
       const cccd = String(item.cccd);
-      const employee = await this.prisma.employee.findUnique({
-        where: {
-          msnv,
-          // cccd,
-        },
-      });
-      if (!employee)
-        await this.prisma.employee.create({
-          data: { msnv, cccd, hoten: item.hoten, bophan: item.to },
-        });
-      data.push({
-        ...item,
-        thang: month,
-        cccd,
-        msnv,
-      });
       await this.prisma.salary.create({
         data: {
           ...item,
@@ -48,16 +32,6 @@ export class SalariesService {
         },
       });
     }
-
-    // const data = rows.map((item: Salary) => ({
-    //   ...item,
-    //   thang: month,
-    //   cccd: String(item.cccd),
-    //   msnv: String(item.msnv).replace(/dh/gi, ''),
-    // }));
-    // return await this.prisma.salary.createMany({
-    //   data,
-    // });
   }
   async checkSalary(salariesCheckDto: SalariesCheckDto) {
     salariesCheckDto.msnv = salariesCheckDto.msnv.trim().replace(/dh/gi, '');
@@ -170,6 +144,27 @@ export class SalariesService {
     return salaries;
   }
   async sendNotification() {
+    // const salariesInMonth = await this.prisma.salary.findMany({
+    //   where: {
+    //     thang: {
+    //       gte: startOfMonth(subMonths(new Date(), 1)),
+    //       lte: endOfMonth(subMonths(new Date(), 1)),
+    //     },
+    //   },
+    // });
+    // for (const salary of salariesInMonth) {
+    //   const { msnv, cccd, hoten, to } = salary;
+    //   const employee = await this.prisma.employee.findUnique({
+    //     where: {
+    //       msnv,
+    //       // cccd,
+    //     },
+    //   });
+    //   if (!employee)
+    //     await this.prisma.employee.create({
+    //       data: { msnv, cccd, hoten, bophan: to },
+    //     });
+    // }
     const employees = await this.prisma.employee.findMany({
       where: {
         fcm_token: { not: null },
@@ -179,7 +174,9 @@ export class SalariesService {
     const tokens = employees.map((employee) => employee.fcm_token || '');
     await this.firebaseService.sendToMultipleDevices(tokens, {
       title: 'Công ty may Hòa Thọ Đông Hà',
-      body: 'Đã có thông tin lương tháng ' + format(new Date(), 'MM/yyyy'),
+      body:
+        'Đã có thông tin lương tháng ' +
+        format(subMonths(new Date(), 1), 'MM/yyyy'),
       link: 'https://hoathodongha.vercel.app/tao-don/luong',
     });
   }
