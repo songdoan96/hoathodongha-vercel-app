@@ -86,7 +86,7 @@ export const useFormsUpdate = () => {
     onSuccess: () => {
       toast.success("Cập nhật thành công");
       queryClient.invalidateQueries({ queryKey: [FORMS_QUERY_KEY.FIND_ALL] });
-      navigate(-1);
+      // navigate(-1);
     },
     onError: (err) => {
       toast.error("Đã xảy ra lỗi, vui lòng thử lại");

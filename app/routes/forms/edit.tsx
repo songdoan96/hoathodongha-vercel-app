@@ -303,7 +303,7 @@ function FormEditPage({ loaderData: id }: Route.ComponentProps) {
                 <Button
                   asChild
                   className="bg-red-500 hover:bg-red-600 cursor-pointer"
-                  onClick={() => navigate(routers().forms.signature)}
+                  onClick={() => navigate(-1)}
                 >
                   <span>Quay lại</span>
                 </Button>
@@ -330,7 +330,7 @@ function FormEditPage({ loaderData: id }: Route.ComponentProps) {
                     key={user.id}
                     className={cn(
                       "flex flex-wrap gap-2 border-b",
-                      user.bophan === formFindOne?.data?.to && "bg-red-100"
+                      user.bophan === formFindOne?.data?.to && "bg-red-100",
                     )}
                   >
                     <span className="text-red-600">
