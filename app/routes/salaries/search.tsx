@@ -11,7 +11,6 @@ import { Field, FieldLabel } from "~/components/ui/field";
 
 import { Form, FormField } from "~/components/ui/form";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/components/ui/input-group";
-import { Spinner } from "~/components/ui/spinner";
 import { getFCMToken } from "~/lib/firebase";
 import { SalariesSchema, type SalariesSchemaType } from "~/schemas/salaries.schema";
 import useSalaryStore from "~/stores/salary-store";
