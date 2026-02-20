@@ -68,182 +68,184 @@ function FormsListComponent() {
   return (
     <div>
       {allForms.length > 0 && (
-        <div className="relative overflow-x-auto">
-          <table className="w-full text-sm text-left rtl:text-right text-black">
-            <thead className="text-white uppercase bg-[#27AE60]">
-              <tr>
-                <th scope="col" className="p-1 border border-black text-center">
-                  <div className="flex items-center justify-center gap-1">
-                    <span>Ngày tạo</span>
-                    {month !== format(new Date(), "yyyy-MM") && (
-                      <CalendarX
-                        className="ml-2 cursor-pointer"
-                        color="red"
-                        size={18}
-                        onClick={() =>
-                          setSearchParams({
-                            month: format(new Date(), "yyyy-MM"),
-                          })
-                        }
-                      />
-                    )}
-                  </div>
-                </th>
-                <th scope="col" className="p-1 border border-black text-center">
-                  Họ tên
-                </th>
-                <th scope="col" className="p-1 border border-black text-center">
-                  <div className="flex items-center justify-center gap-2">
-                    <span>Tổ</span>
-                    {type === "to" ? (
-                      <FilterX
-                        className="ml-2 cursor-pointer"
-                        color="red"
-                        size={18}
-                        onClick={() =>
-                          setSearchParams({
-                            month,
-                          })
-                        }
-                      />
-                    ) : (
-                      <>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger>
-                            <FilterIcon color="white" size={16} />
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent>
-                            <DropdownMenuLabel>Tìm kiếm theo tổ</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            {linesListFilter.map((line) => (
-                              <DropdownMenuItem
-                                onClick={() =>
-                                  setSearchParams({
-                                    month,
-                                    type: "to",
-                                    value: line.value,
-                                  })
-                                }
-                                key={line.value}
-                              >
-                                {line.name}
-                              </DropdownMenuItem>
-                            ))}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </>
-                    )}
-                  </div>
-                </th>
-                <th scope="col" className="p-1 border border-black text-center">
-                  <div className="flex items-center justify-center">
-                    <span className="mr-2">MSNV</span>
-                    {type === "msnv" ? (
-                      <SearchX
-                        className="cursor-pointer"
-                        color="red"
-                        size={18}
-                        onClick={() => {
-                          setSearchParams({
-                            month,
-                          });
-                        }}
-                      />
-                    ) : (
-                      <>
-                        <AlertDialog>
-                          <AlertDialogTrigger>
-                            <Search color="white" size={18} />
-                          </AlertDialogTrigger>
-                          <AlertDialogContent className="w-[300px]">
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Tìm theo MSNV</AlertDialogTitle>
-                              <AlertDialogDescription />
-                            </AlertDialogHeader>
-                            <Input
-                              placeholder="Nhập MSNV"
-                              onChange={(e) => setSearchMSNV(e.target.value)}
-                              id="msnv"
-                              className="col-span-2 h-8"
-                            />
-                            <AlertDialogFooter>
-                              <AlertDialogCancel
-                                onClick={() => {
-                                  setSearchMSNV("");
-                                }}
-                              >
-                                Hủy
-                              </AlertDialogCancel>
-                              <AlertDialogAction
-                                onClick={() => {
-                                  setSearchParams({
-                                    month,
-                                    type: "msnv",
-                                    value: searchMSNV,
-                                  });
-                                }}
-                              >
-                                Tìm
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </>
-                    )}
-                  </div>
-                </th>
-                <th scope="col" className="p-1 border border-black text-center">
-                  Loại đơn
-                </th>
-                <th scope="col" className="p-1 border border-black text-center">
-                  Số lần
-                </th>
-                <th scope="col" className="p-1 border border-black text-center">
-                  Thời gian
-                </th>
-                <th scope="col" className="p-1 border border-black text-center">
-                  Lý do
-                </th>
-                <th scope="col" className="p-1 border border-black text-center">
-                  Thay thế
-                </th>
-                <th scope="col" className="p-1 border border-black text-center">
-                  Tổ trưởng
-                </th>
-                <th scope="col" className="p-1 border border-black text-center">
-                  Quản đốc
-                </th>
-                <th scope="col" className="p-1 border border-black text-center">
-                  lãnh đạo
-                </th>
-                <th scope="col" className="p-1 border border-black text-center">
-                  Giờ ra - vào
-                </th>
-                <th scope="col" className="p-1 border border-black text-center"></th>
-                {/* {checkRole("tochuc") && (
+        <>
+          <div className="relative overflow-x-auto">
+            <table className="w-full text-sm text-left rtl:text-right text-black">
+              <thead className="text-white uppercase bg-[#27AE60]">
+                <tr>
+                  <th scope="col" className="p-1 border border-black text-center">
+                    <div className="flex items-center justify-center gap-1">
+                      <span>Ngày tạo</span>
+                      {month !== format(new Date(), "yyyy-MM") && (
+                        <CalendarX
+                          className="ml-2 cursor-pointer"
+                          color="red"
+                          size={18}
+                          onClick={() =>
+                            setSearchParams({
+                              month: format(new Date(), "yyyy-MM"),
+                            })
+                          }
+                        />
+                      )}
+                    </div>
+                  </th>
+                  <th scope="col" className="p-1 border border-black text-center">
+                    Họ tên
+                  </th>
+                  <th scope="col" className="p-1 border border-black text-center">
+                    <div className="flex items-center justify-center gap-2">
+                      <span>Tổ</span>
+                      {type === "to" ? (
+                        <FilterX
+                          className="ml-2 cursor-pointer"
+                          color="red"
+                          size={18}
+                          onClick={() =>
+                            setSearchParams({
+                              month,
+                            })
+                          }
+                        />
+                      ) : (
+                        <>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger>
+                              <FilterIcon color="white" size={16} />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                              <DropdownMenuLabel>Tìm kiếm theo tổ</DropdownMenuLabel>
+                              <DropdownMenuSeparator />
+                              {linesListFilter.map((line) => (
+                                <DropdownMenuItem
+                                  onClick={() =>
+                                    setSearchParams({
+                                      month,
+                                      type: "to",
+                                      value: line.value,
+                                    })
+                                  }
+                                  key={line.value}
+                                >
+                                  {line.name}
+                                </DropdownMenuItem>
+                              ))}
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </>
+                      )}
+                    </div>
+                  </th>
+                  <th scope="col" className="p-1 border border-black text-center">
+                    <div className="flex items-center justify-center">
+                      <span className="mr-2">MSNV</span>
+                      {type === "msnv" ? (
+                        <SearchX
+                          className="cursor-pointer"
+                          color="red"
+                          size={18}
+                          onClick={() => {
+                            setSearchParams({
+                              month,
+                            });
+                          }}
+                        />
+                      ) : (
+                        <>
+                          <AlertDialog>
+                            <AlertDialogTrigger>
+                              <Search color="white" size={18} />
+                            </AlertDialogTrigger>
+                            <AlertDialogContent className="w-[300px]">
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Tìm theo MSNV</AlertDialogTitle>
+                                <AlertDialogDescription />
+                              </AlertDialogHeader>
+                              <Input
+                                placeholder="Nhập MSNV"
+                                onChange={(e) => setSearchMSNV(e.target.value)}
+                                id="msnv"
+                                className="col-span-2 h-8"
+                              />
+                              <AlertDialogFooter>
+                                <AlertDialogCancel
+                                  onClick={() => {
+                                    setSearchMSNV("");
+                                  }}
+                                >
+                                  Hủy
+                                </AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => {
+                                    setSearchParams({
+                                      month,
+                                      type: "msnv",
+                                      value: searchMSNV,
+                                    });
+                                  }}
+                                >
+                                  Tìm
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </>
+                      )}
+                    </div>
+                  </th>
+                  <th scope="col" className="p-1 border border-black text-center">
+                    Loại đơn
+                  </th>
+                  <th scope="col" className="p-1 border border-black text-center">
+                    Số lần
+                  </th>
+                  <th scope="col" className="p-1 border border-black text-center">
+                    Thời gian
+                  </th>
+                  <th scope="col" className="p-1 border border-black text-center">
+                    Lý do
+                  </th>
+                  <th scope="col" className="p-1 border border-black text-center">
+                    Thay thế
+                  </th>
+                  <th scope="col" className="p-1 border border-black text-center">
+                    Tổ trưởng
+                  </th>
+                  <th scope="col" className="p-1 border border-black text-center">
+                    Quản đốc
+                  </th>
+                  <th scope="col" className="p-1 border border-black text-center">
+                    lãnh đạo
+                  </th>
+                  <th scope="col" className="p-1 border border-black text-center">
+                    Giờ ra - vào
+                  </th>
+                  <th scope="col" className="p-1 border border-black text-center"></th>
+                  {/* {checkRole("tochuc") && (
                   <th scope="col" className="p-1 border border-black text-center"></th>
                 )} */}
-              </tr>
-            </thead>
-            <tbody>
-              {allForms.map((form: FormsType) => {
-                return (
-                  <FormTRow
-                    form={form}
-                    count={
-                      formsCount?.find((f) => f.msnv === form.msnv && f.loaidon === form.loaidon)
-                        ?.count || 0
-                    }
-                    key={form.id}
-                  />
-                );
-              })}
-            </tbody>
-          </table>
-          <div ref={ref} className="flex justify-center p-4">
+                </tr>
+              </thead>
+              <tbody>
+                {allForms.map((form: FormsType) => {
+                  return (
+                    <FormTRow
+                      form={form}
+                      count={
+                        formsCount?.find((f) => f.msnv === form.msnv && f.loaidon === form.loaidon)
+                          ?.count || 0
+                      }
+                      key={form.id}
+                    />
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div ref={ref} className="flex justify-center p-4 w-full">
             {isFetchingNextPage && <Spinner color="blue" fontSize={20} />}
           </div>
-        </div>
+        </>
       )}
 
       <div className="flex justify-between px-4 my-4">
