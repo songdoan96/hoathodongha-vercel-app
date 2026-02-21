@@ -16,26 +16,26 @@ function FormDashboard() {
       <HeaderComponent>
         <HeaderTitle>Đơn nghỉ phép - ra cổng</HeaderTitle>
       </HeaderComponent>
-      <FormButtonComponent />
-
-      <div className="grid grid-cols-2 gap-2 uppercase p-2 md:px-0 md:grid-cols-4 mx-auto">
-        <div className="flex flex-col text-center">
-          <p className="bg-gray-200 font-semibold">QĐX1 - Lương</p>
+      <div className="grid grid-cols-2 gap-2 uppercase p-2 md:w-3/4 md:grid-cols-4 mx-auto">
+        <div className="flex flex-col text-center border rounded-sm">
+          <p className="bg-blue-200 font-semibold p-1">QĐX1 - Lương</p>
           <p className="text-blue-700">0905.492.552</p>
         </div>
-        <div className="flex flex-col text-center">
-          <p className="bg-gray-200 font-semibold"> QĐX2 - Liên</p>
+        <div className="flex flex-col text-center border rounded-sm">
+          <p className="bg-blue-200 font-semibold p-1"> QĐX2 - Liên</p>
           <p className="text-blue-700">0908.849.698</p>
         </div>
-        <div className="flex flex-col text-center">
-          <p className="bg-gray-200 font-semibold">PGĐ - Diệp</p>
+        <div className="flex flex-col text-center border rounded-sm">
+          <p className="bg-blue-200 font-semibold p-1">PGĐ - Diệp</p>
           <p className="text-blue-700">0914.993.234</p>
         </div>
-        <div className="flex flex-col text-center">
-          <p className="bg-gray-200 font-semibold">TPTC - TRUNG</p>
+        <div className="flex flex-col text-center border rounded-sm">
+          <p className="bg-blue-200 font-semibold p-1">TPTC - TRUNG</p>
           <p className="text-blue-700">0935.857.868</p>
         </div>
       </div>
+      <FormButtonComponent />
+
       <FormsListComponent />
     </div>
   );
