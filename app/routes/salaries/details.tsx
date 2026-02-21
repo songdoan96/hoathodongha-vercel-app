@@ -1,11 +1,12 @@
 import { format } from "date-fns";
-import { ClipboardPenLine, DollarSign } from "lucide-react";
+import { CalendarRangeIcon, ClipboardPenLine, DollarSign } from "lucide-react";
 import { Link, useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
 import SalaryDetail from "~/components/Salaries/SalaryDetail";
 import SalaryFeedbackChat from "~/components/Salaries/SalaryFeedbackChat";
 import SalaryFeedbackFormComponent from "~/components/Salaries/SalaryFeedbackForm";
 import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 import { useSalariesDetails } from "~/hooks/salaries-hook";
 import { formatMoney } from "~/lib/helpers";
 import useSalaryStore from "~/stores/salary-store";
@@ -46,11 +47,17 @@ function SalaryDetailsPage() {
       </div>
       {isLoading && <Loading fullScreen />}
       <div className="w-full md:w-2/3 mx-auto p-2 md:p-4">
-        <div className="flex gap-4 items-center p-2 py-4 bg-white mb-4 rounded">
-          <div className="flex-1">
+        <div className="flex gap-1 items-center p-2 py-4 bg-white mb-4 rounded">
+          <div className="flex-1 flex items-center justify-between md:justify-start gap-4">
+            <Label htmlFor="month">
+              <CalendarRangeIcon size={30} color="teal" />
+            </Label>
             <Input
+              name="month"
+              id="month"
               type="month"
               value={month}
+              className="w-fit border-gray-500"
               onChange={(e) =>
                 setSearchParams({
                   month: e.target.value,

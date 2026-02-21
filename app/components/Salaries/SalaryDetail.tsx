@@ -190,7 +190,7 @@ function SalaryDetail({ salary }: { salary: SalariesType }) {
             <div>
               <b>8.</b> Tổng cộng tiền lương nghỉ chế độ:
             </div>
-            <div>{formatMoney(salary.ngay_che_do)}</div>
+            <div></div>
           </div>
           <div className="pl-6 space-y-1 flex flex-col">
             <div className="flex gap-2 justify-between">
