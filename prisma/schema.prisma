@@ -34,13 +34,14 @@ model FormLeader {
 }
 
 model Employee {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  msnv      String  @unique
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  msnv      String    @unique
   hoten     String
   bophan    String?
-  active    Boolean @default(true)
+  active    Boolean   @default(true)
   fcm_token String?
   cccd      String?
+  ngaysinh  DateTime?
 
   @@map("employees")
 }
