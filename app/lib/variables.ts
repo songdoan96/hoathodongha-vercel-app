@@ -150,7 +150,9 @@ export const linesList: LineListType[] = [
   {
     value: "kythuat",
     name: "Kỹ thuật",
-    needToTruong: true,
+    // needToTruong: true,
+    // needQuanDoc: false,
+    needToTruong: false,
     needQuanDoc: false,
   },
   {
@@ -245,5 +247,5 @@ export const linesListFilter = linesList.filter(
     line.value != "lanhdao" &&
     line.value != "quandoc" &&
     line.value != "daotao" &&
-    line.value != "epkeo"
+    line.value != "epkeo",
 );
