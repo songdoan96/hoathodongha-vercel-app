@@ -143,7 +143,10 @@ export const linesList: FormLineType[] = [
   {
     value: 'kythuat',
     name: 'Kỹ thuật',
-    needToTruong: true,
+    // needToTruong: true,
+    // needQuanDoc: false,
+
+    needToTruong: false,
     needQuanDoc: false,
   },
   {
