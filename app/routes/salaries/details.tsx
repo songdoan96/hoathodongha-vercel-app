@@ -82,7 +82,7 @@ function SalaryDetailsPage() {
           </>
         )}
 
-        {salaries && salaries?.length > 0 && (
+        {/* {salaries && salaries?.length > 0 && (
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
             <div className="flex flex-col gap-2 md:gap-4 justify-between items-center border p-2 bg-white shadow-lg">
               <span className="text-teal-600 font-bold uppercase text-xl">
@@ -101,7 +101,7 @@ function SalaryDetailsPage() {
               </span>
             </div>
           </div>
-        )}
+        )} */}
 
         <div className="mt-4 py-4 flex justify-center items-center gap-4">
           <Link
