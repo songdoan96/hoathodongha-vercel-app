@@ -61,7 +61,10 @@ export class SalariesController {
   ) {
     return this.salariesService.details(msnv, cccd, month);
   }
-
+  @Get('dashboard')
+  dashboard(@Query('msnv') msnv: string, @Query('cccd') cccd: string) {
+    return this.salariesService.dashboard(msnv, cccd);
+  }
   @Post('chat')
   async salaryNote(@Body() salariesCreateNoteDto: SalariesCreateNoteDto) {
     return this.salariesService.salaryChat(salariesCreateNoteDto);

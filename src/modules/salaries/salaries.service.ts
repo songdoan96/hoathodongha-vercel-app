@@ -67,19 +67,19 @@ export class SalariesService {
   async details(msnv: string, cccd: string, month: string) {
     const date = new Date(month);
 
-    const salaries = await this.prisma.salary.findMany({
-      where: {
-        msnv,
-        cccd,
-        thang: {
-          gte: startOfYear(date),
-          lte: endOfYear(date),
-        },
-      },
-      select: {
-        tien_luong_thuc_linh: true,
-      },
-    });
+    // const salaries = await this.prisma.salary.findMany({
+    //   where: {
+    //     msnv,
+    //     cccd,
+    //     thang: {
+    //       gte: startOfYear(date),
+    //       lte: endOfYear(date),
+    //     },
+    //   },
+    //   select: {
+    //     tien_luong_thuc_linh: true,
+    //   },
+    // });
     const salary = await this.prisma.salary.findFirst({
       where: {
         msnv,
@@ -96,7 +96,30 @@ export class SalariesService {
         thang: 'desc',
       },
     });
-    return { salary, salaries };
+    // return { salary, salaries };
+    return salary;
+  }
+  async dashboard(msnv: string, cccd: string) {
+    const date = new Date();
+
+    return await this.prisma.salary.findMany({
+      where: {
+        msnv,
+        cccd,
+        thang: {
+          gte: startOfYear(date),
+          lte: endOfYear(date),
+        },
+      },
+      select: {
+        tien_luong_thuc_linh: true,
+        thang: true,
+        hoten: true,
+        to: true,
+        tien_luong_sp_theo_cong_doan: true,
+        msnv: true,
+      },
+    });
   }
 
   async salaryChat(salariesCreateNoteDto: SalariesCreateNoteDto) {
