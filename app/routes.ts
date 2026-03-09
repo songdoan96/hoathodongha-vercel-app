@@ -23,6 +23,7 @@ export default [
   ...prefix("luong", [
     index("./routes/salaries/search.tsx"),
     route("/chitiet", "./routes/salaries/details.tsx"),
+    route("/chitiet-tong", "./routes/salaries/total.tsx"),
   ]),
 
   layout("./components/providers/PrivateProvider.tsx", [

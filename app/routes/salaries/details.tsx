@@ -21,16 +21,16 @@ function SalaryDetailsPage() {
   const { cccd, msnv } = useSalaryStore();
   const [searchParams, setSearchParams] = useSearchParams();
   const month = searchParams.get("month") || format(new Date(), "yyyy-MM");
-  const { data, isLoading } = useSalariesDetails({
+  const { data: salary, isLoading } = useSalariesDetails({
     month,
     msnv,
     cccd,
   });
-  const { salary, salaries } = data || {};
-  const totalIncome =
-    salaries?.reduce((acc, salary) => {
-      return acc + (salary.tien_luong_thuc_linh || 0);
-    }, 0) || 0;
+  // const { salary, salaries } = data || {};
+  // const totalIncome =
+  //   salaries?.reduce((acc, salary) => {
+  //     return acc + (salary.tien_luong_thuc_linh || 0);
+  //   }, 0) || 0;
 
   return (
     <div className="bg-[#f4f7fd] min-h-screen w-full flex flex-col">
@@ -46,7 +46,7 @@ function SalaryDetailsPage() {
       </div>
       {isLoading && <Loading fullScreen />}
       <div className="w-full md:w-2/3 mx-auto p-2 md:p-4">
-        <div className="flex gap-1 items-center p-2 py-4 bg-white mb-4 rounded">
+        <div className="flex gap-1 items-center p-2 bg-white mb-4 rounded">
           <div className="flex-1 flex items-center justify-between md:justify-start gap-4">
             <div className="flex flex-1 gap-2 items-center">
               <Label htmlFor="month">
@@ -65,19 +65,22 @@ function SalaryDetailsPage() {
                 }
               />
             </div>
-            <Link to="/" className="hidden">
-              <ChartNoAxesCombined size={30} color="red" />
+            <Link
+              to={"/luong/chitiet-tong"}
+              className="bg-blue-50 text-blue-500 p-2 lg:p-4 rounded hidden"
+            >
+              <ChartNoAxesCombined size={30} color="blue" />
             </Link>
           </div>
         </div>
         {salary && (
           <>
             <SalaryDetail salary={salary} />
-            <div className="py-4 bg-white p-4 mt-4 shadow-lg">
+            <div className="bg-white p-2 lg:p-4 mt-4 shadow-lg">
               <p className="text-red-700 text-sm md:text-base text-center font-semibold">
                 Lưu ý: Nếu CBCNV nào có thắc mắc vui lòng nhập nội dung vào bên dưới để khiếu nại.
               </p>
-              <p className="text-sm md:text-base text-center">
+              <p className="text-sm md:text-base text-center mb-2">
                 (Tra cứu lại bảng lương để xem phản hồi của KT)
               </p>
               <SalaryFeedbackChat salary={salary} />

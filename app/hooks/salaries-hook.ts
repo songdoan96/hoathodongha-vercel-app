@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
+  apiSalariesDashboard,
   apiSalariesDetails,
   apiSalariesDetailsMonth,
   apiSalariesFeedback,
@@ -28,13 +29,19 @@ export const useSalariesDetails = ({
   cccd: string;
   month: string;
 }) => {
-  return useQuery<{ salary: SalariesType; salaries: Pick<SalariesType, "tien_luong_thuc_linh">[] }>(
-    {
-      queryKey: [QUERY_KEY.DETAIL, msnv, cccd, month],
-      queryFn: () => apiSalariesDetails({ msnv, cccd, month }),
-      enabled: !!msnv && !!cccd && !!month,
-    },
-  );
+  return useQuery<SalariesType>({
+    queryKey: [QUERY_KEY.DETAIL, msnv, cccd, month],
+    queryFn: () => apiSalariesDetails({ msnv, cccd, month }),
+    enabled: !!msnv && !!cccd && !!month,
+  });
+};
+
+export const useSalariesDashboard = ({ msnv, cccd }: { msnv: string; cccd: string }) => {
+  return useQuery<SalariesType[]>({
+    queryKey: [QUERY_KEY.DETAIL, msnv, cccd],
+    queryFn: () => apiSalariesDashboard({ msnv, cccd }),
+    enabled: !!msnv && !!cccd,
+  });
 };
 export const useSalaryCreateChat = () => {
   const queryClient = useQueryClient();

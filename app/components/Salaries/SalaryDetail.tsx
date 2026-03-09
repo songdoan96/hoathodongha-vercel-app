@@ -133,7 +133,7 @@ function SalaryDetail({ salary }: { salary: SalariesType }) {
               </div>
               <div className="flex justify-between gap-2">
                 <span>- Hỗ trợ tiền xăng xe:</span>
-                <span>{salary.ho_tro_tien_xang_xe}</span>
+                <span>{formatMoney(salary.ho_tro_tien_xang_xe)}</span>
               </div>
               <div className="flex justify-between gap-2">
                 <span>- Giờ nghỉ ngắn:</span>

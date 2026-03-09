@@ -57,6 +57,11 @@ export const apiSalariesDetails = async ({
   );
   return data;
 };
+
+export const apiSalariesDashboard = async ({ msnv, cccd }: { msnv: string; cccd: string }) => {
+  const { data } = await apiClient.get(router + `/dashboard?msnv=${msnv}&cccd=${cccd}`);
+  return data;
+};
 export const apiSalaryCreateNote = async (formData: SalaryCreateChatDto) => {
   const { data } = await apiClient.post(router + "/chat", formData);
   return data;
