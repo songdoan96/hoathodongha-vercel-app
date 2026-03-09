@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { CalendarRangeIcon, ClipboardPenLine, DollarSign } from "lucide-react";
+import { CalendarRangeIcon, ChartNoAxesCombined, ClipboardPenLine, DollarSign } from "lucide-react";
 import { Link, useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
 import SalaryDetail from "~/components/Salaries/SalaryDetail";
@@ -8,7 +8,6 @@ import SalaryFeedbackFormComponent from "~/components/Salaries/SalaryFeedbackFor
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { useSalariesDetails } from "~/hooks/salaries-hook";
-import { formatMoney } from "~/lib/helpers";
 import useSalaryStore from "~/stores/salary-store";
 
 export function meta() {
@@ -49,21 +48,26 @@ function SalaryDetailsPage() {
       <div className="w-full md:w-2/3 mx-auto p-2 md:p-4">
         <div className="flex gap-1 items-center p-2 py-4 bg-white mb-4 rounded">
           <div className="flex-1 flex items-center justify-between md:justify-start gap-4">
-            <Label htmlFor="month">
-              <CalendarRangeIcon size={30} color="teal" />
-            </Label>
-            <Input
-              name="month"
-              id="month"
-              type="month"
-              value={month}
-              className="w-fit border-gray-500"
-              onChange={(e) =>
-                setSearchParams({
-                  month: e.target.value,
-                })
-              }
-            />
+            <div className="flex flex-1 gap-2 items-center">
+              <Label htmlFor="month">
+                <CalendarRangeIcon size={30} color="teal" />
+              </Label>
+              <Input
+                name="month"
+                id="month"
+                type="month"
+                value={month}
+                className="w-fit border-gray-500"
+                onChange={(e) =>
+                  setSearchParams({
+                    month: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <Link to="/" className="hidden">
+              <ChartNoAxesCombined size={30} color="red" />
+            </Link>
           </div>
         </div>
         {salary && (
@@ -72,6 +76,9 @@ function SalaryDetailsPage() {
             <div className="py-4 bg-white p-4 mt-4 shadow-lg">
               <p className="text-red-700 text-sm md:text-base text-center font-semibold">
                 Lưu ý: Nếu CBCNV nào có thắc mắc vui lòng nhập nội dung vào bên dưới để khiếu nại.
+              </p>
+              <p className="text-sm md:text-base text-center">
+                (Tra cứu lại bảng lương để xem phản hồi của KT)
               </p>
               <SalaryFeedbackChat salary={salary} />
 

@@ -235,7 +235,9 @@ function SalaryDetail({ salary }: { salary: SalariesType }) {
         <div className="bg-blue-50 p-2 md:p-5 rounded-lg font-bold text-lg border border-gray-300 mb-2">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <span>V. Số tiền lương còn lại được nhận: (II+III-IV)</span>
-            <span className="text-red-700">{formatMoney(salary.tien_luong_thuc_linh)}</span>
+            <span className="text-red-700 text-3xl">
+              {formatMoney(salary.tien_luong_thuc_linh)}
+            </span>
           </div>
         </div>
       </div>
