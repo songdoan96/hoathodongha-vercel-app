@@ -67,7 +67,7 @@ function SalaryDetailsPage() {
             </div>
             <Link
               to={"/luong/chitiet-tong"}
-              className="bg-blue-50 text-blue-500 p-2 lg:p-4 rounded hidden"
+              className="bg-blue-50 text-blue-500 p-2 lg:p-4 rounded"
             >
               <ChartNoAxesCombined size={30} color="blue" />
             </Link>
