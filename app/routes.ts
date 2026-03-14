@@ -25,8 +25,10 @@ export default [
     route("/chitiet", "./routes/salaries/details.tsx"),
     route("/chitiet-tong", "./routes/salaries/overview.tsx"),
   ]),
-
+  // ...prefix("tangca", [route("/taodon", "./routes/overtime/create.tsx")]),
   layout("./components/providers/PrivateProvider.tsx", [
+    //tangca
+    ...prefix("tangca", [route("/taodon", "./routes/overtime/create.tsx")]),
     //luong
     ...prefix("luong", [
       route("/tailen", "./routes/salaries/upload.tsx"),
