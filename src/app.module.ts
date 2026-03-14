@@ -1,3 +1,6 @@
+import { OvertimesModule } from './modules/overtimes/overtimes.module';
+import { OvertimesController } from './modules/overtimes/overtimes.controller';
+import { OvertimesService } from './modules/overtimes/overtimes.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
@@ -25,8 +28,9 @@ import { SalariesService } from './modules/salaries/salaries.service';
     FormsModule,
     EmployeesModule,
     SalariesModule,
+    OvertimesModule,
   ],
-  controllers: [SalariesController, AppController],
-  providers: [SalariesService, AppService],
+  controllers: [OvertimesController, SalariesController, AppController],
+  providers: [OvertimesService, SalariesService, AppService],
 })
 export class AppModule {}

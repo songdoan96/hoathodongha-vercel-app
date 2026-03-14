@@ -146,3 +146,20 @@ model SalaryNote {
 
 //   @@map("fcm_tokens")
 // }
+
+model Overtime {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  bophan String
+  ngay   String
+  gio    String
+  lydo   String
+
+  totruong String
+  quandoc  String?
+  lanhdao  String?
+
+  createdAt DateTime @default(now())
+
+  @@map("overtimes")
+}
