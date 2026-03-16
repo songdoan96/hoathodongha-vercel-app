@@ -10,6 +10,11 @@ export class EmployeesService {
       where: { msnv: { startsWith: msnv } },
     });
   }
+  async findByMsnv(msnv: string) {
+    return await this.prisma.employee.findFirst({
+      where: { msnv },
+    });
+  }
   async findAll() {
     return await this.prisma.employee.findMany({
       orderBy: [{ active: 'desc' }, { msnv: 'asc' }],

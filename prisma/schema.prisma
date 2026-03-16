@@ -155,6 +155,8 @@ model Overtime {
   gio    String
   lydo   String
 
+  danhsach String[] @db.ObjectId
+
   totruong String
   quandoc  String?
   lanhdao  String?
