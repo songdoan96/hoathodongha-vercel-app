@@ -19,10 +19,10 @@ const QUERY_KEY = {
 };
 
 export const useEmployeesFindByStaffId = (msnv: string) => {
-  return useQuery({
+  return useQuery<EmployeeType>({
     queryKey: [QUERY_KEY.FIND_BY_STAFF_ID, msnv],
     queryFn: () => apiEmployeesFindByStaffId(msnv),
-    enabled: !!msnv,
+    enabled: !!msnv && msnv.length === 4,
   });
 };
 export const useEmployeesFindAll = () => {

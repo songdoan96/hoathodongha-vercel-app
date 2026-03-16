@@ -36,7 +36,7 @@ export default function FormCreateLeave() {
 
   const [employeeSearch, setEmployeeSearch] = useState("");
   const [debouncedSearch] = useDebounce(employeeSearch, 300);
-  const employeeQuery = useEmployeesFindByStaffId(debouncedSearch);
+  const { data: employeesFindByStaffId } = useEmployeesFindByStaffId(debouncedSearch);
 
   const form = useForm<FormLeaveCreateSchemaType>({
     resolver: zodResolver(FormLeaveCreateSchema),
@@ -95,7 +95,40 @@ export default function FormCreateLeave() {
                 )}
               />
               <div className="bg-gray-100 mt-2 text-sm">
-                {employeeQuery.data && employeeQuery.data.length > 0 && (
+                {employeesFindByStaffId && (
+                  <>
+                    <div className="p-2">
+                      <h1 className="mb-4 text-red-500 font-bold uppercase">
+                        Chọn tên để tự động điền thông tin
+                      </h1>
+                      <div className="flex flex-col">
+                        <div
+                          onClick={() => {
+                            form.setValue("msnv", employeesFindByStaffId.msnv);
+                            form.setValue("hoten", employeesFindByStaffId.hoten);
+                            form.setValue("to", employeesFindByStaffId.bophan, {
+                              shouldValidate: true,
+                            });
+                            setEmployeeSearch("");
+                          }}
+                          className="inline-flex gap-2 items-center border-b cursor-pointer"
+                        >
+                          <p className="font-bold">{employeesFindByStaffId.msnv}:</p>
+                          <p className="font-bold">{employeesFindByStaffId.hoten}</p>
+                          <p className="font-bold text-red-500">
+                            (
+                            {
+                              linesList.find((line) => line.value === employeesFindByStaffId.bophan)
+                                ?.name
+                            }
+                            )
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+                {/* {employeeQuery.data && employeeQuery.data.length > 0 && (
                   <div className="p-2">
                     <h1 className="mb-4 text-red-500 font-bold uppercase">
                       Chọn tên để tự động điền thông tin
@@ -122,7 +155,7 @@ export default function FormCreateLeave() {
                         ))}
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
 
