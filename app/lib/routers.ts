@@ -22,4 +22,9 @@ export default () => ({
     detail: "/tao-don/chi-tiet",
     security: "/bao-ve",
   },
+  overtime: {
+    dashboard: "/tangca",
+    create: "/tangca/taodon",
+    detail: (id: string) => "/tangca/chitiet/" + id,
+  },
 });

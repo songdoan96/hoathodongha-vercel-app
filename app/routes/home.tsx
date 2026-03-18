@@ -1,4 +1,4 @@
-import { ClipboardPenLine, DollarSign, Signature } from "lucide-react";
+import { ClipboardPenLine, ClipboardPlus, DollarSign, Signature } from "lucide-react";
 import { Link } from "react-router";
 import routers from "~/lib/routers";
 
@@ -53,6 +53,14 @@ function Home() {
             </div>
             <Link to={"/luong"} className="font-bold bg-blue-500 w-full inline-block my-1 py-2">
               Tra cứu lương
+            </Link>
+          </div>
+          <div className="bg-gray-50 min-w-52 border-2 border-orange-600 flex flex-col justify-center items-center rounded">
+            <div className="bg-blue-100 rounded-full p-2 w-10 h-10 md:w-20 md:h-20 flex justify-center items-center my-4">
+              <ClipboardPlus color="blue" size={30} className="" />
+            </div>
+            <Link to={"/tangca"} className="font-bold bg-blue-500 w-full inline-block my-1 py-2">
+              Tăng ca
             </Link>
           </div>
         </div>

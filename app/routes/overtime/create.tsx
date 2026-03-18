@@ -114,7 +114,7 @@ function OvertimeCreate() {
   return (
     <div>
       <HeaderComponent>
-        <HeaderTitle>PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ</HeaderTitle>
+        <HeaderTitle>ĐĂNG KÝ TĂNG CA</HeaderTitle>
       </HeaderComponent>
       <form onSubmit={handleSubmit}>
         <div className="p-2 flex flex-col gap-2">
@@ -168,9 +168,6 @@ function OvertimeCreate() {
           </div>
         </div>
         <div className="overflow-x-hidden w-full">
-          <h1 className="text-center uppercase text-xl p-4 font-semibold">
-            Danh sách lao động đăng ký tự nguyện làm thêm giờ
-          </h1>
           {employeesIsLoading ? (
             <Loading fullScreen />
           ) : (
@@ -179,7 +176,7 @@ function OvertimeCreate() {
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr
                     key={headerGroup.id}
-                    className="bg-teal-700 text-white border-b border-slate-200"
+                    className="bg-[#37b159] text-white border-b border-slate-200"
                   >
                     {headerGroup.headers.map((header) => {
                       return (
