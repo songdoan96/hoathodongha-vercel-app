@@ -6,7 +6,9 @@ import { Button } from "~/components/ui/button";
 import { useOvertimesFindAll, useOvertimesUpdate } from "~/hooks/overtimes-hook";
 import routers from "~/lib/routers";
 import useAuthStore from "~/stores/auth-store";
-
+export function meta() {
+  return [{ title: "Danh sách đăng ký tăng ca" }];
+}
 function OvertimeDashboard() {
   const { data, isLoading } = useOvertimesFindAll();
   const { user } = useAuthStore();
@@ -24,9 +26,8 @@ function OvertimeDashboard() {
   }
   return (
     <div className="w-full h-full min-h-screen bg-gray-100">
-      {/* <meta name="viewport" content="width=device-width, initial-scale=0.5" /> */}
       <HeaderComponent>
-        <span className="uppercase text-white font-bold text-center w-full">
+        <span className="uppercase text-white font-bold text-center w-full lg:text-2xl">
           Danh sách đăng ký tăng ca
         </span>
       </HeaderComponent>

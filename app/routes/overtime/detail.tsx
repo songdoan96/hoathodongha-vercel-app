@@ -6,6 +6,10 @@ import routers from "~/lib/routers";
 import useAuthStore from "~/stores/auth-store";
 import type { Route } from "./+types/detail";
 
+export function meta() {
+  return [{ title: "PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ" }];
+}
+
 export async function loader({ params }: Route.LoaderArgs) {
   return params.id;
 }
@@ -30,7 +34,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
         <Link to={routers().overtime.dashboard}>
           <img src="/images/logo.png" className="w-8" alt="" />
         </Link>
-        <h1 className="mx-auto text-white font-bold ">PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ</h1>
+        <h1 className="mx-auto text-white font-bold lg:text-2xl">PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ</h1>
       </div>
       {isLoading && <Loading fullScreen />}
       <div className="p-1 lg:p-4">

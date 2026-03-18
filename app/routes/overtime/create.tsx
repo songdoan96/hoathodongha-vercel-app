@@ -17,8 +17,12 @@ import { useOvertimesCreate } from "~/hooks/overtimes-hook";
 import { linesList } from "~/lib/variables";
 import useAuthStore from "~/stores/auth-store";
 import type { EmployeeType } from "~/types/employee-type";
-const columnHelper = createColumnHelper<EmployeeType>();
 
+export function meta() {
+  return [{ title: "ĐĂNG KÝ TĂNG CA" }];
+}
+
+const columnHelper = createColumnHelper<EmployeeType>();
 const columns = [
   columnHelper.accessor("id", {
     id: "id",
