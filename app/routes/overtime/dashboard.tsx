@@ -7,6 +7,7 @@ import { Button } from "~/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 import { useOvertimesFindAll, useOvertimesUpdate } from "~/hooks/overtimes-hook";
 import routers from "~/lib/routers";
+import { linesList } from "~/lib/variables";
 import useAuthStore from "~/stores/auth-store";
 export function meta() {
   return [{ title: "Danh sách đăng ký tăng ca" }];
@@ -33,14 +34,14 @@ function OvertimeDashboard() {
           Danh sách đăng ký tăng ca
         </span>
       </HeaderComponent>
-      <div className="text-blue-600 my-2 flex justify-center items-center">
+      <div className="text-blue-600 my-4 flex justify-center items-center">
         {user &&
           user?.bophan !== "lanhdao" &&
           user?.bophan !== "giamdoc" &&
           !user?.bophan?.includes("quandoc") && (
             <Link
               to={routers().overtime.create}
-              className="uppercase underline font-semibold flex items-center gap-1"
+              className="uppercase font-semibold flex items-center gap-1 bg-blue-100 hover:bg-blue-200 p-2 px-4 rounded"
             >
               <ClipboardPlus />
               <span>Tạo đơn</span>
@@ -48,7 +49,7 @@ function OvertimeDashboard() {
           )}
       </div>
 
-      <div className="p-2 w-full h-full flex-1">
+      <div className="w-full h-full flex-1">
         {isLoading ? (
           <Loading fullScreen />
         ) : (
@@ -74,7 +75,9 @@ function OvertimeDashboard() {
                       {format(overtime.createdAt, "dd/MM")}
                     </td>
                     <td className="text-center border p-2 whitespace-nowrap underline text-blue-600 font-bold">
-                      <Link to={routers().overtime.detail(overtime.id)}>{overtime.bophan}</Link>
+                      <Link to={routers().overtime.detail(overtime.id)}>
+                        {linesList.find((line) => line.value === overtime.bophan)?.name}
+                      </Link>
                     </td>
                     <td className="text-center border p-2 whitespace-nowrap">{overtime.ngay}</td>
                     <td className="text-center border p-2 whitespace-nowrap">{overtime.gio}</td>

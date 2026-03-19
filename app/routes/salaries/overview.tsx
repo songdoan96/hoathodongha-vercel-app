@@ -25,12 +25,10 @@ const chartConfig = {
 } satisfies ChartConfig;
 function SalaryTotal() {
   const { cccd, msnv } = useSalaryStore();
-  console.log(`🚀 ~ SalaryTotal ~ { cccd, msnv }:`, { cccd, msnv });
   const { data: salaries, isLoading } = useSalariesDashboard({
     msnv,
     cccd,
   });
-  console.log("🚀 ~ SalaryTotal ~ salaries:", salaries);
   const salary = salaries?.[0];
   const tongthunhap =
     salaries?.reduce((acc, salary) => {

@@ -6,6 +6,7 @@ import routers from "~/lib/routers";
 import useAuthStore from "~/stores/auth-store";
 import type { Route } from "./+types/detail";
 import { CalendarDays, Clock3, Hash, MessageCircleQuestionMark } from "lucide-react";
+import { linesList } from "~/lib/variables";
 
 export function meta() {
   return [{ title: "PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ" }];
@@ -45,7 +46,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
               <div className="flex gap-2 items-center">
                 <Hash color="green" />
                 <span className="font-semibold text-blue-600 uppercase">Bộ phận:</span>
-                <span>{overtime?.bophan}</span>
+                <span>{linesList.find((line) => line.value === overtime.bophan)?.name}</span>
               </div>
               <div className="flex gap-2 items-center">
                 <CalendarDays color="green" />
