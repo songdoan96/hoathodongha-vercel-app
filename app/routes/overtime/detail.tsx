@@ -5,7 +5,15 @@ import { useOvertimesFindOne, useOvertimesUpdate } from "~/hooks/overtimes-hook"
 import routers from "~/lib/routers";
 import useAuthStore from "~/stores/auth-store";
 import type { Route } from "./+types/detail";
-import { CalendarDays, Clock3, Hash, MessageCircleQuestionMark } from "lucide-react";
+import {
+  Ban,
+  CalendarDays,
+  Clock3,
+  Hash,
+  MessageCircleQuestionMark,
+  Signature,
+  Trash2,
+} from "lucide-react";
 import { linesList } from "~/lib/variables";
 
 export function meta() {
@@ -26,6 +34,17 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
         id,
         formData: {
           [bophan]: user.name,
+        },
+      });
+    }
+  }
+  function handleCancel(id: string) {
+    if (user) {
+      mutateUpdate({
+        id,
+        formData: {
+          status: false,
+          lanhdao: user.name,
         },
       });
     }
@@ -64,27 +83,41 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                 <span>: {overtime?.lydo}</span>
               </div>
             </div>
-            <h1 className="uppercase text-center my-2 font-semibold border-y py-2 shadow text-blue-900">
-              Danh sách lao động đăng ký tự nguyện làm thêm giờ
-            </h1>
-            <table className="table w-full bg-white">
-              <thead>
-                <tr className="bg-[#37b159] text-white uppercase">
-                  <th className="text-center border p-1">STT</th>
-                  <th className="text-center border p-1">Họ tên</th>
-                  <th className="text-center border p-1">MSNV</th>
-                </tr>
-              </thead>
-              <tbody>
-                {overtime?.danhsach.map((emp, index) => (
-                  <tr key={index} className="bg-green-50 text-green-900 uppercase font-semibold">
-                    <td className="text-center border p-1">{index + 1}</td>
-                    <td className="text-center border p-1">{emp.hoten}</td>
-                    <td className="text-center border p-1">{emp.msnv}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+
+            {overtime.status ? (
+              <>
+                <h1 className="uppercase text-center my-2 font-semibold border-y py-2 shadow text-blue-900">
+                  Danh sách lao động đăng ký tự nguyện làm thêm giờ
+                </h1>
+                <table className="table w-full bg-white">
+                  <thead>
+                    <tr className="bg-[#37b159] text-white uppercase">
+                      <th className="text-center border p-1">STT</th>
+                      <th className="text-center border p-1">Họ tên</th>
+                      <th className="text-center border p-1">MSNV</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {overtime?.danhsach.map((emp, index) => (
+                      <tr
+                        key={index}
+                        className="bg-green-50 text-green-900 uppercase font-semibold"
+                      >
+                        <td className="text-center border p-1">{index + 1}</td>
+                        <td className="text-center border p-1">{emp.hoten}</td>
+                        <td className="text-center border p-1">{emp.msnv}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
+            ) : (
+              <div className="flex justify-center items-center gap-4 uppercase font-semibold text-3xl my-4 py-8 text-red-600 bg-red-50">
+                <Ban />
+                <h1>Đơn tăng ca không có hiệu lực</h1>
+              </div>
+            )}
+
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-y-8 mt-10">
               <div className="flex flex-col items-center gap-4">
                 <span className="uppercase font-bold text-blue-600">Tổ trưởng</span>
@@ -110,15 +143,26 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                 <span className="uppercase font-bold text-blue-600">Ban giám đốc</span>
                 <span className="text-center text-green-900">
                   {overtime.lanhdao}
-                  {!overtime.lanhdao &&
-                    (user?.bophan?.includes("lanhdao") || user?.bophan?.includes("giamdoc")) && (
-                      <Button
-                        variant="link"
-                        className="underline text-red-500"
-                        onClick={() => handleSignature(overtime.id, "lanhdao")}
-                      >
-                        Ký đơn
-                      </Button>
+                  {overtime.status &&
+                    (user?.bophan === "lanhdao" || user?.bophan === "giamdoc") &&
+                    (!overtime.bophan.startsWith("X") ||
+                      (overtime.bophan.startsWith("X") && overtime.quandoc)) && (
+                      <div className="flex justify-center items-center gap-2">
+                        <Button
+                          variant="link"
+                          className="text-red-500 inline-flex bg-red-100"
+                          onClick={() => handleCancel(overtime.id)}
+                        >
+                          <Trash2 /> Hủy đơn
+                        </Button>
+                        <Button
+                          variant="link"
+                          className="text-blue-500 inline-flex bg-blue-100"
+                          onClick={() => handleSignature(overtime.id, "lanhdao")}
+                        >
+                          <Signature /> Ký đơn
+                        </Button>
+                      </div>
                     )}
                 </span>
               </div>

@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { ClipboardPlus } from "lucide-react";
+import { ClipboardPlus, Signature, Trash2 } from "lucide-react";
 import { Link } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
@@ -23,6 +23,17 @@ function OvertimeDashboard() {
         id,
         formData: {
           [bophan]: user.name,
+        },
+      });
+    }
+  }
+  function handleCancel(id: string) {
+    if (user) {
+      mutateUpdate({
+        id,
+        formData: {
+          status: false,
+          lanhdao: user.name,
         },
       });
     }
@@ -54,7 +65,7 @@ function OvertimeDashboard() {
           <Loading fullScreen />
         ) : (
           <div className="overflow-x-auto w-full h-full flex-1">
-            <table className="w-full h-full divide-y divide-gray-200 bg-green-50 shadow-2xl">
+            <table className="w-full h-full divide-y divide-gray-200  shadow-2xl">
               <thead className="rounded-2xl">
                 <tr className="bg-[#37b159] text-white uppercase">
                   <th className="text-center border p-2 whitespace-nowrap">Ngày tạo</th>
@@ -70,7 +81,10 @@ function OvertimeDashboard() {
               </thead>
               <tbody>
                 {data?.map((overtime) => (
-                  <tr key={overtime.id} className="hover:bg-green-100">
+                  <tr
+                    key={overtime.id}
+                    className={`${!overtime.status ? "bg-red-50 line-through text-red-500" : "bg-green-50 hover:bg-green-100"}`}
+                  >
                     <td className="text-center border p-2 whitespace-nowrap">
                       {format(overtime.createdAt, "dd/MM")}
                     </td>
@@ -92,7 +106,7 @@ function OvertimeDashboard() {
                             {overtime.danhsach.length} người
                           </Link>
                         </TooltipTrigger>
-                        <TooltipContent>
+                        <TooltipContent side="bottom">
                           {overtime.danhsach.map((person, index) => (
                             <p key={index}>
                               {index + 1}.{person.hoten}
@@ -117,18 +131,28 @@ function OvertimeDashboard() {
                           </Button>
                         )}
                     </td>
-                    <td className="text-center border p-2 whitespace-nowrap">
+                    <td className="text-center border p-2 whitespace-nowrap w-40">
                       {overtime.lanhdao}
-                      {!overtime.lanhdao &&
-                        (user?.bophan?.includes("lanhdao") ||
-                          user?.bophan?.includes("giamdoc")) && (
-                          <Button
-                            variant="link"
-                            className="underline text-red-500"
-                            onClick={() => handleSignature(overtime.id, "lanhdao")}
-                          >
-                            Ký đơn
-                          </Button>
+                      {overtime.status &&
+                        (user?.bophan === "lanhdao" || user?.bophan === "giamdoc") &&
+                        (!overtime.bophan.startsWith("X") ||
+                          (overtime.bophan.startsWith("X") && overtime.quandoc)) && (
+                          <div className="flex justify-center items-center gap-2">
+                            <Button
+                              variant="link"
+                              className="text-red-500 inline-flex bg-red-100"
+                              onClick={() => handleCancel(overtime.id)}
+                            >
+                              <Trash2 /> Hủy đơn
+                            </Button>
+                            <Button
+                              variant="link"
+                              className="text-blue-500 inline-flex bg-blue-100"
+                              onClick={() => handleSignature(overtime.id, "lanhdao")}
+                            >
+                              <Signature /> Ký đơn
+                            </Button>
+                          </div>
                         )}
                     </td>
                   </tr>

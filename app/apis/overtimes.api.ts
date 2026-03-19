@@ -19,6 +19,7 @@ export interface OvertimesUpdateDTO {
   totruong?: string;
   quandoc?: string | null;
   lanhdao?: string | null;
+  status?: boolean;
 }
 interface OvertimeEmployee {
   msnv: string;

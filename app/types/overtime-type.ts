@@ -9,6 +9,7 @@ export interface OvertimeType {
   quandoc: string | null;
   lanhdao: string | null;
   createdAt: Date;
+  status: boolean;
 }
 interface OvertimeEmployee {
   msnv: string;
