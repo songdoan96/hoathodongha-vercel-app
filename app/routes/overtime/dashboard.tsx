@@ -133,7 +133,8 @@ function OvertimeDashboard() {
                     </td>
                     <td className="text-center border p-2 whitespace-nowrap w-40">
                       {overtime.lanhdao}
-                      {overtime.status &&
+                      {!overtime.lanhdao &&
+                        overtime.status &&
                         (user?.bophan === "lanhdao" || user?.bophan === "giamdoc") &&
                         (!overtime.bophan.startsWith("X") ||
                           (overtime.bophan.startsWith("X") && overtime.quandoc)) && (

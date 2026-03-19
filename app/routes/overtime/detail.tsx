@@ -143,7 +143,8 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                 <span className="uppercase font-bold text-blue-600">Ban giám đốc</span>
                 <span className="text-center text-green-900">
                   {overtime.lanhdao}
-                  {overtime.status &&
+                  {!overtime.lanhdao &&
+                    overtime.status &&
                     (user?.bophan === "lanhdao" || user?.bophan === "giamdoc") &&
                     (!overtime.bophan.startsWith("X") ||
                       (overtime.bophan.startsWith("X") && overtime.quandoc)) && (
