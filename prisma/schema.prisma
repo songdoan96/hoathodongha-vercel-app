@@ -155,7 +155,7 @@ model Overtime {
   gio    String
   lydo   String
 
-  danhsach String[] @db.ObjectId
+  danhsach OvertimeEmployee[]
 
   totruong String
   quandoc  String?
@@ -164,4 +164,9 @@ model Overtime {
   createdAt DateTime @default(now())
 
   @@map("overtimes")
+}
+
+type OvertimeEmployee {
+  msnv  String
+  hoten String
 }

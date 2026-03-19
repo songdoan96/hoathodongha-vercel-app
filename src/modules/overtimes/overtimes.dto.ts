@@ -3,6 +3,11 @@ export class CreateOvertimesDto {
   ngay: string;
   gio: string;
   lydo: string;
-  danhsach: string[];
+  danhsach: OvertimeEmployee[];
   totruong: string;
+}
+
+class OvertimeEmployee {
+  msnv: string;
+  hoten: string;
 }
