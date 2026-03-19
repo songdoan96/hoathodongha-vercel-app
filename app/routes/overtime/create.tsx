@@ -79,7 +79,6 @@ function OvertimeCreate() {
 
   const [employeeSearch, setEmployeeSearch] = useState("");
   const { data: employeesFindByStaffId } = useEmployeesFindByStaffId(employeeSearch);
-  const [bophan, setBophan] = useState(user?.bophan);
   const [ngayDangKy, setNgayDangKy] = useState("");
   const [gioDangKy, setGioDangKy] = useState("");
   const [lydo, setLydo] = useState("");
@@ -130,14 +129,9 @@ function OvertimeCreate() {
             <Label htmlFor="bophan" className="font-semibold text-green-800">
               Bộ phận
             </Label>
-            <Input
-              name="bophan"
-              id="bophan"
-              value={bophan}
-              onChange={(e) => setBophan(e.target.value)}
-              required
-              className="w-52 ml-auto bg-white"
-            />
+            <span className="w-52 ml-auto bg-white p-2 py-1 text-green-800 border rounded">
+              {linesList.find((line) => line.value === user?.bophan)?.name}
+            </span>
           </div>
           <div className="flex gap-2 items-center">
             <CalendarDays color="red" size={24} />
