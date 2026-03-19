@@ -4,9 +4,13 @@ export interface OvertimeType {
   ngay: string;
   gio: string;
   lydo: string;
-  danhsach: string[];
+  danhsach: OvertimeEmployee[];
   totruong: string;
   quandoc: string | null;
   lanhdao: string | null;
   createdAt: Date;
+}
+interface OvertimeEmployee {
+  msnv: string;
+  hoten: string;
 }

@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
 import { Button } from "~/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 import { useOvertimesFindAll, useOvertimesUpdate } from "~/hooks/overtimes-hook";
 import routers from "~/lib/routers";
 import useAuthStore from "~/stores/auth-store";
@@ -78,12 +79,23 @@ function OvertimeDashboard() {
                     <td className="text-center border p-2 whitespace-nowrap">{overtime.gio}</td>
                     <td className="text-center border p-2 whitespace-nowrap">{overtime.lydo}</td>
                     <td className="text-center border p-2 whitespace-nowrap">
-                      <Link
-                        to={routers().overtime.detail(overtime.id)}
-                        className="underline text-blue-600 font-bold"
-                      >
-                        {overtime.danhsach.length} người
-                      </Link>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Link
+                            to={routers().overtime.detail(overtime.id)}
+                            className="underline text-blue-600 font-bold"
+                          >
+                            {overtime.danhsach.length} người
+                          </Link>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          {overtime.danhsach.map((person, index) => (
+                            <p key={index}>
+                              {index + 1}.{person.hoten}
+                            </p>
+                          ))}
+                        </TooltipContent>
+                      </Tooltip>
                     </td>
                     <td className="text-center border p-2 whitespace-nowrap">
                       {overtime.totruong}

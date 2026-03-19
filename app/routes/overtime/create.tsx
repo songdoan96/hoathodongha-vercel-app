@@ -103,7 +103,6 @@ function OvertimeCreate() {
   });
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(table.getSelectedRowModel().rows.map((row) => row.id));
     if (user?.bophan && table.getSelectedRowModel().rows.length > 0) {
       mutate.mutate({
         bophan: user?.bophan,
@@ -111,7 +110,10 @@ function OvertimeCreate() {
         gio: gioDangKy,
         lydo,
         totruong: user.name,
-        danhsach: table.getSelectedRowModel().rows.map((row) => row.id),
+        danhsach: table.getSelectedRowModel().rows.map((id) => ({
+          msnv: id.original.msnv,
+          hoten: id.original.hoten,
+        })),
       });
     }
   }

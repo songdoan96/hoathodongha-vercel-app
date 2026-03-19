@@ -6,7 +6,7 @@ export interface OvertimesCreateDTO {
   ngay: string;
   gio: string;
   lydo: string;
-  danhsach: string[];
+  danhsach: OvertimeEmployee[];
   totruong: string;
 }
 
@@ -15,10 +15,14 @@ export interface OvertimesUpdateDTO {
   ngay?: string;
   gio?: string;
   lydo?: string;
-  danhsach?: string[];
+  danhsach?: OvertimeEmployee[];
   totruong?: string;
   quandoc?: string | null;
   lanhdao?: string | null;
+}
+interface OvertimeEmployee {
+  msnv: string;
+  hoten: string;
 }
 
 export const apiOvertimesFindAll = async () => {

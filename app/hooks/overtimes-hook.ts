@@ -10,7 +10,6 @@ import {
   type OvertimesUpdateDTO,
 } from "~/apis/overtimes.api";
 import routers from "~/lib/routers";
-import type { EmployeeType } from "~/types/employee-type";
 import type { OvertimeType } from "~/types/overtime-type";
 
 const QUERY_KEY = {
@@ -34,13 +33,13 @@ export const useOvertimesCreate = () => {
   });
 };
 export const useOvertimesFindAll = () => {
-  return useQuery<(OvertimeType & { employees: EmployeeType[] })[]>({
+  return useQuery<OvertimeType[]>({
     queryKey: [QUERY_KEY.FIND_ALL],
     queryFn: apiOvertimesFindAll,
   });
 };
 export const useOvertimesFindOne = (id: string) => {
-  return useQuery<OvertimeType & { employees: EmployeeType[] }>({
+  return useQuery<OvertimeType>({
     queryKey: [QUERY_KEY.FIND_ONE, id],
     queryFn: () => apiOvertimesFindOne(id),
     enabled: !!id,

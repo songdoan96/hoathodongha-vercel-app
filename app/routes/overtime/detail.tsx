@@ -64,16 +64,14 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                   <th className="text-center border p-1">STT</th>
                   <th className="text-center border p-1">Họ tên</th>
                   <th className="text-center border p-1">MSNV</th>
-                  <th className="text-center border p-1">Tổ</th>
                 </tr>
               </thead>
               <tbody>
-                {overtime?.employees.map((emp, index) => (
+                {overtime?.danhsach.map((emp, index) => (
                   <tr key={index}>
                     <td className="text-center border p-1">{index + 1}</td>
                     <td className="text-center border p-1">{emp.hoten}</td>
                     <td className="text-center border p-1">{emp.msnv}</td>
-                    <td className="text-center border p-1">{emp.bophan}</td>
                   </tr>
                 ))}
               </tbody>
