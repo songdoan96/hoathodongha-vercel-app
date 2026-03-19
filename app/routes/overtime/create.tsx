@@ -123,13 +123,13 @@ function OvertimeCreate() {
         <HeaderTitle>ĐĂNG KÝ TĂNG CA</HeaderTitle>
       </HeaderComponent>
       <form onSubmit={handleSubmit}>
-        <div className="p-2 flex flex-col gap-2 uppercase bg-green-50 lg:max-w-xl lg:px-8 mx-auto">
+        <div className="p-2 py-4 flex flex-col gap-2 uppercase bg-green-100 lg:max-w-xl lg:px-8 mx-auto">
           <div className="flex gap-2 items-center">
             <Hash color="red" size={24} />
             <Label htmlFor="bophan" className="font-semibold text-green-800">
               Bộ phận
             </Label>
-            <span className="w-52 ml-auto bg-white p-2 py-1 text-green-800 border rounded">
+            <span className="w-44 ml-auto bg-white p-2 py-1 text-green-800 border rounded">
               {linesList.find((line) => line.value === user?.bophan)?.name}
             </span>
           </div>
@@ -144,7 +144,7 @@ function OvertimeCreate() {
               value={ngayDangKy}
               onChange={(e) => setNgayDangKy(e.target.value)}
               required
-              className="w-52 ml-auto bg-white"
+              className="w-44 ml-auto bg-white"
             />
           </div>
           <div className="flex gap-2 items-center">
@@ -158,21 +158,23 @@ function OvertimeCreate() {
               value={gioDangKy}
               onChange={(e) => setGioDangKy(e.target.value)}
               required
-              className="w-52 ml-auto bg-white"
+              className="w-44 ml-auto bg-white"
             />
           </div>
-          <div className="flex gap-2 items-center">
-            <MessageCircleQuestionMark color="red" size={24} />
-            <Label htmlFor="lydo" className="font-semibold text-green-800">
-              Lý do
-            </Label>
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2">
+              <MessageCircleQuestionMark color="red" size={24} />
+              <Label htmlFor="lydo" className="font-semibold text-green-800 underline">
+                Lý do:
+              </Label>
+            </div>
             <Input
               name="lydo"
               id="lydo"
               value={lydo}
               onChange={(e) => setLydo(e.target.value)}
               required
-              className="w-52 ml-auto bg-white"
+              className="w-full ml-auto bg-white"
             />
           </div>
         </div>

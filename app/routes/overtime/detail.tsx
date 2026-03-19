@@ -41,27 +41,27 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
       {isLoading && <Loading fullScreen />}
       <div className="p-1 lg:p-4">
         {overtime && (
-          <div className="lg:max-w-5xl mx-auto border p-1 lg:p-4 py-8 shadow-2xl rounded-xl bg-white">
-            <div className="grid grid-cols-2 gap-2 gap-y-4 w-full">
+          <div className="lg:max-w-5xl mx-auto border p-1 py-4 shadow-2xl rounded-xl bg-white">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 gap-y-4 w-full">
               <div className="flex gap-2 items-center">
                 <Hash color="green" />
-                <span className="font-semibold text-blue-600 uppercase">Bộ phận:</span>
-                <span>{linesList.find((line) => line.value === overtime.bophan)?.name}</span>
+                <span className="font-semibold text-blue-600 uppercase w-20">Bộ phận</span>
+                <span>: {linesList.find((line) => line.value === overtime.bophan)?.name}</span>
               </div>
               <div className="flex gap-2 items-center">
                 <CalendarDays color="green" />
-                <span className="font-semibold text-blue-600 uppercase">Ngày:</span>
-                <span>{overtime?.ngay}</span>
+                <span className="font-semibold text-blue-600 uppercase w-20">Ngày</span>
+                <span>: {overtime?.ngay}</span>
               </div>
               <div className="flex gap-2 items-center">
                 <Clock3 color="green" />
-                <span className="font-semibold text-blue-600 uppercase">Giờ:</span>
-                <span>{overtime?.gio}</span>
+                <span className="font-semibold text-blue-600 uppercase w-20">Giờ</span>
+                <span>: {overtime?.gio}</span>
               </div>
               <div className="flex gap-2 items-center">
                 <MessageCircleQuestionMark color="green" />
-                <span className="font-semibold text-blue-600 uppercase">Lý do:</span>
-                <span>{overtime?.lydo}</span>
+                <span className="font-semibold text-blue-600 uppercase w-20">Lý do</span>
+                <span>: {overtime?.lydo}</span>
               </div>
             </div>
             <table className="table w-full my-8 bg-white">
