@@ -162,6 +162,7 @@ model Overtime {
   lanhdao  String?
 
   createdAt DateTime @default(now())
+  status    Boolean  @default(true)
 
   @@map("overtimes")
 }
