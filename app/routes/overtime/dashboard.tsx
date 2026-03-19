@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { ClipboardPlus } from "lucide-react";
 import { Link } from "react-router";
 import { HeaderComponent } from "~/components/Header";
@@ -26,7 +27,7 @@ function OvertimeDashboard() {
     }
   }
   return (
-    <div className="w-full h-full min-h-screen bg-gray-100">
+    <div className="w-full h-full min-h-screen bg-white flex flex-col">
       <HeaderComponent>
         <span className="uppercase text-white font-bold text-center w-full lg:text-2xl">
           Danh sách đăng ký tăng ca
@@ -47,15 +48,15 @@ function OvertimeDashboard() {
           )}
       </div>
 
-      <div className="p-2 w-full">
+      <div className="p-2 w-full h-full flex-1">
         {isLoading ? (
           <Loading fullScreen />
         ) : (
-          <div className="overflow-x-auto w-full">
-            <table className="min-w-full divide-y divide-gray-200 bg-white">
+          <div className="overflow-x-auto w-full h-full flex-1">
+            <table className="w-full h-full divide-y divide-gray-200 bg-green-50 shadow-2xl">
               <thead className="rounded-2xl">
                 <tr className="bg-[#37b159] text-white uppercase">
-                  {/* <th className="text-center border p-2 whitespace-nowrap">Ngày</th> */}
+                  <th className="text-center border p-2 whitespace-nowrap">Ngày tạo</th>
                   <th className="text-center border p-2 whitespace-nowrap">Bộ phận</th>
                   <th className="text-center border p-2 whitespace-nowrap">Ngày đăng ký</th>
                   <th className="text-center border p-2 whitespace-nowrap">Giờ đăng ký</th>
@@ -68,10 +69,10 @@ function OvertimeDashboard() {
               </thead>
               <tbody>
                 {data?.map((overtime) => (
-                  <tr key={overtime.id}>
-                    {/* <td className="text-center border p-2 whitespace-nowrap">
+                  <tr key={overtime.id} className="hover:bg-green-100">
+                    <td className="text-center border p-2 whitespace-nowrap">
                       {format(overtime.createdAt, "dd/MM")}
-                    </td> */}
+                    </td>
                     <td className="text-center border p-2 whitespace-nowrap underline text-blue-600 font-bold">
                       <Link to={routers().overtime.detail(overtime.id)}>{overtime.bophan}</Link>
                     </td>

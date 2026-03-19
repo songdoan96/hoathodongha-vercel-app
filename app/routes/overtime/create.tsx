@@ -5,6 +5,7 @@ import {
   useReactTable,
   type RowSelectionState,
 } from "@tanstack/react-table";
+import { CalendarDays, Clock3, Hash, MessageCircleQuestionMark } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { HeaderComponent, HeaderTitle } from "~/components/Header";
 import Loading from "~/components/Loading";
@@ -123,9 +124,10 @@ function OvertimeCreate() {
         <HeaderTitle>ĐĂNG KÝ TĂNG CA</HeaderTitle>
       </HeaderComponent>
       <form onSubmit={handleSubmit}>
-        <div className="p-2 flex flex-col gap-2">
-          <div className="flex">
-            <Label htmlFor="bophan" className="w-3/7">
+        <div className="p-2 flex flex-col gap-2 uppercase bg-green-50 lg:max-w-xl lg:px-8 mx-auto">
+          <div className="flex gap-2 items-center">
+            <Hash color="red" size={24} />
+            <Label htmlFor="bophan" className="font-semibold text-green-800">
               Bộ phận
             </Label>
             <Input
@@ -134,10 +136,12 @@ function OvertimeCreate() {
               value={bophan}
               onChange={(e) => setBophan(e.target.value)}
               required
+              className="w-52 ml-auto bg-white"
             />
           </div>
-          <div className="flex">
-            <Label htmlFor="ngay" className="w-3/7">
+          <div className="flex gap-2 items-center">
+            <CalendarDays color="red" size={24} />
+            <Label htmlFor="ngay" className="font-semibold text-green-800">
               Ngày đăng ký
             </Label>
             <Input
@@ -146,10 +150,12 @@ function OvertimeCreate() {
               value={ngayDangKy}
               onChange={(e) => setNgayDangKy(e.target.value)}
               required
+              className="w-52 ml-auto bg-white"
             />
           </div>
-          <div className="flex">
-            <Label htmlFor="gio" className="w-3/7">
+          <div className="flex gap-2 items-center">
+            <Clock3 color="red" size={24} />
+            <Label htmlFor="gio" className="font-semibold text-green-800">
               Giờ đăng ký
             </Label>
             <Input
@@ -158,10 +164,12 @@ function OvertimeCreate() {
               value={gioDangKy}
               onChange={(e) => setGioDangKy(e.target.value)}
               required
+              className="w-52 ml-auto bg-white"
             />
           </div>
-          <div className="flex">
-            <Label htmlFor="lydo" className="w-3/7">
+          <div className="flex gap-2 items-center">
+            <MessageCircleQuestionMark color="red" size={24} />
+            <Label htmlFor="lydo" className="font-semibold text-green-800">
               Lý do
             </Label>
             <Input
@@ -170,6 +178,7 @@ function OvertimeCreate() {
               value={lydo}
               onChange={(e) => setLydo(e.target.value)}
               required
+              className="w-52 ml-auto bg-white"
             />
           </div>
         </div>
@@ -208,7 +217,7 @@ function OvertimeCreate() {
                   return (
                     <tr
                       key={row.id}
-                      className={`bg-white hover:bg-slate-50/50 group transition-colors ${row.getIsSelected() ? "selected" : null}`}
+                      className={`group transition-colors ${row.getIsSelected() ? "selected bg-green-100" : null}`}
                     >
                       {row.getVisibleCells().map((cell) => {
                         return (
