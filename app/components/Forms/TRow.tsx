@@ -86,7 +86,7 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
             {
               "bg-green-500": count === 1,
               "bg-yellow-500": count === 2,
-            }
+            },
           )}
         >
           {form.msnv.length === 4 ? (
@@ -212,7 +212,9 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
             : form.lanhdao
               ? form.lanhdao
               : user &&
-                (user.bophan === "lanhdao" || user.bophan === "giamdoc") &&
+                (user.bophan === "lanhdao" ||
+                  user.bophan === "giamdoc" ||
+                  user.username === "oanhnguyen") &&
                 ((!needToTruong && !needQuanDoc) ||
                   (needToTruong && needQuanDoc && form.quandoc) ||
                   (needToTruong && !needQuanDoc && form.totruong) ||

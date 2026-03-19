@@ -99,7 +99,7 @@ function FormView({ loaderData: id }: Route.ComponentProps) {
                   {data?.ngaytao &&
                     `Đông Hà, ngày ${formatDate(data.ngaytao, "dd")} tháng ${formatDate(
                       data.ngaytao,
-                      "MM"
+                      "MM",
                     )} năm ${formatDate(data.ngaytao, "yyyy")}`}
                 </span>
               </div>
@@ -137,7 +137,9 @@ function FormView({ loaderData: id }: Route.ComponentProps) {
                         : data.lanhdao
                           ? data.lanhdao
                           : user &&
-                            (user.bophan === "lanhdao" || user.bophan === "giamdoc") &&
+                            (user.bophan === "lanhdao" ||
+                              user.bophan === "giamdoc" ||
+                              user.username === "oanhnguyen") &&
                             ((!needToTruong && !needQuanDoc) ||
                               (needToTruong && needQuanDoc && data.quandoc) ||
                               (needToTruong && !needQuanDoc && data.totruong) ||
@@ -321,10 +323,10 @@ function FormView({ loaderData: id }: Route.ComponentProps) {
                   {data?.ngaytao && (
                     <span className="font-semibold">{`Đông Hà, ngày ${formatDate(
                       data.ngaytao,
-                      "dd"
+                      "dd",
                     )} tháng ${formatDate(data.ngaytao, "MM")} năm ${formatDate(
                       data.ngaytao,
-                      "yyyy"
+                      "yyyy",
                     )}`}</span>
                   )}
                 </div>

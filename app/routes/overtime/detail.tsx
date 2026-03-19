@@ -64,7 +64,10 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                 <span>: {overtime?.lydo}</span>
               </div>
             </div>
-            <table className="table w-full my-8 bg-white">
+            <h1 className="uppercase text-center my-2 font-semibold border-y py-2 shadow text-blue-900">
+              Danh sách lao động đăng ký tự nguyện làm thêm giờ
+            </h1>
+            <table className="table w-full bg-white">
               <thead>
                 <tr className="bg-[#37b159] text-white uppercase">
                   <th className="text-center border p-1">STT</th>
@@ -104,7 +107,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                 </span>
               </div>
               <div className="flex flex-col items-center col-span-2 lg:col-span-1 gap-4">
-                <span className="uppercase font-bold text-blue-600">Lãnh đạo</span>
+                <span className="uppercase font-bold text-blue-600">Ban giám đốc</span>
                 <span className="text-center text-green-900">
                   {overtime.lanhdao}
                   {!overtime.lanhdao &&

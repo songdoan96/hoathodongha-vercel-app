@@ -65,7 +65,7 @@ function OvertimeDashboard() {
                   <th className="text-center border p-2 whitespace-nowrap">Số lượng</th>
                   <th className="text-center border p-2 whitespace-nowrap">Tổ trưởng</th>
                   <th className="text-center border p-2 whitespace-nowrap">Quản đốc</th>
-                  <th className="text-center border p-2 whitespace-nowrap">Lãnh đạo</th>
+                  <th className="text-center border p-2 whitespace-nowrap">Ban giám đốc</th>
                 </tr>
               </thead>
               <tbody>
