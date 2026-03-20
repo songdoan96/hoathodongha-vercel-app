@@ -2,13 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOvertimesDto } from './overtimes.dto';
 import { Prisma } from '../../../generated/prisma';
+import { endOfMonth, startOfMonth } from 'date-fns';
 
 @Injectable()
 export class OvertimesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll() {
+  async findAll(month: string) {
     return await this.prisma.overtime.findMany({
+      where: {
+        createdAt: {
+          gte: startOfMonth(month),
+          lte: endOfMonth(month),
+        },
+      },
       orderBy: [{ id: 'desc' }],
     });
   }

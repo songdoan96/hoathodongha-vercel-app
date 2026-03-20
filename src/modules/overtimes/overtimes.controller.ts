@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { Prisma } from '../../../generated/prisma';
@@ -17,8 +18,8 @@ export class OvertimesController {
   constructor(private readonly overtimesService: OvertimesService) {}
 
   @Get()
-  findAll() {
-    return this.overtimesService.findAll();
+  findAll(@Query('month') month: string) {
+    return this.overtimesService.findAll(month);
   }
 
   @Get(':id')
