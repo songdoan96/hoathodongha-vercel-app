@@ -35,4 +35,8 @@ export class OvertimesService {
       data,
     });
   }
+
+  async remove(id: string) {
+    return await this.prisma.overtime.delete({ where: { id } });
+  }
 }

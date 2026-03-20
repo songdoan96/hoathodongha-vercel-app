@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -36,5 +37,11 @@ export class OvertimesController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() data: Prisma.OvertimeUpdateInput) {
     return this.overtimesService.update(id, data);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    return await this.overtimesService.remove(id);
   }
 }
