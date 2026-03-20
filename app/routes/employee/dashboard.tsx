@@ -24,8 +24,9 @@ import {
   useEmployeesFindAll,
   useEmployeesUpdate,
 } from "~/hooks/employees-hook";
+import { linesList } from "~/lib/variables";
 const formSchema = z.object({
-  msnv: z.string().min(1, "MSNV không được để trống.").max(4, "MSNV không hợp lệ."),
+  msnv: z.string().min(1, "MSNV không được để trống."),
   hoten: z.string().min(1, "Họ tên không được để trống."),
   bophan: z.string().min(1, "Bộ phân không được để trống."),
   cccd: z.string().optional(),
@@ -148,7 +149,9 @@ export default function EmployeeDashboardPage() {
                     <tr key={employee.id} className="bg-neutral-primary border-b border-default">
                       <td className="px-6 py-4">{employee.msnv}</td>
                       <td className="px-6 py-4">{employee.hoten}</td>
-                      <td className="px-6 py-4">{employee.bophan}</td>
+                      <td className="px-6 py-4">
+                        {linesList.find((line) => line.value === employee.bophan)?.name}
+                      </td>
                       <td className="px-6 py-4">{employee.cccd}</td>
                       <td className="px-6 py-4">
                         <Switch

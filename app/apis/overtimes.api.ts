@@ -43,3 +43,7 @@ export const apiOvertimesUpdate = async (id: string, formData: OvertimesUpdateDT
   const { data } = await apiClient.patch(router + "/" + id, formData);
   return data;
 };
+export const apiOvertimesDelete = async (id: string) => {
+  const { data } = await apiClient.delete(router + "/" + id);
+  return data;
+};

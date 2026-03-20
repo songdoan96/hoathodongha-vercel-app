@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import {
   apiOvertimesCreate,
+  apiOvertimesDelete,
   apiOvertimesFindAll,
   apiOvertimesFindOne,
   apiOvertimesUpdate,
@@ -54,6 +55,19 @@ export const useOvertimesUpdate = () => {
       toast.success("Thành công");
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.DASHBOARD] });
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ONE, res.id] });
+    },
+    onError: () => {
+      toast.error("Đã xảy ra lỗi, vui lòng thử lại");
+    },
+  });
+};
+export const useOvertimesDelete = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => apiOvertimesDelete(id),
+    onSuccess: () => {
+      toast.success("Thành công");
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.DASHBOARD] });
     },
     onError: () => {
       toast.error("Đã xảy ra lỗi, vui lòng thử lại");

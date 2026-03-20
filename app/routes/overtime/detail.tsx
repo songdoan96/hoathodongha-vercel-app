@@ -15,6 +15,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { linesList } from "~/lib/variables";
+import { checkRole } from "~/lib/helpers";
 
 export function meta() {
   return [{ title: "PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ" }];
@@ -45,6 +46,16 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
         formData: {
           status: false,
           lanhdao: user.name,
+        },
+      });
+    }
+  }
+  function handleDeleteEmployee(msnv: string) {
+    if (user && overtime) {
+      mutateUpdate({
+        id,
+        formData: {
+          danhsach: overtime.danhsach.filter((item) => item.msnv !== msnv),
         },
       });
     }
@@ -95,6 +106,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                       <th className="text-center border p-1">STT</th>
                       <th className="text-center border p-1">Họ tên</th>
                       <th className="text-center border p-1">MSNV</th>
+                      {checkRole("tochuc") && <th className="text-center border p-1">Ký tên</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -103,9 +115,23 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                         key={index}
                         className="bg-green-50 text-green-900 uppercase font-semibold"
                       >
-                        <td className="text-center border p-1">{index + 1}</td>
+                        <td className="text-center border p-1">
+                          <div className="flex justify-center items-center gap-4">
+                            <span>{index + 1}</span>
+                            {checkRole("admin") && (
+                              <Button
+                                className="bg-red-50"
+                                onClick={() => handleDeleteEmployee(emp.msnv)}
+                                variant="link"
+                              >
+                                <Trash2 color="red" />
+                              </Button>
+                            )}
+                          </div>
+                        </td>
                         <td className="text-center border p-1">{emp.hoten}</td>
                         <td className="text-center border p-1">{emp.msnv}</td>
+                        {checkRole("tochuc") && <td className="text-center border p-1"></td>}
                       </tr>
                     ))}
                   </tbody>

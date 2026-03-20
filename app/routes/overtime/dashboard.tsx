@@ -5,7 +5,12 @@ import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
 import { Button } from "~/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
-import { useOvertimesFindAll, useOvertimesUpdate } from "~/hooks/overtimes-hook";
+import {
+  useOvertimesDelete,
+  useOvertimesFindAll,
+  useOvertimesUpdate,
+} from "~/hooks/overtimes-hook";
+import { checkRole } from "~/lib/helpers";
 import routers from "~/lib/routers";
 import { linesList } from "~/lib/variables";
 import useAuthStore from "~/stores/auth-store";
@@ -18,6 +23,7 @@ function OvertimeDashboard() {
   const month = searchParams.get("month") || format(new Date(), "yyyy-MM");
   const { data, isLoading } = useOvertimesFindAll(month);
   const { mutate: mutateUpdate } = useOvertimesUpdate();
+  const { mutate: mutateDelete } = useOvertimesDelete();
 
   function handleSignature(id: string, bophan: "quandoc" | "lanhdao") {
     if (user) {
@@ -39,6 +45,9 @@ function OvertimeDashboard() {
         },
       });
     }
+  }
+  function handleDelete(id: string) {
+    mutateDelete(id);
   }
   const prevMonth = format(subMonths(new Date(month), 1), "yyyy-MM");
   const nextMonth = format(addMonths(new Date(month), 1), "yyyy-MM");
@@ -82,6 +91,9 @@ function OvertimeDashboard() {
                     <th className="text-center border p-2 whitespace-nowrap">Tổ trưởng</th>
                     <th className="text-center border p-2 whitespace-nowrap">Quản đốc</th>
                     <th className="text-center border p-2 whitespace-nowrap">Ban giám đốc</th>
+                    {checkRole("admin") && (
+                      <th className="text-center border p-2 whitespace-nowrap"></th>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
@@ -175,6 +187,17 @@ function OvertimeDashboard() {
                             </div>
                           )}
                       </td>
+                      {checkRole("admin") && (
+                        <td className="text-center border p-2 whitespace-nowrap">
+                          <Button
+                            className="bg-red-200"
+                            onClick={() => handleDelete(overtime.id)}
+                            variant="link"
+                          >
+                            <Trash2 color="red" />
+                          </Button>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
