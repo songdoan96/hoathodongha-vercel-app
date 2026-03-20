@@ -61,7 +61,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
       <div className="p-1 lg:p-4">
         {overtime && (
           <div className="lg:max-w-5xl mx-auto border p-1 py-4 shadow-2xl rounded-xl bg-white">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 gap-y-4 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 px-2 gap-y-4 w-full">
               <div className="flex gap-2 items-center">
                 <Hash color="green" />
                 <span className="font-semibold text-blue-600 uppercase w-20">Bộ phận</span>
@@ -86,7 +86,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
 
             {overtime.status ? (
               <>
-                <h1 className="uppercase text-center my-2 font-semibold border-y py-2 shadow text-blue-900">
+                <h1 className="uppercase text-center my-8 font-semibold border-y py-2 px-12 lg:text-xl shadow text-blue-900">
                   Danh sách lao động đăng ký tự nguyện làm thêm giờ
                 </h1>
                 <table className="table w-full bg-white">
@@ -121,11 +121,11 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
             )}
 
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-y-8 mt-10">
-              <div className="flex flex-col items-center gap-4">
+              <div className="flex flex-col items-center gap-2">
                 <span className="uppercase font-bold text-blue-600">Tổ trưởng</span>
                 <span className="text-center text-green-900">{overtime?.totruong}</span>
               </div>
-              <div className="flex flex-col items-center gap-4">
+              <div className="flex flex-col items-center gap-2">
                 <span className="uppercase font-bold text-blue-600">Quản đốc</span>
                 <span className="text-center text-green-900">
                   {overtime.quandoc}
@@ -141,7 +141,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                     )}
                 </span>
               </div>
-              <div className="flex flex-col items-center col-span-2 lg:col-span-1 gap-4">
+              <div className="flex flex-col items-center col-span-2 lg:col-span-1 gap-2">
                 <span className="uppercase font-bold text-blue-600">Ban giám đốc</span>
                 <span className="text-center text-green-900">
                   {overtime.lanhdao}
