@@ -141,6 +141,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                     )}
                 </span>
               </div>
+
               <div className="flex flex-col items-center col-span-2 lg:col-span-1 gap-2">
                 <span className="uppercase font-bold text-blue-600">Ban giám đốc</span>
                 <span className="text-center text-green-900">
