@@ -61,7 +61,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
       <div className="p-1 lg:p-4">
         {overtime && (
           <div className="lg:max-w-5xl mx-auto border p-1 py-4 shadow-2xl rounded-xl bg-white">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 px-2 gap-y-4 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 px-2 lg:px-8 gap-y-4 w-full">
               <div className="flex gap-2 items-center">
                 <Hash color="green" />
                 <span className="font-semibold text-blue-600 uppercase w-20">Bộ phận</span>
@@ -75,18 +75,18 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
               <div className="flex gap-2 items-center">
                 <Clock3 color="green" />
                 <span className="font-semibold text-blue-600 uppercase w-20">Giờ</span>
-                <span>: {overtime?.gio}</span>
+                <span className="flex-1">: {overtime?.gio}</span>
               </div>
               <div className="flex gap-2 items-center">
                 <MessageCircleQuestionMark color="green" />
                 <span className="font-semibold text-blue-600 uppercase w-20">Lý do</span>
-                <span>: {overtime?.lydo}</span>
+                <span className="flex-1">: {overtime?.lydo}</span>
               </div>
             </div>
 
             {overtime.status ? (
               <>
-                <h1 className="uppercase text-center my-8 font-semibold border-y py-2 px-12 lg:text-xl shadow text-blue-900">
+                <h1 className="uppercase text-center my-8 font-semibold border-y py-2 text-xl lg:text-2xl shadow text-blue-900">
                   Danh sách lao động đăng ký tự nguyện làm thêm giờ
                 </h1>
                 <table className="table w-full bg-white">
@@ -112,9 +112,9 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                 </table>
               </>
             ) : (
-              <div className="flex flex-col lg:flex-row justify-center items-center gap-4 my-4 py-8 text-red-600 bg-red-50">
-                <Ban />
-                <h1 className="text-center text-xl lg:text-3xl uppercase font-semibold ">
+              <div className="flex flex-col lg:flex-row justify-center items-center gap-2 lg:gap-4 my-4 py-6 text-red-600 bg-red-50">
+                <Ban size={30} />
+                <h1 className="text-center text-2xl lg:text-3xl uppercase font-semibold px-12 lg:px-0">
                   Đơn tăng ca không có hiệu lực
                 </h1>
               </div>
@@ -122,11 +122,11 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
 
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-y-8 mt-10">
               <div className="flex flex-col items-center gap-2">
-                <span className="uppercase font-bold text-blue-600">Tổ trưởng</span>
+                <span className="uppercase font-bold text-blue-600 text-xl">Tổ trưởng</span>
                 <span className="text-center text-green-900">{overtime?.totruong}</span>
               </div>
               <div className="flex flex-col items-center gap-2">
-                <span className="uppercase font-bold text-blue-600">Quản đốc</span>
+                <span className="uppercase font-bold text-blue-600 text-xl">Quản đốc</span>
                 <span className="text-center text-green-900">
                   {overtime.quandoc}
                   {!overtime.quandoc &&
@@ -143,7 +143,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
               </div>
 
               <div className="flex flex-col items-center col-span-2 lg:col-span-1 gap-2">
-                <span className="uppercase font-bold text-blue-600">Ban giám đốc</span>
+                <span className="uppercase font-bold text-blue-600 text-xl">Ban giám đốc</span>
                 <span className="text-center text-green-900">
                   {overtime.lanhdao}
                   {!overtime.lanhdao &&

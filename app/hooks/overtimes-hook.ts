@@ -31,10 +31,11 @@ export const useOvertimesCreate = () => {
     },
   });
 };
-export const useOvertimesFindAll = () => {
+export const useOvertimesFindAll = (month: string) => {
   return useQuery<OvertimeType[]>({
-    queryKey: [QUERY_KEY.DASHBOARD],
-    queryFn: apiOvertimesFindAll,
+    queryKey: [QUERY_KEY.DASHBOARD, month],
+    queryFn: () => apiOvertimesFindAll(month),
+    enabled: !!month,
   });
 };
 export const useOvertimesFindOne = (id: string) => {
@@ -53,6 +54,23 @@ export const useOvertimesUpdate = () => {
       toast.success("Thành công");
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.DASHBOARD] });
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ONE, res.id] });
+    },
+    onError: () => {
+      toast.error("Đã xảy ra lỗi, vui lòng thử lại");
+    },
+  });
+};
+export const useOvertimesEdit = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: ({ id, formData }: { id: string; formData: OvertimesUpdateDTO }) =>
+      apiOvertimesUpdate(id, formData),
+    onSuccess: (res) => {
+      toast.success("Thành công");
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.DASHBOARD] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ONE, res.id] });
+      navigate(routers().overtime.dashboard);
     },
     onError: () => {
       toast.error("Đã xảy ra lỗi, vui lòng thử lại");

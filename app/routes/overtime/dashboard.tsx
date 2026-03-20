@@ -1,6 +1,6 @@
-import { format } from "date-fns";
-import { ClipboardPlus, Signature, Trash2 } from "lucide-react";
-import { Link } from "react-router";
+import { addMonths, format, subMonths } from "date-fns";
+import { ChevronsLeft, ChevronsRight, ClipboardPlus, Signature, Trash2 } from "lucide-react";
+import { Link, useSearchParams } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
 import { Button } from "~/components/ui/button";
@@ -13,10 +13,12 @@ export function meta() {
   return [{ title: "Danh sách đăng ký tăng ca" }];
 }
 function OvertimeDashboard() {
-  const { data, isLoading } = useOvertimesFindAll();
   const { user } = useAuthStore();
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  const month = searchParams.get("month") || format(new Date(), "yyyy-MM");
+  const { data, isLoading } = useOvertimesFindAll(month);
   const { mutate: mutateUpdate } = useOvertimesUpdate();
+
   function handleSignature(id: string, bophan: "quandoc" | "lanhdao") {
     if (user) {
       mutateUpdate({
@@ -38,6 +40,8 @@ function OvertimeDashboard() {
       });
     }
   }
+  const prevMonth = format(subMonths(new Date(month), 1), "yyyy-MM");
+  const nextMonth = format(addMonths(new Date(month), 1), "yyyy-MM");
   return (
     <div className="w-full h-full min-h-screen bg-white flex flex-col">
       <HeaderComponent>
@@ -64,103 +68,144 @@ function OvertimeDashboard() {
         {isLoading ? (
           <Loading fullScreen />
         ) : (
-          <div className="overflow-x-auto w-full h-full flex-1">
-            <table className="w-full h-full divide-y divide-gray-200  shadow-2xl">
-              <thead className="rounded-2xl">
-                <tr className="bg-[#37b159] text-white uppercase">
-                  <th className="text-center border p-2 whitespace-nowrap">Ngày tạo</th>
-                  <th className="text-center border p-2 whitespace-nowrap">Bộ phận</th>
-                  <th className="text-center border p-2 whitespace-nowrap">Ngày đăng ký</th>
-                  <th className="text-center border p-2 whitespace-nowrap">Giờ đăng ký</th>
-                  <th className="text-center border p-2 whitespace-nowrap">Lý do</th>
-                  <th className="text-center border p-2 whitespace-nowrap">Số lượng</th>
-                  <th className="text-center border p-2 whitespace-nowrap">Tổ trưởng</th>
-                  <th className="text-center border p-2 whitespace-nowrap">Quản đốc</th>
-                  <th className="text-center border p-2 whitespace-nowrap">Ban giám đốc</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.map((overtime) => (
-                  <tr
-                    key={overtime.id}
-                    className={`${!overtime.status ? "bg-red-50 line-through text-red-500" : "bg-green-50 hover:bg-green-100"}`}
-                  >
-                    <td className="text-center border p-2 whitespace-nowrap">
-                      {format(overtime.createdAt, "dd/MM")}
-                    </td>
-                    <td className="text-center border p-2 whitespace-nowrap underline text-blue-600 font-bold">
-                      <Link to={routers().overtime.detail(overtime.id)}>
-                        {linesList.find((line) => line.value === overtime.bophan)?.name}
-                      </Link>
-                    </td>
-                    <td className="text-center border p-2 whitespace-nowrap">{overtime.ngay}</td>
-                    <td className="text-center border p-2 whitespace-nowrap">{overtime.gio}</td>
-                    <td className="text-center border p-2 whitespace-nowrap">{overtime.lydo}</td>
-                    <td className="text-center border p-2 whitespace-nowrap">
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Link
-                            to={routers().overtime.detail(overtime.id)}
-                            className="underline text-blue-600 font-bold"
-                          >
-                            {overtime.danhsach.length} người
-                          </Link>
-                        </TooltipTrigger>
-                        <TooltipContent side="bottom">
-                          {overtime.danhsach.map((person, index) => (
-                            <p key={index}>
-                              {index + 1}.{person.hoten}
-                            </p>
-                          ))}
-                        </TooltipContent>
-                      </Tooltip>
-                    </td>
-                    <td className="text-center border p-2 whitespace-nowrap">
-                      {overtime.totruong}
-                    </td>
-                    <td className="text-center border p-2 whitespace-nowrap">
-                      {overtime.quandoc}
-                      {!overtime.quandoc &&
-                        user?.bophan === overtime.bophan.slice(0, 3) + "quandoc" && (
-                          <Button
-                            variant="link"
-                            className="underline text-red-500"
-                            onClick={() => handleSignature(overtime.id, "quandoc")}
-                          >
-                            Ký đơn
-                          </Button>
-                        )}
-                    </td>
-                    <td className="text-center border p-2 whitespace-nowrap w-40">
-                      {overtime.lanhdao}
-                      {!overtime.lanhdao &&
+          <>
+            <div className="overflow-x-auto w-full h-full flex-1">
+              <table className="w-full h-full divide-y divide-gray-200  shadow-2xl">
+                <thead className="rounded-2xl">
+                  <tr className="bg-[#37b159] text-white uppercase">
+                    <th className="text-center border p-2 whitespace-nowrap">Ngày tạo</th>
+                    <th className="text-center border p-2 whitespace-nowrap">Bộ phận</th>
+                    <th className="text-center border p-2 whitespace-nowrap">Ngày đăng ký</th>
+                    <th className="text-center border p-2 whitespace-nowrap">Giờ đăng ký</th>
+                    <th className="text-center border p-2 whitespace-nowrap">Lý do</th>
+                    <th className="text-center border p-2 whitespace-nowrap">Số lượng</th>
+                    <th className="text-center border p-2 whitespace-nowrap">Tổ trưởng</th>
+                    <th className="text-center border p-2 whitespace-nowrap">Quản đốc</th>
+                    <th className="text-center border p-2 whitespace-nowrap">Ban giám đốc</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data?.map((overtime) => (
+                    <tr
+                      key={overtime.id}
+                      className={`${!overtime.status ? "bg-red-50 line-through text-red-500" : "bg-green-50 hover:bg-green-100"}`}
+                    >
+                      <td className="text-center border p-2 whitespace-nowrap">
+                        {!overtime.lanhdao &&
                         overtime.status &&
                         (user?.bophan === "lanhdao" || user?.bophan === "giamdoc") &&
                         (!overtime.bophan.startsWith("X") ||
-                          (overtime.bophan.startsWith("X") && overtime.quandoc)) && (
-                          <div className="flex justify-center items-center gap-2">
-                            <Button
-                              variant="link"
-                              className="text-red-500 inline-flex bg-red-100"
-                              onClick={() => handleCancel(overtime.id)}
-                            >
-                              <Trash2 /> Hủy đơn
-                            </Button>
-                            <Button
-                              variant="link"
-                              className="text-blue-500 inline-flex bg-blue-100"
-                              onClick={() => handleSignature(overtime.id, "lanhdao")}
-                            >
-                              <Signature /> Ký đơn
-                            </Button>
-                          </div>
+                          (overtime.bophan.startsWith("X") && overtime.quandoc)) ? (
+                          <Link
+                            to={routers().overtime.edit(overtime.id)}
+                            className="underline text-blue-700 font-semibold"
+                            title="Sửa đơn"
+                          >
+                            {format(overtime.createdAt, "dd/MM")}
+                          </Link>
+                        ) : (
+                          <>{format(overtime.createdAt, "dd/MM")}</>
                         )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                      </td>
+                      <td className="text-center border p-2 whitespace-nowrap underline text-blue-600 font-bold">
+                        <Link to={routers().overtime.detail(overtime.id)}>
+                          {linesList.find((line) => line.value === overtime.bophan)?.name}
+                        </Link>
+                      </td>
+                      <td className="text-center border p-2 whitespace-nowrap">{overtime.ngay}</td>
+                      <td className="text-center border p-2 whitespace-nowrap">{overtime.gio}</td>
+                      <td className="text-center border p-2 whitespace-nowrap">{overtime.lydo}</td>
+                      <td className="text-center border p-2 whitespace-nowrap">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Link
+                              to={routers().overtime.detail(overtime.id)}
+                              className="underline text-blue-600 font-bold"
+                            >
+                              {overtime.danhsach.length} người
+                            </Link>
+                          </TooltipTrigger>
+                          <TooltipContent side="bottom">
+                            {overtime.danhsach.map((person, index) => (
+                              <p key={index}>
+                                {index + 1}.{person.hoten}
+                              </p>
+                            ))}
+                          </TooltipContent>
+                        </Tooltip>
+                      </td>
+                      <td className="text-center border p-2 whitespace-nowrap">
+                        {overtime.totruong}
+                      </td>
+                      <td className="text-center border p-2 whitespace-nowrap">
+                        {overtime.quandoc}
+                        {!overtime.quandoc &&
+                          user?.bophan === overtime.bophan.slice(0, 3) + "quandoc" && (
+                            <Button
+                              variant="link"
+                              className="underline text-red-500"
+                              onClick={() => handleSignature(overtime.id, "quandoc")}
+                            >
+                              Ký đơn
+                            </Button>
+                          )}
+                      </td>
+                      <td className="text-center border p-2 whitespace-nowrap w-40">
+                        {overtime.lanhdao}
+                        {!overtime.lanhdao &&
+                          overtime.status &&
+                          (user?.bophan === "lanhdao" || user?.bophan === "giamdoc") &&
+                          (!overtime.bophan.startsWith("X") ||
+                            (overtime.bophan.startsWith("X") && overtime.quandoc)) && (
+                            <div className="flex justify-center items-center gap-2">
+                              <Button
+                                variant="link"
+                                className="text-red-500 inline-flex bg-red-100"
+                                onClick={() => handleCancel(overtime.id)}
+                              >
+                                <Trash2 /> Hủy đơn
+                              </Button>
+                              <Button
+                                variant="link"
+                                className="text-blue-500 inline-flex bg-blue-100"
+                                onClick={() => handleSignature(overtime.id, "lanhdao")}
+                              >
+                                <Signature /> Ký đơn
+                              </Button>
+                            </div>
+                          )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="flex justify-between px-4 my-4">
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 px-4 py-2 rounded"
+                onClick={() => {
+                  setSearchParams({
+                    month: prevMonth,
+                  });
+                }}
+              >
+                <ChevronsLeft />
+                <span>{prevMonth}</span>
+              </button>
+              <button
+                disabled={month === format(new Date(), "yyyy-MM")}
+                className={`${month === format(new Date(), "yyyy-MM") ? "bg-gray-500" : "bg-blue-500 hover:bg-blue-600"} text-white flex items-center gap-2 px-4 py-2 rounded`}
+                onClick={() => {
+                  setSearchParams({
+                    month: nextMonth,
+                  });
+                }}
+              >
+                <span>{nextMonth}</span>
+                <ChevronsRight />
+              </button>
+            </div>
+          </>
         )}
       </div>
     </div>

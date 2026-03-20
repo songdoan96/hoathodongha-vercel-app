@@ -26,8 +26,8 @@ interface OvertimeEmployee {
   hoten: string;
 }
 
-export const apiOvertimesFindAll = async () => {
-  const { data } = await apiClient.get(router);
+export const apiOvertimesFindAll = async (month: string) => {
+  const { data } = await apiClient.get(router + `?month=${month}`);
   return data;
 };
 export const apiOvertimesFindOne = async (id: string) => {

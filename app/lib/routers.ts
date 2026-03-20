@@ -26,5 +26,6 @@ export default () => ({
     dashboard: "/tangca",
     create: "/tangca/taodon",
     detail: (id: string) => "/tangca/chitiet/" + id,
+    edit: (id: string) => "/tangca/suadon/" + id,
   },
 });

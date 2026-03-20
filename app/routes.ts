@@ -32,7 +32,10 @@ export default [
   ]),
   layout("./components/providers/PrivateProvider.tsx", [
     //tangca
-    ...prefix("tangca", [route("/taodon", "./routes/overtime/create.tsx")]),
+    ...prefix("tangca", [
+      route("/taodon", "./routes/overtime/create.tsx"),
+      route("/suadon/:id", "./routes/overtime/edit.tsx"),
+    ]),
     //luong
     ...prefix("luong", [
       route("/tailen", "./routes/salaries/upload.tsx"),
