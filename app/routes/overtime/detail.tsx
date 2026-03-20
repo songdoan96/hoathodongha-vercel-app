@@ -112,9 +112,11 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                 </table>
               </>
             ) : (
-              <div className="flex justify-center items-center gap-4 uppercase font-semibold text-3xl my-4 py-8 text-red-600 bg-red-50">
+              <div className="flex flex-col lg:flex-row justify-center items-center gap-4 my-4 py-8 text-red-600 bg-red-50">
                 <Ban />
-                <h1>Đơn tăng ca không có hiệu lực</h1>
+                <h1 className="text-center text-xl lg:text-3xl uppercase font-semibold ">
+                  Đơn tăng ca không có hiệu lực
+                </h1>
               </div>
             )}
 
