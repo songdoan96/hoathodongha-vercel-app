@@ -210,6 +210,7 @@ function OvertimeCreate() {
                     <tr
                       key={row.id}
                       className={`group transition-colors ${row.getIsSelected() ? "selected bg-green-100" : null}`}
+                      onClick={row.getToggleSelectedHandler()}
                     >
                       {row.getVisibleCells().map((cell) => {
                         return (
@@ -260,7 +261,11 @@ function OvertimeCreate() {
         </div>
 
         <div className="p-4 mx-auto w-full flex justify-center items-center mb-12">
-          <Button type="submit" className="min-w-32 uppercase font-bold">
+          <Button
+            type="submit"
+            disabled={mutate.isPending}
+            className="min-w-32 uppercase font-bold"
+          >
             Tạo đơn
           </Button>
         </div>

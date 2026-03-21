@@ -121,19 +121,21 @@ function OvertimeDashboard() {
                         )}
                       </td>
                       <td className="text-center border p-2 whitespace-nowrap">
-                        {!overtime.status ? (
-                          <span className="bg-red-200 text-red-700 p-1 px-2 rounded uppercase font-semibold text-sm">
-                            Bị hủy
-                          </span>
-                        ) : overtime.lanhdao ? (
-                          <span className="bg-green-100 text-green-700 p-1 px-2 rounded uppercase font-semibold text-sm">
-                            Đã duyệt
-                          </span>
-                        ) : (
-                          <span className="bg-blue-100 text-blue-700 p-1 px-2 rounded uppercase font-semibold text-sm">
-                            Chờ duyệt
-                          </span>
-                        )}
+                        <Link to={routers().overtime.detail(overtime.id)}>
+                          {!overtime.status ? (
+                            <span className="bg-red-200 text-red-700 p-1 px-2 rounded uppercase font-semibold text-sm">
+                              Bị hủy
+                            </span>
+                          ) : overtime.lanhdao ? (
+                            <span className="bg-green-100 text-green-700 p-1 px-2 rounded uppercase font-semibold text-sm">
+                              Đã duyệt
+                            </span>
+                          ) : (
+                            <span className="bg-blue-100 text-blue-700 p-1 px-2 rounded uppercase font-semibold text-sm">
+                              Chờ duyệt
+                            </span>
+                          )}
+                        </Link>
                       </td>
                       <td className="text-center border p-2 whitespace-nowrap underline text-blue-600 font-bold">
                         <Link to={routers().overtime.detail(overtime.id)}>
