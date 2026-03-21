@@ -47,15 +47,15 @@ export class EmployeesController {
     return await this.employeesService.create(employee);
   }
 
-  @Post('update-file') //  <input type="file" id="upload" name="upload">
-  @UseInterceptors(FileInterceptor('file'))
-  async updateWithFile(@UploadedFile() file: Express.Multer.File) {
-    const wb = read(file.buffer);
-    const data: {
-      msnv: string;
-      hoten: string;
-      bophan: string;
-    }[] = utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-    return await this.employeesService.updateWithFile(data);
-  }
+  // @Post('update-file')
+  // @UseInterceptors(FileInterceptor('file'))
+  // async updateWithFile(@UploadedFile() file: Express.Multer.File) {
+  //   const wb = read(file.buffer);
+  //   const data: {
+  //     msnv: string;
+  //     hoten: string;
+  //     bophan: string;
+  //   }[] = utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+  //   return await this.employeesService.updateWithFile(data);
+  // }
 }
