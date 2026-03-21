@@ -35,4 +35,26 @@ export class EmployeesService {
       data: employeeUpdateDto,
     });
   }
+
+  async updateWithFile(
+    data: {
+      msnv: string;
+      hoten: string;
+      bophan: string;
+    }[],
+  ) {
+    // await this.prisma.employee.updateMany({
+    //   data: { active: false },
+    // });
+    for (const employee of data) {
+      const msnv = String(employee.msnv).trim().replace(/dh/gi, '');
+      const hoten = employee.hoten.trim();
+      const bophan = employee.bophan.trim();
+      await this.prisma.employee.upsert({
+        where: { msnv },
+        update: { hoten: hoten.toUpperCase(), bophan, active: true },
+        create: { msnv, hoten: hoten.toUpperCase(), bophan, active: true },
+      });
+    }
+  }
 }
