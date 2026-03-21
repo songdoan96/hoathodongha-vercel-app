@@ -83,6 +83,7 @@ function OvertimeDashboard() {
                 <thead className="rounded-2xl">
                   <tr className="bg-[#37b159] text-white uppercase">
                     <th className="text-center border p-2 whitespace-nowrap">Ngày tạo</th>
+                    <th className="text-center border p-2 whitespace-nowrap">Trạng thái</th>
                     <th className="text-center border p-2 whitespace-nowrap">Bộ phận</th>
                     <th className="text-center border p-2 whitespace-nowrap">Ngày đăng ký</th>
                     <th className="text-center border p-2 whitespace-nowrap">Giờ đăng ký</th>
@@ -100,7 +101,7 @@ function OvertimeDashboard() {
                   {data?.map((overtime) => (
                     <tr
                       key={overtime.id}
-                      className={`${!overtime.status ? "bg-red-50 line-through text-red-500" : "bg-green-50 hover:bg-green-100"}`}
+                      className={`${!overtime.status ? "bg-red-50 line-through text-red-500" : ""}`}
                     >
                       <td className="text-center border p-2 whitespace-nowrap">
                         {!overtime.lanhdao &&
@@ -117,6 +118,21 @@ function OvertimeDashboard() {
                           </Link>
                         ) : (
                           <>{format(overtime.createdAt, "dd/MM")}</>
+                        )}
+                      </td>
+                      <td className="text-center border p-2 whitespace-nowrap">
+                        {!overtime.status ? (
+                          <span className="bg-red-200 text-red-700 p-1 px-2 rounded uppercase font-semibold text-sm">
+                            Bị hủy
+                          </span>
+                        ) : overtime.lanhdao ? (
+                          <span className="bg-green-100 text-green-700 p-1 px-2 rounded uppercase font-semibold text-sm">
+                            Đã duyệt
+                          </span>
+                        ) : (
+                          <span className="bg-blue-100 text-blue-700 p-1 px-2 rounded uppercase font-semibold text-sm">
+                            Chờ duyệt
+                          </span>
                         )}
                       </td>
                       <td className="text-center border p-2 whitespace-nowrap underline text-blue-600 font-bold">

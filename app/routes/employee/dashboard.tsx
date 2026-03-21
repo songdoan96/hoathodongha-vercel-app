@@ -17,6 +17,15 @@ import {
 import { Button } from "~/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/components/ui/field";
 import { Input } from "~/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 import { Switch } from "~/components/ui/switch";
 import {
   useEmployeesCreate,
@@ -24,7 +33,7 @@ import {
   useEmployeesFindAll,
   useEmployeesUpdate,
 } from "~/hooks/employees-hook";
-import { linesList } from "~/lib/variables";
+import { linesList, linesListFilter } from "~/lib/variables";
 const formSchema = z.object({
   msnv: z.string().min(1, "MSNV không được để trống."),
   hoten: z.string().min(1, "Họ tên không được để trống."),
@@ -50,7 +59,8 @@ export default function EmployeeDashboardPage() {
   };
 
   function handleCreate(data: z.infer<typeof formSchema>) {
-    createMutation.mutate(data);
+    // createMutation.mutate(data);
+    console.log(data);
   }
 
   return (
@@ -59,7 +69,7 @@ export default function EmployeeDashboardPage() {
         <Loading fullScreen />
       ) : (
         <>
-          <div className="flex w-1/3">
+          <div className="flex w-1/3 p-4">
             <form
               id="employee-form"
               onSubmit={form.handleSubmit(handleCreate)}
@@ -94,7 +104,22 @@ export default function EmployeeDashboardPage() {
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor="bophan">Bộ phận</FieldLabel>
-                      <Input {...field} id="bophan" aria-invalid={fieldState.invalid} />
+                      {/* <Input {...field} id="bophan" aria-invalid={fieldState.invalid} /> */}
+                      <Select {...field} aria-invalid={fieldState.invalid}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Chọn bộ phận" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Bộ phận</SelectLabel>
+                            {linesListFilter.map((line) => (
+                              <SelectItem key={line.value} value={line.value}>
+                                {line.name}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </Field>
                   )}

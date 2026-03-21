@@ -27,10 +27,6 @@ const columnHelper = createColumnHelper<EmployeeType>();
 const columns = [
   columnHelper.accessor("id", {
     id: "id",
-    enableColumnFilter: false,
-    enableSorting: false,
-    enableHiding: false,
-
     header: ({ table }) => (
       <Checkbox
         checked={
