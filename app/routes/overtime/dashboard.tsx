@@ -1,5 +1,14 @@
 import { addMonths, format, subMonths } from "date-fns";
-import { ChevronsLeft, ChevronsRight, ClipboardPlus, Signature, Trash2 } from "lucide-react";
+import {
+  ChevronsLeft,
+  ChevronsRight,
+  CircleCheckBig,
+  CircleX,
+  ClipboardPlus,
+  Clock,
+  Signature,
+  Trash2,
+} from "lucide-react";
 import { Link, useSearchParams } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
@@ -123,17 +132,21 @@ function OvertimeDashboard() {
                       <td className="text-center border p-2 whitespace-nowrap">
                         <Link to={routers().overtime.detail(overtime.id)}>
                           {!overtime.status ? (
-                            <span className="bg-red-200 text-red-700 p-1 px-2 rounded uppercase font-semibold text-sm">
-                              Bị hủy
-                            </span>
+                            <div className="bg-red-200 text-red-700 p-1 px-2 rounded flex items-center justify-center gap-1">
+                              <CircleX size={14} />
+                              <span className="uppercase font-semibold text-sm"> Bị hủy</span>
+                            </div>
                           ) : overtime.lanhdao ? (
-                            <span className="bg-green-100 text-green-700 p-1 px-2 rounded uppercase font-semibold text-sm">
-                              Đã duyệt
-                            </span>
+                            <div className="bg-green-100 text-green-700 p-1 px-2 rounded flex items-center justify-center gap-1">
+                              <CircleCheckBig size={14} />
+                              <span className="uppercase font-semibold text-sm"> Đã duyệt</span>
+                            </div>
                           ) : (
-                            <span className="bg-blue-100 text-blue-700 p-1 px-2 rounded uppercase font-semibold text-sm">
-                              Chờ duyệt
-                            </span>
+                            // <CircleX />
+                            <div className="bg-blue-100 text-blue-700 p-1 px-2 rounded flex items-center justify-center gap-1">
+                              <Clock size={14} />
+                              <span className="uppercase font-semibold text-sm">Chờ duyệt</span>
+                            </div>
                           )}
                         </Link>
                       </td>
