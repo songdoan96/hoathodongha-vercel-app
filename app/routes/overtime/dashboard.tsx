@@ -157,7 +157,7 @@ function OvertimeDashboard() {
                       </td>
                       <td className="text-center border p-2 whitespace-nowrap">{overtime.ngay}</td>
                       <td className="text-center border p-2 whitespace-nowrap">{overtime.gio}</td>
-                      <td className="text-center border p-2 whitespace-nowrap">{overtime.lydo}</td>
+                      <td className="text-center border p-2">{overtime.lydo}</td>
                       <td className="text-center border p-2 whitespace-nowrap">
                         <Tooltip>
                           <TooltipTrigger asChild>
