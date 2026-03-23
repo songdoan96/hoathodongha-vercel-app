@@ -3,16 +3,12 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  type CellContext,
+  type ColumnDefTemplate,
+  type Row,
   type RowSelectionState,
 } from "@tanstack/react-table";
-import {
-  CalendarDays,
-  Clock3,
-  Hash,
-  MessageCircleQuestionMark,
-  Users,
-  UsersRound,
-} from "lucide-react";
+import { CalendarDays, Clock3, Hash, MessageCircleQuestionMark, Users } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { HeaderComponent, HeaderTitle } from "~/components/Header";
 import Loading from "~/components/Loading";
@@ -29,6 +25,29 @@ import type { EmployeeType } from "~/types/employee-type";
 export function meta() {
   return [{ title: "ĐĂNG KÝ TĂNG CA" }];
 }
+
+const EditableCell = ({ getValue, row: { index }, column: { id }, table }: any) => {
+  const initialValue = getValue() || "";
+  const [value, setValue] = useState(initialValue);
+
+  const onBlur = () => {
+    // table.options.meta?.updateData(index, id, value);
+    console.log("🚀 ~ onBlur ~ index, id, value:", index, id, value);
+  };
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  return (
+    <input
+      value={value as string}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={onBlur}
+      className="border border-black bg-transparent border-none focus:ring-2 focus:ring-indigo-500 rounded px-2 py-1 transition-all outline-none"
+    />
+  );
+};
 
 const columnHelper = createColumnHelper<EmployeeType>();
 const columns = [
@@ -66,7 +85,11 @@ const columns = [
     header: "Họ tên",
     cell: (info) => info.getValue(),
   }),
-
+  columnHelper.display({
+    id: "congdoan",
+    header: "Công đoạn",
+    cell: EditableCell,
+  }),
   // columnHelper.accessor("bophan", {
   //   header: "Bộ phận",
   //   cell: (info) => linesList.find((line) => line.value === info.getValue())?.name,
@@ -103,22 +126,25 @@ function OvertimeCreate() {
     onRowSelectionChange: setRowSelection,
     getRowId: (row) => row.id,
     enableRowSelection: true,
+    meta: {},
   });
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (user?.bophan && table.getSelectedRowModel().rows.length > 0) {
-      mutate.mutate({
-        bophan: user?.bophan,
-        ngay: ngayDangKy,
-        gio: gioDangKy,
-        lydo,
-        totruong: user.name,
-        danhsach: table.getSelectedRowModel().rows.map((id) => ({
-          msnv: id.original.msnv,
-          hoten: id.original.hoten,
-        })),
-      });
-    }
+    console.log(table.getSelectedRowModel().rows);
+
+    // if (user?.bophan && table.getSelectedRowModel().rows.length > 0) {
+    //   mutate.mutate({
+    //     bophan: user?.bophan,
+    //     ngay: ngayDangKy,
+    //     gio: gioDangKy,
+    //     lydo,
+    //     totruong: user.name,
+    //     danhsach: table.getSelectedRowModel().rows.map((id) => ({
+    //       msnv: id.original.msnv,
+    //       hoten: id.original.hoten,
+    //     })),
+    //   });
+    // }
   }
   return (
     <div>
