@@ -44,13 +44,13 @@ function OvertimeDashboard() {
       });
     }
   }
-  function handleCancel(id: string) {
+  function handleCancel(id: string, bophan: "quandoc" | "lanhdao") {
     if (user) {
       mutateUpdate({
         id,
         formData: {
           status: false,
-          lanhdao: user.name,
+          [bophan]: user.name,
         },
       });
     }
@@ -184,13 +184,22 @@ function OvertimeDashboard() {
                         {overtime.quandoc}
                         {!overtime.quandoc &&
                           user?.bophan === overtime.bophan.slice(0, 3) + "quandoc" && (
-                            <Button
-                              variant="link"
-                              className="underline text-red-500"
-                              onClick={() => handleSignature(overtime.id, "quandoc")}
-                            >
-                              Ký đơn
-                            </Button>
+                            <div className="flex justify-center items-center gap-2">
+                              <Button
+                                variant="link"
+                                className="text-red-500 inline-flex bg-red-100"
+                                onClick={() => handleCancel(overtime.id, "quandoc")}
+                              >
+                                <Trash2 /> Hủy đơn
+                              </Button>
+                              <Button
+                                variant="link"
+                                className="text-blue-500 inline-flex bg-blue-100"
+                                onClick={() => handleSignature(overtime.id, "quandoc")}
+                              >
+                                <Signature /> Ký đơn
+                              </Button>
+                            </div>
                           )}
                       </td>
                       <td className="text-center border p-2 whitespace-nowrap w-40">
@@ -204,7 +213,7 @@ function OvertimeDashboard() {
                               <Button
                                 variant="link"
                                 className="text-red-500 inline-flex bg-red-100"
-                                onClick={() => handleCancel(overtime.id)}
+                                onClick={() => handleCancel(overtime.id, "lanhdao")}
                               >
                                 <Trash2 /> Hủy đơn
                               </Button>
