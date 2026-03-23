@@ -10,9 +10,17 @@ export interface OvertimeType {
   lanhdao: string | null;
   createdAt: Date;
   status: boolean;
+  tungay: Date;
+  denngay: Date;
 }
 export interface OvertimeEmployee {
   msnv: string;
   hoten: string;
+  // status: boolean;
+  days?: OvertimeDayEmployee[];
+}
+
+export interface OvertimeDayEmployee {
+  day: string;
   status: boolean;
 }

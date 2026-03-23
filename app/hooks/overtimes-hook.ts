@@ -49,7 +49,7 @@ export const useOvertimesFindOne = (id: string) => {
 export const useOvertimesUpdate = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, formData }: { id: string; formData: OvertimesUpdateDTO }) =>
+    mutationFn: ({ id, formData }: { id: string; formData: any }) =>
       apiOvertimesUpdate(id, formData),
     onSuccess: (res) => {
       toast.success("Thành công");

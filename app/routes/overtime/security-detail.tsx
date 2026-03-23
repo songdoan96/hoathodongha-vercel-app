@@ -8,6 +8,7 @@ import { linesList } from "~/lib/variables";
 import useAuthStore from "~/stores/auth-store";
 import type { OvertimeEmployee } from "~/types/overtime-type";
 import type { Route } from "./+types/detail";
+import { format, isSameDay } from "date-fns";
 
 export function meta() {
   return [{ title: "PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ BẢO VỆ" }];
@@ -19,17 +20,35 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export default function OvertimeSecurityDetail({ params: { id } }: Route.LoaderArgs) {
   const { data: overtime, isLoading } = useOvertimesFindOne(id);
-  const { user } = useAuthStore();
+  console.log("🚀 ~ OvertimeSecurityDetail ~ overtime:", overtime);
   const { mutate: mutateUpdate } = useOvertimesUpdate();
 
   function handleChangeStatus(emp: OvertimeEmployee) {
     if (overtime) {
+      const date = format(new Date(), "yyyy-MM-dd");
       mutateUpdate({
         id,
         formData: {
-          danhsach: overtime.danhsach.map((item) =>
-            item.msnv === emp.msnv ? { ...item, status: !item.status } : item,
-          ),
+          danhsach: overtime.danhsach.map((item) => {
+            if (item.msnv !== emp.msnv) {
+              return item;
+            }
+            const exists = emp?.days?.find((d) => d.day === date);
+
+            if (exists) {
+              // Đảo ngược status của ngày hôm nay
+              return {
+                ...emp,
+                days: emp?.days?.map((d) => (d.day === date ? { ...d, status: !d.status } : d)),
+              };
+            } else {
+              // Chưa có ngày hôm nay → thêm mới với status: true
+              return {
+                ...emp,
+                days: [...emp?.days!, { day: date, status: true }],
+              };
+            }
+          }),
         },
       });
     }
@@ -100,7 +119,10 @@ export default function OvertimeSecurityDetail({ params: { id } }: Route.LoaderA
                         <td className="text-center border p-1">
                           {overtime.lanhdao && (
                             <Checkbox
-                              checked={emp.status}
+                              checked={
+                                emp.days?.find((d) => d.day === format(new Date(), "yyyy-MM-dd"))
+                                  ?.status
+                              }
                               onCheckedChange={() => handleChangeStatus(emp)}
                             />
                           )}

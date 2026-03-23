@@ -8,6 +8,8 @@ export interface OvertimesCreateDTO {
   lydo: string;
   danhsach: OvertimeEmployee[];
   totruong: string;
+  tungay: string;
+  denngay: string;
 }
 
 export interface OvertimesUpdateDTO {
@@ -21,11 +23,22 @@ export interface OvertimesUpdateDTO {
   lanhdao?: string | null;
   status?: boolean;
 }
+// interface OvertimeEmployee {
+//   msnv: string;
+//   hoten: string;
+// }
+
 interface OvertimeEmployee {
   msnv: string;
   hoten: string;
+  // status: boolean;
+  days?: OvertimeDayEmployee[];
 }
 
+interface OvertimeDayEmployee {
+  day: string;
+  status: boolean;
+}
 export const apiOvertimesFindAll = async (month: string) => {
   const { data } = await apiClient.get(router + `?month=${month}`);
   return data;
@@ -39,7 +52,8 @@ export const apiOvertimesCreate = async (formData: OvertimesCreateDTO) => {
   return data;
 };
 
-export const apiOvertimesUpdate = async (id: string, formData: OvertimesUpdateDTO) => {
+export const apiOvertimesUpdate = async (id: string, formData: any) => {
+  console.log("🚀 ~ apiOvertimesUpdate ~ formData:", formData);
   const { data } = await apiClient.patch(router + "/" + id, formData);
   return data;
 };

@@ -5,6 +5,7 @@ import {
   useReactTable,
   type RowSelectionState,
 } from "@tanstack/react-table";
+import { format } from "date-fns";
 import {
   CalendarDays,
   Clock3,
@@ -18,6 +19,7 @@ import { HeaderComponent, HeaderTitle } from "~/components/Header";
 import Loading from "~/components/Loading";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
+import { FormField } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { useEmployeesFindAll, useEmployeesFindByStaffId } from "~/hooks/employees-hook";
@@ -83,6 +85,8 @@ function OvertimeCreate() {
   const [employeeSearch, setEmployeeSearch] = useState("");
   const { data: employeesFindByStaffId } = useEmployeesFindByStaffId(employeeSearch);
   const [ngayDangKy, setNgayDangKy] = useState("");
+  const [tungay, setTuNgay] = useState(format(new Date(), "yyyy-MM-dd"));
+  const [denngay, setDenngay] = useState(format(new Date(), "yyyy-MM-dd"));
   const [gioDangKy, setGioDangKy] = useState("");
   const [lydo, setLydo] = useState("");
 
@@ -117,6 +121,8 @@ function OvertimeCreate() {
           msnv: id.original.msnv,
           hoten: id.original.hoten,
         })),
+        tungay,
+        denngay,
       });
     }
   }
@@ -138,6 +144,37 @@ function OvertimeCreate() {
           </div>
           <div className="flex gap-2 items-center">
             <CalendarDays color="red" size={24} />
+            <Label htmlFor="tungay" className="font-semibold text-green-800">
+              Từ ngày
+            </Label>
+            <Input
+              type="date"
+              name="tungay"
+              id="tungay"
+              value={tungay}
+              onChange={(e) => setTuNgay(e.target.value)}
+              required
+              className="w-44 ml-auto bg-white"
+            />
+          </div>
+          <div className="flex gap-2 items-center">
+            <CalendarDays color="red" size={24} />
+            <Label htmlFor="denngay" className="font-semibold text-green-800">
+              Đến ngày
+            </Label>
+            <Input
+              type="date"
+              name="denngay"
+              id="denngay"
+              value={denngay}
+              onChange={(e) => setDenngay(e.target.value)}
+              required
+              className="w-44 ml-auto bg-white"
+            />
+          </div>
+
+          {/* <div className="flex gap-2 items-center">
+            <CalendarDays color="red" size={24} />
             <Label htmlFor="ngay" className="font-semibold text-green-800">
               Ngày đăng ký
             </Label>
@@ -146,10 +183,9 @@ function OvertimeCreate() {
               id="ngay"
               value={ngayDangKy}
               onChange={(e) => setNgayDangKy(e.target.value)}
-              required
               className="w-44 ml-auto bg-white"
             />
-          </div>
+          </div> */}
           <div className="flex gap-2 items-center">
             <Clock3 color="red" size={24} />
             <Label htmlFor="gio" className="font-semibold text-green-800">
