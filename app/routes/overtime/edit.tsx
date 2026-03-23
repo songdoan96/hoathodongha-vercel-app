@@ -1,14 +1,13 @@
-import React, { useEffect, useState, type FormEvent } from "react";
-import type { Route } from "./+types/detail";
-import { useOvertimesEdit, useOvertimesFindOne, useOvertimesUpdate } from "~/hooks/overtimes-hook";
-import useAuthStore from "~/stores/auth-store";
+import { Signature } from "lucide-react";
+import { useEffect, useState, type FormEvent } from "react";
+import { HeaderComponent, HeaderTitle } from "~/components/Header";
 import Loading from "~/components/Loading";
+import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { Button } from "~/components/ui/button";
-import { Signature } from "lucide-react";
-import { HeaderComponent, HeaderTitle } from "~/components/Header";
-import { set } from "date-fns";
+import { useOvertimesEdit, useOvertimesFindOne } from "~/hooks/overtimes-hook";
+import useAuthStore from "~/stores/auth-store";
+import type { Route } from "./+types/detail";
 export async function loader({ params }: Route.ClientLoaderArgs) {
   return params.id;
 }

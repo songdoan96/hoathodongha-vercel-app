@@ -1,22 +1,23 @@
-import { Link } from "react-router";
-import Loading from "~/components/Loading";
-import { Button } from "~/components/ui/button";
-import { useOvertimesFindOne, useOvertimesUpdate } from "~/hooks/overtimes-hook";
-import routers from "~/lib/routers";
-import useAuthStore from "~/stores/auth-store";
-import type { Route } from "./+types/detail";
+import { eachDayOfInterval, format, isSameDay } from "date-fns";
 import {
   Ban,
   CalendarDays,
+  CircleCheckBig,
   Clock3,
   Hash,
   MessageCircleQuestionMark,
   Signature,
   Trash2,
 } from "lucide-react";
-import { linesList } from "~/lib/variables";
+import { Link } from "react-router";
+import Loading from "~/components/Loading";
+import { Button } from "~/components/ui/button";
+import { useOvertimesFindOne, useOvertimesUpdate } from "~/hooks/overtimes-hook";
 import { checkRole } from "~/lib/helpers";
-import { Checkbox } from "~/components/ui/checkbox";
+import routers from "~/lib/routers";
+import { linesList } from "~/lib/variables";
+import useAuthStore from "~/stores/auth-store";
+import type { Route } from "./+types/detail";
 
 export function meta() {
   return [{ title: "PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ" }];
@@ -82,7 +83,16 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
               <div className="flex gap-2 items-center">
                 <CalendarDays color="green" />
                 <span className="font-semibold text-blue-600 uppercase w-20">Ngày</span>
-                <span>: {overtime?.ngay}</span>
+                <span>
+                  :
+                  {isSameDay(overtime.tungay, overtime.denngay) ? (
+                    format(overtime.tungay, "dd/MM")
+                  ) : (
+                    <>
+                      {format(overtime.tungay, "dd/MM")} - {format(overtime.denngay, "dd/MM")}
+                    </>
+                  )}
+                </span>
               </div>
               <div className="flex gap-2 items-center">
                 <Clock3 color="green" />
@@ -107,7 +117,18 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                       <th className="text-center border p-1">STT</th>
                       <th className="text-center border p-1">Họ tên</th>
                       <th className="text-center border p-1">MSNV</th>
-                      <th className="text-center border p-1">Có mặt</th>
+                      {isSameDay(overtime.tungay, overtime.denngay) ? (
+                        <th className="text-center border p-1">Có mặt</th>
+                      ) : (
+                        eachDayOfInterval({
+                          start: new Date(overtime.tungay),
+                          end: new Date(),
+                        }).map((day, index) => (
+                          <th key={index} className="text-center border p-1">
+                            {format(day, "dd/MM")}
+                          </th>
+                        ))
+                      )}
                       {checkRole("tochuc") && <th className="text-center border p-1">Ký tên</th>}
                     </tr>
                   </thead>
@@ -133,9 +154,42 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                         </td>
                         <td className="text-center border p-1">{emp.hoten}</td>
                         <td className="text-center border p-1">{emp.msnv}</td>
-                        <td className="text-center border p-1">
-                          <Checkbox checked={emp.status} />
-                        </td>
+                        {isSameDay(overtime.tungay, overtime.denngay) ? (
+                          <td className="text-center border p-1">
+                            <div className="flex items-center justify-center">
+                              {emp.days?.find((d) => d.day === format(new Date(), "yyyy-MM-dd"))
+                                ?.status && <CircleCheckBig />}
+                            </div>
+                            {/* <Checkbox
+                              disabled
+                              checked={
+                                emp.days?.find((d) => d.day === format(new Date(), "yyyy-MM-dd"))
+                                  ?.status || false
+                              }
+                            /> */}
+                          </td>
+                        ) : (
+                          eachDayOfInterval({
+                            start: new Date(overtime.tungay),
+                            end: new Date(),
+                          }).map((day, index) => (
+                            <td key={index} className="text-center border p-1">
+                              {/* <Checkbox
+                                key={index}
+                                disabled
+                                checked={
+                                  emp.days?.find((d) => d.day === format(day, "yyyy-MM-dd"))
+                                    ?.status || false
+                                }
+                              /> */}
+                              <div className="flex items-center justify-center">
+                                {emp.days?.find((d) => d.day === format(day, "yyyy-MM-dd"))
+                                  ?.status && <CircleCheckBig />}
+                              </div>
+                            </td>
+                          ))
+                        )}
+
                         {checkRole("tochuc") && <td className="text-center border p-1"></td>}
                       </tr>
                     ))}

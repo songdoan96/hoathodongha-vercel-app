@@ -43,6 +43,10 @@ export const apiOvertimesFindAll = async (month: string) => {
   const { data } = await apiClient.get(router + `?month=${month}`);
   return data;
 };
+export const apiOvertimesSecurityFindAll = async () => {
+  const { data } = await apiClient.get(router + `/bao-ve`);
+  return data;
+};
 export const apiOvertimesFindOne = async (id: string) => {
   const { data } = await apiClient.get(router + "/" + id);
   return data;

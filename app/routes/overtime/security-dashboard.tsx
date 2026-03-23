@@ -1,6 +1,6 @@
-import { addMonths, format, subMonths } from "date-fns";
-import { ChevronsLeft, ChevronsRight, CircleCheckBig, CircleX, Clock } from "lucide-react";
-import { Link, useSearchParams } from "react-router";
+import { format, isSameDay } from "date-fns";
+import { CircleCheckBig, CircleX, Clock } from "lucide-react";
+import { Link } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
@@ -11,12 +11,8 @@ export function meta() {
   return [{ title: "Danh sách tăng ca bảo vệ" }];
 }
 function OvertimeSecurityDashboard() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const month = searchParams.get("month") || format(new Date(), "yyyy-MM");
-  const { data, isLoading } = useOvertimesFindAll(month);
+  const { data, isLoading } = useOvertimesFindAll(format(new Date(), "yyyy-MM"));
 
-  const prevMonth = format(subMonths(new Date(month), 1), "yyyy-MM");
-  const nextMonth = format(addMonths(new Date(month), 1), "yyyy-MM");
   return (
     <div className="w-full h-full min-h-screen bg-white flex flex-col">
       <HeaderComponent logoLink={routers().overtime.security}>
@@ -81,7 +77,15 @@ function OvertimeSecurityDashboard() {
                           {linesList.find((line) => line.value === overtime.bophan)?.name}
                         </Link>
                       </td>
-                      <td className="text-center border p-2">{overtime.ngay}</td>
+                      <td className="text-center border p-2">
+                        {isSameDay(overtime.tungay, overtime.denngay) ? (
+                          format(overtime.tungay, "dd/MM")
+                        ) : (
+                          <>
+                            {format(overtime.tungay, "dd/MM")} - {format(overtime.denngay, "dd/MM")}
+                          </>
+                        )}
+                      </td>
                       <td className="text-center border p-2 whitespace-nowrap">{overtime.gio}</td>
                       <td className="text-center border p-2 min-w-56">{overtime.lydo}</td>
                       <td className="text-center border p-2 whitespace-nowrap">
@@ -116,31 +120,6 @@ function OvertimeSecurityDashboard() {
                   ))}
                 </tbody>
               </table>
-            </div>
-            <div className="flex justify-between px-4 my-4">
-              <button
-                className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 px-4 py-2 rounded"
-                onClick={() => {
-                  setSearchParams({
-                    month: prevMonth,
-                  });
-                }}
-              >
-                <ChevronsLeft />
-                <span>{prevMonth}</span>
-              </button>
-              <button
-                disabled={month === format(new Date(), "yyyy-MM")}
-                className={`${month === format(new Date(), "yyyy-MM") ? "bg-gray-500" : "bg-blue-500 hover:bg-blue-600"} text-white flex items-center gap-2 px-4 py-2 rounded`}
-                onClick={() => {
-                  setSearchParams({
-                    month: nextMonth,
-                  });
-                }}
-              >
-                <span>{nextMonth}</span>
-                <ChevronsRight />
-              </button>
             </div>
           </>
         )}

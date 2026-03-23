@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { Ban, CalendarDays, Clock3, Hash, MessageCircleQuestionMark } from "lucide-react";
 import { Link } from "react-router";
 import Loading from "~/components/Loading";
@@ -5,10 +6,8 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { useOvertimesFindOne, useOvertimesUpdate } from "~/hooks/overtimes-hook";
 import routers from "~/lib/routers";
 import { linesList } from "~/lib/variables";
-import useAuthStore from "~/stores/auth-store";
 import type { OvertimeEmployee } from "~/types/overtime-type";
 import type { Route } from "./+types/detail";
-import { format, isSameDay } from "date-fns";
 
 export function meta() {
   return [{ title: "PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ BẢO VỆ" }];
@@ -21,7 +20,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 export default function OvertimeSecurityDetail({ params: { id } }: Route.LoaderArgs) {
   const { data: overtime, isLoading } = useOvertimesFindOne(id);
   console.log("🚀 ~ OvertimeSecurityDetail ~ overtime:", overtime);
-  const { mutate: mutateUpdate } = useOvertimesUpdate();
+  const { mutate: mutateUpdate, isPending } = useOvertimesUpdate();
 
   function handleChangeStatus(emp: OvertimeEmployee) {
     if (overtime) {
@@ -119,9 +118,10 @@ export default function OvertimeSecurityDetail({ params: { id } }: Route.LoaderA
                         <td className="text-center border p-1">
                           {overtime.lanhdao && (
                             <Checkbox
+                              disabled={isPending}
                               checked={
                                 emp.days?.find((d) => d.day === format(new Date(), "yyyy-MM-dd"))
-                                  ?.status
+                                  ?.status || false
                               }
                               onCheckedChange={() => handleChangeStatus(emp)}
                             />

@@ -1,4 +1,4 @@
-import { addMonths, format, subMonths } from "date-fns";
+import { addMonths, format, isSameDay, subMonths } from "date-fns";
 import {
   ChevronsLeft,
   ChevronsRight,
@@ -31,7 +31,6 @@ function OvertimeDashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
   const month = searchParams.get("month") || format(new Date(), "yyyy-MM");
   const { data, isLoading } = useOvertimesFindAll(month);
-  console.log("🚀 ~ OvertimeDashboard ~ data:", data);
   const { mutate: mutateUpdate } = useOvertimesUpdate();
   const { mutate: mutateDelete } = useOvertimesDelete();
 
@@ -157,9 +156,15 @@ function OvertimeDashboard() {
                         </Link>
                       </td>
                       <td className="text-center border p-2">
-                        {overtime.ngay}
-                        <br />
-                        {format(overtime.tungay, "dd/MM")} - {format(overtime.denngay, "dd/MM")}
+                        {/* {overtime.ngay}
+                        <br /> */}
+                        {isSameDay(overtime.tungay, overtime.denngay) ? (
+                          format(overtime.tungay, "dd/MM")
+                        ) : (
+                          <>
+                            {format(overtime.tungay, "dd/MM")} - {format(overtime.denngay, "dd/MM")}
+                          </>
+                        )}
                       </td>
                       <td className="text-center border p-2 whitespace-nowrap">{overtime.gio}</td>
                       <td className="text-center border p-2 min-w-56">{overtime.lydo}</td>

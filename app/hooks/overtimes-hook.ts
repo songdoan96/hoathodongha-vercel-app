@@ -6,6 +6,7 @@ import {
   apiOvertimesDelete,
   apiOvertimesFindAll,
   apiOvertimesFindOne,
+  apiOvertimesSecurityFindAll,
   apiOvertimesUpdate,
   type OvertimesCreateDTO,
   type OvertimesUpdateDTO,
@@ -16,6 +17,7 @@ import type { OvertimeType } from "~/types/overtime-type";
 const QUERY_KEY = {
   DASHBOARD: "OVERTIMES/DASHBOARD",
   FIND_ONE: "OVERTIMES/FIND_ONE",
+  SECURITY: "OVERTIMES/SECURITY",
 };
 export const useOvertimesCreate = () => {
   const queryClient = useQueryClient();
@@ -39,6 +41,12 @@ export const useOvertimesFindAll = (month: string) => {
     enabled: !!month,
   });
 };
+export const useOvertimesSecurityFindAll = () => {
+  return useQuery<OvertimeType[]>({
+    queryKey: [QUERY_KEY.SECURITY],
+    queryFn: apiOvertimesSecurityFindAll,
+  });
+};
 export const useOvertimesFindOne = (id: string) => {
   return useQuery<OvertimeType>({
     queryKey: [QUERY_KEY.FIND_ONE, id],
@@ -54,6 +62,7 @@ export const useOvertimesUpdate = () => {
     onSuccess: (res) => {
       toast.success("Thành công");
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.DASHBOARD] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.SECURITY] });
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.FIND_ONE, res.id] });
     },
     onError: () => {
