@@ -5,7 +5,14 @@ import {
   useReactTable,
   type RowSelectionState,
 } from "@tanstack/react-table";
-import { CalendarDays, Clock3, Hash, MessageCircleQuestionMark } from "lucide-react";
+import {
+  CalendarDays,
+  Clock3,
+  Hash,
+  MessageCircleQuestionMark,
+  Users,
+  UsersRound,
+} from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { HeaderComponent, HeaderTitle } from "~/components/Header";
 import Loading from "~/components/Loading";
@@ -174,6 +181,7 @@ function OvertimeCreate() {
             />
           </div>
         </div>
+
         <div className="overflow-x-hidden w-full">
           {employeesIsLoading ? (
             <Loading fullScreen />
@@ -229,6 +237,14 @@ function OvertimeCreate() {
             </table>
           )}
         </div>
+        {table.getSelectedRowModel().rows.length > 0 && (
+          <div className="flex justify-center items-center my-2 gap-2">
+            <Users color="green" />
+            <span className="font-semibold uppercase text-blue-600 text-xl mt-2">
+              Tổng: {table.getSelectedRowModel().rows.length} người
+            </span>
+          </div>
+        )}
         <div className="lg:w-1/2 mx-auto p-2 mb-4">
           <Input
             placeholder="Nhập MSNV để thêm"

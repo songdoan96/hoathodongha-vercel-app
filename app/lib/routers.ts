@@ -28,4 +28,7 @@ export default () => ({
     detail: (id: string) => "/tangca/chitiet/" + id,
     edit: (id: string) => "/tangca/suadon/" + id,
   },
+  employees: {
+    edit: (id: string) => `/nhan-vien/chinh-sua/${id}`,
+  },
 });

@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Trash } from "lucide-react";
+import { PenSquareIcon, Trash2Icon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
+import { Link } from "react-router";
 import z from "zod";
 import Loading from "~/components/Loading";
 import {
@@ -20,9 +21,7 @@ import { Input } from "~/components/ui/input";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
@@ -33,6 +32,7 @@ import {
   useEmployeesFindAll,
   useEmployeesUpdate,
 } from "~/hooks/employees-hook";
+import routers from "~/lib/routers";
 import { linesList, linesListFilter } from "~/lib/variables";
 const formSchema = z.object({
   msnv: z.string().min(1, "MSNV không được để trống."),
@@ -59,8 +59,7 @@ export default function EmployeeDashboardPage() {
   };
 
   function handleCreate(data: z.infer<typeof formSchema>) {
-    // createMutation.mutate(data);
-    console.log(data);
+    createMutation.mutate(data);
   }
 
   return (
@@ -68,89 +67,15 @@ export default function EmployeeDashboardPage() {
       {isLoading ? (
         <Loading fullScreen />
       ) : (
-        <>
-          <div className="flex w-1/3 p-4">
-            <form
-              id="employee-form"
-              onSubmit={form.handleSubmit(handleCreate)}
-              className="w-full border p-4"
-            >
-              <FieldGroup>
-                <Controller
-                  name="hoten"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="hoten">Họ tên</FieldLabel>
-                      <Input {...field} id="hoten" aria-invalid={fieldState.invalid} />
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
-                <Controller
-                  name="msnv"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="msnv">MSNV</FieldLabel>
-                      <Input {...field} id="msnv" aria-invalid={fieldState.invalid} />
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
-                <Controller
-                  name="bophan"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="bophan">Bộ phận</FieldLabel>
-                      {/* <Input {...field} id="bophan" aria-invalid={fieldState.invalid} /> */}
-                      <Select {...field} aria-invalid={fieldState.invalid}>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Chọn bộ phận" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Bộ phận</SelectLabel>
-                            {linesListFilter.map((line) => (
-                              <SelectItem key={line.value} value={line.value}>
-                                {line.name}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
-                <Controller
-                  name="cccd"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="cccd">CCCD</FieldLabel>
-                      <Input {...field} id="cccd" aria-invalid={fieldState.invalid} />
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
-              </FieldGroup>
-              <Field orientation="horizontal" className="mt-8">
-                <Button type="button" variant="outline" onClick={() => form.reset()}>
-                  Hủy
-                </Button>
-                <Button type="submit" form="employee-form">
-                  Tạo
-                </Button>
-              </Field>
-            </form>
-          </div>
-          <div className="p-4 flex-1">
+        <div className="flex gap-2 w-full">
+          <div className="p-4 w-3/4">
             <div className="w-full relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
               <table className="w-full text-sm text-left rtl:text-right text-body">
                 <thead className="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
                   <tr>
+                    <th scope="col" className="px-6 py-3 font-medium">
+                      STT
+                    </th>
                     <th scope="col" className="px-6 py-3 font-medium">
                       MSNV
                     </th>
@@ -170,8 +95,9 @@ export default function EmployeeDashboardPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {employees?.map((employee) => (
+                  {employees?.map((employee, index) => (
                     <tr key={employee.id} className="bg-neutral-primary border-b border-default">
+                      <td className="px-6 py-4">{index + 1}</td>
                       <td className="px-6 py-4">{employee.msnv}</td>
                       <td className="px-6 py-4">{employee.hoten}</td>
                       <td className="px-6 py-4">
@@ -191,25 +117,28 @@ export default function EmployeeDashboardPage() {
                         />
                       </td>
                       <td className="px-6 py-4">
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="destructive">
-                              <Trash />
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Xóa?</AlertDialogTitle>
-                              <AlertDialogDescription>Xóa nhân viên này</AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Hủy</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => handleDelete(employee.id)}>
-                                Xóa
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
+                        <div className="flex items-center gap-2">
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Trash2Icon size={24} color="red" className="cursor-pointer" />
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Xóa?</AlertDialogTitle>
+                                <AlertDialogDescription>Xóa nhân viên này</AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Hủy</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleDelete(employee.id)}>
+                                  Xóa
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                          <Link to={routers().employees.edit(employee.id)}>
+                            <PenSquareIcon size={24} color="green" className="cursor-pointer" />
+                          </Link>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -217,7 +146,99 @@ export default function EmployeeDashboardPage() {
               </table>
             </div>
           </div>
-        </>
+          <div className="p-4 flex-1">
+            <form
+              id="employee-form"
+              onSubmit={form.handleSubmit(handleCreate)}
+              className="w-full border p-4"
+            >
+              <FieldGroup>
+                <Controller
+                  name="hoten"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor={field.name}>Họ tên</FieldLabel>
+                      <Input
+                        {...field}
+                        id={field.name}
+                        name={field.name}
+                        aria-invalid={fieldState.invalid}
+                      />
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                  )}
+                />
+                <Controller
+                  name="msnv"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor={field.name}>MSNV</FieldLabel>
+                      <Input
+                        {...field}
+                        id={field.name}
+                        name={field.name}
+                        aria-invalid={fieldState.invalid}
+                      />
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                  )}
+                />
+                <Controller
+                  name="bophan"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor={field.name}>Bộ phận</FieldLabel>
+                      <Select name={field.name} value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger
+                          id={field.name}
+                          aria-invalid={fieldState.invalid}
+                          className="w-full"
+                        >
+                          <SelectValue placeholder="Chọn bộ phận" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {linesListFilter.map((line) => (
+                            <SelectItem key={line.value} value={line.value}>
+                              {line.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </Field>
+                  )}
+                />
+
+                <Controller
+                  name="cccd"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor={field.name}>CCCD</FieldLabel>
+                      <Input
+                        {...field}
+                        id={field.name}
+                        name={field.name}
+                        aria-invalid={fieldState.invalid}
+                      />
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                  )}
+                />
+              </FieldGroup>
+              <Field orientation="horizontal" className="mt-8">
+                <Button type="button" variant="outline" onClick={() => form.reset()}>
+                  Hủy
+                </Button>
+                <Button type="submit" form="employee-form">
+                  Tạo
+                </Button>
+              </Field>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );
