@@ -151,7 +151,7 @@ model Overtime {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   bophan  String
-  ngay    String
+  ngay    String?
   tungay  DateTime @default(now()) @db.Date()
   denngay DateTime @default(now()) @db.Date()
   gio     String
@@ -170,7 +170,12 @@ model Overtime {
 }
 
 type OvertimeEmployee {
-  msnv   String
-  hoten  String
-  status Boolean? @default(false)
+  msnv  String
+  hoten String
+  days  OvertimeDayEmployee[]
+}
+
+type OvertimeDayEmployee {
+  day    String
+  status Boolean @default(false)
 }

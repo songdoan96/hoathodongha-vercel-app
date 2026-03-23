@@ -34,8 +34,9 @@ export class OvertimesController {
   }
 
   // @UseGuards(AuthGuard)
+  // Prisma.OvertimeUpdateInput
   @Patch(':id')
-  update(@Param('id') id: string, @Body() data: Prisma.OvertimeUpdateInput) {
+  update(@Param('id') id: string, @Body() data: any) {
     return this.overtimesService.update(id, data);
   }
 
