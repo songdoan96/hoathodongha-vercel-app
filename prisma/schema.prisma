@@ -168,6 +168,7 @@ model Overtime {
 }
 
 type OvertimeEmployee {
-  msnv  String
-  hoten String
+  msnv   String
+  hoten  String
+  status Boolean? @default(false)
 }
