@@ -17,22 +17,21 @@ function OvertimeEdit({ params: { id } }: Route.ClientLoaderArgs) {
 
   const { user } = useAuthStore();
   const { mutate: mutateEdit } = useOvertimesEdit();
-  const [ngay, setNgay] = useState("");
   const [gio, setGio] = useState("");
   useEffect(() => {
     if (overtime) {
-      setNgay(overtime.ngay);
+      // setNgay(overtime.ngay);
       setGio(overtime.gio);
     }
   }, [overtime]);
 
   function handleEdit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (user && ngay && gio) {
+    if (user && gio) {
       mutateEdit({
         id,
         formData: {
-          ngay,
+          // ngay,
           gio,
           lanhdao: user.name,
         },
@@ -77,7 +76,7 @@ function OvertimeEdit({ params: { id } }: Route.ClientLoaderArgs) {
           </div>
           {overtime && (
             <div className="flex flex-col flex-wrap gap-4">
-              <div className="flex flex-col gap-2">
+              {/* <div className="flex flex-col gap-2">
                 <Label htmlFor="ngay">Ngày đăng ký</Label>
                 <Input
                   value={ngay}
@@ -86,7 +85,7 @@ function OvertimeEdit({ params: { id } }: Route.ClientLoaderArgs) {
                   onChange={(e) => setNgay(e.target.value)}
                   required
                 />
-              </div>
+              </div> */}
               <div className="flex flex-col gap-2">
                 <Label htmlFor="gio">Giờ đăng ký</Label>
                 <Input

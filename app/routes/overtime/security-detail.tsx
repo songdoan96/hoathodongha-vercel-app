@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, isSameDay } from "date-fns";
 import { Ban, CalendarDays, Clock3, Hash, MessageCircleQuestionMark } from "lucide-react";
 import { Link } from "react-router";
 import Loading from "~/components/Loading";
@@ -74,7 +74,16 @@ export default function OvertimeSecurityDetail({ params: { id } }: Route.LoaderA
               <div className="flex gap-2 items-center">
                 <CalendarDays color="green" />
                 <span className="font-semibold text-blue-600 uppercase w-20">Ngày</span>
-                <span>: {overtime?.ngay}</span>
+                <span>
+                  :
+                  {isSameDay(overtime.tungay, overtime.denngay) ? (
+                    format(overtime.tungay, "dd/MM")
+                  ) : (
+                    <>
+                      {format(overtime.tungay, "dd/MM")} - {format(overtime.denngay, "dd/MM")}
+                    </>
+                  )}
+                </span>
               </div>
               <div className="flex gap-2 items-center">
                 <Clock3 color="green" />

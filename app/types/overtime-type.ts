@@ -1,7 +1,7 @@
 export interface OvertimeType {
   id: string;
   bophan: string;
-  ngay: string;
+  // ngay: string;
   gio: string;
   lydo: string;
   danhsach: OvertimeEmployee[];
