@@ -23,7 +23,7 @@ export default function OvertimeSecurityDetail({ params: { id } }: Route.LoaderA
   const { mutate: mutateUpdate } = useOvertimesUpdate();
 
   function handleChangeStatus(emp: OvertimeEmployee) {
-    if (user && overtime) {
+    if (overtime) {
       mutateUpdate({
         id,
         formData: {
