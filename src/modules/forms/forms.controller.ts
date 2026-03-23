@@ -49,7 +49,7 @@ export class FormsController {
     return this.formsService.findAll({ month, cursor, type, value });
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFormDto: UpdateFormDto) {
     return this.formsService.update(id, updateFormDto);
