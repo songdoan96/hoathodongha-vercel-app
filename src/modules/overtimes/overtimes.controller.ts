@@ -9,10 +9,9 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { Prisma } from '../../../generated/prisma';
+import { AuthGuard } from '../../guards/auth.guard';
 import { CreateOvertimesDto } from './overtimes.dto';
 import { OvertimesService } from './overtimes.service';
-import { AuthGuard } from '../../guards/auth.guard';
 
 @Controller('overtimes')
 export class OvertimesController {
@@ -21,6 +20,11 @@ export class OvertimesController {
   @Get()
   findAll(@Query('month') month: string) {
     return this.overtimesService.findAll(month);
+  }
+
+  @Get('bao-ve')
+  securityFindAll() {
+    return this.overtimesService.securityFindAll();
   }
 
   @Get(':id')

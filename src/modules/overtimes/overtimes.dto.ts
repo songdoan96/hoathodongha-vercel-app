@@ -1,6 +1,6 @@
 export class CreateOvertimesDto {
   bophan: string;
-  ngay?: string;
+  // ngay?: string;
   gio: string;
   lydo: string;
   danhsach: OvertimeEmployee[];
