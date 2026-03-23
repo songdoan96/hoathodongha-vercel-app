@@ -150,10 +150,12 @@ model SalaryNote {
 model Overtime {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  bophan String
-  ngay   String
-  gio    String
-  lydo   String
+  bophan  String
+  ngay    String
+  tungay  DateTime @default(now()) @db.Date()
+  denngay DateTime @default(now()) @db.Date()
+  gio     String
+  lydo    String
 
   danhsach OvertimeEmployee[]
 

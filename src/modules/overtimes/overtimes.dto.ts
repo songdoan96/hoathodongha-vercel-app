@@ -5,6 +5,8 @@ export class CreateOvertimesDto {
   lydo: string;
   danhsach: OvertimeEmployee[];
   totruong: string;
+  tungay: string;
+  denngay: string;
 }
 
 class OvertimeEmployee {

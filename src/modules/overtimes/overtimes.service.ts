@@ -9,6 +9,12 @@ export class OvertimesService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(month: string) {
+    await this.prisma.overtime.updateMany({
+      data: {
+        tungay: new Date(month),
+        denngay: new Date(month),
+      },
+    });
     return await this.prisma.overtime.findMany({
       where: {
         createdAt: {
