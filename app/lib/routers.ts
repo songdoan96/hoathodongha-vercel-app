@@ -27,6 +27,8 @@ export default () => ({
     create: "/tangca/taodon",
     detail: (id: string) => "/tangca/chitiet/" + id,
     edit: (id: string) => "/tangca/suadon/" + id,
+    security: "/tangca/baove",
+    detailSecurity: (id: string) => "/tangca/baove/chitiet/" + id,
   },
   employees: {
     edit: (id: string) => `/nhan-vien/chinh-sua/${id}`,

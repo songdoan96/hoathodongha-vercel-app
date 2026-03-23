@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { linesList } from "~/lib/variables";
 import { checkRole } from "~/lib/helpers";
+import { Checkbox } from "~/components/ui/checkbox";
 
 export function meta() {
   return [{ title: "PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ" }];
@@ -106,6 +107,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                       <th className="text-center border p-1">STT</th>
                       <th className="text-center border p-1">Họ tên</th>
                       <th className="text-center border p-1">MSNV</th>
+                      <th className="text-center border p-1">Có mặt</th>
                       {checkRole("tochuc") && <th className="text-center border p-1">Ký tên</th>}
                     </tr>
                   </thead>
@@ -131,6 +133,9 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                         </td>
                         <td className="text-center border p-1">{emp.hoten}</td>
                         <td className="text-center border p-1">{emp.msnv}</td>
+                        <td className="text-center border p-1">
+                          <Checkbox checked={emp.status} />
+                        </td>
                         {checkRole("tochuc") && <td className="text-center border p-1"></td>}
                       </tr>
                     ))}

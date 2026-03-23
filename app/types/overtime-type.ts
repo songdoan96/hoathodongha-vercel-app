@@ -11,7 +11,8 @@ export interface OvertimeType {
   createdAt: Date;
   status: boolean;
 }
-interface OvertimeEmployee {
+export interface OvertimeEmployee {
   msnv: string;
   hoten: string;
+  status: boolean;
 }

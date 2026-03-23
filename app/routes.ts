@@ -29,6 +29,8 @@ export default [
   ...prefix("tangca", [
     index("./routes/overtime/dashboard.tsx"),
     route("/chitiet/:id", "./routes/overtime/detail.tsx"),
+    route("/baove", "./routes/overtime/security-dashboard.tsx"),
+    route("/baove/chitiet/:id", "./routes/overtime/security-detail.tsx"),
   ]),
   layout("./components/providers/PrivateProvider.tsx", [
     //tangca
