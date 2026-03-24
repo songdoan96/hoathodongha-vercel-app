@@ -23,10 +23,10 @@ export class OvertimesService {
     return await this.prisma.overtime.findMany({
       where: {
         denngay: {
-          lte: new Date(),
+          gte: new Date(),
         },
       },
-      orderBy: [{ id: 'desc' }],
+      orderBy: [{ status: 'desc' }, { id: 'desc' }],
     });
   }
   async findOne(id: string) {
