@@ -4,14 +4,15 @@ import { Link } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
-import { useOvertimesFindAll } from "~/hooks/overtimes-hook";
+import { useOvertimesFindAll, useOvertimesSecurityFindAll } from "~/hooks/overtimes-hook";
 import routers from "~/lib/routers";
 import { linesList } from "~/lib/variables";
 export function meta() {
   return [{ title: "Danh sách tăng ca bảo vệ" }];
 }
 function OvertimeSecurityDashboard() {
-  const { data, isLoading } = useOvertimesFindAll(format(new Date(), "yyyy-MM"));
+  // const { data, isLoading } = useOvertimesFindAll(format(new Date(), "yyyy-MM"));
+  const { data, isLoading } = useOvertimesSecurityFindAll();
 
   return (
     <div className="w-full h-full min-h-screen bg-white flex flex-col">
