@@ -105,12 +105,13 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                 <span className="flex-1">: {overtime?.lydo}</span>
               </div>
             </div>
-
+            {overtime.status && (
+              <h1 className="uppercase text-center my-8 font-semibold border-y py-2 text-xl lg:text-2xl shadow text-blue-900">
+                Danh sách lao động đăng ký tự nguyện làm thêm giờ
+              </h1>
+            )}
             {overtime.status ? (
-              <>
-                <h1 className="uppercase text-center my-8 font-semibold border-y py-2 text-xl lg:text-2xl shadow text-blue-900">
-                  Danh sách lao động đăng ký tự nguyện làm thêm giờ
-                </h1>
+              <div className="relative overflow-x-auto">
                 <table className="table w-full bg-white">
                   <thead>
                     <tr className="bg-[#37b159] text-white uppercase">
@@ -152,7 +153,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                             )}
                           </div>
                         </td>
-                        <td className="text-center border p-1">{emp.hoten}</td>
+                        <td className="text-center border p-1 text-nowrap">{emp.hoten}</td>
                         <td className="text-center border p-1">{emp.msnv}</td>
                         {isSameDay(overtime.tungay, overtime.denngay) ? (
                           <td className="text-center border p-1">
@@ -195,7 +196,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                     ))}
                   </tbody>
                 </table>
-              </>
+              </div>
             ) : (
               <div className="flex flex-col lg:flex-row justify-center items-center gap-2 lg:gap-4 my-4 py-6 text-red-600 bg-red-50">
                 <Ban size={30} />

@@ -35,13 +35,11 @@ export default function OvertimeSecurityDetail({ params: { id } }: Route.LoaderA
             const exists = emp?.days?.find((d) => d.day === date);
 
             if (exists) {
-              // Đảo ngược status của ngày hôm nay
               return {
                 ...emp,
                 days: emp?.days?.map((d) => (d.day === date ? { ...d, status: !d.status } : d)),
               };
             } else {
-              // Chưa có ngày hôm nay → thêm mới với status: true
               return {
                 ...emp,
                 days: [...emp?.days!, { day: date, status: true }],

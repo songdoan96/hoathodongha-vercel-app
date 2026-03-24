@@ -1,5 +1,5 @@
-import { format, isSameDay } from "date-fns";
-import { CircleCheckBig, CircleX, Clock } from "lucide-react";
+import { format, isAfter, isSameDay } from "date-fns";
+import { CircleAlert, CircleCheckBig, CircleX, Clock } from "lucide-react";
 import { Link } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
@@ -52,7 +52,7 @@ function OvertimeSecurityDashboard() {
                         {format(overtime.createdAt, "dd/MM")}
                       </td>
                       <td className="text-center border p-2 whitespace-nowrap">
-                        <Link to={routers().overtime.detailSecurity(overtime.id)}>
+                        {/* <Link to={routers().overtime.detailSecurity(overtime.id)}>
                           {!overtime.status ? (
                             <div className="bg-red-200 text-red-700 p-1 px-2 rounded flex items-center justify-center gap-1">
                               <CircleX size={14} />
@@ -64,10 +64,33 @@ function OvertimeSecurityDashboard() {
                               <span className="uppercase font-semibold text-sm"> Đã duyệt</span>
                             </div>
                           ) : (
-                            // <CircleX />
                             <div className="bg-blue-100 text-blue-700 p-1 px-2 rounded flex items-center justify-center gap-1">
                               <Clock size={14} />
                               <span className="uppercase font-semibold text-sm">Chờ duyệt</span>
+                            </div>
+                          )}
+                        </Link> */}
+
+                        <Link to={routers().overtime.detailSecurity(overtime.id)}>
+                          {!overtime.status ? (
+                            <div className="bg-red-200 text-red-700 p-1 px-2 rounded flex items-center justify-center gap-1">
+                              <CircleX size={14} />
+                              <span className="uppercase font-semibold text-sm"> Bị hủy</span>
+                            </div>
+                          ) : !overtime.lanhdao ? (
+                            <div className="bg-blue-100 text-blue-700 p-1 px-2 rounded flex items-center justify-center gap-1">
+                              <Clock size={14} />
+                              <span className="uppercase font-semibold text-sm">Chờ duyệt</span>
+                            </div>
+                          ) : isAfter(new Date(), overtime.denngay) ? (
+                            <div className="bg-yellow-100 text-yellow-700 p-1 px-2 rounded flex items-center justify-center gap-1">
+                              <CircleAlert size={14} />
+                              <span className="uppercase font-semibold text-sm">Hết hạn</span>
+                            </div>
+                          ) : (
+                            <div className="bg-green-100 text-green-700 p-1 px-2 rounded flex items-center justify-center gap-1">
+                              <CircleCheckBig size={14} />
+                              <span className="uppercase font-semibold text-sm">Đã duyệt</span>
                             </div>
                           )}
                         </Link>

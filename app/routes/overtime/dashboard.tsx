@@ -1,7 +1,8 @@
-import { addMonths, format, isSameDay, subMonths } from "date-fns";
+import { addMonths, format, isAfter, isSameDay, subMonths } from "date-fns";
 import {
   ChevronsLeft,
   ChevronsRight,
+  CircleAlert,
   CircleCheckBig,
   CircleX,
   ClipboardPlus,
@@ -130,22 +131,27 @@ function OvertimeDashboard() {
                         )}
                       </td>
                       <td className="text-center border p-2 whitespace-nowrap">
+                        {/* isAfter(new Date(), overtime.denngay) */}
                         <Link to={routers().overtime.detail(overtime.id)}>
                           {!overtime.status ? (
                             <div className="bg-red-200 text-red-700 p-1 px-2 rounded flex items-center justify-center gap-1">
                               <CircleX size={14} />
                               <span className="uppercase font-semibold text-sm"> Bị hủy</span>
                             </div>
-                          ) : overtime.lanhdao ? (
-                            <div className="bg-green-100 text-green-700 p-1 px-2 rounded flex items-center justify-center gap-1">
-                              <CircleCheckBig size={14} />
-                              <span className="uppercase font-semibold text-sm"> Đã duyệt</span>
-                            </div>
-                          ) : (
-                            // <CircleX />
+                          ) : !overtime.lanhdao ? (
                             <div className="bg-blue-100 text-blue-700 p-1 px-2 rounded flex items-center justify-center gap-1">
                               <Clock size={14} />
                               <span className="uppercase font-semibold text-sm">Chờ duyệt</span>
+                            </div>
+                          ) : isAfter(new Date(), overtime.denngay) ? (
+                            <div className="bg-yellow-100 text-yellow-700 p-1 px-2 rounded flex items-center justify-center gap-1">
+                              <CircleAlert size={14} />
+                              <span className="uppercase font-semibold text-sm">Hết hạn</span>
+                            </div>
+                          ) : (
+                            <div className="bg-green-100 text-green-700 p-1 px-2 rounded flex items-center justify-center gap-1">
+                              <CircleCheckBig size={14} />
+                              <span className="uppercase font-semibold text-sm">Đã duyệt</span>
                             </div>
                           )}
                         </Link>
