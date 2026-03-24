@@ -3,7 +3,7 @@ const router = "/overtimes";
 
 export interface OvertimesCreateDTO {
   bophan: string;
-  ngay: string;
+  // ngay: string;
   gio: string;
   lydo: string;
   danhsach: OvertimeEmployee[];

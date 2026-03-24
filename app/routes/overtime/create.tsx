@@ -76,7 +76,6 @@ function OvertimeCreate() {
 
   const [employeeSearch, setEmployeeSearch] = useState("");
   const { data: employeesFindByStaffId } = useEmployeesFindByStaffId(employeeSearch);
-  const [ngayDangKy, setNgayDangKy] = useState("");
   const [tungay, setTuNgay] = useState(format(new Date(), "yyyy-MM-dd"));
   const [denngay, setDenngay] = useState(format(new Date(), "yyyy-MM-dd"));
   const [gioDangKy, setGioDangKy] = useState("");
@@ -105,7 +104,7 @@ function OvertimeCreate() {
     if (user?.bophan && table.getSelectedRowModel().rows.length > 0) {
       mutate.mutate({
         bophan: user?.bophan,
-        ngay: ngayDangKy,
+        // ngay: ngayDangKy,
         gio: gioDangKy,
         lydo,
         totruong: user.name,
