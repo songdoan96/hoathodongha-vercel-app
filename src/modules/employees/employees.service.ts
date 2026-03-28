@@ -15,6 +15,14 @@ export class EmployeesService {
       where: { msnv },
     });
   }
+  async findByLine(line: string) {
+    return await this.prisma.employee.findMany({
+      where: {
+        bophan: line,
+        active: true,
+      },
+    });
+  }
   async findAll() {
     return await this.prisma.employee.findMany({
       orderBy: [{ active: 'desc' }, { msnv: 'asc' }],

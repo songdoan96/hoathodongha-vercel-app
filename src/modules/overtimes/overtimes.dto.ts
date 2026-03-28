@@ -17,6 +17,7 @@ export class CreateOvertimesDto {
 class OvertimeEmployee {
   msnv: string;
   hoten: string;
+  congdoan?: string;
   days?: OvertimeDayEmployee[];
 }
 

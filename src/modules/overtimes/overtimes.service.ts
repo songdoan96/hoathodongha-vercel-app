@@ -20,12 +20,14 @@ export class OvertimesService {
   }
 
   async securityFindAll() {
+    console.log(new Date());
+
     return await this.prisma.overtime.findMany({
-      where: {
-        denngay: {
-          gte: new Date(),
-        },
-      },
+      // where: {
+      //   denngay: {
+      //     gte: new Date(),
+      //   },
+      // },
       orderBy: [{ status: 'desc' }, { id: 'desc' }],
     });
   }

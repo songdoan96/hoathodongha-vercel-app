@@ -170,9 +170,10 @@ model Overtime {
 }
 
 type OvertimeEmployee {
-  msnv  String
-  hoten String
-  days  OvertimeDayEmployee[]
+  msnv     String
+  hoten    String
+  congdoan String?
+  days     OvertimeDayEmployee[]
 }
 
 type OvertimeDayEmployee {

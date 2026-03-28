@@ -22,6 +22,10 @@ export class EmployeesController {
   async findByMsnv(@Query('msnv') msnv: string) {
     return await this.employeesService.findByMsnv(msnv);
   }
+  @Get('/find-with-line')
+  async findByLine(@Query('line') line: string) {
+    return await this.employeesService.findByLine(line);
+  }
   @Get('')
   async findAll() {
     return await this.employeesService.findAll();
