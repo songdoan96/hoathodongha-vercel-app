@@ -225,7 +225,7 @@ export default function EmployeeTable() {
         <div className="mt-4 mb-20 flex justify-center items-center ">
           <Button
             className="min-w-32 uppercase font-bold"
-            disabled={checkedCount === 0}
+            disabled={checkedCount === 0 || mutate.isPending}
             type="submit"
           >
             <CheckIcon size={20} /> Tạo đơn
