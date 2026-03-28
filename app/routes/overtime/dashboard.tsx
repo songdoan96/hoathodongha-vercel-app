@@ -63,6 +63,7 @@ function OvertimeDashboard() {
   const nextMonth = format(addMonths(new Date(month), 1), "yyyy-MM");
   return (
     <div className="w-full h-full min-h-screen bg-white flex flex-col">
+      <meta name="viewport" content="width=device-width, initial-scale=0.7" />
       <HeaderComponent>
         <span className="uppercase text-white font-bold text-center w-full lg:text-2xl">
           Danh sách đăng ký tăng ca
@@ -92,19 +93,17 @@ function OvertimeDashboard() {
               <table className="w-full h-full divide-y divide-gray-200  shadow-2xl">
                 <thead className="rounded-2xl">
                   <tr className="bg-[#37b159] text-white uppercase">
-                    <th className="text-center border p-2 whitespace-nowrap">Ngày tạo</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Trạng thái</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Bộ phận</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Ngày đăng ký</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Giờ đăng ký</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Lý do</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Số lượng</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Tổ trưởng</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Quản đốc</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Ban giám đốc</th>
-                    {checkRole("admin") && (
-                      <th className="text-center border p-2 whitespace-nowrap"></th>
-                    )}
+                    <th className="text-center border p-1 lg:p-2">Ngày tạo</th>
+                    <th className="text-center border p-1 lg:p-2">Trạng thái</th>
+                    <th className="text-center border p-1 lg:p-2">Bộ phận</th>
+                    <th className="text-center border p-1 lg:p-2">Ngày đăng ký</th>
+                    <th className="text-center border p-1 lg:p-2">Giờ đăng ký</th>
+                    <th className="text-center border p-1 lg:p-2">Lý do</th>
+                    <th className="text-center border p-1 lg:p-2">Số lượng</th>
+                    <th className="text-center border p-1 lg:p-2">Tổ trưởng</th>
+                    <th className="text-center border p-1 lg:p-2">Quản đốc</th>
+                    <th className="text-center border p-1 lg:p-2">Ban giám đốc</th>
+                    {checkRole("admin") && <th className="text-center border p-1 lg:p-2 "></th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -113,7 +112,7 @@ function OvertimeDashboard() {
                       key={overtime.id}
                       className={`${!overtime.status ? "bg-red-50 line-through text-red-500" : ""}`}
                     >
-                      <td className="text-center border p-2 whitespace-nowrap">
+                      <td className="text-center border p-1 lg:p-2">
                         {!overtime.lanhdao &&
                         overtime.status &&
                         (user?.bophan === "lanhdao" || user?.bophan === "giamdoc") &&
@@ -130,7 +129,7 @@ function OvertimeDashboard() {
                           <>{format(overtime.createdAt, "dd/MM")}</>
                         )}
                       </td>
-                      <td className="text-center border p-2 whitespace-nowrap">
+                      <td className="text-center border p-1 lg:p-2 whitespace-nowrap">
                         {/* isAfter(new Date(), overtime.denngay) */}
                         <Link to={routers().overtime.detail(overtime.id)}>
                           {!overtime.status ? (
@@ -156,12 +155,12 @@ function OvertimeDashboard() {
                           )}
                         </Link>
                       </td>
-                      <td className="text-center border p-2 whitespace-nowrap underline text-blue-600 font-bold">
+                      <td className="text-center border p-1 lg:p-2 underline text-blue-600 font-bold whitespace-nowrap">
                         <Link to={routers().overtime.detail(overtime.id)}>
                           {linesList.find((line) => line.value === overtime.bophan)?.name}
                         </Link>
                       </td>
-                      <td className="text-center border p-2">
+                      <td className="text-center border p-1 lg:p-2 lg:text-nowrap">
                         {/* {overtime.ngay}
                         <br /> */}
                         {isSameDay(overtime.tungay, overtime.denngay) ? (
@@ -172,9 +171,11 @@ function OvertimeDashboard() {
                           </>
                         )}
                       </td>
-                      <td className="text-center border p-2 whitespace-nowrap">{overtime.gio}</td>
-                      <td className="text-center border p-2 min-w-56">{overtime.lydo}</td>
-                      <td className="text-center border p-2 whitespace-nowrap">
+                      <td className="text-center border p-1 lg:p-2 lg:text-nowrap">
+                        {overtime.gio}
+                      </td>
+                      <td className="text-center border p-1 lg:p-2 min-w-56">{overtime.lydo}</td>
+                      <td className="text-center border p-1 lg:p-2 text-nowrap">
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Link
@@ -193,10 +194,10 @@ function OvertimeDashboard() {
                           </TooltipContent>
                         </Tooltip>
                       </td>
-                      <td className="text-center border p-2 whitespace-nowrap">
+                      <td className="text-center border p-1 lg:p-2 min-w-32 lg:text-nowrap">
                         {overtime.totruong}
                       </td>
-                      <td className="text-center border p-2 whitespace-nowrap">
+                      <td className="text-center border p-1 lg:p-2  min-w-32 lg:text-nowrap">
                         {overtime.quandoc}
                         {!overtime.quandoc &&
                           user?.bophan === overtime.bophan.slice(0, 3) + "quandoc" && (
@@ -218,7 +219,7 @@ function OvertimeDashboard() {
                             </div>
                           )}
                       </td>
-                      <td className="text-center border p-2 whitespace-nowrap w-40">
+                      <td className="text-center border p-1 lg:p-2 min-w-32 lg:text-nowrap">
                         {overtime.lanhdao}
                         {!overtime.lanhdao &&
                           overtime.status &&
@@ -244,7 +245,7 @@ function OvertimeDashboard() {
                           )}
                       </td>
                       {checkRole("admin") && (
-                        <td className="text-center border p-2 whitespace-nowrap">
+                        <td className="text-center border p-1 lg:p-2 ">
                           <Button
                             className="bg-red-200"
                             onClick={() => handleDelete(overtime.id)}

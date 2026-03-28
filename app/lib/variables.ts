@@ -157,14 +157,14 @@ export const linesList: LineListType[] = [
   },
   {
     value: "X1_chuyendung",
-    name: "Chuyên dùng 1",
+    name: "C.Dùng 1",
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
   },
   {
     value: "X2_chuyendung",
-    name: "Chuyên dùng 2",
+    name: "C.Dùng 2",
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,

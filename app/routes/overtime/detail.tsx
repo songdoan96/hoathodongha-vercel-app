@@ -118,6 +118,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                       <th className="text-center border p-1">STT</th>
                       <th className="text-center border p-1">Họ tên</th>
                       <th className="text-center border p-1">MSNV</th>
+                      <th className="text-center border p-1">Công đoạn</th>
                       {isSameDay(overtime.tungay, overtime.denngay) ? (
                         <th className="text-center border p-1">Có mặt</th>
                       ) : (
@@ -155,6 +156,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                         </td>
                         <td className="text-center border p-1 text-nowrap">{emp.hoten}</td>
                         <td className="text-center border p-1">{emp.msnv}</td>
+                        <td className="text-center border p-1">{emp.congdoan}</td>
                         {isSameDay(overtime.tungay, overtime.denngay) ? (
                           <td className="text-center border p-1">
                             <div className="flex items-center justify-center">

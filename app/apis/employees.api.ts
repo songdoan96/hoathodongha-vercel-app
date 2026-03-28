@@ -9,6 +9,10 @@ export const apiEmployeesFindAll = async () => {
   const { data } = await apiClient.get(router);
   return data;
 };
+export const apiEmployeesFindWithLine = async (line: string) => {
+  const { data } = await apiClient.get(router + "/find-with-line?line=" + line);
+  return data;
+};
 export const apiEmployeesFindById = async (id: string) => {
   const { data } = await apiClient.get(router + `/${id}`);
   return data;

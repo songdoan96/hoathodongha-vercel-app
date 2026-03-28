@@ -16,6 +16,7 @@ export interface OvertimeType {
 export interface OvertimeEmployee {
   msnv: string;
   hoten: string;
+  congdoan?: string;
   // status: boolean;
   days?: OvertimeDayEmployee[];
 }

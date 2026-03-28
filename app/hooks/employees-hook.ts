@@ -5,6 +5,7 @@ import {
   apiEmployeesDelete,
   apiEmployeesFindAll,
   apiEmployeesFindByStaffId,
+  apiEmployeesFindWithLine,
   apiEmployeesUpdate,
 } from "~/apis/employees.api";
 import type { EmployeeType } from "~/types/employee-type";
@@ -12,6 +13,7 @@ import type { EmployeeType } from "~/types/employee-type";
 const QUERY_KEY = {
   FIND_BY_STAFF_ID: "employees/findByStaffId",
   FIND_ALL: "employees/FIND_ALL",
+  FIND_ALL_WITH_LINE: "employees/FIND_ALL_WITH_LINE",
   FIND_ONE: "employees/FIND_ONE",
   CREATE: "employees/CREATE",
   UPDATE: "employees/UPDATE",
@@ -31,7 +33,13 @@ export const useEmployeesFindAll = () => {
     queryFn: apiEmployeesFindAll,
   });
 };
-
+export const useEmployeesFindWithLine = (line: string) => {
+  return useQuery<EmployeeType[]>({
+    queryKey: [QUERY_KEY.FIND_ALL_WITH_LINE, line],
+    queryFn: () => apiEmployeesFindWithLine(line),
+    enabled: !!line,
+  });
+};
 export const useEmployeesDeleteOne = () => {
   const queryClient = useQueryClient();
   return useMutation({
