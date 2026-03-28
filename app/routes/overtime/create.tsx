@@ -85,7 +85,6 @@ export default function EmployeeTable() {
 
   return (
     <div className="w-full h-full">
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <HeaderComponent>
         <HeaderTitle>ĐĂNG KÝ TĂNG CA</HeaderTitle>
       </HeaderComponent>

@@ -63,7 +63,6 @@ function OvertimeDashboard() {
   const nextMonth = format(addMonths(new Date(month), 1), "yyyy-MM");
   return (
     <div className="w-full h-full min-h-screen bg-white flex flex-col">
-      <meta name="viewport" content="width=device-width, initial-scale=0.7" />
       <HeaderComponent>
         <span className="uppercase text-white font-bold text-center w-full lg:text-2xl">
           Danh sách đăng ký tăng ca
