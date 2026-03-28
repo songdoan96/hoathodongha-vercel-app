@@ -28,7 +28,7 @@ export class OvertimesService {
       //     gte: new Date(),
       //   },
       // },
-      orderBy: [{ status: 'desc' }, { id: 'desc' }],
+      orderBy: [{ status: 'desc' }, { denngay: 'desc' }],
     });
   }
   async findOne(id: string) {
