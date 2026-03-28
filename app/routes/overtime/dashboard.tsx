@@ -142,7 +142,10 @@ function OvertimeDashboard() {
                               <Clock size={14} />
                               <span className="uppercase font-semibold text-sm">Chờ duyệt</span>
                             </div>
-                          ) : isAfter(new Date(), overtime.denngay) ? (
+                          ) : isAfter(
+                              format(new Date(), "yyyy-MM-dd"),
+                              format(overtime.denngay, "yyyy-MM-dd"),
+                            ) ? (
                             <div className="bg-yellow-100 text-yellow-700 p-1 px-2 rounded flex items-center justify-center gap-1">
                               <CircleAlert size={14} />
                               <span className="uppercase font-semibold text-sm">Hết hạn</span>
