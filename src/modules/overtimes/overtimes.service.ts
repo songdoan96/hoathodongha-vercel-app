@@ -20,8 +20,6 @@ export class OvertimesService {
   }
 
   async securityFindAll() {
-    console.log(new Date());
-
     return await this.prisma.overtime.findMany({
       // where: {
       //   denngay: {
@@ -46,7 +44,6 @@ export class OvertimesService {
   }
 
   async update(id: string, data: any) {
-    console.log('🚀 ~ OvertimesService ~ update ~ data:', data);
     return await this.prisma.overtime.update({
       where: { id },
       data,
