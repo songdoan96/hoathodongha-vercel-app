@@ -47,8 +47,6 @@ export default function EmployeeTable() {
   };
 
   const updateCongDoan = (id: string, value: string) => {
-    console.log(value.length);
-
     if (value.length > 0) {
       return setRows((prev) =>
         prev?.map((r) => (r.id === id ? { ...r, congdoan: value, checked: true } : r)),

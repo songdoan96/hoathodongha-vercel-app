@@ -57,7 +57,6 @@ export const apiOvertimesCreate = async (formData: OvertimesCreateDTO) => {
 };
 
 export const apiOvertimesUpdate = async (id: string, formData: any) => {
-  console.log("🚀 ~ apiOvertimesUpdate ~ formData:", formData);
   const { data } = await apiClient.patch(router + "/" + id, formData);
   return data;
 };

@@ -19,7 +19,6 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export default function OvertimeSecurityDetail({ params: { id } }: Route.LoaderArgs) {
   const { data: overtime, isLoading } = useOvertimesFindOne(id);
-  console.log("🚀 ~ OvertimeSecurityDetail ~ overtime:", overtime);
   const { mutate: mutateUpdate, isPending } = useOvertimesUpdate();
 
   function handleChangeStatus(emp: OvertimeEmployee) {
