@@ -284,7 +284,9 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
       </td>
       <td className="p-1 border border-black">
         <div className="flex justify-center items-center gap-1">
-          {(checkFive5Minutes(form.ngaytao) || checkRole("tochuc")) && (
+          {(checkFive5Minutes(form.ngaytao) ||
+            (!form.totruong && !form.quandoc && !form.lanhdao) ||
+            checkRole("tochuc")) && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Trash2 color="red" size={20} />
