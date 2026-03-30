@@ -1,4 +1,4 @@
-import { addMonths, format, isAfter, isSameDay, subMonths } from "date-fns";
+import { addMonths, format, isAfter, isSameDay, set, subMonths } from "date-fns";
 import {
   ChevronsLeft,
   ChevronsRight,
@@ -7,9 +7,12 @@ import {
   CircleX,
   ClipboardPlus,
   Clock,
+  Filter,
   Signature,
   Trash2,
+  X,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
@@ -34,6 +37,14 @@ function OvertimeDashboard() {
   const { data, isLoading } = useOvertimesFindAll(month);
   const { mutate: mutateUpdate } = useOvertimesUpdate();
   const { mutate: mutateDelete } = useOvertimesDelete();
+  const [filterLine, setFilterLine] = useState<string>("ALL");
+  // useEffect(() => {
+  //   if (data) {
+  //     const lines = data.map((overtime) => overtime.bophan);
+  //     const uniqueLines = Array.from(new Set(lines));
+  //     setFilterLine(uniqueLines);
+  //   }
+  // }, [data]);
 
   function handleSignature(id: string, bophan: "quandoc" | "lanhdao") {
     if (user) {
@@ -61,11 +72,15 @@ function OvertimeDashboard() {
   }
   const prevMonth = format(subMonths(new Date(month), 1), "yyyy-MM");
   const nextMonth = format(addMonths(new Date(month), 1), "yyyy-MM");
+  const rows =
+    filterLine === "ALL"
+      ? data
+      : data?.filter((overtime) => overtime.bophan.startsWith(filterLine));
   return (
     <div className="w-full h-full min-h-screen bg-white flex flex-col">
       <HeaderComponent>
         <span className="uppercase text-white font-bold text-center w-full lg:text-2xl">
-          Danh sách đăng ký tăng ca
+          Danh sách đăng ký làm thêm giờ
         </span>
       </HeaderComponent>
       <div className="text-blue-600 my-4 flex justify-center items-center">
@@ -94,7 +109,31 @@ function OvertimeDashboard() {
                   <tr className="bg-[#37b159] text-white uppercase">
                     <th className="text-center border p-1 lg:p-2">Ngày tạo</th>
                     <th className="text-center border p-1 lg:p-2">Trạng thái</th>
-                    <th className="text-center border p-1 lg:p-2">Bộ phận</th>
+                    <th className="text-center border p-1 lg:p-2">
+                      <span>Bộ phận</span>
+                      {user?.bophan === "tochuc" && (
+                        <div className="flex gap-1">
+                          <button
+                            className="border p-0.5 bg-red-400"
+                            onClick={() => setFilterLine("X1_")}
+                          >
+                            X1
+                          </button>
+                          <button
+                            className="border p-0.5 bg-yellow-400"
+                            onClick={() => setFilterLine("X2_")}
+                          >
+                            X2
+                          </button>
+                          <button
+                            className="border p-0.5 bg-teal-400"
+                            onClick={() => setFilterLine("ALL")}
+                          >
+                            <X />
+                          </button>
+                        </div>
+                      )}
+                    </th>
                     <th className="text-center border p-1 lg:p-2">Ngày đăng ký</th>
                     <th className="text-center border p-1 lg:p-2">Giờ đăng ký</th>
                     <th className="text-center border p-1 lg:p-2">Lý do</th>
@@ -102,11 +141,11 @@ function OvertimeDashboard() {
                     <th className="text-center border p-1 lg:p-2">Tổ trưởng</th>
                     <th className="text-center border p-1 lg:p-2">Quản đốc</th>
                     <th className="text-center border p-1 lg:p-2">Ban giám đốc</th>
-                    {checkRole("admin") && <th className="text-center border p-1 lg:p-2 "></th>}
+                    <th className="text-center border p-1 lg:p-2 "></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data?.map((overtime) => (
+                  {rows?.map((overtime) => (
                     <tr
                       key={overtime.id}
                       className={`${!overtime.status ? "bg-red-50 line-through text-red-500" : ""}`}
@@ -246,8 +285,8 @@ function OvertimeDashboard() {
                             </div>
                           )}
                       </td>
-                      {checkRole("admin") && (
-                        <td className="text-center border p-1 lg:p-2 ">
+                      <td className="text-center border p-1 lg:p-2 ">
+                        {(checkRole("admin") || user?.bophan === overtime.bophan) && (
                           <Button
                             className="bg-red-200"
                             onClick={() => handleDelete(overtime.id)}
@@ -255,8 +294,8 @@ function OvertimeDashboard() {
                           >
                             <Trash2 color="red" />
                           </Button>
-                        </td>
-                      )}
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

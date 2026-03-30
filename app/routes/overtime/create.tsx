@@ -78,7 +78,7 @@ export default function EmployeeTable() {
     }
   }
 
-  const checkedCount = rows?.filter((r) => r.checked).length;
+  const checkedCount = rows?.filter((r) => r.checked).length || 0;
   if (employeesIsLoading) {
     return <Loading fullScreen />;
   }
@@ -159,7 +159,11 @@ export default function EmployeeTable() {
             />
           </div>
         </div>
-
+        <div className="text-center flex justify-center items-center py-2">
+          <h1 className="uppercase text-2xl bg-red-50 text-red-500 px-4 py-1 font-semibold">
+            ***Tăng ca dưới 10 người bắt buộc nhập công đoạn ***
+          </h1>
+        </div>
         <div className="overflow-x-auto w-full lg:max-w-4xl mx-auto">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -213,6 +217,7 @@ export default function EmployeeTable() {
                         onChange={(e) => updateCongDoan(row.id, e.target.value)}
                         placeholder="Công đoạn?"
                         className="w-26 lg:w-auto p-1 border border-blue-200 focus:border-blue-500 focus:outline-none"
+                        required={checkedCount <= 10 && row.checked ? true : false}
                       />
                     </div>
                   </td>
