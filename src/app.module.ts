@@ -1,3 +1,4 @@
+import { MealsModule } from './modules/meals/meals.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
@@ -25,6 +26,7 @@ import { SalariesModule } from './modules/salaries/salaries.module';
     EmployeesModule,
     SalariesModule,
     OvertimesModule,
+    MealsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

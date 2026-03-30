@@ -180,3 +180,25 @@ type OvertimeDayEmployee {
   day    String
   status Boolean @default(false)
 }
+
+model Meal {
+  id     String   @id @default(auto()) @map("_id") @db.ObjectId
+  ngay   DateTime @db.Date()
+  main   String
+  second String
+
+  mealLines MealLine[]
+
+  @@map("meals")
+}
+
+model MealLine {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  mealId    String @db.ObjectId
+  bophan    String
+  mainQty   Int
+  secondQty Int
+  meal      Meal   @relation(fields: [mealId], references: [id])
+
+  @@map("meal_lines")
+}
