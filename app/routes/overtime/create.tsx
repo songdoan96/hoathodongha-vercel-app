@@ -160,8 +160,8 @@ export default function EmployeeTable() {
           </div>
         </div>
         <div className="text-center flex justify-center items-center py-2">
-          <h1 className="uppercase text-2xl bg-red-50 text-red-500 px-4 py-1 font-semibold">
-            ***Tăng ca dưới 10 người bắt buộc nhập công đoạn ***
+          <h1 className="uppercase text-xl lg:text-2xl bg-red-50 text-red-500 px-4 py-1 font-semibold">
+            Tăng ca dưới 10 người <br className="lg:hidden" /> bắt buộc nhập công đoạn
           </h1>
         </div>
         <div className="overflow-x-auto w-full lg:max-w-4xl mx-auto">
@@ -180,7 +180,7 @@ export default function EmployeeTable() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-sm">
-              {rows?.map((row, i) => (
+              {rows?.map((row, index) => (
                 <tr
                   key={row.id}
                   className={`cursor-pointer ${row.checked ? "bg-[#dcf1e7]" : "bg-white"}`}
@@ -196,7 +196,7 @@ export default function EmployeeTable() {
                     </div>
                   </td>
                   <td className="border p-1 text-center" onClick={() => toggleRow(row.id)}>
-                    {i + 1}
+                    {index + 1}
                   </td>
                   <td
                     className="border p-1 font-semibold text-green-800 text-center"
@@ -213,6 +213,9 @@ export default function EmployeeTable() {
                   <td className="border p-1">
                     <div className="flex justify-center items-center">
                       <input
+                        autoComplete=""
+                        name="tangca-congdoan"
+                        id={row.id.toString()}
                         value={row.congdoan}
                         onChange={(e) => updateCongDoan(row.id, e.target.value)}
                         placeholder="Công đoạn?"
