@@ -286,7 +286,8 @@ function OvertimeDashboard() {
                           )}
                       </td>
                       <td className="text-center border p-1 lg:p-2 ">
-                        {(checkRole("admin") || user?.bophan === overtime.bophan) && (
+                        {(checkRole("admin") ||
+                          (user?.bophan === overtime.bophan && overtime.status)) && (
                           <Button
                             className="bg-red-200"
                             onClick={() => handleDelete(overtime.id)}
