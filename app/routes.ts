@@ -32,6 +32,12 @@ export default [
     route("/baove", "./routes/overtime/security-dashboard.tsx"),
     route("/baove/chitiet/:id", "./routes/overtime/security-detail.tsx"),
   ]),
+
+  ...prefix("ansang", [
+    // route("/nhaan", "./routes/meals/add.tsx"),
+    route("/nhaan", "./routes/meals/add.tsx"),
+  ]),
+
   layout("./components/providers/PrivateProvider.tsx", [
     //tangca
     ...prefix("tangca", [
