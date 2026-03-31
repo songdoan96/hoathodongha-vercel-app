@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { MealsService } from './meals.service';
 
 @Controller('meals')
@@ -6,8 +6,8 @@ export class MealsController {
   constructor(private readonly mealsService: MealsService) {}
 
   @Get()
-  findAll() {
-    return this.mealsService.findAll();
+  findAll(@Query('month') month: string) {
+    return this.mealsService.findAll(month);
   }
 
   @Get(':id')
@@ -18,5 +18,10 @@ export class MealsController {
   @Post()
   create(@Body() data: any) {
     return this.mealsService.create(data);
+  }
+
+  @Get('line')
+  lineFindAll() {
+    return this.mealsService.lineFindAll();
   }
 }

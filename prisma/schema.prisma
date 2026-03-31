@@ -184,7 +184,7 @@ type OvertimeDayEmployee {
 model Meal {
   id     String   @id @default(auto()) @map("_id") @db.ObjectId
   ngay   DateTime @db.Date()
-  main   String
+  first  String
   second String
 
   mealLines MealLine[]
@@ -196,7 +196,7 @@ model MealLine {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   mealId    String @db.ObjectId
   bophan    String
-  mainQty   Int
+  firstQty  Int
   secondQty Int
   meal      Meal   @relation(fields: [mealId], references: [id])
 

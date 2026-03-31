@@ -11,8 +11,15 @@ import { endOfMonth, startOfMonth } from 'date-fns';
 export class MealsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll() {
-    return await this.prisma.meal.findMany();
+  async findAll(month: string) {
+    return await this.prisma.meal.findMany({
+      where: {
+        ngay: {
+          gte: startOfMonth(new Date(month)),
+          lte: endOfMonth(new Date(month)),
+        },
+      },
+    });
   }
   async findOne(id: string) {
     return await this.prisma.meal.findUnique({ where: { id } });
@@ -35,6 +42,18 @@ export class MealsService {
         ngay: new Date(ngay),
         ...formData,
       },
+    });
+  }
+
+  async lineFindAll() {
+    return await this.prisma.meal.findMany({
+      where: {
+        ngay: {
+          gte: startOfMonth(new Date()),
+          lte: endOfMonth(new Date()),
+        },
+      },
+      include: { mealLines: true },
     });
   }
 }
