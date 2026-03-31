@@ -11,7 +11,6 @@ import { FormsModule } from './modules/forms/forms.module';
 import { OvertimesModule } from './modules/overtimes/overtimes.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { SalariesModule } from './modules/salaries/salaries.module';
-
 @Module({
   imports: [
     ConfigModule.forRoot({
