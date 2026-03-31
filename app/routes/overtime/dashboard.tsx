@@ -38,7 +38,6 @@ function OvertimeDashboard() {
   const { mutate: mutateUpdate } = useOvertimesUpdate();
   const { mutate: mutateDelete } = useOvertimesDelete();
   const [filterLine, setFilterLine] = useState<string>("ALL");
-
   function handleSignature(id: string, bophan: "quandoc" | "lanhdao") {
     if (user) {
       mutateUpdate({
