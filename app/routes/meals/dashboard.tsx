@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
 import { useMealsFindAll } from "~/hooks/meals-hook";
-import { linesListFilter } from "~/lib/variables";
+import { linesListFilterSortName } from "~/lib/variables";
 
 function MealsDashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,10 +21,10 @@ function MealsDashboard() {
         <table className="w-full">
           <thead>
             <tr className="uppercase">
-              <th className="border p-2">Ngày</th>
-              <th className="border p-2">Món</th>
-              {linesListFilter.map((line) => (
-                <th className="border p-2 px-0.5">{line.value}</th>
+              <th className="border p-1">Ngày</th>
+              <th className="border p-1">Món</th>
+              {linesListFilterSortName.map((line) => (
+                <th className="border p-1 px-0.5">{line.sortName}</th>
               ))}
             </tr>
           </thead>
@@ -45,7 +45,7 @@ function MealsDashboard() {
                           </span>
                         </div>
                       </td>
-                      {linesListFilter.map((line) => (
+                      {linesListFilterSortName.map((line) => (
                         <td key={line.name} className="border">
                           <div className="flex flex-col">
                             <span className="border-b text-center">1</span>
@@ -58,8 +58,11 @@ function MealsDashboard() {
                 } else {
                   return (
                     <tr key={index} className="bg-red-50 text-red-700 font-semibold">
-                      <td className="border p-2">{format(day, "dd/MM")}</td>
-                      <td colSpan={linesListFilter.length + 1} className="text-center text-xl">
+                      <td className="border p-1">{format(day, "dd/MM")}</td>
+                      <td
+                        colSpan={linesListFilterSortName.length + 1}
+                        className="text-center text-xl"
+                      >
                         {format(day, "EE", { locale: vi })}
                       </td>
                     </tr>

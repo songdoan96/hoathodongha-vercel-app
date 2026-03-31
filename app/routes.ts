@@ -39,6 +39,9 @@ export default [
   ]),
 
   layout("./components/providers/PrivateProvider.tsx", [
+    // Meals
+    ...prefix("ansang", [route("/to", "./routes/meals/line.tsx")]),
+
     //tangca
     ...prefix("tangca", [
       route("/taodon", "./routes/overtime/create.tsx"),

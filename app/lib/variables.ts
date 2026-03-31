@@ -5,6 +5,7 @@ export interface LineListType {
   needToTruong?: boolean;
   needQuanDoc?: boolean;
   onlyLanhDao?: boolean;
+  sortName?: string;
 }
 export const linesList: LineListType[] = [
   {
@@ -13,6 +14,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "1X1",
   },
   {
     value: "X1_02",
@@ -20,6 +22,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "2X1",
   },
   {
     value: "X1_03",
@@ -27,6 +30,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "3X1",
   },
   {
     value: "X1_04",
@@ -34,6 +38,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "4X1",
   },
   {
     value: "X1_05",
@@ -41,6 +46,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "5X1",
   },
   {
     value: "X1_06",
@@ -48,6 +54,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "6X1",
   },
   {
     value: "X1_07",
@@ -55,6 +62,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "7X1",
   },
   {
     value: "X1_08",
@@ -62,6 +70,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "8X1",
   },
   {
     value: "X1_09",
@@ -69,6 +78,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "9X1",
   },
   {
     value: "X2_01",
@@ -76,6 +86,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "1X2",
   },
   {
     value: "X2_02",
@@ -83,6 +94,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "2X2",
   },
   {
     value: "X2_03",
@@ -90,6 +102,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "3X2",
   },
   {
     value: "X2_04",
@@ -97,6 +110,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "4X2",
   },
   {
     value: "X2_05",
@@ -104,6 +118,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "5X2",
   },
   {
     value: "X2_06",
@@ -111,6 +126,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "6X2",
   },
   {
     value: "X2_07",
@@ -118,6 +134,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "7X2",
   },
   {
     value: "X2_08",
@@ -125,6 +142,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "8X2",
   },
   {
     value: "X2_09",
@@ -132,6 +150,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "9X2",
   },
   {
     value: "daotao",
@@ -154,6 +173,7 @@ export const linesList: LineListType[] = [
     // needQuanDoc: false,
     needToTruong: false,
     needQuanDoc: false,
+    sortName: "KT",
   },
   {
     value: "X1_chuyendung",
@@ -161,6 +181,7 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "CD1",
   },
   {
     value: "X2_chuyendung",
@@ -168,18 +189,21 @@ export const linesList: LineListType[] = [
     isHelp: true,
     needToTruong: true,
     needQuanDoc: true,
+    sortName: "CD2",
   },
   {
     value: "codien",
     name: "Cơ điện",
     needToTruong: true,
     needQuanDoc: false,
+    sortName: "CĐ",
   },
   {
     value: "tocat",
     name: "Tổ cắt",
     needToTruong: true,
     needQuanDoc: false,
+    sortName: "CẮT",
   },
   {
     value: "epkeo",
@@ -192,54 +216,63 @@ export const linesList: LineListType[] = [
     name: "BVVS",
     needToTruong: true,
     needQuanDoc: false,
+    sortName: "BVVS",
   },
   {
     value: "hoanthanh",
     name: "Hoàn thành",
     needToTruong: true,
     needQuanDoc: false,
+    sortName: "HT",
   },
   {
     value: "kcs",
     name: "KCS",
     needToTruong: true,
     needQuanDoc: false,
+    sortName: "KCS",
   },
   {
     value: "nguyenlieu",
     name: "Nguyên liệu",
     needToTruong: true,
     needQuanDoc: false,
+    sortName: "NL",
   },
   {
     value: "phulieu",
     name: "Phụ liệu",
     needToTruong: true,
     needQuanDoc: false,
+    sortName: "PL",
   },
   {
     value: "vanphong",
     name: "Văn phòng",
     needToTruong: false,
     needQuanDoc: false,
+    sortName: "VP",
   },
   {
     value: "nhaan",
     name: "Nhà ăn",
     needToTruong: true,
     needQuanDoc: false,
+    sortName: "BẾP",
   },
   {
     value: "X1_duphong",
     name: "Dự phòng X1",
     needToTruong: false,
     needQuanDoc: true,
+    sortName: "DP1",
   },
   {
     value: "X2_duphong",
     name: "Dự phòng X2",
     needToTruong: false,
     needQuanDoc: true,
+    sortName: "DP2",
   },
 ];
 export const linesListFilter = linesList.filter(
@@ -248,4 +281,12 @@ export const linesListFilter = linesList.filter(
     line.value != "quandoc" &&
     line.value != "daotao" &&
     line.value != "epkeo",
+);
+export const linesListFilterSortName = linesList.filter(
+  (line) =>
+    line.value != "lanhdao" &&
+    line.value != "quandoc" &&
+    line.value != "daotao" &&
+    line.value != "epkeo" &&
+    line.sortName,
 );
