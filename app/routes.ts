@@ -34,7 +34,7 @@ export default [
   ]),
 
   ...prefix("ansang", [
-    // route("/nhaan", "./routes/meals/add.tsx"),
+    index("./routes/meals/dashboard.tsx"),
     route("/nhaan", "./routes/meals/add.tsx"),
   ]),
 

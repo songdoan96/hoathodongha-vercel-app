@@ -1,7 +1,7 @@
 export interface MealsType {
   id: string;
   ngay: Date | string;
-  main: string;
+  first: string;
   second: string;
   mealLines: MealsLineType[];
 }
@@ -9,6 +9,6 @@ export interface MealsLineType {
   id: string;
   mealId: string;
   bophan: string;
-  mainQty: number;
+  firstQty: number;
   secondQty: number;
 }

@@ -220,7 +220,13 @@ export default function EmployeeTable() {
                         onChange={(e) => updateCongDoan(row.id, e.target.value)}
                         placeholder="Công đoạn?"
                         className="w-26 lg:w-auto p-1 border border-blue-200 focus:border-blue-500 focus:outline-none"
-                        required={checkedCount <= 10 && row.checked ? true : false}
+                        required={
+                          checkedCount <= 10 &&
+                          (row.bophan.startsWith("X1") || row.bophan.startsWith("X2")) &&
+                          row.checked
+                            ? true
+                            : false
+                        }
                       />
                     </div>
                   </td>
