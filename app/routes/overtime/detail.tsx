@@ -22,11 +22,9 @@ import type { Route } from "./+types/detail";
 export function meta() {
   return [{ title: "PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ" }];
 }
-
 export async function loader({ params }: Route.LoaderArgs) {
   return params.id;
 }
-
 function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
   const { data: overtime, isLoading } = useOvertimesFindOne(id);
   const { user } = useAuthStore();

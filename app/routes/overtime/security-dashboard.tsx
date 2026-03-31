@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
-import { useOvertimesFindAll, useOvertimesSecurityFindAll } from "~/hooks/overtimes-hook";
+import { useOvertimesSecurityFindAll } from "~/hooks/overtimes-hook";
 import routers from "~/lib/routers";
 import { linesList } from "~/lib/variables";
 export function meta() {
