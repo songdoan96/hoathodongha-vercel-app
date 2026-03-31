@@ -1,4 +1,4 @@
-import { eachDayOfInterval, format, isSameDay } from "date-fns";
+import { eachDayOfInterval, format, isAfter, isSameDay } from "date-fns";
 import {
   Ban,
   CalendarDays,
@@ -118,13 +118,17 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                       <th className="text-center border p-1">STT</th>
                       <th className="text-center border p-1">Họ tên</th>
                       <th className="text-center border p-1">MSNV</th>
-                      <th className="text-center border p-1">Công đoạn</th>
+                      {user?.bophan !== "tochuc" && (
+                        <th className="text-center border p-1">Công đoạn</th>
+                      )}
                       {isSameDay(overtime.tungay, overtime.denngay) ? (
                         <th className="text-center border p-1">Có mặt</th>
                       ) : (
                         eachDayOfInterval({
                           start: new Date(overtime.tungay),
-                          end: new Date(),
+                          end: isAfter(new Date(), new Date(overtime.denngay))
+                            ? new Date(overtime.denngay)
+                            : new Date(),
                         }).map((day, index) => (
                           <th key={index} className="text-center border p-1">
                             {format(day, "dd/MM")}
@@ -156,7 +160,9 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                         </td>
                         <td className="text-center border p-1 text-nowrap">{emp.hoten}</td>
                         <td className="text-center border p-1">{emp.msnv}</td>
-                        <td className="text-center border p-1">{emp.congdoan}</td>
+                        {user?.bophan !== "tochuc" && (
+                          <td className="text-center border p-1">{emp.congdoan}</td>
+                        )}
                         {isSameDay(overtime.tungay, overtime.denngay) ? (
                           <td className="text-center border p-1">
                             <div className="flex items-center justify-center">
@@ -174,7 +180,9 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                         ) : (
                           eachDayOfInterval({
                             start: new Date(overtime.tungay),
-                            end: new Date(),
+                            end: isAfter(new Date(), new Date(overtime.denngay))
+                              ? new Date(overtime.denngay)
+                              : new Date(),
                           }).map((day, index) => (
                             <td key={index} className="text-center border p-1">
                               {/* <Checkbox
