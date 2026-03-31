@@ -38,13 +38,6 @@ function OvertimeDashboard() {
   const { mutate: mutateUpdate } = useOvertimesUpdate();
   const { mutate: mutateDelete } = useOvertimesDelete();
   const [filterLine, setFilterLine] = useState<string>("ALL");
-  // useEffect(() => {
-  //   if (data) {
-  //     const lines = data.map((overtime) => overtime.bophan);
-  //     const uniqueLines = Array.from(new Set(lines));
-  //     setFilterLine(uniqueLines);
-  //   }
-  // }, [data]);
 
   function handleSignature(id: string, bophan: "quandoc" | "lanhdao") {
     if (user) {
