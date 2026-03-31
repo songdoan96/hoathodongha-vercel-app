@@ -8,15 +8,12 @@ import routers from "~/lib/routers";
 import { linesList } from "~/lib/variables";
 import type { OvertimeEmployee } from "~/types/overtime-type";
 import type { Route } from "./+types/detail";
-
 export function meta() {
   return [{ title: "PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ BẢO VỆ" }];
 }
-
 export async function loader({ params }: Route.LoaderArgs) {
   return params.id;
 }
-
 export default function OvertimeSecurityDetail({ params: { id } }: Route.LoaderArgs) {
   const { data: overtime, isLoading } = useOvertimesFindOne(id);
   const { mutate: mutateUpdate, isPending } = useOvertimesUpdate();
