@@ -35,7 +35,7 @@ export default [
 
   ...prefix("ansang", [
     index("./routes/meals/dashboard.tsx"),
-    route("/nhaan", "./routes/meals/add.tsx"),
+    route("/nhaan", "./routes/meals/kitchen.tsx"),
   ]),
 
   layout("./components/providers/PrivateProvider.tsx", [

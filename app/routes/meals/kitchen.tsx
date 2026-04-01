@@ -18,7 +18,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { useMealsCreate, useMealsFindAll } from "~/hooks/meals-hook";
 
-export default function MealsAdd() {
+export default function MealsKitchen() {
   const [searchParams, setSearchParams] = useSearchParams();
   const month = new Date(searchParams.get("month") || format(new Date(), "yyyy-MM"));
   const { data, isLoading } = useMealsFindAll(format(month, "yyyy-MM-dd"));
@@ -80,7 +80,7 @@ export default function MealsAdd() {
                       <td className="border p-2">{format(day, "EEEE", { locale: vi })}</td>
                       <td className="border p-2">
                         <Input
-                          className="inline-flex max-w-32"
+                          className="inline-flex min-w-40"
                           type="text"
                           placeholder="món 1"
                           name="meals-first"
@@ -101,7 +101,7 @@ export default function MealsAdd() {
                       </td>
                       <td className="border p-2">
                         <Input
-                          className="inline-flex max-w-32"
+                          className="inline-flex min-w-40"
                           type="text"
                           placeholder="món 2"
                           name="meals-second"
