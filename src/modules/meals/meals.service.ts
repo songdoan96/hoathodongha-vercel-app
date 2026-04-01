@@ -1,12 +1,6 @@
-/*
-https://docs.nestjs.com/providers#services
-*/
-
 import { Injectable } from '@nestjs/common';
+import { addDays, endOfMonth, startOfMonth } from 'date-fns';
 import { PrismaService } from '../prisma/prisma.service';
-import { fi } from 'date-fns/locale';
-import { endOfMonth, startOfMonth } from 'date-fns';
-
 @Injectable()
 export class MealsService {
   constructor(private readonly prisma: PrismaService) {}
@@ -19,6 +13,8 @@ export class MealsService {
           lte: endOfMonth(new Date(month)),
         },
       },
+      include: { mealLines: true },
+      orderBy: { ngay: 'asc' },
     });
   }
   async findOne(id: string) {
@@ -54,6 +50,53 @@ export class MealsService {
         },
       },
       include: { mealLines: true },
+    });
+  }
+
+  async findMealNextDay(bophan: string) {
+    const meal = await this.prisma.meal.findFirst({
+      where: {
+        ngay: {
+          gt: new Date(),
+          lte: addDays(new Date(), 1),
+        },
+      },
+    });
+    if (!meal) return { mealLine: null, meal };
+    const mealLine = await this.prisma.mealLine.findFirst({
+      where: {
+        bophan,
+        mealId: meal.id,
+      },
+    });
+
+    return { mealLine, meal };
+  }
+  async updateNextDay(formData: any) {
+    /*
+     id        String @id @default(auto()) @map("_id") @db.ObjectId
+  mealId    String @db.ObjectId
+  bophan    String
+  firstQty  Int
+  secondQty Int
+  meal      Meal   @relation(fields: [mealId], references: [id])
+    */
+    if (formData.id) {
+      return await this.prisma.mealLine.update({
+        where: { id: formData.id },
+        data: {
+          firstQty: +formData.firstQty,
+          secondQty: +formData.secondQty,
+        },
+      });
+    }
+    return await this.prisma.mealLine.create({
+      data: {
+        firstQty: +formData.firstQty,
+        secondQty: +formData.secondQty,
+        bophan: formData.bophan,
+        mealId: formData.mealId,
+      },
     });
   }
 }

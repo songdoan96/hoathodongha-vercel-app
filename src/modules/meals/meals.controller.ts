@@ -24,4 +24,13 @@ export class MealsController {
   lineFindAll() {
     return this.mealsService.lineFindAll();
   }
+
+  @Get('line/next-day')
+  findMealNextDay(@Query('bophan') bophan: string) {
+    return this.mealsService.findMealNextDay(bophan);
+  }
+  @Post('line/next-day')
+  updateNextDay(@Body() formData: any) {
+    return this.mealsService.updateNextDay(formData);
+  }
 }
