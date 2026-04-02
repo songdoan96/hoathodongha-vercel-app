@@ -29,6 +29,10 @@ export class MealsController {
   findMealNextDay(@Query('bophan') bophan: string) {
     return this.mealsService.findMealNextDay(bophan);
   }
+  @Get('line/print-next-day')
+  findMealPrintNextDay(@Query('day') day: string) {
+    return this.mealsService.findMealPrintNextDay(day);
+  }
   @Post('line/next-day')
   updateNextDay(@Body() formData: any) {
     return this.mealsService.updateNextDay(formData);

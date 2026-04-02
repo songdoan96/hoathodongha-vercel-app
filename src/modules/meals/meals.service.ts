@@ -1,5 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { addDays, endOfMonth, startOfMonth } from 'date-fns';
+import {
+  addDays,
+  endOfMonth,
+  endOfWeek,
+  startOfMonth,
+  startOfWeek,
+} from 'date-fns';
 import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class MealsService {
@@ -54,36 +60,53 @@ export class MealsService {
   }
 
   async findMealNextDay(bophan: string) {
-    const meal = await this.prisma.meal.findFirst({
+    // const meal = await this.prisma.meal.findFirst({
+    //   where: {
+    //     ngay: {
+    //       gt: new Date(),
+    //       lte: addDays(new Date(), 1),
+    //     },
+    //   },
+    // });
+    // if (!meal) return { mealLine: null, meal };
+    // const mealLine = await this.prisma.mealLine.findFirst({
+    //   where: {
+    //     bophan,
+    //     mealId: meal.id,
+    //   },
+    // });
+
+    // return { mealLine, meal };
+    const today = new Date();
+    return await this.prisma.meal.findMany({
       where: {
         ngay: {
-          gt: new Date(),
-          lte: addDays(new Date(), 1),
+          gt: today,
+          lte: addDays(today, 7),
         },
       },
+      include: { mealLines: true },
+      orderBy: { ngay: 'asc' },
     });
-    if (!meal) return { mealLine: null, meal };
-    const mealLine = await this.prisma.mealLine.findFirst({
+  }
+  async findMealPrintNextDay(day: string) {
+    return await this.prisma.meal.findFirst({
       where: {
-        bophan,
-        mealId: meal.id,
+        ngay: new Date(day),
       },
+      include: { mealLines: true },
     });
-
-    return { mealLine, meal };
   }
   async updateNextDay(formData: any) {
-    /*
-     id        String @id @default(auto()) @map("_id") @db.ObjectId
-  mealId    String @db.ObjectId
-  bophan    String
-  firstQty  Int
-  secondQty Int
-  meal      Meal   @relation(fields: [mealId], references: [id])
-    */
-    if (formData.id) {
+    const findMealLine = await this.prisma.mealLine.findFirst({
+      where: {
+        bophan: formData.bophan,
+        mealId: formData.id,
+      },
+    });
+    if (findMealLine) {
       return await this.prisma.mealLine.update({
-        where: { id: formData.id },
+        where: { id: findMealLine.id },
         data: {
           firstQty: +formData.firstQty,
           secondQty: +formData.secondQty,
@@ -95,8 +118,25 @@ export class MealsService {
         firstQty: +formData.firstQty,
         secondQty: +formData.secondQty,
         bophan: formData.bophan,
-        mealId: formData.mealId,
+        mealId: formData.id,
       },
     });
+    // if (formData.id) {
+    //   return await this.prisma.mealLine.update({
+    //     where: { id: formData.id },
+    //     data: {
+    //       firstQty: +formData.firstQty,
+    //       secondQty: +formData.secondQty,
+    //     },
+    //   });
+    // }
+    // return await this.prisma.mealLine.create({
+    //   data: {
+    //     firstQty: +formData.firstQty,
+    //     secondQty: +formData.secondQty,
+    //     bophan: formData.bophan,
+    //     mealId: formData.mealId,
+    //   },
+    // });
   }
 }
