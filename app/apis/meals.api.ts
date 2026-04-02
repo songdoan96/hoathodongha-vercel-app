@@ -13,7 +13,12 @@ export const apiMealsFindNextDay = async (bophan: string) => {
   const { data } = await apiClient.get(router + `/line/next-day?bophan=${bophan}`);
   return data;
 };
+
 export const apiMealsCreateNextDay = async (formData: any) => {
   const { data } = await apiClient.post(router + `/line/next-day`, formData);
+  return data;
+};
+export const apiMealsFindPrintNextDay = async (day: string) => {
+  const { data } = await apiClient.get(router + `/line/print-next-day?day=${day}`);
   return data;
 };

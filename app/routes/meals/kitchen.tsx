@@ -23,7 +23,7 @@ export default function MealsKitchen() {
   const month = new Date(searchParams.get("month") || format(new Date(), "yyyy-MM"));
   const { data, isLoading } = useMealsFindAll(format(month, "yyyy-MM-dd"));
   const [meals, setMeals] = useState<{ ngay: string; first: string; second: string }[]>([]);
-  const { mutate } = useMealsCreate();
+  const { mutate, isPending } = useMealsCreate();
 
   useEffect(() => {
     if (data) {
@@ -123,7 +123,10 @@ export default function MealsKitchen() {
                       <td className="border p-2">
                         {meals.find((item) => item.ngay === format(day, "yyyy-MM-dd"))?.first &&
                           meals.find((item) => item.ngay === format(day, "yyyy-MM-dd"))?.second && (
-                            <Button onClick={() => handleUpdate(format(day, "yyyy-MM-dd"))}>
+                            <Button
+                              disabled={isPending}
+                              onClick={() => handleUpdate(format(day, "yyyy-MM-dd"))}
+                            >
                               Cập nhật
                             </Button>
                           )}

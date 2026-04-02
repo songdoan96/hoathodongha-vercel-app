@@ -30,6 +30,12 @@ export default () => ({
     security: "/tangca/baove",
     detailSecurity: (id: string) => "/tangca/baove/chitiet/" + id,
   },
+  meals: {
+    line: "/ansang/bophan",
+    dashboard: "/ansang",
+    kitchen: "/ansang/nhaan",
+    print: "/ansang/in",
+  },
   employees: {
     edit: (id: string) => `/nhan-vien/chinh-sua/${id}`,
   },

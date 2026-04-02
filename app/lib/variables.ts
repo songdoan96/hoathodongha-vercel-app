@@ -81,6 +81,14 @@ export const linesList: LineListType[] = [
     sortName: "9X1",
   },
   {
+    value: "X1_duphong",
+    name: "Dự phòng X1",
+    needToTruong: false,
+    needQuanDoc: true,
+    sortName: "DP1",
+  },
+
+  {
     value: "X2_01",
     name: "X2 - Tổ 1",
     isHelp: true,
@@ -151,6 +159,13 @@ export const linesList: LineListType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: "9X2",
+  },
+  {
+    value: "X2_duphong",
+    name: "Dự phòng X2",
+    needToTruong: false,
+    needQuanDoc: true,
+    sortName: "DP2",
   },
   {
     value: "daotao",
@@ -259,20 +274,6 @@ export const linesList: LineListType[] = [
     needToTruong: true,
     needQuanDoc: false,
     sortName: "BẾP",
-  },
-  {
-    value: "X1_duphong",
-    name: "Dự phòng X1",
-    needToTruong: false,
-    needQuanDoc: true,
-    sortName: "DP1",
-  },
-  {
-    value: "X2_duphong",
-    name: "Dự phòng X2",
-    needToTruong: false,
-    needQuanDoc: true,
-    sortName: "DP2",
   },
 ];
 export const linesListFilter = linesList.filter(

@@ -1,4 +1,4 @@
-import { addMonths, format, isAfter, isSameDay, set, subMonths } from "date-fns";
+import { addMonths, format, isAfter, isSameDay, subMonths } from "date-fns";
 import {
   ChevronsLeft,
   ChevronsRight,
@@ -7,12 +7,11 @@ import {
   CircleX,
   ClipboardPlus,
   Clock,
-  Filter,
   Signature,
   Trash2,
   X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";

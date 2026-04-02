@@ -6,6 +6,7 @@ import {
   apiMealsCreateNextDay,
   apiMealsFindAll,
   apiMealsFindNextDay,
+  apiMealsFindPrintNextDay,
 } from "~/apis/meals.api";
 import type { MealsType, MealsLineType } from "~/types/meals-type";
 
@@ -22,10 +23,17 @@ export const useMealsFindAll = (month: string) => {
   });
 };
 export const useMealsNextDay = (bophan: string) => {
-  return useQuery<{ meal: MealsType; mealLine: MealsLineType }>({
+  return useQuery<MealsType[]>({
     queryKey: [QUERY_KEY.NEXT_DAY, bophan],
     queryFn: () => apiMealsFindNextDay(bophan),
     enabled: !!bophan,
+  });
+};
+export const useMealsPrintNextDay = (day: string) => {
+  return useQuery<MealsType>({
+    queryKey: [QUERY_KEY.NEXT_DAY, day],
+    queryFn: () => apiMealsFindPrintNextDay(day),
+    enabled: !!day,
   });
 };
 

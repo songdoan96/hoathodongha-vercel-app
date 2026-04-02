@@ -36,11 +36,12 @@ export default [
   ...prefix("ansang", [
     index("./routes/meals/dashboard.tsx"),
     route("/nhaan", "./routes/meals/kitchen.tsx"),
+    route("/in", "./routes/meals/print.tsx"),
   ]),
 
   layout("./components/providers/PrivateProvider.tsx", [
     // Meals
-    ...prefix("ansang", [route("/to", "./routes/meals/line.tsx")]),
+    ...prefix("ansang", [route("/bophan", "./routes/meals/line.tsx")]),
 
     //tangca
     ...prefix("tangca", [
