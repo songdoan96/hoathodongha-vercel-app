@@ -229,7 +229,7 @@ export const linesList: LineListType[] = [
   {
     value: "bvvs",
     name: "BVVS",
-    needToTruong: true,
+    needToTruong: false,
     needQuanDoc: false,
     sortName: "BVVS",
   },
