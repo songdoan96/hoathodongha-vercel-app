@@ -11,6 +11,8 @@ import {
 @Injectable()
 export class AppService {
   getHello() {
+    console.log(new Date());
+
     return {
       startOfMonth: startOfMonth(new Date('2026-02')),
       endOfMonth: endOfMonth(new Date('2026-02')),
