@@ -11,7 +11,6 @@ import {
 import { vi } from "date-fns/locale/vi";
 import { ChevronsLeft, ChevronsRight, Printer } from "lucide-react";
 import { Link, useSearchParams } from "react-router";
-import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
 import { useMealsFindAll } from "~/hooks/meals-hook";
 import routers from "~/lib/routers";
