@@ -182,10 +182,11 @@ type OvertimeDayEmployee {
 }
 
 model Meal {
-  id     String   @id @default(auto()) @map("_id") @db.ObjectId
-  ngay   DateTime @db.Date()
-  first  String
-  second String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  ngay      DateTime @db.Date()
+  first     String
+  second    String
+  isSpecial Boolean? @default(false)
 
   mealLines MealLine[]
 
