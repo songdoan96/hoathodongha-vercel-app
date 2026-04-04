@@ -39,7 +39,7 @@ export const useMealsPrintNextDay = (day: string) => {
 
 export const useMealsCreate = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return useMutation({
     mutationFn: ({ formData }: { formData: any }) => apiMealsCreate(formData),
     onSuccess: () => {

@@ -3,6 +3,7 @@ export interface MealsType {
   ngay: Date | string;
   first: string;
   second: string;
+  isSpecial?: boolean;
   mealLines: MealsLineType[];
 }
 export interface MealsLineType {

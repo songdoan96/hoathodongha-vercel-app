@@ -1,4 +1,4 @@
-import { ClipboardPlus, FilePlus } from "lucide-react";
+import { ClipboardPlus, FilePlus, Salad } from "lucide-react";
 import { Link } from "react-router";
 import routers from "~/lib/routers";
 import useAuthStore from "~/stores/auth-store";
@@ -7,7 +7,7 @@ export default function FormButtonComponent() {
   const { user } = useAuthStore();
   return (
     <div
-      className={`w-full grid grid-cols-2 gap-2 my-2 lg:max-w-xl mx-auto ${user ? "lg:grid-cols-3" : ""}`}
+      className={`w-full grid grid-cols-2 gap-2 my-2 lg:max-w-xl mx-auto ${user ? "lg:grid-cols-4" : ""}`}
     >
       <div className="flex justify-center items-center">
         <Link
@@ -28,13 +28,34 @@ export default function FormButtonComponent() {
         </Link>
       </div>
       {user && (
-        <div className="flex justify-center items-center col-span-2 lg:col-span-1">
+        <div className="flex justify-center items-center">
           <Link
             to={routers().overtime.dashboard}
             className="btn bg-orange-600 hover:bg-orange-500 max-w-32 text-base uppercase"
           >
             <ClipboardPlus />
             <span>Tăng ca</span>
+          </Link>
+        </div>
+      )}
+      {user && user.bophan !== "lanhdao" && user?.bophan !== "giamdoc" ? (
+        <div className="flex justify-center items-center">
+          <Link
+            to={routers().meals.line}
+            className="btn bg-cyan-600 hover:bg-cyan-500 max-w-32 text-base uppercase"
+          >
+            <Salad />
+            <span>Ăn sáng</span>
+          </Link>
+        </div>
+      ) : (
+        <div className="flex justify-center items-center">
+          <Link
+            to={routers().meals.dashboard}
+            className="btn bg-cyan-600 hover:bg-cyan-500 max-w-32 text-base uppercase"
+          >
+            <Salad />
+            <span>Ăn sáng</span>
           </Link>
         </div>
       )}

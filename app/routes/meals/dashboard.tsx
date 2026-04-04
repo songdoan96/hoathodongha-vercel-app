@@ -21,21 +21,23 @@ function MealsDashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
   const month = searchParams.get("month") || format(new Date(), "yyyy-MM");
   const { data: meals, isLoading } = useMealsFindAll(format(month, "yyyy-MM-dd"));
-  const mealLines = meals?.flatMap((meal) => meal.mealLines);
   const prevMonth = format(subMonths(new Date(month), 1), "yyyy-MM");
   const nextMonth = format(addMonths(new Date(month), 1), "yyyy-MM");
 
   if (isLoading) return <Loading fullScreen />;
   return (
     <div>
-      <HeaderComponent>
-        <h1 className="uppercase text-2xl text-white font-semibold mx-auto">
-          Đăng ký ăn sáng tháng {format(month, "MM/yyyy")}
+      <div className="bg-blue-600 text-white flex flex-wrap items-center justify-between p-2 gap-2">
+        <Link to={routers().meals.print} className="w-8">
+          <img src="/images/logo.png" className="w-full" alt="" />
+        </Link>
+        <h1 className="uppercase text-lg lg:text-2xl text-white font-semibold mx-auto text-center">
+          ăn sáng tháng 04/2026
         </h1>
-        <Link to={routers().meals.print} className="mr-2">
+        <Link to={routers().meals.print} className="">
           <Printer color="#fff" />
         </Link>
-      </HeaderComponent>
+      </div>
       <div className="w-full overflow-x-scroll">
         <table className="w-full">
           <thead>
@@ -55,10 +57,12 @@ function MealsDashboard() {
               (day, index) => {
                 if (getDay(day) !== 0) {
                   const findMealDay = meals?.filter((meal) => isSameDay(meal.ngay, day));
+                  const isToday = isSameDay(day, new Date());
+                  const findMeal = meals?.find((meal) => isSameDay(meal.ngay, day));
                   return (
                     <tr
                       key={index}
-                      className={`${isSameDay(day, new Date()) ? "bg-yellow-50 font-semibold text-blue-900" : ""}`}
+                      className={`${isToday ? "bg-yellow-50 font-semibold text-blue-900" : "bg-gray-100"}`}
                     >
                       <td className="border border-black">
                         <div className="flex flex-col justify-center items-center">
@@ -70,52 +74,52 @@ function MealsDashboard() {
                       </td>
                       <td className="border border-black">
                         <div className="flex flex-col justify-center">
-                          <span className="border-b truncate pl-1">
-                            {meals?.find((meal) => isSameDay(meal.ngay, day))?.first}
-                          </span>
-                          <span className="truncate pl-1">
-                            {meals?.find((meal) => isSameDay(meal.ngay, day))?.second}
-                          </span>
+                          <span className="border-b truncate pl-1">{findMeal?.first}</span>
+                          <div className="flex items-center gap-1 pl-1">
+                            <span className="truncate">{findMeal?.second}</span>
+                            {findMeal?.isSpecial && <img src="/images/star.svg" className="w-4" />}
+                          </div>
                         </div>
                       </td>
+
                       {linesListFilterSortName.map((line, index) => {
-                        const meal = meals?.find((meal) => isSameDay(meal.ngay, day));
+                        // const meal = meals?.find((meal) => isSameDay(meal.ngay, day));
+                        const findMealLine = findMeal?.mealLines.find(
+                          (mealLine) => mealLine.bophan === line.value,
+                        );
                         return (
                           <td key={index} className="border border-black">
                             <div className="flex flex-col">
-                              <span className="border-b text-center">
-                                {
-                                  meal?.mealLines.find((mealLine) => mealLine.bophan === line.value)
-                                    ?.firstQty
-                                }
-                              </span>
-                              <span className="text-center">
-                                {
-                                  meal?.mealLines.find((mealLine) => mealLine.bophan === line.value)
-                                    ?.secondQty
-                                }
-                              </span>
+                              <span className="border-b text-center">{findMealLine?.firstQty}</span>
+                              <span className="text-center">{findMealLine?.secondQty}</span>
                             </div>
                           </td>
                         );
                       })}
                       <td className="border border-black text-center">
-                        {(findMealDay?.reduce(
+                        {findMealDay?.reduce(
                           (total, meal) =>
                             total +
                             meal.mealLines.reduce(
-                              (t, mealLine) => t + mealLine.firstQty + mealLine.secondQty,
+                              (t, mealLine) =>
+                                t +
+                                mealLine.firstQty * 3 +
+                                (findMeal?.isSpecial
+                                  ? mealLine.secondQty * 4
+                                  : mealLine.secondQty * 3),
                               0,
                             ),
                           0,
-                        ) || 0) * 3}
+                        )}
                       </td>
                     </tr>
                   );
                 } else {
                   return (
                     <tr key={index} className="bg-red-50 text-red-700 font-semibold uppercase">
-                      <td className="border border-black p-1">{format(day, "dd/MM")}</td>
+                      <td className="border border-black p-1 text-center">
+                        {format(day, "dd/MM")}
+                      </td>
                       <td
                         colSpan={linesListFilterSortName.length + 2}
                         className="border border-black text-center text-xl"
@@ -134,26 +138,30 @@ function MealsDashboard() {
               {linesListFilterSortName.map((line, index) => {
                 return (
                   <td key={index} className="border border-black text-center p-1 bg-blue-200 ">
-                    {(mealLines?.reduce(
-                      (total, mealLine) =>
-                        mealLine.bophan === line.value
-                          ? total + mealLine.firstQty + mealLine.secondQty
-                          : total,
-                      0,
-                    ) || 0) * 3}
+                    {meals?.reduce((total, meal) => {
+                      const isSpecial = meal.isSpecial;
+                      const findMealLine = meal.mealLines.find(
+                        (mealLine) => mealLine.bophan === line.value,
+                      );
+                      return (
+                        total +
+                        (isSpecial
+                          ? (findMealLine?.firstQty || 0) * 3 + (findMealLine?.secondQty || 0) * 4
+                          : (findMealLine?.firstQty || 0) * 3 + (findMealLine?.secondQty || 0) * 3)
+                      );
+                    }, 0)}
                   </td>
                 );
               })}
               <td className="border border-black text-center p-1 bg-red-200 ">
-                {(meals?.reduce(
-                  (total, meal) =>
-                    total +
-                    meal.mealLines.reduce(
-                      (t, mealLine) => t + mealLine.firstQty + mealLine.secondQty,
-                      0,
-                    ),
-                  0,
-                ) || 0) * 3}
+                {meals?.reduce((total, meal) => {
+                  const isSpecial = meal.isSpecial;
+                  const mealsLineTotal = meal.mealLines.reduce(
+                    (t, l) => t + l.firstQty * 3 + (isSpecial ? l.secondQty * 4 : l.secondQty * 3),
+                    0,
+                  );
+                  return total + mealsLineTotal;
+                }, 0)}
               </td>
             </tr>
           </tbody>
