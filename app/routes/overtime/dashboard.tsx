@@ -204,7 +204,7 @@ function OvertimeDashboard() {
                         )}
                       </td>
                       <td
-                        className={`text-center border p-1 lg:p-2 lg:text-nowrap ${overtime.gio.includes("20") ? "text-teal-700 font-semibold" : ""}`}
+                        className={`text-center border p-1 lg:p-2 lg:text-nowrap ${overtime.gio.includes("20") ? "text-pink-700 font-semibold" : ""}`}
                       >
                         {overtime.gio}
                       </td>

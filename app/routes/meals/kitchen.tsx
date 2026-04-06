@@ -20,6 +20,10 @@ import { Input } from "~/components/ui/input";
 import { useMealsCreate, useMealsFindAll } from "~/hooks/meals-hook";
 import routers from "~/lib/routers";
 
+export function meta() {
+  return [{ title: "ĂN SÁNG NHÀ ĂN" }];
+}
+
 export default function MealsKitchen() {
   const [searchParams, setSearchParams] = useSearchParams();
   const month = new Date(searchParams.get("month") || format(new Date(), "yyyy-MM"));
@@ -64,23 +68,23 @@ export default function MealsKitchen() {
   return (
     <div>
       <HeaderComponent logoLink={routers().meals.dashboard}>
-        <h1 className="uppercase text-2xl text-white font-bold mx-auto">
+        <h1 className="uppercase text-2xl text-white font-bold mx-auto text-center">
           DANH SÁCH MÓN ĂN THÁNG {format(new Date(month), "MM/yyyy")}
         </h1>
         <Link to={routers().meals.dashboard}>
           <Salad color="#fff" size={30} />
         </Link>
       </HeaderComponent>
-      <div className="flex w-full gap-4">
-        <div className="w-2/3">
-          <table className="w-full">
+      <div className="flex flex-col lg:flex-row w-full gap-4">
+        <div className="w-full overflow-x-scroll">
+          <table className="w-full table">
             <thead>
               <tr className="uppercase">
                 <th className="border p-2">Ngày</th>
                 <th className="border p-2">Thứ</th>
                 <th className="border p-2">Món 1 (x3)</th>
                 <th className="border p-2">Món 2 (x3)</th>
-                <th className="border p-2 bg-yellow-50">Đặc biệt (x4)</th>
+                <th className="border p-2 bg-yellow-100">Đặc biệt (x4)</th>
                 <th className="border p-2"></th>
               </tr>
             </thead>
@@ -93,11 +97,13 @@ export default function MealsKitchen() {
                     const isSpecial = findMeal?.isSpecial;
                     return (
                       <tr key={index} className={`${getDay(day) === 0 ? "bg-red-50" : ""}`}>
-                        <td className="border p-1">{format(day, "dd/MM/yyyy")}</td>
-                        <td className="border p-1">{format(day, "EEEE", { locale: vi })}</td>
+                        <td className="border p-1">{format(day, "dd/MM")}</td>
+                        <td className="border p-1 text-center">
+                          {format(day, "EEEEE", { locale: vi })}
+                        </td>
                         <td className="border p-1">
                           <Input
-                            className="inline-flex min-w-40"
+                            className="inline-flex min-w-32"
                             type="text"
                             name="meals-first"
                             value={findMeal?.first || ""}
@@ -114,7 +120,7 @@ export default function MealsKitchen() {
                         </td>
                         <td className="border p-1">
                           <Input
-                            className="inline-flex min-w-40"
+                            className="inline-flex min-w-32"
                             type="text"
                             name="meals-second"
                             value={!isSpecial && findMeal?.second ? findMeal.second : ""}
@@ -131,7 +137,7 @@ export default function MealsKitchen() {
                         </td>
                         <td className="border p-1">
                           <Input
-                            className="inline-flex min-w-40 bg-yellow-50"
+                            className="inline-flex min-w-32 bg-yellow-100"
                             type="text"
                             name="meals-second"
                             value={isSpecial && findMeal?.second ? findMeal.second : ""}
@@ -161,7 +167,7 @@ export default function MealsKitchen() {
                   } else {
                     return (
                       <tr key={index} className="bg-red-50 text-red-700 font-semibold">
-                        <td className="border p-1">{format(day, "dd/MM/yyyy")}</td>
+                        <td className="border p-1">{format(day, "dd/MM")}</td>
                         <td colSpan={4} className="text-center text-xl">
                           {format(day, "EE", { locale: vi })}
                         </td>
@@ -171,41 +177,49 @@ export default function MealsKitchen() {
                 },
               )}
             </tbody>
-          </table>
-          <div className="flex justify-between px-4 my-4 w-full">
-            <button
-              className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 px-4 py-2 rounded"
-              onClick={() => {
-                setSearchParams({
-                  month: format(subMonths(new Date(month), 1), "yyyy-MM"),
-                });
-              }}
-            >
-              <ChevronsLeft />
-              <span>{format(subMonths(new Date(month), 1), "MM/yyyy")}</span>
-            </button>
+            <tfoot>
+              <tr>
+                <td colSpan={6} className="p-1 border py-2">
+                  <div className="flex justify-between items-center">
+                    <button
+                      className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 px-4 py-2 rounded"
+                      onClick={() => {
+                        setSearchParams({
+                          month: format(subMonths(new Date(month), 1), "yyyy-MM"),
+                        });
+                      }}
+                    >
+                      <ChevronsLeft />
+                      <span>{format(subMonths(new Date(month), 1), "MM/yyyy")}</span>
+                    </button>
 
-            <button
-              // disabled={month === format(new Date(), "yyyy-MM")}
-              // className={`${month === format(new Date(), "yyyy-MM") ? "bg-gray-500" : "bg-blue-500 hover:bg-blue-600"} text-white flex items-center gap-2 px-4 py-2 rounded`}
-              className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 px-4 py-2 rounded"
-              onClick={() => {
-                setSearchParams({
-                  month: format(addMonths(new Date(month), 1), "yyyy-MM"),
-                });
-              }}
-            >
-              <span>{format(addMonths(new Date(month), 1), "MM/yyyy")}</span>
-              <ChevronsRight />
-            </button>
-          </div>
+                    <button
+                      // disabled={month === format(new Date(), "yyyy-MM")}
+                      // className={`${month === format(new Date(), "yyyy-MM") ? "bg-gray-500" : "bg-blue-500 hover:bg-blue-600"} text-white flex items-center gap-2 px-4 py-2 rounded`}
+                      className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 px-4 py-2 rounded"
+                      onClick={() => {
+                        setSearchParams({
+                          month: format(addMonths(new Date(month), 1), "yyyy-MM"),
+                        });
+                      }}
+                    >
+                      <span>{format(addMonths(new Date(month), 1), "MM/yyyy")}</span>
+                      <ChevronsRight />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
 
-        <div className="flex-1">
+        <div className="w-full">
           <h1 className="uppercase text-center text-2xl py-2 font-bold text-blue-800">
             Số lượng ăn sáng ngày {format(new Date(), "dd/MM")}
           </h1>
-          {<PrintComponent day={format(new Date(), "yyyy-MM-dd")} />}
+          <div className="overflow-x-scroll">
+            {<PrintComponent day={format(new Date(), "yyyy-MM-dd")} />}
+          </div>
         </div>
       </div>
     </div>

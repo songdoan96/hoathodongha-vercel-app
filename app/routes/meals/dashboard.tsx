@@ -16,6 +16,10 @@ import { useMealsFindAll } from "~/hooks/meals-hook";
 import routers from "~/lib/routers";
 import { linesListFilterSortName } from "~/lib/variables";
 
+export function meta() {
+  return [{ title: "CHI TIẾT ĂN SÁNG" }];
+}
+
 function MealsDashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
   const month = searchParams.get("month") || format(new Date(), "yyyy-MM");

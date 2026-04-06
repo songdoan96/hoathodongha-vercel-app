@@ -13,6 +13,9 @@ import routers from "~/lib/routers";
 import { linesList } from "~/lib/variables";
 import useAuthStore from "~/stores/auth-store";
 
+export function meta() {
+  return [{ title: "ĂN SÁNG CHUYỀN" }];
+}
 function MealsLine() {
   const { user } = useAuthStore();
   if (!user) return null;

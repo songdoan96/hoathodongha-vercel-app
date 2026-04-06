@@ -5,6 +5,10 @@ import { HeaderComponent } from "~/components/Header";
 import PrintComponent from "~/components/Meals/Print";
 import routers from "~/lib/routers";
 
+export function meta() {
+  return [{ title: "ĂN SÁNG IN" }];
+}
+
 export default function MealsPrint() {
   const [searchParams, setSearchParams] = useSearchParams();
   const day = searchParams.get("day") || format(addDays(new Date(), 1), "yyyy-MM-dd");
