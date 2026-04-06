@@ -83,7 +83,7 @@ function MealsLine() {
                 return (
                   <div key={index} className="w-full border rounded-xl overflow-hidden shadow">
                     <h1 className="bg-blue-50 text-blue-700 text-center font-semibold p-2">
-                      {format(day, "EEEEE - dd/MM", { locale: vi })}
+                      {format(day, "EEEE - dd/MM", { locale: vi })}
                     </h1>
                     <div className="bg-white grid grid-cols-2 gap-2 lg:gap-6 p-2">
                       <div className="flex flex-col gap-2">

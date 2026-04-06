@@ -54,7 +54,6 @@ export const useMealsCreate = () => {
 };
 export const useMealsNextDayCreate = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   return useMutation({
     mutationFn: ({ formData }: { formData: any }) => apiMealsCreateNextDay(formData),
     onSuccess: () => {
@@ -63,7 +62,7 @@ export const useMealsNextDayCreate = () => {
       // navigate(routers().forms.index);
     },
     onError: () => {
-      // toast.error("Đã xảy ra lỗi, vui lòng thử lại");
+      toast.error("Đã xảy ra lỗi, vui lòng thử lại");
     },
   });
 };

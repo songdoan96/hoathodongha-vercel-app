@@ -72,6 +72,9 @@ export default function MealsKitchen() {
         <h1 className="uppercase text-2xl text-white font-bold mx-auto text-center">
           DANH SÁCH MÓN ĂN THÁNG {format(new Date(month), "MM/yyyy")}
         </h1>
+        <Link to={routers().meals.line} className="mr-2 text-lg text-white uppercase">
+          Đăng ký
+        </Link>
         <Link to={routers().meals.dashboard}>
           <Salad color="#fff" size={30} />
         </Link>

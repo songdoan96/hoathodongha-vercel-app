@@ -282,6 +282,17 @@ button {
 li[data-sonner-toast] {
   @apply w-auto!;
 }
+
+@media (max-width: 600px) {
+  li[data-sonner-toast] {
+    @apply w-auto! left-auto! right-8!;
+  }
+}
+
+/* [data-rich-colors="true"][data-sonner-toast] {
+  @apply w-auto! left-auto! right-8!;
+} */
+
 div[data-slot="tooltip-content"] {
   @apply bg-primary!;
 }
