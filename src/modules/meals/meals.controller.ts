@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Header,
+  Param,
+  Post,
+  Query,
+  StreamableFile,
+} from '@nestjs/common';
 import { MealsService } from './meals.service';
 
 @Controller('meals')
@@ -8,11 +17,6 @@ export class MealsController {
   @Get()
   findAll(@Query('month') month: string) {
     return this.mealsService.findAll(month);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.mealsService.findOne(id);
   }
 
   @Post()
@@ -37,4 +41,15 @@ export class MealsController {
   updateNextDay(@Body() formData: any) {
     return this.mealsService.updateNextDay(formData);
   }
+
+  @Get('download')
+  @Header('Content-Disposition', 'attachment; filename="SheetJSNest.xlsx"')
+  async downloadXlsxFile(): Promise<StreamableFile> {
+    return this.mealsService.exportData();
+  }
+
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.mealsService.findOne(id);
+  // }
 }

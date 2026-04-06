@@ -1,12 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, StreamableFile } from '@nestjs/common';
 import {
   addDays,
+  eachDayOfInterval,
+  eachMonthOfInterval,
   endOfMonth,
-  endOfWeek,
+  format,
   startOfMonth,
-  startOfWeek,
 } from 'date-fns';
 import { PrismaService } from '../prisma/prisma.service';
+import { utils, write } from 'xlsx';
+import { linesListFilterSortName } from '../../lib/constant';
 @Injectable()
 export class MealsService {
   constructor(private readonly prisma: PrismaService) {}
@@ -138,5 +141,71 @@ export class MealsService {
     //     mealId: formData.mealId,
     //   },
     // });
+  }
+
+  async exportData() {
+    const month = '2026-04';
+    const bophan = linesListFilterSortName.map((line) => line.sortName);
+    const daysInMonth = eachDayOfInterval({
+      start: startOfMonth(new Date(month)),
+      end: endOfMonth(new Date(month)),
+    });
+
+    const daysHeader = daysInMonth.map((day) => [format(day, 'dd/MM'), null]);
+    console.log('🚀 ~ MealsService ~ exportData ~ daysHeader:', daysHeader);
+    const mealsHeader = daysInMonth.map((day) => format(day, 'dd/MM'));
+
+    // var ws = utils.aoa_to_sheet([
+    //   ['Bộ phận', ...daysHeader, 'Tổng'],
+    //   ['', ...mealsHeader],
+    // ]);
+    // var wb = utils.book_new();
+    // utils.book_append_sheet(wb, ws, month);
+    // var buf = write(wb, { type: 'buffer', bookType: 'xlsx' });
+    const data = [
+      ['BỘ PHẬN', ...daysHeader.flatMap((day) => day), 'Tổng'],
+      [null, 'Cháo bột vịt', 'Xôi chả', 'Bún chả cá', 'Mì ốp la', null],
+      ['1x1', 2, 2, 4, 12, { f: 'SUM(B3:E3)' }],
+      ['2x2', 4, 3, 1, 2, { f: 'SUM(B4:E4)' }],
+      [
+        'Tổng',
+        { f: 'SUM(B3:B4)*3' },
+        { f: 'SUM(C3:C4)*3' },
+        { f: 'SUM(D3:D4)*3' },
+        { f: 'SUM(E3:E4)*3' },
+        { f: 'SUM(F3:F4)*3' },
+      ],
+    ];
+
+    // Tạo worksheet
+    const ws = utils.aoa_to_sheet(data);
+
+    // Merge cells (giống file của bạn)
+    ws['!merges'] = [
+      // 01/04 merge 2 cột
+      { s: { r: 0, c: 1 }, e: { r: 0, c: 2 } },
+      // 02/04 merge 2 cột
+      { s: { r: 0, c: 3 }, e: { r: 0, c: 4 } },
+      // BỘ PHẬN merge 2 dòng
+      { s: { r: 0, c: 0 }, e: { r: 1, c: 0 } },
+      // Tổng merge 2 dòng
+      // { s: { r: 0, c: 5 }, e: { r: 1, c: 5 } },
+    ];
+
+    // // Set width cột
+    // ws['!cols'] = [
+    //   { wch: 12 },
+    //   { wch: 20 },
+    //   { wch: 15 },
+    //   { wch: 20 },
+    //   { wch: 15 },
+    //   { wch: 12 },
+    // ];
+
+    // Tạo workbook
+    const wb = utils.book_new();
+    utils.book_append_sheet(wb, ws, 'Sheet1');
+    var buf = write(wb, { type: 'buffer', bookType: 'xlsx' });
+    return new StreamableFile(buf);
   }
 }
