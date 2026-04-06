@@ -37,6 +37,7 @@ export default [
     index("./routes/meals/dashboard.tsx"),
     route("/nhaan", "./routes/meals/kitchen.tsx"),
     route("/in", "./routes/meals/print.tsx"),
+    route("/them", "./routes/meals/add.tsx"),
   ]),
 
   layout("./components/providers/PrivateProvider.tsx", [

@@ -14,7 +14,7 @@ import { linesList } from "~/lib/variables";
 import useAuthStore from "~/stores/auth-store";
 
 export function meta() {
-  return [{ title: "ĂN SÁNG CHUYỀN" }];
+  return [{ title: "ĐĂNG KÝ ĂN SÁNG" }];
 }
 function MealsLine() {
   const { user } = useAuthStore();
@@ -69,7 +69,7 @@ function MealsLine() {
         </Link>
       </HeaderComponent>
       <div className="px-2">
-        <h1 className="text-center bg-teal-50 text-teal-700 py-2 my-2 uppercase text-2xl font-semibold">
+        <h1 className="text-center bg-teal-100 text-teal-700 py-2 my-2 uppercase text-2xl font-semibold">
           Bộ phận: {linesList.find((line) => line.value === bophan)?.name}
         </h1>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
