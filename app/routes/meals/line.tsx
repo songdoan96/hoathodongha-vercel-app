@@ -114,7 +114,10 @@ function MealsLine() {
                           <FieldLabel htmlFor={`second-${index}`} className="text-lg">
                             {meal?.second}
                             {meal?.isSpecial && (
-                              <img src="/images/star.svg" className="w-6 inline-block" />
+                              <div className="flex items-center gap-0.5">
+                                <img src="/images/star.svg" className="w-6 inline-block" />
+                                <span>x4</span>
+                              </div>
                             )}
                           </FieldLabel>
                           <InputGroup>

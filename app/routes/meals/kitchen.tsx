@@ -216,7 +216,7 @@ export default function MealsKitchen() {
 
         <div className="w-full">
           <h1 className="uppercase text-center text-2xl py-2 font-bold text-blue-800">
-            Số lượng ăn sáng ngày {format(new Date(), "dd/MM")}
+            Số lượng ăn sáng ngày {format(addDays(new Date(), 1), "dd/MM")}
           </h1>
           <div className="overflow-x-scroll">
             {<PrintComponent day={format(addDays(new Date(), 1), "yyyy-MM-dd")} />}

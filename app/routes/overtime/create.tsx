@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { endOfMonth, format } from "date-fns";
 import { CalendarDays, CheckIcon, Clock3, Hash, MessageCircleQuestionMark } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { HeaderComponent, HeaderTitle } from "~/components/Header";
@@ -124,6 +124,7 @@ export default function EmployeeTable() {
               name="denngay"
               id="denngay"
               value={denngay}
+              max={format(endOfMonth(new Date(tungay)), "yyyy-MM-dd")}
               onChange={(e) => setDenngay(e.target.value)}
               required
               className="flex-1 ml-auto bg-white"
