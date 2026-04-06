@@ -76,7 +76,7 @@ function MealsLine() {
                 (meal) => format(meal.ngay, "yyyy-MM-dd") === format(day, "yyyy-MM-dd"),
               );
               const findForm = formData?.find((f) => f.ngay === format(day, "yyyy-MM-dd"));
-              if (getDay(day) !== 0) {
+              if (getDay(day) !== 0 && findForm) {
                 return (
                   <div key={index} className="w-full border rounded-xl overflow-hidden shadow">
                     <h1 className="bg-blue-50 text-blue-700 text-center font-semibold p-2">
@@ -86,7 +86,7 @@ function MealsLine() {
                       <div className="flex flex-col gap-2">
                         <Field>
                           <FieldLabel htmlFor={`first-${index}`} className="text-lg">
-                            {meal?.first}:
+                            {meal?.first}
                           </FieldLabel>
                           <InputGroup>
                             <InputGroupInput
@@ -109,11 +109,10 @@ function MealsLine() {
                       <div className="flex flex-col gap-2">
                         <Field>
                           <FieldLabel htmlFor={`second-${index}`} className="text-lg">
-                            {meal?.second}{" "}
+                            {meal?.second}
                             {meal?.isSpecial && (
                               <img src="/images/star.svg" className="w-6 inline-block" />
                             )}
-                            :
                           </FieldLabel>
                           <InputGroup>
                             <InputGroupInput
