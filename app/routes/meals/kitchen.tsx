@@ -1,4 +1,5 @@
 import {
+  addDays,
   addMonths,
   eachDayOfInterval,
   endOfMonth,
@@ -218,7 +219,7 @@ export default function MealsKitchen() {
             Số lượng ăn sáng ngày {format(new Date(), "dd/MM")}
           </h1>
           <div className="overflow-x-scroll">
-            {<PrintComponent day={format(new Date(), "yyyy-MM-dd")} />}
+            {<PrintComponent day={format(addDays(new Date(), 1), "yyyy-MM-dd")} />}
           </div>
         </div>
       </div>
