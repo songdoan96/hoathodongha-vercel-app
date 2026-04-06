@@ -20,8 +20,8 @@ function MealsLine() {
   const { user } = useAuthStore();
   if (!user) return null;
   const today = new Date();
-  const bophan = user.bophan.startsWith("X") ? user.bophan.slice(0, 2) + "_duphong" : user.bophan;
-  const { data: meals, isLoading } = useMealsNextDay(bophan);
+  // const bophan = user.bophan.startsWith("X") ? user.bophan.slice(0, 2) + "_duphong" : user.bophan;
+  const { data: meals, isLoading } = useMealsNextDay(user.bophan);
   const [formData, setFormData] =
     useState<{ id: string; ngay: string; firstQty: string; secondQty: string }[]>();
   const { mutate, isPending } = useMealsNextDayCreate();
@@ -31,8 +31,10 @@ function MealsLine() {
         meals.map((meal) => ({
           id: meal.id,
           ngay: format(meal.ngay, "yyyy-MM-dd"),
-          firstQty: meal.mealLines.find((ml) => ml.bophan === bophan)?.firstQty.toString() || "",
-          secondQty: meal.mealLines.find((ml) => ml.bophan === bophan)?.secondQty.toString() || "",
+          firstQty:
+            meal.mealLines.find((ml) => ml.bophan === user.bophan)?.firstQty.toString() || "",
+          secondQty:
+            meal.mealLines.find((ml) => ml.bophan === user.bophan)?.secondQty.toString() || "",
         })),
       );
     }
@@ -41,12 +43,12 @@ function MealsLine() {
   function handleSubmit(id?: string) {
     if (id) {
       const findForm = formData?.find((f) => f.id === id);
-      if (bophan && (findForm?.firstQty || findForm?.secondQty)) {
+      if (user?.username && (findForm?.firstQty || findForm?.secondQty)) {
         mutate({
           formData: {
             firstQty: +findForm.firstQty || 0,
             secondQty: +findForm.secondQty || 0,
-            bophan,
+            bophan: user?.bophan,
             id,
           },
         });
@@ -67,7 +69,7 @@ function MealsLine() {
       </HeaderComponent>
       <div className="px-2">
         <h1 className="text-center bg-teal-50 text-teal-700 py-2 my-2 uppercase text-2xl font-semibold">
-          Bộ phận: {linesList.find((line) => line.value === bophan)?.name}
+          Bộ phận: {linesList.find((line) => line.value === user.bophan)?.name}
         </h1>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {eachDayOfInterval({ start: addDays(today, 1), end: addDays(today, 7) }).map(
