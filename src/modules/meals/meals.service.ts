@@ -2,14 +2,13 @@ import { Injectable, StreamableFile } from '@nestjs/common';
 import {
   addDays,
   eachDayOfInterval,
-  eachMonthOfInterval,
   endOfMonth,
   format,
   startOfMonth,
 } from 'date-fns';
-import { PrismaService } from '../prisma/prisma.service';
 import { utils, write } from 'xlsx';
 import { linesListFilterSortName } from '../../lib/constant';
+import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class MealsService {
   constructor(private readonly prisma: PrismaService) {}
@@ -30,6 +29,7 @@ export class MealsService {
     return await this.prisma.meal.findUnique({ where: { id } });
   }
   async create(data: any) {
+    console.log('🚀 ~ MealsService ~ create ~ data:', data);
     const { ngay, ...formData } = data;
     const findDay = await this.prisma.meal.findFirst({
       where: {
@@ -113,6 +113,7 @@ export class MealsService {
         data: {
           firstQty: +formData.firstQty,
           secondQty: +formData.secondQty,
+          thirdQty: +formData.thirdQty,
         },
       });
     }
@@ -120,6 +121,7 @@ export class MealsService {
       data: {
         firstQty: +formData.firstQty,
         secondQty: +formData.secondQty,
+        thirdQty: +formData.thirdQty,
         bophan: formData.bophan,
         mealId: formData.id,
       },

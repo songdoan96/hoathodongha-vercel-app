@@ -187,6 +187,7 @@ model Meal {
   first     String
   second    String
   isSpecial Boolean? @default(false)
+  third     String?
 
   mealLines MealLine[]
 
@@ -199,6 +200,7 @@ model MealLine {
   bophan    String
   firstQty  Int
   secondQty Int
+  thirdQty  Int?
   meal      Meal   @relation(fields: [mealId], references: [id])
 
   @@map("meal_lines")

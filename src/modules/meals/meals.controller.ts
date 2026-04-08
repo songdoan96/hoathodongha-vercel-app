@@ -20,7 +20,7 @@ export class MealsController {
   }
 
   @Post()
-  create(@Body() data: any) {
+  async create(@Body() data: any) {
     return this.mealsService.create(data);
   }
 
