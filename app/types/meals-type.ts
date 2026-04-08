@@ -4,6 +4,7 @@ export interface MealsType {
   first: string;
   second: string;
   isSpecial?: boolean;
+  third?: string;
   mealLines: MealsLineType[];
 }
 export interface MealsLineType {
@@ -12,4 +13,5 @@ export interface MealsLineType {
   bophan: string;
   firstQty: number;
   secondQty: number;
+  thirdQty?: number;
 }

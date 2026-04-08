@@ -25,30 +25,41 @@ function MealsLine() {
     ? user.bophan.slice(0, 2) + "_duphong"
     : user.bophan;
   const { data: meals, isLoading } = useMealsNextDay(bophan);
+
   const [formData, setFormData] =
-    useState<{ id: string; ngay: string; firstQty: string; secondQty: string }[]>();
+    useState<
+      { id: string; ngay: string; firstQty: string; secondQty: string; thirdQty?: string }[]
+    >();
   const { mutate, isPending } = useMealsNextDayCreate();
   useEffect(() => {
     if (meals) {
       setFormData(() =>
-        meals.map((meal) => ({
-          id: meal.id,
-          ngay: format(meal.ngay, "yyyy-MM-dd"),
-          firstQty: meal.mealLines.find((ml) => ml.bophan === bophan)?.firstQty.toString() || "",
-          secondQty: meal.mealLines.find((ml) => ml.bophan === bophan)?.secondQty.toString() || "",
-        })),
+        meals.map((meal) => {
+          const findMeal = meal.mealLines.find((ml) => ml.bophan === bophan);
+          const first = String(findMeal?.firstQty || "");
+          const second = String(findMeal?.secondQty || "");
+          const third = String(findMeal?.thirdQty || "");
+          return {
+            id: meal.id,
+            ngay: format(meal.ngay, "yyyy-MM-dd"),
+            firstQty: first,
+            secondQty: second,
+            thirdQty: third,
+          };
+        }),
       );
     }
   }, [meals]);
 
   function handleSubmit(id?: string) {
-    if (id) {
+    if (id && bophan) {
       const findForm = formData?.find((f) => f.id === id);
-      if (user?.username && (findForm?.firstQty || findForm?.secondQty)) {
+      if (findForm?.firstQty || findForm?.secondQty) {
         mutate({
           formData: {
             firstQty: +findForm.firstQty || 0,
             secondQty: +findForm.secondQty || 0,
+            thirdQty: +findForm.thirdQty! || 0,
             bophan,
             id,
           },
@@ -68,6 +79,7 @@ function MealsLine() {
           <Salad color="#fff" size={30} />
         </Link>
       </HeaderComponent>
+
       <div className="px-2">
         <h1 className="text-center bg-teal-100 text-teal-700 py-2 my-2 uppercase text-2xl font-semibold">
           Bộ phận: {linesList.find((line) => line.value === bophan)?.name}
@@ -90,6 +102,9 @@ function MealsLine() {
                         <Field>
                           <FieldLabel htmlFor={`first-${index}`} className="text-lg">
                             {meal?.first}
+                            <span className="bg-blue-500 text-white p-1 rounded-full w-6 h-6 flex justify-center items-center text-sm">
+                              x3
+                            </span>
                           </FieldLabel>
                           <InputGroup>
                             <InputGroupInput
@@ -113,11 +128,17 @@ function MealsLine() {
                         <Field>
                           <FieldLabel htmlFor={`second-${index}`} className="text-lg">
                             {meal?.second}
-                            {meal?.isSpecial && (
+                            {meal?.isSpecial ? (
                               <div className="flex items-center gap-0.5">
+                                <span className="bg-blue-500 text-white p-1 rounded-full w-6 h-6 flex justify-center items-center text-sm">
+                                  x4
+                                </span>
                                 <img src="/images/star.svg" className="w-6 inline-block" />
-                                <span>x4</span>
                               </div>
+                            ) : (
+                              <span className="bg-blue-500 text-white p-1 rounded-full w-6 h-6 flex justify-center items-center text-sm">
+                                x3
+                              </span>
                             )}
                           </FieldLabel>
                           <InputGroup>
@@ -138,7 +159,36 @@ function MealsLine() {
                           </InputGroup>
                         </Field>
                       </div>
+                      {meal?.third && (
+                        <div className="flex flex-col gap-2">
+                          <Field>
+                            <FieldLabel htmlFor={`third-${index}`} className="text-lg">
+                              {meal?.third}
+                              <span className="bg-blue-500 text-white p-1 rounded-full w-6 h-6 flex justify-center items-center text-sm">
+                                x1
+                              </span>
+                            </FieldLabel>
+                            <InputGroup>
+                              <InputGroupInput
+                                id={`third-${index}`}
+                                value={findForm?.thirdQty || ""}
+                                onChange={(e) =>
+                                  setFormData((prev) =>
+                                    prev?.map((item) =>
+                                      item.ngay === format(day, "yyyy-MM-dd")
+                                        ? { ...item, thirdQty: e.target.value }
+                                        : item,
+                                    ),
+                                  )
+                                }
+                              />
+                              <InputGroupAddon align="inline-end">suất</InputGroupAddon>
+                            </InputGroup>
+                          </Field>
+                        </div>
+                      )}
                     </div>
+
                     <div className="w-full flex justify-center items-center my-2 relative">
                       <Button
                         className="uppercase"
@@ -149,7 +199,8 @@ function MealsLine() {
                       </Button>
                       <span className="absolute bottom-0 right-2 bg-teal-100 text-teal-700 font-semibold p-1">
                         {Number(findForm?.firstQty) * 3 +
-                          Number(findForm?.secondQty) * (meal?.isSpecial ? 4 : 3)}
+                          Number(findForm?.secondQty) * (meal?.isSpecial ? 4 : 3) +
+                          Number(findForm?.thirdQty)}
                         <span className="ml-0.5">phiếu</span>
                       </span>
                     </div>

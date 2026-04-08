@@ -30,13 +30,19 @@ export default function MealsKitchen() {
   const month = new Date(searchParams.get("month") || format(new Date(), "yyyy-MM"));
   const { data, isLoading } = useMealsFindAll(format(month, "yyyy-MM-dd"));
   const [meals, setMeals] = useState<
-    { ngay: string; first: string; second: string; isSpecial?: boolean }[]
+    { ngay: string; first: string; second: string; isSpecial?: boolean; third?: string }[]
   >([]);
   const { mutate, isPending } = useMealsCreate();
 
   useEffect(() => {
     if (data) {
-      const dataMeals: { ngay: string; first: string; second: string; isSpecial?: boolean }[] = [];
+      const dataMeals: {
+        ngay: string;
+        first: string;
+        second: string;
+        isSpecial?: boolean;
+        third?: string;
+      }[] = [];
       eachDayOfInterval({ start: startOfMonth(month), end: endOfMonth(month) }).map((day) => {
         const meal = data.find((item) => isSameDay(item.ngay, day));
         if (meal) {
@@ -45,12 +51,14 @@ export default function MealsKitchen() {
             second: meal.second,
             ngay: format(meal.ngay, "yyyy-MM-dd"),
             isSpecial: meal.isSpecial,
+            third: meal.third,
           });
         } else {
           dataMeals.push({
             ngay: format(day, "yyyy-MM-dd"),
             first: "",
             second: "",
+            third: "",
             isSpecial: false,
           });
         }
@@ -89,6 +97,7 @@ export default function MealsKitchen() {
                 <th className="border p-2">Món 1 (x3)</th>
                 <th className="border p-2">Món 2 (x3)</th>
                 <th className="border p-2 bg-yellow-100">Đặc biệt (x4)</th>
+                <th className="border p-2">1 phiếu</th>
                 <th className="border p-2"></th>
               </tr>
             </thead>
@@ -157,6 +166,23 @@ export default function MealsKitchen() {
                           />
                         </td>
                         <td className="border p-1">
+                          <Input
+                            className="inline-flex min-w-32"
+                            type="text"
+                            name="meals-third"
+                            value={findMeal?.third || ""}
+                            onChange={(e) =>
+                              setMeals(() =>
+                                meals.map((item) =>
+                                  item.ngay === format(day, "yyyy-MM-dd")
+                                    ? { ...item, third: e.target.value }
+                                    : item,
+                                ),
+                              )
+                            }
+                          />
+                        </td>
+                        <td className="border p-1">
                           {findMeal?.first && findMeal?.second && (
                             <Button
                               disabled={isPending}
@@ -172,7 +198,7 @@ export default function MealsKitchen() {
                     return (
                       <tr key={index} className="bg-red-50 text-red-700 font-semibold">
                         <td className="border p-1">{format(day, "dd/MM")}</td>
-                        <td colSpan={4} className="text-center text-xl">
+                        <td colSpan={6} className="text-center text-xl">
                           {format(day, "EE", { locale: vi })}
                         </td>
                       </tr>

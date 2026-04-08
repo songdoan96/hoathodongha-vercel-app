@@ -21,6 +21,9 @@ export default function PrintComponent({ day }: { day: string }) {
             {meal?.isSpecial && <img src="/images/star.svg" className="w-6 mx-auto" />}
           </th>
           <th className="border border-black text-center p-2 bg-blue-100 text-blue-700 font-semibold">
+            {meal?.third}
+          </th>
+          <th className="border border-black text-center p-2 bg-blue-100 text-blue-700 font-semibold">
             Suất ăn
           </th>
           <th className="border border-black text-center p-2 bg-blue-100 text-blue-700 font-semibold">
@@ -41,13 +44,16 @@ export default function PrintComponent({ day }: { day: string }) {
               </td>
               <td className="border border-black p-1 text-center">{findMealLine?.firstQty}</td>
               <td className="border border-black p-1 text-center">{findMealLine?.secondQty}</td>
+              <td className="border border-black p-1 text-center">{findMealLine?.thirdQty}</td>
               <td className="border border-black p-1 text-center">
-                {findMealLine && findMealLine.firstQty + findMealLine.secondQty}
+                {findMealLine &&
+                  findMealLine.firstQty + findMealLine.secondQty + findMealLine.thirdQty!}
               </td>
               <td className="border border-black p-1 text-center">
                 {findMealLine &&
                   findMealLine.firstQty * 3 +
-                    (meal?.isSpecial ? findMealLine.secondQty * 4 : findMealLine.secondQty * 3)}
+                    (meal?.isSpecial ? findMealLine.secondQty * 4 : findMealLine.secondQty * 3) +
+                    findMealLine.thirdQty!}
               </td>
             </tr>
           );
@@ -61,12 +67,21 @@ export default function PrintComponent({ day }: { day: string }) {
             {meal?.mealLines?.reduce((total, ml) => total + ml.secondQty, 0)}
           </td>
           <td className="border border-black p-1 text-center">
-            {meal?.mealLines?.reduce((total, ml) => total + ml.firstQty + ml.secondQty, 0)}
+            {meal?.mealLines?.reduce((total, ml) => total + ml.thirdQty!, 0)}
+          </td>
+          <td className="border border-black p-1 text-center">
+            {meal?.mealLines?.reduce(
+              (total, ml) => total + ml.firstQty + ml.secondQty + ml.thirdQty!,
+              0,
+            )}
           </td>
           <td className="border border-black p-1 text-center">
             {meal?.mealLines?.reduce(
               (total, ml) =>
-                total + (ml.firstQty * 3 + (meal?.isSpecial ? ml.secondQty * 4 : ml.secondQty * 3)),
+                total +
+                (ml.firstQty * 3 +
+                  (meal?.isSpecial ? ml.secondQty * 4 : ml.secondQty * 3) +
+                  ml.thirdQty!),
               0,
             )}
           </td>
