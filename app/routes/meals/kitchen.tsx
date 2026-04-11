@@ -33,6 +33,7 @@ export default function MealsKitchen() {
     { ngay: string; first: string; second: string; isSpecial?: boolean; third?: string }[]
   >([]);
   const { mutate, isPending } = useMealsCreate();
+  console.log(getDay(new Date()));
 
   useEffect(() => {
     if (data) {
@@ -245,10 +246,21 @@ export default function MealsKitchen() {
 
         <div className="w-full">
           <h1 className="uppercase text-center text-2xl py-2 font-bold text-blue-800">
-            Số lượng ăn sáng ngày {format(addDays(new Date(), 1), "dd/MM")}
+            Số lượng ăn sáng ngày{" "}
+            {getDay(new Date()) === 6
+              ? format(addDays(new Date(), 2), "dd/MM")
+              : format(addDays(new Date(), 1), "dd/MM")}
           </h1>
           <div className="overflow-x-scroll">
-            {<PrintComponent day={format(addDays(new Date(), 1), "yyyy-MM-dd")} />}
+            {
+              <PrintComponent
+                day={
+                  getDay(new Date()) === 6
+                    ? format(addDays(new Date(), 2), "yyyy-MM-dd")
+                    : format(addDays(new Date(), 1), "yyyy-MM-dd")
+                }
+              />
+            }
           </div>
         </div>
       </div>
