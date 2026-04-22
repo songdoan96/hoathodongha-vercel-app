@@ -98,9 +98,10 @@ export default function LineAdd() {
                 <SelectItem value="bvvs">BVVS</SelectItem>
                 <SelectItem value="X2_duphong">DP2</SelectItem>
                 <SelectItem value="vanphong">Văn phòng</SelectItem>
-                 <SelectItem value="kythuat">Kỹ thuật</SelectItem>
+                <SelectItem value="kythuat">Kỹ thuật</SelectItem>
+                <SelectItem value="nhaan">Bếp</SelectItem>
                 {/* <SelectIt1em value="X1_duphong">DP1</SelectIt1em>
-                */}
+                 */}
               </SelectGroup>
             </SelectContent>
           </Select>
