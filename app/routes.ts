@@ -38,6 +38,7 @@ export default [
     route("/nhaan", "./routes/meals/kitchen.tsx"),
     route("/in", "./routes/meals/print.tsx"),
     route("/them", "./routes/meals/add.tsx"),
+    route("/file", "./routes/meals/export.tsx"),
   ]),
 
   layout("./components/providers/PrivateProvider.tsx", [
