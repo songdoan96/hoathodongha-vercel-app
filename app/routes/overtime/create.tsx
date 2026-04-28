@@ -1,5 +1,12 @@
 import { endOfMonth, format } from "date-fns";
-import { CalendarDays, CheckIcon, Clock3, Hash, MessageCircleQuestionMark } from "lucide-react";
+import {
+  CalendarDays,
+  CheckIcon,
+  Clock3,
+  Hash,
+  MessageCircleQuestionMark,
+  UserCheck2Icon,
+} from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { HeaderComponent, HeaderTitle } from "~/components/Header";
 import Loading from "~/components/Loading";
@@ -21,15 +28,17 @@ export default function EmployeeTable() {
   if (!user) {
     return null;
   }
-  const { data: employeesData, isLoading: employeesIsLoading } = useEmployeesFindWithLine(
-    user.bophan,
-  );
+  const isQuandoc = user.bophan.includes("quandoc");
+  const bophan = isQuandoc ? user.bophan.slice(0, 3) + "duphong" : user.bophan;
+  const { data: employeesData, isLoading: employeesIsLoading } = useEmployeesFindWithLine(bophan);
   const [rows, setRows] = useState<(EmployeeType & { checked: boolean; congdoan: string })[]>();
   const [selectAll, setSelectAll] = useState(false);
   const [tungay, setTuNgay] = useState(format(new Date(), "yyyy-MM-dd"));
   const [denngay, setDenngay] = useState(format(new Date(), "yyyy-MM-dd"));
   const [gioDangKy, setGioDangKy] = useState("");
   const [lydo, setLydo] = useState("");
+  const [totruong, setTotruong] = useState(user.name);
+
   const mutate = useOvertimesCreate();
 
   useEffect(() => {
@@ -60,13 +69,14 @@ export default function EmployeeTable() {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const filterChecked = rows?.filter((r) => r.checked);
-    if (user?.bophan && filterChecked) {
+    if (filterChecked) {
       mutate.mutate({
-        bophan: user?.bophan,
+        bophan,
         // ngay: ngayDangKy,
         gio: gioDangKy,
         lydo,
-        totruong: user.name,
+        totruong: isQuandoc ? "" : totruong,
+        quandoc: isQuandoc ? totruong : undefined,
         danhsach: filterChecked.map((emp) => ({
           msnv: emp.msnv,
           hoten: emp.hoten,
@@ -92,16 +102,18 @@ export default function EmployeeTable() {
         <div className="p-2 py-4 flex flex-col gap-2 uppercase bg-green-100 lg:max-w-4xl lg:px-8 mx-auto">
           <div className="flex gap-2 items-center">
             <Hash color="red" size={24} />
-            <Label htmlFor="bophan" className="font-semibold text-green-800 w-20">
+            <Label htmlFor="bophan" className="font-semibold text-green-800 w-24">
               Bộ phận
             </Label>
             <span className="flex-1 ml-auto bg-white p-2 py-1 text-green-800 border rounded font-semibold">
-              {linesList.find((line) => line.value === user?.bophan)?.name}
+              {isQuandoc
+                ? "DỰ PHÒNG " + user.bophan.slice(0, 2)
+                : linesList.find((line) => line.value === user?.bophan)?.name}
             </span>
           </div>
           <div className="flex gap-2 items-center">
             <CalendarDays color="red" size={24} />
-            <Label htmlFor="tungay" className="font-semibold text-green-800 w-20">
+            <Label htmlFor="tungay" className="font-semibold text-green-800 w-24">
               Từ ngày
             </Label>
             <Input
@@ -116,7 +128,7 @@ export default function EmployeeTable() {
           </div>
           <div className="flex gap-2 items-center">
             <CalendarDays color="red" size={24} />
-            <Label htmlFor="denngay" className="font-semibold text-green-800 w-20">
+            <Label htmlFor="denngay" className="font-semibold text-green-800 w-24">
               Đến ngày
             </Label>
             <Input
@@ -133,7 +145,7 @@ export default function EmployeeTable() {
 
           <div className="flex gap-2 items-center">
             <Clock3 color="red" size={24} />
-            <Label htmlFor="gio" className="font-semibold text-green-800 w-20">
+            <Label htmlFor="gio" className="font-semibold text-green-800 w-24">
               Giờ ĐK
             </Label>
             <Input
@@ -147,7 +159,7 @@ export default function EmployeeTable() {
           </div>
           <div className="flex gap-2 items-center">
             <MessageCircleQuestionMark color="red" size={24} />
-            <Label htmlFor="lydo" className="font-semibold text-green-800 underline w-20">
+            <Label htmlFor="lydo" className="font-semibold text-green-800 underline w-24">
               Lý do:
             </Label>
             <Input
@@ -158,6 +170,15 @@ export default function EmployeeTable() {
               required
               className="flex-1 bg-white ml-auto"
             />
+          </div>
+          <div className="flex gap-2 items-center">
+            <UserCheck2Icon color="red" size={24} />
+            <Label htmlFor="totruong" className="font-semibold text-green-800 underline w-24">
+              {isQuandoc ? "Quản đốc:" : "Tổ trưởng:"}
+            </Label>
+            <span className="flex-1 ml-auto bg-white p-2 py-1 text-green-800 border rounded font-semibold">
+              {totruong}
+            </span>
           </div>
         </div>
         <div className="text-center flex justify-center items-center py-2">

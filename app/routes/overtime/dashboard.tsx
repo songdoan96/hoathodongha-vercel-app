@@ -75,7 +75,17 @@ function OvertimeDashboard() {
         </span>
       </HeaderComponent>
       <div className="text-blue-600 my-4 flex justify-center items-center">
-        {user &&
+        {user && user?.bophan !== "lanhdao" && user?.bophan !== "giamdoc" && (
+          <Link
+            to={routers().overtime.create}
+            className="uppercase font-semibold flex items-center gap-1 bg-blue-100 hover:bg-blue-200 p-2 px-4 rounded"
+          >
+            <ClipboardPlus />
+            <span>Tạo đơn</span>
+          </Link>
+        )}
+        {/* 
+          {user &&
           user?.bophan !== "lanhdao" &&
           user?.bophan !== "giamdoc" &&
           !user?.bophan?.includes("quandoc") && (
@@ -86,7 +96,7 @@ function OvertimeDashboard() {
               <ClipboardPlus />
               <span>Tạo đơn</span>
             </Link>
-          )}
+          )} */}
       </div>
 
       <div className="w-full h-full flex-1">

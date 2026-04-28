@@ -8,6 +8,7 @@ export interface OvertimesCreateDTO {
   lydo: string;
   danhsach: OvertimeEmployee[];
   totruong: string;
+  quandoc?: string;
   tungay: string;
   denngay: string;
 }
