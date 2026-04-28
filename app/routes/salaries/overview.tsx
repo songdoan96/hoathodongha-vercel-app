@@ -14,15 +14,6 @@ import { useSalariesDashboard } from "~/hooks/salaries-hook";
 import { formatMoney } from "~/lib/helpers";
 import useSalaryStore from "~/stores/salary-store";
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--chart-2)",
-  },
-  label: {
-    color: "var(--background)",
-  },
-} satisfies ChartConfig;
 function SalaryTotal() {
   const { cccd, msnv } = useSalaryStore();
   const { data: salaries, isLoading } = useSalariesDashboard({
@@ -109,23 +100,27 @@ function SalaryTotal() {
                 />
               </svg>
             </div>
-            <div className="relative bg-[#34b2c6] rounded shadow-xl flex flex-col overflow-hidden h-full">
-              <div className="z-10 top-0 left-0 p-2 w-full flex flex-col justify-between text-center">
-                <h1 className="text-base uppercase">thu nhập bình quân</h1>
-                <h2 className="font-bold text-3xl">{formatMoney(tongthunhap / 2)}</h2>
+            {salaries && (
+              <div className="relative bg-[#34b2c6] rounded shadow-xl flex flex-col overflow-hidden h-full">
+                <div className="z-10 top-0 left-0 p-2 w-full flex flex-col justify-between text-center">
+                  <h1 className="text-base uppercase">thu nhập bình quân</h1>
+                  <h2 className="font-bold text-3xl">
+                    {formatMoney(tongthunhap / salaries?.length)}
+                  </h2>
+                </div>
+                <svg
+                  className="absolute bottom-0 w-full"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 1440 320"
+                >
+                  <path
+                    fill="#4ab8c2"
+                    fillOpacity={1}
+                    d="M0,256L20,266.7C40,277,80,299,120,261.3C160,224,200,128,240,101.3C280,75,320,117,360,117.3C400,117,440,75,480,53.3C520,32,560,32,600,69.3C640,107,680,181,720,186.7C760,192,800,128,840,112C880,96,920,128,960,165.3C1000,203,1040,245,1080,240C1120,235,1160,181,1200,165.3C1240,149,1280,171,1320,186.7C1360,203,1400,213,1420,218.7L1440,224L1440,320L1420,320C1400,320,1360,320,1320,320C1280,320,1240,320,1200,320C1160,320,1120,320,1080,320C1040,320,1000,320,960,320C920,320,880,320,840,320C800,320,760,320,720,320C680,320,640,320,600,320C560,320,520,320,480,320C440,320,400,320,360,320C320,320,280,320,240,320C200,320,160,320,120,320C80,320,40,320,20,320L0,320Z"
+                  />
+                </svg>
               </div>
-              <svg
-                className="absolute bottom-0 w-full"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 1440 320"
-              >
-                <path
-                  fill="#4ab8c2"
-                  fillOpacity={1}
-                  d="M0,256L20,266.7C40,277,80,299,120,261.3C160,224,200,128,240,101.3C280,75,320,117,360,117.3C400,117,440,75,480,53.3C520,32,560,32,600,69.3C640,107,680,181,720,186.7C760,192,800,128,840,112C880,96,920,128,960,165.3C1000,203,1040,245,1080,240C1120,235,1160,181,1200,165.3C1240,149,1280,171,1320,186.7C1360,203,1400,213,1420,218.7L1440,224L1440,320L1420,320C1400,320,1360,320,1320,320C1280,320,1240,320,1200,320C1160,320,1120,320,1080,320C1040,320,1000,320,960,320C920,320,880,320,840,320C800,320,760,320,720,320C680,320,640,320,600,320C560,320,520,320,480,320C440,320,400,320,360,320C320,320,280,320,240,320C200,320,160,320,120,320C80,320,40,320,20,320L0,320Z"
-                />
-              </svg>
-            </div>
+            )}
           </div>
         </div>
         <div className="chart lg:w-1/2 bg-white rounded shadow-2xl p-2 h-full">
