@@ -85,7 +85,7 @@ export class MealsService {
       where: {
         ngay: {
           gt: today,
-          lte: addDays(today, 7),
+          lte: addDays(today, 14),
         },
       },
       include: { mealLines: true },
