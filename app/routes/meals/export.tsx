@@ -25,7 +25,6 @@ function MealsExport() {
   const [searchParams, setSearchParams] = useSearchParams();
   const month = searchParams.get("month") || format(new Date(), "yyyy-MM");
   const { data: meals, isLoading } = useMealsFindAll(format(month, "yyyy-MM-dd"));
-  console.log("🚀 ~ MealsExport ~ meals:", meals);
   const prevMonth = format(subMonths(new Date(month), 1), "yyyy-MM");
   const nextMonth = format(addMonths(new Date(month), 1), "yyyy-MM");
   if (isLoading) return <Loading fullScreen />;

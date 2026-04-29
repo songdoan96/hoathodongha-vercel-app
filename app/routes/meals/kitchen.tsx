@@ -33,7 +33,6 @@ export default function MealsKitchen() {
     { ngay: string; first: string; second: string; isSpecial?: boolean; third?: string }[]
   >([]);
   const { mutate, isPending } = useMealsCreate();
-  console.log(getDay(new Date()));
 
   useEffect(() => {
     if (data) {

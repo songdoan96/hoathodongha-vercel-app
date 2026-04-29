@@ -212,7 +212,7 @@ function MealsDashboard() {
                     <span>{prevMonth}</span>
                   </button>
                   <button
-                    disabled={month === format(new Date(), "yyyy-MM")}
+                    // disabled={month === format(new Date(), "yyyy-MM")}
                     className={`${month === format(new Date(), "yyyy-MM") ? "bg-gray-500" : "bg-blue-500 hover:bg-blue-600"} text-white flex items-center gap-2 px-4 py-2 rounded`}
                     onClick={() => {
                       setSearchParams({
