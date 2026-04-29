@@ -85,7 +85,7 @@ function MealsLine() {
           Bộ phận: {linesList.find((line) => line.value === bophan)?.name}
         </h1>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {eachDayOfInterval({ start: addDays(today, 1), end: addDays(today, 7) }).map(
+          {eachDayOfInterval({ start: addDays(today, 1), end: addDays(today, 14) }).map(
             (day, index) => {
               const meal = meals?.find(
                 (meal) => format(meal.ngay, "yyyy-MM-dd") === format(day, "yyyy-MM-dd"),
