@@ -3,14 +3,11 @@ import {
   eachDayOfInterval,
   endOfMonth,
   format,
-  getDay,
   isSameDay,
   startOfMonth,
   subMonths,
 } from "date-fns";
-import { vi } from "date-fns/locale/vi";
 import { ChevronsLeft, ChevronsRight, Printer } from "lucide-react";
-import React from "react";
 import { Link, useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
 import { useMealsFindAll } from "~/hooks/meals-hook";
@@ -40,6 +37,22 @@ function MealsExport() {
         <Link to={routers().meals.print} className="">
           <Printer color="#fff" />
         </Link>
+      </div>
+      <div className="flex justify-center items-center gap-12 max-w-2xl mx-auto">
+        <button
+          className="flex items-center gap-1 text-sm text-blue-600 bg-blue-50 my-2 px-2 py-1"
+          onClick={() => setSearchParams({ month: prevMonth })}
+        >
+          <ChevronsLeft size={16} />
+          Tháng trước
+        </button>
+        <button
+          className="flex items-center gap-1 text-sm text-blue-600 bg-blue-50 my-2 px-2 py-1"
+          onClick={() => setSearchParams({ month: nextMonth })}
+        >
+          Tháng sau
+          <ChevronsRight size={16} />
+        </button>
       </div>
       <div className="w-full overflow-x-scroll">
         <table className="w-full">
