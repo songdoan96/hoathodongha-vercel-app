@@ -40,7 +40,6 @@ function FormDashboard() {
           </div>
         </div>
       </div>
-
       {/* <div className="grid grid-cols-3 gap-2 uppercase p-2 md:w-3/4 md:grid-cols-5 mx-auto">
         <div className="flex flex-col text-center border rounded-sm">
           <p className="bg-blue-200 font-semibold p-1">QĐX1 - Lương</p>

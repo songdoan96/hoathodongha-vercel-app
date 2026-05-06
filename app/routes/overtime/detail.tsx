@@ -6,18 +6,21 @@ import {
   Clock3,
   Hash,
   MessageCircleQuestionMark,
+  Plus,
   Signature,
   Trash2,
 } from "lucide-react";
 import { Link } from "react-router";
 import Loading from "~/components/Loading";
 import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 import { useOvertimesFindOne, useOvertimesUpdate } from "~/hooks/overtimes-hook";
 import { checkRole } from "~/lib/helpers";
 import routers from "~/lib/routers";
 import { linesList } from "~/lib/variables";
 import useAuthStore from "~/stores/auth-store";
 import type { Route } from "./+types/detail";
+import { useState } from "react";
 
 export function meta() {
   return [{ title: "PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ" }];
@@ -29,6 +32,7 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
   const { data: overtime, isLoading } = useOvertimesFindOne(id);
   const { user } = useAuthStore();
   const { mutate: mutateUpdate } = useOvertimesUpdate();
+  const [employeeAdd, setEmployeeAdd] = useState({ hoten: "", msnv: "", congdoan: "" });
   function handleSignature(id: string, bophan: "quandoc" | "lanhdao") {
     if (user) {
       mutateUpdate({
@@ -56,6 +60,16 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
         id,
         formData: {
           danhsach: overtime.danhsach.filter((item) => item.msnv !== msnv),
+        },
+      });
+    }
+  }
+  function handleAddEmployee() {
+    if (employeeAdd.hoten && employeeAdd.msnv) {
+      mutateUpdate({
+        id,
+        formData: {
+          danhsach: [...overtime?.danhsach!, employeeAdd],
         },
       });
     }
@@ -202,6 +216,53 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                         {checkRole("tochuc") && <td className="text-center border p-1"></td>}
                       </tr>
                     ))}
+                    {(user?.bophan === "admin" ||
+                      user?.bophan === "lanhdao" ||
+                      user?.bophan === "giamdoc") && (
+                      <tr>
+                        <td className="text-center border p-1 uppercase text-blue-500 font-semibold">
+                          Thêm
+                        </td>
+                        <td className="text-center border p-1">
+                          <Input
+                            type="text"
+                            placeholder="Họ tên"
+                            value={employeeAdd.hoten}
+                            onChange={(e) =>
+                              setEmployeeAdd({ ...employeeAdd, hoten: e.target.value })
+                            }
+                          />
+                        </td>
+                        <td className="text-center border p-1">
+                          <Input
+                            type="text"
+                            placeholder="MSNV"
+                            value={employeeAdd.msnv}
+                            onChange={(e) =>
+                              setEmployeeAdd({ ...employeeAdd, msnv: e.target.value })
+                            }
+                          />
+                        </td>
+                        <td className="text-center border p-1">
+                          <Input
+                            type="text"
+                            placeholder="Công đoạn"
+                            value={employeeAdd.congdoan}
+                            onChange={(e) =>
+                              setEmployeeAdd({ ...employeeAdd, congdoan: e.target.value })
+                            }
+                          />
+                        </td>
+                        <td className="text-center border p-1">
+                          <button
+                            onClick={handleAddEmployee}
+                            className="bg-blue-500 text-white rounded py-2 px-4"
+                          >
+                            <Plus />
+                          </button>
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>

@@ -39,4 +39,8 @@ export default () => ({
   employees: {
     edit: (id: string) => `/nhan-vien/chinh-sua/${id}`,
   },
+  feedback: {
+    dashboard: "/gop-y",
+    create: "/gop-y/them",
+  },
 });

@@ -41,6 +41,11 @@ export default [
     route("/file", "./routes/meals/export.tsx"),
   ]),
 
+  ...prefix("gop-y", [
+    // index("./routes/feedback/dashboard.tsx"),
+    route("/them", "./routes/feedback/create.tsx"),
+  ]),
+
   layout("./components/providers/PrivateProvider.tsx", [
     // Meals
     ...prefix("ansang", [route("/bophan", "./routes/meals/line.tsx")]),
@@ -76,5 +81,7 @@ export default [
       route("/chinh-sua/:id", "./routes/employee/edit.tsx"),
       route("/them-moi", "./routes/employee/add.tsx"),
     ]),
+
+    ...prefix("gop-y", [index("./routes/feedback/dashboard.tsx")]),
   ]),
 ] satisfies RouteConfig;

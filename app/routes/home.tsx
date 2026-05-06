@@ -1,6 +1,14 @@
-import { ClipboardPenLine, ClipboardPlus, DollarSign, Salad, Signature } from "lucide-react";
+import {
+  ClipboardPenLine,
+  ClipboardPlus,
+  DollarSign,
+  MailCheck,
+  Salad,
+  Signature,
+} from "lucide-react";
 import { Link } from "react-router";
 import routers from "~/lib/routers";
+import useAuthStore from "~/stores/auth-store";
 
 export function meta() {
   return [
@@ -9,6 +17,7 @@ export function meta() {
   ];
 }
 function Home() {
+  const { user } = useAuthStore();
   return (
     <div className="min-h-screen w-full relative">
       <img src="/images/bg.JPG" alt="BG" className="absolute w-full h-full z-10" />
@@ -71,6 +80,32 @@ function Home() {
               Ăn sáng
             </Link>
           </div>
+          {user &&
+          (user.bophan === "lanhdao" || user.bophan === "giamdoc" || user.bophan === "admin") ? (
+            <div className="bg-gray-50 min-w-52 border-2 border-orange-600 flex flex-col justify-center items-center rounded">
+              <div className="bg-blue-100 rounded-full p-2 w-10 h-10 md:w-20 md:h-20 flex justify-center items-center my-4">
+                <MailCheck color="blue" size={30} className="" />
+              </div>
+              <Link
+                to={routers().feedback.dashboard}
+                className="font-bold bg-blue-500 w-full inline-block my-1 py-2"
+              >
+                Hòm thư góp ý
+              </Link>
+            </div>
+          ) : (
+            <div className="bg-gray-50 min-w-52 border-2 border-orange-600 flex flex-col justify-center items-center rounded">
+              <div className="bg-blue-100 rounded-full p-2 w-10 h-10 md:w-20 md:h-20 flex justify-center items-center my-4">
+                <MailCheck color="blue" size={30} className="" />
+              </div>
+              <Link
+                to={routers().feedback.create}
+                className="font-bold bg-blue-500 w-full inline-block my-1 py-2"
+              >
+                Hòm thư góp ý
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

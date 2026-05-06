@@ -1,7 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { format, subMonths } from "date-fns";
-import { CircleUser, ClipboardPenLine, Loader, LockKeyhole, Search } from "lucide-react";
+import {
+  CircleUser,
+  ClipboardPenLine,
+  HatGlasses,
+  Loader,
+  LockKeyhole,
+  Search,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
@@ -11,6 +18,8 @@ import { Field, FieldLabel } from "~/components/ui/field";
 import { Form, FormField } from "~/components/ui/form";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/components/ui/input-group";
 import { getFCMToken } from "~/lib/firebase";
+import routers from "~/lib/routers";
+import routes from "~/routes";
 import { SalariesSchema, type SalariesSchemaType } from "~/schemas/salaries.schema";
 import useSalaryStore from "~/stores/salary-store";
 
@@ -179,12 +188,18 @@ function SalariesSearch() {
           </Form>
           <div className="h-0.5 bg-gray-300 w-[100px] mx-auto my-5"></div>
           <div className="w-full flex items-center justify-center">
-            <div className="flex gap-4">
+            <div className="flex flex-col gap-4">
               <Link
                 to="/tao-don"
                 className="text-blue-600 bg-blue-100 rounded border-blue-600 border flex items-center gap-2 p-1"
               >
                 <ClipboardPenLine /> <span className="font-semibold">Tạo đơn nghỉ phép</span>
+              </Link>
+              <Link
+                to={routers().feedback.home}
+                className="text-red-600 bg-red-100 rounded border-red-600 border flex items-center gap-2 p-1"
+              >
+                <HatGlasses /> <span className="font-semibold">Hòm thư góp ý</span>
               </Link>
             </div>
           </div>
