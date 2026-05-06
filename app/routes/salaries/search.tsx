@@ -19,7 +19,6 @@ import { Form, FormField } from "~/components/ui/form";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/components/ui/input-group";
 import { getFCMToken } from "~/lib/firebase";
 import routers from "~/lib/routers";
-import routes from "~/routes";
 import { SalariesSchema, type SalariesSchemaType } from "~/schemas/salaries.schema";
 import useSalaryStore from "~/stores/salary-store";
 
@@ -196,7 +195,7 @@ function SalariesSearch() {
                 <ClipboardPenLine /> <span className="font-semibold">Tạo đơn nghỉ phép</span>
               </Link>
               <Link
-                to={routers().feedback.home}
+                to={routers().feedback.create}
                 className="text-red-600 bg-red-100 rounded border-red-600 border flex items-center gap-2 p-1"
               >
                 <HatGlasses /> <span className="font-semibold">Hòm thư góp ý</span>

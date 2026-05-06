@@ -1,5 +1,11 @@
 import { format } from "date-fns";
-import { CalendarRangeIcon, ChartNoAxesCombined, ClipboardPenLine, DollarSign } from "lucide-react";
+import {
+  CalendarRangeIcon,
+  ChartNoAxesCombined,
+  ClipboardPenLine,
+  DollarSign,
+  HatGlasses,
+} from "lucide-react";
 import { Link, useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
 import SalaryDetail from "~/components/Salaries/SalaryDetail";
@@ -8,6 +14,7 @@ import SalaryFeedbackFormComponent from "~/components/Salaries/SalaryFeedbackFor
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { useSalariesDetails } from "~/hooks/salaries-hook";
+import routers from "~/lib/routers";
 import useSalaryStore from "~/stores/salary-store";
 
 export function meta() {
@@ -113,7 +120,7 @@ function SalaryDetailsPage() {
           </div>
         )} */}
 
-        <div className="mt-4 py-4 flex justify-center items-center gap-4">
+        <div className="mt-4 py-4 grid grid-cols-2 gap-2">
           <Link
             to="/luong"
             className="text-blue-600 bg-blue-100 rounded border-blue-600 border flex items-center gap-2 p-1"
@@ -125,6 +132,12 @@ function SalaryDetailsPage() {
             className="text-blue-600 bg-blue-100 rounded border-blue-600 border flex items-center gap-2 p-1"
           >
             <ClipboardPenLine /> <span>Tạo đơn nghỉ phép</span>
+          </Link>
+          <Link
+            to={routers().feedback.create}
+            className="text-red-600 bg-red-100 rounded border-red-600 border flex items-center gap-2 p-1"
+          >
+            <HatGlasses /> <span className="font-semibold">Hòm thư góp ý</span>
           </Link>
         </div>
       </div>
