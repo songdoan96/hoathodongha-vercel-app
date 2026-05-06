@@ -1,7 +1,3 @@
-/*
-https://docs.nestjs.com/providers#services
-*/
-
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthCreateDto, AuthUpdateDto, LoginDto } from './auth.dto';
 import { PrismaService } from '../prisma/prisma.service';

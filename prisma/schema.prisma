@@ -205,3 +205,11 @@ model MealLine {
 
   @@map("meal_lines")
 }
+
+model Feedback {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  createdAt DateTime @default(now())
+
+  @@map("feedbacks")
+}
