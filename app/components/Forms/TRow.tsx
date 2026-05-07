@@ -120,13 +120,13 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
           </div>
         )}
       </td>
-      <td className="p-1 border border-black">{form.lydo}</td>
+      <td className="p-1 border border-black max-w-84">{form.lydo}</td>
       <td className="p-1 border border-black">
         <div className="flex justify-center items-center">
           {form.thaythe ? <CheckCircle color="green" /> : <CircleXIcon color="red" />}
         </div>
       </td>
-      <td className="p-1 border border-black max-w-36">
+      <td className="p-1 border border-black">
         <div className="flex items-center justify-center text-center">
           {form.totruong ? (
             <div className="flex flex-col">
