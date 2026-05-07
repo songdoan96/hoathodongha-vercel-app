@@ -56,9 +56,15 @@ model Form {
   lydo     String?
   thaythe  Boolean  @default(true)
   chuaxong Boolean  @default(false)
-  totruong String?
-  quandoc  String?
-  lanhdao  String?
+
+  totruong     String?
+  totruongTime DateTime?
+
+  quandoc     String?
+  quandocTime DateTime?
+
+  lanhdao     String?
+  lanhdaoTime DateTime?
 
   songaynghi String?
   tungay     DateTime? @db.Date()

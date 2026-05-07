@@ -147,6 +147,7 @@ export class FormsService {
   }
 
   async update(id: string, updateFormDto: UpdateFormDto) {
+    console.log('🚀 ~ FormsService ~ update ~ updateFormDto:', updateFormDto);
     const form = await this.prisma.form.findFirst({
       where: { id },
     });
@@ -191,6 +192,7 @@ export class FormsService {
       data: {
         [chucvu]: hoten,
         thaythe,
+        [chucvu + 'Time']: new Date(),
       },
     });
     const needToTruong = linesList.find(
