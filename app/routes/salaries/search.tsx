@@ -194,12 +194,12 @@ function SalariesSearch() {
               >
                 <ClipboardPenLine /> <span className="font-semibold">Tạo đơn nghỉ phép</span>
               </Link>
-              <Link
+              {/* <Link
                 to={routers().feedback.create}
                 className="text-red-600 bg-red-100 rounded border-red-600 border flex items-center gap-2 p-1"
               >
                 <HatGlasses /> <span className="font-semibold">Hòm thư góp ý</span>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

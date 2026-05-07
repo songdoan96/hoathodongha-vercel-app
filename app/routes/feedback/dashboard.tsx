@@ -47,7 +47,7 @@ function dashboard() {
         </HeaderRight>
       </HeaderComponent>
       <div className="overflow-x-auto max-w-5xl mt-2 mx-auto overflow-hidden">
-        <table className="w-full border-collapse shadow-2xl overflow-hidden">
+        <table className="w-full shadow overflow-hidden">
           <thead>
             <tr className="bg-slate-50 border-b border-slate-100">
               <th className="p-2 border font-bold text-[#004494] uppercase text-lg w-12 lg:w-40 text-center">
