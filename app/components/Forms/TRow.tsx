@@ -129,7 +129,14 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
       <td className="p-1 border border-black max-w-36">
         <div className="flex items-center justify-center text-center">
           {form.totruong ? (
-            form.totruong
+            <div className="flex flex-col">
+              <span className="text-nowrap">{form.totruong}</span>
+              {form.totruongTime && (
+                <span className="text-[10px] font-semibold text-red-600">
+                  {format(form.totruongTime, "HH:mm - dd/MM")}
+                </span>
+              )}
+            </div>
           ) : (
             <>
               {!form.totruong && needToTruong && <X color="red" size={20} />}
@@ -155,14 +162,66 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
         </div>
       </td>
       <td className="p-1 border border-black">
+        {/* {form.totruongTime && (
+                <span className="text-[10px] font-semibold text-red-600">
+                  {format(form.totruongTime, "HH:mm - dd/MM")}
+                </span>
+              )} */}
         <div className="flex items-center justify-center text-center">
           {!form.quandoc && needQuanDoc && <X color="red" size={20} />}
-          {form.quandoc
-            ? form.quandoc
-            : user &&
-              user.bophan?.includes("quandoc") &&
-              ((needToTruong && needQuanDoc && form.totruong) || (!needToTruong && needQuanDoc)) &&
-              user.bophan.startsWith(form.to.split("_")[0]) && (
+          {form.quandoc ? (
+            <div className="flex flex-col">
+              <span className="text-nowrap">{form.quandoc}</span>
+              {form.quandocTime && (
+                <span className="text-[10px] font-semibold text-red-600">
+                  {format(form.quandocTime, "HH:mm - dd/MM")}
+                </span>
+              )}
+            </div>
+          ) : (
+            user &&
+            user.bophan?.includes("quandoc") &&
+            ((needToTruong && needQuanDoc && form.totruong) || (!needToTruong && needQuanDoc)) &&
+            user.bophan.startsWith(form.to.split("_")[0]) && (
+              <Button
+                className="underline"
+                onClick={() =>
+                  updateFormSignature.mutate({
+                    id: form.id,
+                    formData: {
+                      hoten: user.name,
+                      chucvu: "quandoc",
+                    },
+                  })
+                }
+                variant="link"
+              >
+                Ký đơn
+              </Button>
+            )
+          )}
+        </div>
+      </td>
+      <td className="p-1 border border-black">
+        <div className="flex items-center justify-center text-center">
+          {!form.lanhdao && <X color="red" size={20} />}
+          {form.giamdocky ? (
+            form.lanhdao ? (
+              <div className="flex flex-col">
+                <span className="text-nowrap">{form.lanhdao}</span>
+                {form.lanhdaoTime && (
+                  <span className="text-[10px] font-semibold text-red-600">
+                    {format(form.lanhdaoTime, "HH:mm - dd/MM")}
+                  </span>
+                )}
+              </div>
+            ) : (
+              user &&
+              user.bophan === "giamdoc" &&
+              ((!needToTruong && !needQuanDoc) ||
+                (needToTruong && needQuanDoc && form.quandoc) ||
+                (needToTruong && !needQuanDoc && form.totruong) ||
+                (!needToTruong && needQuanDoc && form.quandoc)) && (
                 <Button
                   className="underline"
                   onClick={() =>
@@ -170,7 +229,7 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
                       id: form.id,
                       formData: {
                         hoten: user.name,
-                        chucvu: "quandoc",
+                        chucvu: "lanhdao",
                       },
                     })
                   }
@@ -178,63 +237,43 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
                 >
                   Ký đơn
                 </Button>
+              )
+            )
+          ) : form.lanhdao ? (
+            <div className="flex flex-col">
+              <span className="text-nowrap">{form.lanhdao}</span>
+              {form.lanhdaoTime && (
+                <span className="text-[10px] font-semibold text-red-600">
+                  {format(form.lanhdaoTime, "HH:mm - dd/MM")}
+                </span>
               )}
-        </div>
-      </td>
-      <td className="p-1 border border-black">
-        <div className="flex items-center justify-center text-center">
-          {!form.lanhdao && <X color="red" size={20} />}
-          {form.giamdocky
-            ? form.lanhdao
-              ? form.lanhdao
-              : user &&
-                user.bophan === "giamdoc" &&
-                ((!needToTruong && !needQuanDoc) ||
-                  (needToTruong && needQuanDoc && form.quandoc) ||
-                  (needToTruong && !needQuanDoc && form.totruong) ||
-                  (!needToTruong && needQuanDoc && form.quandoc)) && (
-                  <Button
-                    className="underline"
-                    onClick={() =>
-                      updateFormSignature.mutate({
-                        id: form.id,
-                        formData: {
-                          hoten: user.name,
-                          chucvu: "lanhdao",
-                        },
-                      })
-                    }
-                    variant="link"
-                  >
-                    Ký đơn
-                  </Button>
-                )
-            : form.lanhdao
-              ? form.lanhdao
-              : user &&
-                (user.bophan === "lanhdao" ||
-                  user.bophan === "giamdoc" ||
-                  user.username === "oanhnguyen") &&
-                ((!needToTruong && !needQuanDoc) ||
-                  (needToTruong && needQuanDoc && form.quandoc) ||
-                  (needToTruong && !needQuanDoc && form.totruong) ||
-                  (!needToTruong && needQuanDoc && form.quandoc)) && (
-                  <Button
-                    className="underline"
-                    onClick={() =>
-                      updateFormSignature.mutate({
-                        id: form.id,
-                        formData: {
-                          hoten: user.name,
-                          chucvu: "lanhdao",
-                        },
-                      })
-                    }
-                    variant="link"
-                  >
-                    Ký đơn
-                  </Button>
-                )}
+            </div>
+          ) : (
+            user &&
+            (user.bophan === "lanhdao" ||
+              user.bophan === "giamdoc" ||
+              user.username === "oanhnguyen") &&
+            ((!needToTruong && !needQuanDoc) ||
+              (needToTruong && needQuanDoc && form.quandoc) ||
+              (needToTruong && !needQuanDoc && form.totruong) ||
+              (!needToTruong && needQuanDoc && form.quandoc)) && (
+              <Button
+                className="underline"
+                onClick={() =>
+                  updateFormSignature.mutate({
+                    id: form.id,
+                    formData: {
+                      hoten: user.name,
+                      chucvu: "lanhdao",
+                    },
+                  })
+                }
+                variant="link"
+              >
+                Ký đơn
+              </Button>
+            )
+          )}
           {/* {form.lanhdao
             ? form.lanhdao
             : user &&
