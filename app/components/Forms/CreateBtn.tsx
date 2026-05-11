@@ -81,6 +81,15 @@ export default function FormButtonComponent() {
         <>
           <div className="flex justify-center items-center">
             <Link
+              to={routers().overtime.dashboard}
+              className="btn bg-orange-600 hover:bg-orange-500 max-w-32 text-base uppercase"
+            >
+              <ClipboardPlus />
+              <span>Tăng ca</span>
+            </Link>
+          </div>
+          <div className="flex justify-center items-center">
+            <Link
               to={routers().meals.dashboard}
               className="btn bg-cyan-600 hover:bg-cyan-500 max-w-32 text-base uppercase"
             >
