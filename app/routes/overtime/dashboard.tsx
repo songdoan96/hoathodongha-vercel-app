@@ -7,15 +7,24 @@ import {
   CircleX,
   ClipboardPlus,
   Clock,
+  FilterIcon,
   Signature,
   Trash2,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
 import { Button } from "~/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 import {
   useOvertimesDelete,
@@ -24,8 +33,9 @@ import {
 } from "~/hooks/overtimes-hook";
 import { checkRole } from "~/lib/helpers";
 import routers from "~/lib/routers";
-import { linesList } from "~/lib/variables";
+import { linesList, linesListFilter } from "~/lib/variables";
 import useAuthStore from "~/stores/auth-store";
+import type { OvertimeType } from "~/types/overtime-type";
 export function meta() {
   return [{ title: "Danh sách đăng ký tăng ca" }];
 }
@@ -36,7 +46,8 @@ function OvertimeDashboard() {
   const { data, isLoading } = useOvertimesFindAll(month);
   const { mutate: mutateUpdate } = useOvertimesUpdate();
   const { mutate: mutateDelete } = useOvertimesDelete();
-  const [filterLine, setFilterLine] = useState<string>("ALL");
+  const [filterLine, setFilterLine] = useState<string>();
+  const [overtimes, setOvertimes] = useState<OvertimeType[]>();
   function handleSignature(id: string, bophan: "quandoc" | "lanhdao") {
     if (user) {
       mutateUpdate({
@@ -63,10 +74,24 @@ function OvertimeDashboard() {
   }
   const prevMonth = format(subMonths(new Date(month), 1), "yyyy-MM");
   const nextMonth = format(addMonths(new Date(month), 1), "yyyy-MM");
-  const rows =
-    filterLine === "ALL"
-      ? data
-      : data?.filter((overtime) => overtime.bophan.startsWith(filterLine));
+  useEffect(() => {
+    if (data && !filterLine) {
+      setOvertimes(data);
+    }
+  }, [data, filterLine]);
+  useEffect(() => {
+    if (filterLine === "ALL") {
+      setOvertimes(data);
+    } else if (filterLine === "X1_" || filterLine === "X2_") {
+      setOvertimes(data?.filter((overtime) => overtime.bophan.startsWith(filterLine)));
+    } else {
+      setOvertimes(data?.filter((overtime) => overtime.bophan === filterLine));
+    }
+  }, [filterLine]);
+  // const rows =
+  //   filterLine === "ALL"
+  //     ? data
+  //     : data?.filter((overtime) => overtime.bophan.startsWith(filterLine));
   return (
     <div className="w-full h-full min-h-screen bg-white flex flex-col">
       <HeaderComponent>
@@ -114,6 +139,24 @@ function OvertimeDashboard() {
                       <span>Bộ phận</span>
                       {user?.bophan === "tochuc" && (
                         <div className="flex gap-1">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger>
+                              <FilterIcon color="white" size={20} />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                              <DropdownMenuLabel>Tìm kiếm theo tổ</DropdownMenuLabel>
+                              <DropdownMenuSeparator />
+                              {linesListFilter.map((line) => (
+                                <DropdownMenuItem
+                                  onClick={() => setFilterLine(line.value)}
+                                  key={line.value}
+                                >
+                                  {line.name}
+                                </DropdownMenuItem>
+                              ))}
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+
                           <button
                             className="border p-0.5 bg-red-400"
                             onClick={() => setFilterLine("X1_")}
@@ -126,6 +169,7 @@ function OvertimeDashboard() {
                           >
                             X2
                           </button>
+
                           <button
                             className="border p-0.5 bg-teal-400"
                             onClick={() => setFilterLine("ALL")}
@@ -146,7 +190,7 @@ function OvertimeDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {rows?.map((overtime) => (
+                  {overtimes?.map((overtime) => (
                     <tr
                       key={overtime.id}
                       className={`${!overtime.status ? "bg-red-50 line-through text-red-500" : ""}`}
