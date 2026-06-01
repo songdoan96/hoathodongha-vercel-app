@@ -6,238 +6,8 @@ export interface FormLineType {
   needQuanDoc?: boolean;
   onlyLanhDao?: boolean;
   sortName?: string;
+  lineCode?: string[];
 }
-// export const linesList: FormLineType[] = [
-//   {
-//     value: 'X1_01',
-//     name: 'X1 - Tổ 1',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X1_02',
-//     name: 'X1 - Tổ 2',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X1_03',
-//     name: 'X1 - Tổ 3',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X1_04',
-//     name: 'X1 - Tổ 4',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X1_05',
-//     name: 'X1 - Tổ 5',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X1_06',
-//     name: 'X1 - Tổ 6',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X1_07',
-//     name: 'X1 - Tổ 7',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X1_08',
-//     name: 'X1 - Tổ 8',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X1_09',
-//     name: 'X1 - Tổ 9',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X2_01',
-//     name: 'X2 - Tổ 1',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X2_02',
-//     name: 'X2 - Tổ 2',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X2_03',
-//     name: 'X2 - Tổ 3',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X2_04',
-//     name: 'X2 - Tổ 4',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X2_05',
-//     name: 'X2 - Tổ 5',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X2_06',
-//     name: 'X2 - Tổ 6',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X2_07',
-//     name: 'X2 - Tổ 7',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X2_08',
-//     name: 'X2 - Tổ 8',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X2_09',
-//     name: 'X2 - Tổ 9',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   { value: 'lanhdao', name: 'Lãnh đạo' },
-//   {
-//     value: 'quandoc',
-//     name: 'Quản đốc',
-//     needToTruong: false,
-//     needQuanDoc: false,
-//   },
-//   {
-//     value: 'kythuat',
-//     name: 'Kỹ thuật',
-//     // needToTruong: true,
-//     // needQuanDoc: false,
-
-//     needToTruong: false,
-//     needQuanDoc: false,
-//   },
-//   {
-//     value: 'X1_chuyendung',
-//     name: 'Chuyên dùng 1',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X2_chuyendung',
-//     name: 'Chuyên dùng 2',
-//     isHelp: true,
-//     needToTruong: true,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'codien',
-//     name: 'Cơ điện',
-//     needToTruong: true,
-//     needQuanDoc: false,
-//   },
-//   {
-//     value: 'tocat',
-//     name: 'Tổ cắt',
-//     needToTruong: true,
-//     needQuanDoc: false,
-//   },
-//   {
-//     value: 'epkeo',
-//     name: 'Ép keo',
-//     needToTruong: true,
-//     needQuanDoc: false,
-//   },
-//   {
-//     value: 'bvvs',
-//     name: 'BVVS',
-//     needToTruong: true,
-//     needQuanDoc: false,
-//   },
-//   {
-//     value: 'hoanthanh',
-//     name: 'Hoàn thành',
-//     needToTruong: true,
-//     needQuanDoc: false,
-//   },
-//   {
-//     value: 'kcs',
-//     name: 'KCS',
-//     needToTruong: true,
-//     needQuanDoc: false,
-//   },
-//   {
-//     value: 'nguyenlieu',
-//     name: 'Nguyên liệu',
-//     needToTruong: true,
-//     needQuanDoc: false,
-//   },
-//   {
-//     value: 'phulieu',
-//     name: 'Phụ liệu',
-//     needToTruong: true,
-//     needQuanDoc: false,
-//   },
-//   {
-//     value: 'vanphong',
-//     name: 'Văn phòng',
-//     needToTruong: false,
-//     needQuanDoc: false,
-//   },
-//   {
-//     value: 'nhaan',
-//     name: 'Nhà ăn',
-//     needToTruong: true,
-//     needQuanDoc: false,
-//   },
-//   {
-//     value: 'X1_duphong',
-//     name: 'Dự phòng X1',
-//     needToTruong: false,
-//     needQuanDoc: true,
-//   },
-//   {
-//     value: 'X2_duphong',
-//     name: 'Dự phòng X2',
-//     needToTruong: false,
-//     needQuanDoc: true,
-//   },
-// ];
-
 export const linesList: FormLineType[] = [
   {
     value: 'X1_01',
@@ -246,6 +16,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '1X1',
+    lineCode: ['05011201'],
   },
   {
     value: 'X1_02',
@@ -254,6 +25,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '2X1',
+    lineCode: ['05010201'],
   },
   {
     value: 'X1_03',
@@ -262,6 +34,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '3X1',
+    lineCode: ['05010301'],
   },
   {
     value: 'X1_04',
@@ -270,6 +43,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '4X1',
+    lineCode: ['05010401'],
   },
   {
     value: 'X1_05',
@@ -278,6 +52,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '5X1',
+    lineCode: ['05010501'],
   },
   {
     value: 'X1_06',
@@ -286,6 +61,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '6X1',
+    lineCode: ['05010601'],
   },
   {
     value: 'X1_07',
@@ -294,6 +70,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '7X1',
+    lineCode: ['05010701'],
   },
   {
     value: 'X1_08',
@@ -302,6 +79,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '8X1',
+    lineCode: ['05010801'],
   },
   {
     value: 'X1_09',
@@ -310,6 +88,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '9X1',
+    lineCode: ['05010901'],
   },
   {
     value: 'X1_duphong',
@@ -317,6 +96,7 @@ export const linesList: FormLineType[] = [
     needToTruong: false,
     needQuanDoc: true,
     sortName: 'DP1',
+    lineCode: ['05012101'],
   },
 
   {
@@ -326,6 +106,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '1X2',
+    lineCode: ['05020901'],
   },
   {
     value: 'X2_02',
@@ -334,6 +115,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '2X2',
+    lineCode: ['05020701'],
   },
   {
     value: 'X2_03',
@@ -342,6 +124,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '3X2',
+    lineCode: ['05020801'],
   },
   {
     value: 'X2_04',
@@ -350,6 +133,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '4X2',
+    lineCode: ['05020501'],
   },
   {
     value: 'X2_05',
@@ -358,6 +142,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '5X2',
+    lineCode: ['05020601'],
   },
   {
     value: 'X2_06',
@@ -366,6 +151,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '6X2',
+    lineCode: ['05020301'],
   },
   {
     value: 'X2_07',
@@ -374,6 +160,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '7X2',
+    lineCode: ['05020401'],
   },
   {
     value: 'X2_08',
@@ -382,6 +169,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '8X2',
+    lineCode: ['05020201'],
   },
   {
     value: 'X2_09',
@@ -390,6 +178,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: '9X2',
+    lineCode: ['05020101'],
   },
   {
     value: 'X2_duphong',
@@ -397,6 +186,7 @@ export const linesList: FormLineType[] = [
     needToTruong: false,
     needQuanDoc: true,
     sortName: 'DP2',
+    lineCode: ['05021801'],
   },
   {
     value: 'daotao',
@@ -420,6 +210,7 @@ export const linesList: FormLineType[] = [
     needToTruong: false,
     needQuanDoc: false,
     sortName: 'KT',
+    lineCode: ['05011810'],
   },
   {
     value: 'X1_chuyendung',
@@ -428,6 +219,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: 'CD1',
+    lineCode: ['05012001'],
   },
   {
     value: 'X2_chuyendung',
@@ -436,6 +228,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: true,
     sortName: 'CD2',
+    lineCode: ['05021902'],
   },
   {
     value: 'codien',
@@ -443,6 +236,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: false,
     sortName: 'CĐ',
+    lineCode: ['05011811'],
   },
   {
     value: 'tocat',
@@ -450,19 +244,22 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: false,
     sortName: 'CẮT',
+    lineCode: ['05021301'],
   },
-  {
-    value: 'epkeo',
-    name: 'Ép keo',
-    needToTruong: true,
-    needQuanDoc: false,
-  },
+  // {
+  //   value: 'epkeo',
+  //   name: 'Ép keo',
+  //   needToTruong: true,
+  //   needQuanDoc: false,
+  // },
   {
     value: 'bvvs',
     name: 'BVVS',
     needToTruong: false,
     needQuanDoc: false,
     sortName: 'BVVS',
+    lineCode: ['05011814', '05011813', '05021306'],
+    // 05011813,
   },
   {
     value: 'hoanthanh',
@@ -470,6 +267,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: false,
     sortName: 'HT',
+    lineCode: ['05021315'],
   },
   {
     value: 'kcs',
@@ -477,6 +275,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: false,
     sortName: 'KCS',
+    lineCode: ['05011807'],
   },
   {
     value: 'nguyenlieu',
@@ -484,6 +283,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: false,
     sortName: 'NL',
+    lineCode: ['05011808'],
   },
   {
     value: 'phulieu',
@@ -491,6 +291,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: false,
     sortName: 'PL',
+    lineCode: ['05011809'],
   },
   {
     value: 'vanphong',
@@ -498,6 +299,7 @@ export const linesList: FormLineType[] = [
     needToTruong: false,
     needQuanDoc: false,
     sortName: 'VP',
+    lineCode: ['05011815', '05021310'],
   },
   {
     value: 'nhaan',
@@ -505,6 +307,7 @@ export const linesList: FormLineType[] = [
     needToTruong: true,
     needQuanDoc: false,
     sortName: 'BẾP',
+    lineCode: ['05021311'],
   },
 ];
 export const linesListFilter = linesList.filter(

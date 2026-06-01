@@ -14,6 +14,7 @@ import { EmployeesService } from './employees.service';
 import { EmployeeCreateDto, EmployeeUpdateDto } from './employees.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { read, utils } from 'xlsx';
+import { EmployeeExcelUploadType } from './employees.type';
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
@@ -51,15 +52,13 @@ export class EmployeesController {
     return await this.employeesService.create(employee);
   }
 
-  // @Post('update-file')
-  // @UseInterceptors(FileInterceptor('file'))
-  // async updateWithFile(@UploadedFile() file: Express.Multer.File) {
-  //   const wb = read(file.buffer);
-  //   const data: {
-  //     msnv: string;
-  //     hoten: string;
-  //     bophan: string;
-  //   }[] = utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-  //   return await this.employeesService.updateWithFile(data);
-  // }
+  @Post('upload/file')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadExcel(@UploadedFile() file: Express.Multer.File) {
+    const workbook = read(file.buffer, { type: 'buffer' });
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const rows: EmployeeExcelUploadType[] = utils.sheet_to_json(sheet);
+    return this.employeesService.uploadExcel(rows);
+  }
 }

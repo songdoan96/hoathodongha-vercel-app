@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { EmployeeCreateDto, EmployeeUpdateDto } from './employees.dto';
+import { EmployeeExcelUploadType } from './employees.type';
+import { linesList } from '../../lib/constant';
 
 @Injectable()
 export class EmployeesService {
@@ -64,5 +66,46 @@ export class EmployeesService {
         create: { msnv, hoten: hoten.toUpperCase(), bophan, active: true },
       });
     }
+  }
+
+  async uploadExcel(rows: EmployeeExcelUploadType[]) {
+    await this.prisma.employee.updateMany({ data: { active: false } });
+    const msnv = new Set(
+      rows.map((item) => item['Mã Nhân Viên'].trim().slice(2)),
+    );
+    await this.prisma.employee.deleteMany({
+      where: { msnv: { notIn: Array.from(msnv) } },
+    });
+
+    for (const row of rows) {
+      const findEmployee = await this.prisma.employee.findFirst({
+        where: { msnv: row['Mã Nhân Viên'].trim().slice(2) },
+      });
+      if (!findEmployee) {
+        await this.prisma.employee.create({
+          data: {
+            msnv: row['Mã Nhân Viên'].trim().slice(2),
+            hoten: row['Họ Và Tên'].trim(),
+            active: true,
+            bophan:
+              linesList.find((line) =>
+                line.lineCode?.includes(row['Mã Bộ Phận/Cụm']),
+              )?.value || null,
+          },
+        });
+      } else {
+        await this.prisma.employee.update({
+          where: { id: findEmployee.id },
+          data: {
+            active: true,
+            bophan:
+              linesList.find((line) =>
+                line.lineCode?.includes(row['Mã Bộ Phận/Cụm']),
+              )?.value || null,
+          },
+        });
+      }
+    }
+    return rows;
   }
 }
