@@ -8,6 +8,8 @@ export default [
   route("dang-xuat", "./routes/auth/logout.tsx"),
   // End Auth
 
+  route("/chinhsach", "./routes/policy.tsx"),
+
   // Forms
   route("bao-ve", "./routes/forms/security.tsx"),
 

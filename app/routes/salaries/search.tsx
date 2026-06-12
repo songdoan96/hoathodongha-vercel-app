@@ -7,6 +7,7 @@ import {
   HatGlasses,
   Loader,
   LockKeyhole,
+  NotebookText,
   Search,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -200,6 +201,12 @@ function SalariesSearch() {
               >
                 <HatGlasses /> <span className="font-semibold">Hòm thư góp ý</span>
               </Link> */}
+              <Link
+                to={"/chinhsach"}
+                className="text-blue-600 bg-blue-100 rounded border-blue-600 border flex items-center gap-2 p-1"
+              >
+                <NotebookText /> <span className="font-semibold">Chính sách lao động</span>
+              </Link>
             </div>
           </div>
         </div>
