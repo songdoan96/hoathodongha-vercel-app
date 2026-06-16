@@ -7,6 +7,8 @@ import {
   CircleX,
   ClipboardPlus,
   Clock,
+  Eye,
+  EyeOff,
   FilterIcon,
   Signature,
   Trash2,
@@ -48,6 +50,9 @@ function OvertimeDashboard() {
   const { mutate: mutateDelete } = useOvertimesDelete();
   const [filterLine, setFilterLine] = useState<string>();
   const [overtimes, setOvertimes] = useState<OvertimeType[]>();
+
+  const [filterToday, setFilterToday] = useState<boolean>(false);
+
   function handleSignature(id: string, bophan: "quandoc" | "lanhdao") {
     if (user) {
       mutateUpdate({
@@ -92,6 +97,22 @@ function OvertimeDashboard() {
   //   filterLine === "ALL"
   //     ? data
   //     : data?.filter((overtime) => overtime.bophan.startsWith(filterLine));
+
+  useEffect(() => {
+    if (filterToday) {
+      setOvertimes(
+        data?.filter(
+          (overtime) =>
+            overtime.status &&
+            overtime.lanhdao &&
+            !isAfter(format(new Date(), "yyyy-MM-dd"), format(overtime.denngay, "yyyy-MM-dd")),
+        ),
+      );
+    } else {
+      setOvertimes(data);
+    }
+  }, [filterToday]);
+
   return (
     <div className="w-full h-full min-h-screen bg-white flex flex-col">
       <HeaderComponent>
@@ -133,7 +154,19 @@ function OvertimeDashboard() {
               <table className="w-full h-full divide-y divide-gray-200  shadow-2xl">
                 <thead className="rounded-2xl">
                   <tr className="bg-[#37b159] text-white uppercase">
-                    <th className="text-center border p-1 lg:p-2">Ngày tạo</th>
+                    <th className="text-center border p-1 lg:p-2">
+                      Ngày tạo
+                      <br />
+                      {user?.bophan === "tochuc" && (
+                        <button onClick={() => setFilterToday(!filterToday)}>
+                          {filterToday ? (
+                            <EyeOff color="white" size={20} />
+                          ) : (
+                            <Eye color="white" size={20} />
+                          )}
+                        </button>
+                      )}
+                    </th>
                     <th className="text-center border p-1 lg:p-2">Trạng thái</th>
                     <th className="text-center border p-1 lg:p-2">
                       <span>Bộ phận</span>

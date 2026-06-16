@@ -1,5 +1,6 @@
 import { format, isAfter, isSameDay } from "date-fns";
 import { CircleAlert, CircleCheckBig, CircleX, Clock } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
@@ -7,12 +8,30 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip
 import { useOvertimesSecurityFindAll } from "~/hooks/overtimes-hook";
 import routers from "~/lib/routers";
 import { linesList } from "~/lib/variables";
+import type { OvertimeType } from "~/types/overtime-type";
 export function meta() {
   return [{ title: "Danh sách tăng ca bảo vệ" }];
 }
 function OvertimeSecurityDashboard() {
   // const { data, isLoading } = useOvertimesFindAll(format(new Date(), "yyyy-MM"));
   const { data, isLoading } = useOvertimesSecurityFindAll();
+  const [filterToday, setFilterToday] = useState<boolean>(true);
+  const [overtimes, setOvertimes] = useState<OvertimeType[]>();
+
+  useEffect(() => {
+    if (filterToday) {
+      setOvertimes(
+        data?.filter(
+          (overtime) =>
+            overtime.status &&
+            overtime.lanhdao &&
+            !isAfter(format(new Date(), "yyyy-MM-dd"), format(overtime.denngay, "yyyy-MM-dd")),
+        ),
+      );
+    } else {
+      setOvertimes(data);
+    }
+  }, [filterToday, data]);
 
   return (
     <div className="w-full h-full min-h-screen bg-white flex flex-col">
@@ -31,47 +50,28 @@ function OvertimeSecurityDashboard() {
               <table className="w-full h-full divide-y divide-gray-200  shadow-2xl">
                 <thead className="rounded-2xl">
                   <tr className="bg-[#37b159] text-white uppercase">
-                    <th className="text-center border p-2 whitespace-nowrap">Ngày tạo</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Trạng thái</th>
+                    {/* <th className="text-center border p-2 whitespace-nowrap">Ngày tạo</th> */}
+                    {/* <th className="text-center border p-2 whitespace-nowrap">Trạng thái</th> */}
                     <th className="text-center border p-2 whitespace-nowrap">Bộ phận</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Ngày đăng ký</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Giờ đăng ký</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Lý do</th>
+                    <th className="text-center border p-2">Ngày đăng ký</th>
+                    <th className="text-center border p-2 ">Giờ đăng ký</th>
+                    {/* <th className="text-center border p-2 whitespace-nowrap">Lý do</th> */}
                     <th className="text-center border p-2 whitespace-nowrap">Số lượng</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Tổ trưởng</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Quản đốc</th>
-                    <th className="text-center border p-2 whitespace-nowrap">Ban giám đốc</th>
+                    {/* <th className="text-center border p-2 whitespace-nowrap">Tổ trưởng</th> */}
+                    {/* <th className="text-center border p-2 whitespace-nowrap">Quản đốc</th> */}
+                    {/* <th className="text-center border p-2 whitespace-nowrap">Ban giám đốc</th> */}
                   </tr>
                 </thead>
                 <tbody>
-                  {data?.map((overtime) => (
+                  {overtimes?.map((overtime) => (
                     <tr
                       key={overtime.id}
                       className={`${!overtime.status ? "bg-red-50 line-through text-red-500" : ""}`}
                     >
-                      <td className="text-center border p-2 whitespace-nowrap">
+                      {/* <td className="text-center border p-2 px-0.5 whitespace-nowrap">
                         {format(overtime.createdAt, "dd/MM")}
-                      </td>
-                      <td className="text-center border p-2 whitespace-nowrap">
-                        {/* <Link to={routers().overtime.detailSecurity(overtime.id)}>
-                          {!overtime.status ? (
-                            <div className="bg-red-200 text-red-700 p-1 px-2 rounded flex items-center justify-center gap-1">
-                              <CircleX size={14} />
-                              <span className="uppercase font-semibold text-sm"> Bị hủy</span>
-                            </div>
-                          ) : overtime.lanhdao ? (
-                            <div className="bg-green-100 text-green-700 p-1 px-2 rounded flex items-center justify-center gap-1">
-                              <CircleCheckBig size={14} />
-                              <span className="uppercase font-semibold text-sm"> Đã duyệt</span>
-                            </div>
-                          ) : (
-                            <div className="bg-blue-100 text-blue-700 p-1 px-2 rounded flex items-center justify-center gap-1">
-                              <Clock size={14} />
-                              <span className="uppercase font-semibold text-sm">Chờ duyệt</span>
-                            </div>
-                          )}
-                        </Link> */}
-
+                      </td> */}
+                      {/* <td className="text-center border p-2 px-0.5 whitespace-nowrap">
                         <Link to={routers().overtime.detailSecurity(overtime.id)}>
                           {!overtime.status ? (
                             <div className="bg-red-200 text-red-700 p-1 px-2 rounded flex items-center justify-center gap-1">
@@ -98,24 +98,25 @@ function OvertimeSecurityDashboard() {
                             </div>
                           )}
                         </Link>
-                      </td>
-                      <td className="text-center border p-2 whitespace-nowrap underline text-blue-600 font-bold">
+                      </td> */}
+                      <td className="text-center border p-2 px-0.5 whitespace-nowrap underline text-blue-600 font-bold">
                         <Link to={routers().overtime.detailSecurity(overtime.id)}>
                           {linesList.find((line) => line.value === overtime.bophan)?.name}
                         </Link>
                       </td>
-                      <td className="text-center border p-2">
+                      <td className="text-center border p-2 px-0.5">
                         {isSameDay(overtime.tungay, overtime.denngay) ? (
                           format(overtime.tungay, "dd/MM")
                         ) : (
                           <>
-                            {format(overtime.tungay, "dd/MM")} - {format(overtime.denngay, "dd/MM")}
+                            {format(overtime.tungay, "dd/MM")} - <br />{" "}
+                            {format(overtime.denngay, "dd/MM")}
                           </>
                         )}
                       </td>
-                      <td className="text-center border p-2 whitespace-nowrap">{overtime.gio}</td>
-                      <td className="text-center border p-2 min-w-56">{overtime.lydo}</td>
-                      <td className="text-center border p-2 whitespace-nowrap">
+                      <td className="text-center border p-2 px-0.5 max-w-32">{overtime.gio}</td>
+                      {/* <td className="text-center border p-2 px-0.5 min-w-56">{overtime.lydo}</td> */}
+                      <td className="text-center border p-2 px-0.5 whitespace-nowrap">
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Link
@@ -134,15 +135,15 @@ function OvertimeSecurityDashboard() {
                           </TooltipContent>
                         </Tooltip>
                       </td>
-                      <td className="text-center border p-2 whitespace-nowrap">
+                      {/* <td className="text-center border p-2 px-0.5 whitespace-nowrap">
                         {overtime.totruong}
                       </td>
-                      <td className="text-center border p-2 whitespace-nowrap">
+                      <td className="text-center border p-2 px-0.5 whitespace-nowrap">
                         {overtime.quandoc}
                       </td>
-                      <td className="text-center border p-2 whitespace-nowrap w-40">
+                      <td className="text-center border p-2 px-0.5 whitespace-nowrap w-40">
                         {overtime.lanhdao}
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
