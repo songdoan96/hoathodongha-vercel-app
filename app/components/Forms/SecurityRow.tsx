@@ -1,5 +1,5 @@
 import { formatDate } from "date-fns";
-import { ChevronsRight, X } from "lucide-react";
+import { ChevronsRight, Trash, X } from "lucide-react";
 import { useState } from "react";
 import { useFormsSecurityUpdate } from "~/hooks/forms-hook";
 import { cn } from "~/lib/utils";
@@ -15,6 +15,19 @@ export default function FormSecurityRowComponent({ form }: { form: FormsType }) 
   const needToTruong = linesList.find((line) => line.value === form.to)?.needToTruong;
   const needQuanDoc = linesList.find((line) => line.value === form.to)?.needQuanDoc;
 
+  function handleDeleteTimeOut(id: string) {
+    update.mutate({
+      id,
+      formData: { giora: null },
+    });
+  }
+
+  function handleDeleteTimeIn(id: string) {
+    update.mutate({
+      id,
+      formData: { giovao: null },
+    });
+  }
   return (
     <tr key={form.id} className="bg-white" title={`${form.id}`}>
       <td className="p-2 border border-black text-left font-bold bg-white md:bg-transparent sticky left-0 min-w-16">
@@ -59,7 +72,21 @@ export default function FormSecurityRowComponent({ form }: { form: FormsType }) 
       </td>
       <td className="p-2 border border-black text-center">
         {form.giora ? (
-          form.giora
+          <div className="flex gap-8 justify-center items-center">
+            <span>{form.giora}</span>
+            {!form.giovao && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (confirm("Xóa giờ ra?")) {
+                    handleDeleteTimeOut(form.id);
+                  }
+                }}
+              >
+                <Trash size={14} color="red" />
+              </button>
+            )}
+          </div>
         ) : (
           <div className="flex gap-1">
             <Input type="time" className="w-28" onChange={(e) => setGioRa(e.target.value)} />
@@ -67,12 +94,20 @@ export default function FormSecurityRowComponent({ form }: { form: FormsType }) 
               <Button
                 className="p-2"
                 onClick={() => {
-                  update.mutate({
-                    id: form.id,
-                    formData: {
-                      giora: gioRa,
+                  update.mutate(
+                    {
+                      id: form.id,
+                      formData: {
+                        giora: gioRa,
+                      },
                     },
-                  });
+                    {
+                      onSuccess: () => {
+                        setGioVao(undefined);
+                        setGioRa(undefined);
+                      },
+                    },
+                  );
                 }}
               >
                 Cập nhật
@@ -83,7 +118,21 @@ export default function FormSecurityRowComponent({ form }: { form: FormsType }) 
       </td>
       <td className="p-2 border border-black text-center">
         {form.giovao ? (
-          form.giovao
+          <div className="flex gap-8 justify-center items-center">
+            <span>{form.giovao}</span>
+            {form.giora && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (confirm("Xóa giờ vào?")) {
+                    handleDeleteTimeIn(form.id);
+                  }
+                }}
+              >
+                <Trash size={14} color="red" />
+              </button>
+            )}
+          </div>
         ) : (
           <div className="flex gap-1">
             <Input type="time" className="w-28" onChange={(e) => setGioVao(e.target.value)} />
@@ -91,12 +140,20 @@ export default function FormSecurityRowComponent({ form }: { form: FormsType }) 
               <Button
                 className="p-2"
                 onClick={() => {
-                  update.mutate({
-                    id: form.id,
-                    formData: {
-                      giovao: gioVao,
+                  update.mutate(
+                    {
+                      id: form.id,
+                      formData: {
+                        giovao: gioVao,
+                      },
                     },
-                  });
+                    {
+                      onSuccess: () => {
+                        setGioVao(undefined);
+                        setGioRa(undefined);
+                      },
+                    },
+                  );
                 }}
               >
                 Cập nhật

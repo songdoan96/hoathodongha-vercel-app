@@ -12,8 +12,8 @@ export interface FormsType {
   rangay?: string;
   tugio?: string;
   dengio?: string;
-  giora?: string;
-  giovao?: string;
+  giora?: string | null | undefined;
+  giovao?: string | null | undefined;
 
   totruong?: string;
   quandoc?: string;

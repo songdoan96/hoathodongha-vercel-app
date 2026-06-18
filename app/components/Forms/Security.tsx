@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useFormsSecurity, useFormsSecurityUpdate } from "~/hooks/forms-hook";
 import type { FormsType } from "~/types/forms-type";
 import Loading from "../Loading";
@@ -7,12 +6,11 @@ import FormSecurityRowComponent from "./SecurityRow";
 export default function FormSecurityListComponent() {
   const { data, isLoading } = useFormsSecurity();
   const update = useFormsSecurityUpdate();
-  const [gio, setGio] = useState<string>();
 
   if (isLoading || update.isPending) return <Loading fullScreen />;
   return (
     <div className="">
-      {data?.length && (
+      {data && (
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left rtl:text-right text-black dark:text-gray-400 shadow-2xl">
             <thead className="text-white uppercase bg-[#27AE60]">
