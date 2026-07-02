@@ -120,7 +120,7 @@ function Home() {
             Công ty may Hòa Thọ Đông Hà
           </span>
         </div>
-        <div className="flex md:h-2/5 md:w-2/3 md:mx-auto my-auto justify-center items-center flex-wrap px-2 text-center uppercase overflow-y-auto">
+        <div className="flex lg:h-3/5 lg:w-2/3 md:mx-auto my-auto justify-center items-center flex-wrap px-2 text-center uppercase overflow-y-auto">
           <div className="w-1/2 md:w-1/4 p-2">
             <Link
               to={routers().forms.index}

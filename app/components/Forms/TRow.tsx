@@ -315,7 +315,7 @@ function FormTRow({ form, count }: { form: FormsType; count: number }) {
             {form.giora && (
               <div className="flex justify-center items-center font-bold gap-1">
                 <Clock size={14} />
-                <span>{diffHoursOut(form.giora, form.giovao).toFixed(1) + "h"}</span>
+                <span>{diffHoursOut(form.giora, form.giovao!).toFixed(1) + "h"}</span>
               </div>
             )}
           </div>
