@@ -54,7 +54,7 @@ function SalaryDetailsPage() {
       {isLoading && <Loading fullScreen />}
       <div className="w-full md:w-2/3 mx-auto p-2 md:p-4">
         <div className="flex gap-1 items-center p-2 bg-white mb-4 rounded">
-          <div className="flex-1 flex items-center justify-between md:justify-start gap-4">
+          <div className="flex-1 flex flex-col lg:flex-row items-center justify-between md:justify-start gap-4">
             <div className="flex flex-1 gap-2 items-center">
               <Label htmlFor="month">
                 <CalendarRangeIcon size={30} color="teal" />
@@ -74,9 +74,10 @@ function SalaryDetailsPage() {
             </div>
             <Link
               to={"/luong/chitiet-tong"}
-              className="bg-blue-50 text-blue-500 p-2 lg:p-4 rounded"
+              className="bg-blue-50 text-blue-500 font-semibold uppercase p-2 lg:p-4 rounded flex items-center gap-2"
             >
               <ChartNoAxesCombined size={30} color="blue" />
+              <span>Tổng hợp lương</span>
             </Link>
           </div>
         </div>

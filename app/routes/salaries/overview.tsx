@@ -65,6 +65,44 @@ function SalaryTotal() {
               </div>
             </div>
           </div>
+          {salaries?.length && (
+            <div className="overflow-hidden bg-white rounded-xl mt-4">
+              <table className="w-full h-full overflow-hidden">
+                <thead>
+                  <tr className="text-blue-700 uppercase text-base lg:text-xl">
+                    <th className="border text-center p-2 bg-blue-50">Tháng</th>
+                    <th className="border text-center p-2 bg-blue-50">Lương sản phẩm</th>
+                    <th className="border text-center p-2 bg-blue-50">Lương thực lĩnh</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {salaries.map((salary, index) => (
+                    <tr key={index} className="text-sm font-semibold">
+                      <td className="border text-center p-2 text-teal-700">
+                        <Link
+                          className="underline font-bold"
+                          to={`/luong/chitiet?month=${format(salary.thang, "yyyy-MM")}`}
+                        >
+                          {format(salary.thang, "MM/yyyy")}
+                        </Link>
+                      </td>
+                      <td className="border text-center p-2">
+                        {formatMoney(salary.tien_luong_sp_theo_cong_doan)}
+                      </td>
+                      <td className="border text-center p-2">
+                        {formatMoney(salary.tien_luong_thuc_linh)}
+                      </td>
+                    </tr>
+                  ))}
+                  <tr className="text-xl font-semibold text-blue-600 uppercase">
+                    <td className="border text-center p-2">Tổng</td>
+                    <td className="border text-center p-2">{formatMoney(tongluongsp)}</td>
+                    <td className="border text-center p-2">{formatMoney(tongthunhap)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          )}
           <div className="text-red-50 flex flex-col gap-2">
             <div className="relative bg-[#5a82d1] rounded shadow-xl flex flex-col overflow-hidden h-full">
               <div className="z-10 top-0 left-0 p-2 w-full flex flex-col justify-between text-center">
@@ -123,6 +161,7 @@ function SalaryTotal() {
             )}
           </div>
         </div>
+
         <div className="chart lg:w-1/2 bg-white rounded shadow-2xl p-2 h-full">
           <h1 className="uppercase text-blue-600 font-semibold px-2 lg:px-4 text-xl lg:text-2xl">
             Lương thực lĩnh các tháng
@@ -151,39 +190,7 @@ function SalaryTotal() {
           </div>
         </div>
       </div>
-      {salaries?.length && (
-        <div className="overflow-hidden bg-white rounded-xl mt-4">
-          <table className="w-full h-full overflow-hidden">
-            <thead>
-              <tr className="text-blue-700 uppercase text-base lg:text-xl">
-                <th className="border text-center p-2 bg-blue-50">Tháng</th>
-                <th className="border text-center p-2 bg-blue-50">Lương sản phẩm</th>
-                <th className="border text-center p-2 bg-blue-50">Lương thực lĩnh</th>
-              </tr>
-            </thead>
-            <tbody>
-              {salaries.map((salary, index) => (
-                <tr key={index} className="text-sm font-semibold">
-                  <td className="border text-center p-2 text-teal-700">
-                    <Link
-                      className="underline font-bold"
-                      to={`/luong/chitiet?month=${format(salary.thang, "yyyy-MM")}`}
-                    >
-                      {format(salary.thang, "MM/yyyy")}
-                    </Link>
-                  </td>
-                  <td className="border text-center p-2">
-                    {formatMoney(salary.tien_luong_sp_theo_cong_doan)}
-                  </td>
-                  <td className="border text-center p-2">
-                    {formatMoney(salary.tien_luong_thuc_linh)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+
       <div className="mt-8 py-4 flex justify-center items-center gap-4">
         <Link
           to="/luong"
