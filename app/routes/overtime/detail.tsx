@@ -130,9 +130,11 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                       <th className="text-center border p-1">STT</th>
                       <th className="text-center border p-1">Họ tên</th>
                       <th className="text-center border p-1">MSNV</th>
-                      {user?.bophan !== "tochuc" && (
-                        <th className="text-center border p-1">Công đoạn</th>
-                      )}
+                      {user?.bophan !== "tochuc" &&
+                        overtime.bophan.startsWith("X1") &&
+                        overtime.bophan.startsWith("X2") && (
+                          <th className="text-center border p-1">Công đoạn</th>
+                        )}
                       {isSameDay(overtime.tungay, overtime.denngay) ? (
                         <th className="text-center border p-1">Có mặt</th>
                       ) : (
@@ -173,9 +175,10 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                         <td className="text-center border p-1 text-nowrap">{emp.hoten}</td>
                         <td className="text-center border p-1">{emp.msnv}</td>
                         {user?.bophan !== "tochuc" &&
-                          !(
-                            overtime.bophan.startsWith("X1") && overtime.bophan.startsWith("X2")
-                          ) && <td className="text-center border p-1">{emp.congdoan}</td>}
+                          overtime.bophan.startsWith("X1") &&
+                          overtime.bophan.startsWith("X2") && (
+                            <td className="text-center border p-1">{emp.congdoan}</td>
+                          )}
                         {isSameDay(overtime.tungay, overtime.denngay) ? (
                           <td className="text-center border p-1">
                             <div className="flex items-center justify-center">
