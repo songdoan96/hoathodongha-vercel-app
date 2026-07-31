@@ -172,9 +172,10 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                         </td>
                         <td className="text-center border p-1 text-nowrap">{emp.hoten}</td>
                         <td className="text-center border p-1">{emp.msnv}</td>
-                        {user?.bophan !== "tochuc" && (
-                          <td className="text-center border p-1">{emp.congdoan}</td>
-                        )}
+                        {user?.bophan !== "tochuc" &&
+                          !(
+                            overtime.bophan.startsWith("X1") && overtime.bophan.startsWith("X2")
+                          ) && <td className="text-center border p-1">{emp.congdoan}</td>}
                         {isSameDay(overtime.tungay, overtime.denngay) ? (
                           <td className="text-center border p-1">
                             <div className="flex items-center justify-center">
