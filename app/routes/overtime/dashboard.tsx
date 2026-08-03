@@ -321,6 +321,7 @@ function OvertimeDashboard() {
                       <td className="text-center border p-1 lg:p-2  min-w-32 lg:text-nowrap">
                         {overtime.quandoc}
                         {!overtime.quandoc &&
+                          !overtime.lanhdao &&
                           user?.bophan === overtime.bophan.slice(0, 3) + "quandoc" && (
                             <div className="flex justify-center items-center gap-2">
                               <Button
