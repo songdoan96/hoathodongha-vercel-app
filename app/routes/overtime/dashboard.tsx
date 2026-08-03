@@ -340,13 +340,37 @@ function OvertimeDashboard() {
                             </div>
                           )}
                       </td>
-                      <td className="text-center border p-1 lg:p-2 min-w-32 lg:text-nowrap">
+                      {/* <td className="text-center border p-1 lg:p-2 min-w-32 lg:text-nowrap">
                         {overtime.lanhdao}
                         {!overtime.lanhdao &&
                           overtime.status &&
                           (user?.bophan === "lanhdao" || user?.bophan === "giamdoc") &&
                           (!overtime.bophan.startsWith("X") ||
                             (overtime.bophan.startsWith("X") && overtime.quandoc)) && (
+                            <div className="flex justify-center items-center gap-2">
+                              <Button
+                                variant="link"
+                                className="text-red-500 inline-flex bg-red-100"
+                                onClick={() => handleCancel(overtime.id, "lanhdao")}
+                              >
+                                <Trash2 /> Hủy đơn
+                              </Button>
+                              <Button
+                                variant="link"
+                                className="text-blue-500 inline-flex bg-blue-100"
+                                onClick={() => handleSignature(overtime.id, "lanhdao")}
+                              >
+                                <Signature /> Ký đơn
+                              </Button>
+                            </div>
+                          )}
+                      </td> */}
+                      <td className="text-center border p-1 lg:p-2 min-w-32 lg:text-nowrap">
+                        {overtime.lanhdao}
+                        {!overtime.lanhdao &&
+                          overtime.status &&
+                          (user?.bophan === "lanhdao" || user?.bophan === "giamdoc") &&
+                          (!overtime.bophan.startsWith("X") || overtime.bophan.startsWith("X")) && (
                             <div className="flex justify-center items-center gap-2">
                               <Button
                                 variant="link"
