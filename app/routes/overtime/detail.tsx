@@ -149,7 +149,8 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                           </th>
                         ))
                       )}
-                      {checkRole("tochuc") && <th className="text-center border p-1">Ký tên</th>}
+                      {/* {checkRole("tochuc") && <th className="text-center border p-1">Ký tên</th>} */}
+                      <th className="text-center border p-1">Ký tên</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -217,7 +218,8 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                           ))
                         )}
 
-                        {checkRole("tochuc") && <td className="text-center border p-1"></td>}
+                        {/* {checkRole("tochuc") && <td className="text-center border p-1"></td>} */}
+                        <td className="text-center border p-1"></td>
                       </tr>
                     ))}
                     {(user?.bophan === "admin" ||

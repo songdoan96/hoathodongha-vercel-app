@@ -157,7 +157,7 @@ function OvertimeDashboard() {
                     <th className="text-center border p-1 lg:p-2">
                       Ngày tạo
                       <br />
-                      {user?.bophan === "tochuc" && (
+                      {/* {user?.bophan === "tochuc" && (
                         <button onClick={() => setFilterToday(!filterToday)}>
                           {filterToday ? (
                             <EyeOff color="white" size={20} />
@@ -165,12 +165,21 @@ function OvertimeDashboard() {
                             <Eye color="white" size={20} />
                           )}
                         </button>
-                      )}
+                      )} */}
+                      {
+                        <button onClick={() => setFilterToday(!filterToday)}>
+                          {filterToday ? (
+                            <EyeOff color="white" size={20} />
+                          ) : (
+                            <Eye color="white" size={20} />
+                          )}
+                        </button>
+                      }
                     </th>
                     <th className="text-center border p-1 lg:p-2">Trạng thái</th>
                     <th className="text-center border p-1 lg:p-2">
                       <span>Bộ phận</span>
-                      {user?.bophan === "tochuc" && (
+                      {/* {user?.bophan === "tochuc" && (
                         <div className="flex gap-1">
                           <DropdownMenu>
                             <DropdownMenuTrigger>
@@ -210,7 +219,48 @@ function OvertimeDashboard() {
                             <X />
                           </button>
                         </div>
-                      )}
+                      )} */}
+                      {
+                        <div className="flex gap-1">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger>
+                              <FilterIcon color="white" size={20} />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                              <DropdownMenuLabel>Tìm kiếm theo tổ</DropdownMenuLabel>
+                              <DropdownMenuSeparator />
+                              {linesListFilter.map((line) => (
+                                <DropdownMenuItem
+                                  onClick={() => setFilterLine(line.value)}
+                                  key={line.value}
+                                >
+                                  {line.name}
+                                </DropdownMenuItem>
+                              ))}
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+
+                          <button
+                            className="border p-0.5 bg-red-400"
+                            onClick={() => setFilterLine("X1_")}
+                          >
+                            X1
+                          </button>
+                          <button
+                            className="border p-0.5 bg-yellow-400"
+                            onClick={() => setFilterLine("X2_")}
+                          >
+                            X2
+                          </button>
+
+                          <button
+                            className="border p-0.5 bg-teal-400"
+                            onClick={() => setFilterLine("ALL")}
+                          >
+                            <X />
+                          </button>
+                        </div>
+                      }
                     </th>
                     <th className="text-center border p-1 lg:p-2">Ngày đăng ký</th>
                     <th className="text-center border p-1 lg:p-2">Giờ đăng ký</th>
