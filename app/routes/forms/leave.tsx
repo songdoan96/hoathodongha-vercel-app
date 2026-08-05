@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { useDebounce } from "use-debounce";
 import { HeaderComponent, HeaderTitle } from "~/components/Header";
 import { Button } from "~/components/ui/button";
+import { Field, FieldLabel } from "~/components/ui/field";
 import {
   Form,
   FormControl,
@@ -14,6 +15,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "~/components/ui/input-group";
 import {
   Select,
   SelectContent,
@@ -203,13 +205,46 @@ export default function FormCreateLeave() {
               control={form.control}
               name="songaynghi"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Số ngày nghỉ</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+                // <FormItem>
+                //   <FormLabel>Số ngày nghỉ</FormLabel>
+                //   <FormControl>
+                //     <Input {...field} />
+                //   </FormControl>
+                //   <FormMessage />
+                // </FormItem>
+                <Field>
+                  <FieldLabel htmlFor="songaynghi">
+                    Số ngày nghỉ
+                    <span
+                      onClick={() => field.onChange("0.5")}
+                      className="bg-teal-700 text-white p-1 rounded"
+                    >
+                      0.5 ngày
+                    </span>
+                    <span
+                      onClick={() => field.onChange("1")}
+                      className="bg-teal-700 text-white p-1 rounded"
+                    >
+                      1 ngày
+                    </span>
+                    <span
+                      onClick={() => field.onChange("2")}
+                      className="bg-teal-700 text-white p-1 rounded"
+                    >
+                      2 ngày
+                    </span>
+                  </FieldLabel>
+                  <InputGroup>
+                    <InputGroupInput
+                      id="songaynghi"
+                      {...field}
+                      type="number"
+                      min={0.5}
+                      step={0.5}
+                    />
+                    <InputGroupAddon align="inline-end">Ngày</InputGroupAddon>
+                  </InputGroup>
+                </Field>
               )}
             />
             <FormField
