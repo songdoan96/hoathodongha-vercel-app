@@ -219,3 +219,24 @@ model Feedback {
 
   @@map("feedbacks")
 }
+
+model GoodsOut {
+  id        String          @id @default(auto()) @map("_id") @db.ObjectId
+  hoten     String
+  bophan    String
+  tungay    String?
+  taisan    GoodsOutItems[]
+  totruong  String?
+  quandoc   String?
+  lanhdao   String?
+  baove     String?
+  createdAt DateTime        @default(now())
+
+  @@map("goods_outs")
+}
+
+type GoodsOutItems {
+  hanghoa String
+  soluong Int
+  lydo    String?
+}

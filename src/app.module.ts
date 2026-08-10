@@ -1,3 +1,4 @@
+import { GoodsModule } from './modules/goods/goods.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
@@ -14,6 +15,7 @@ import { PrismaModule } from './modules/prisma/prisma.module';
 import { SalariesModule } from './modules/salaries/salaries.module';
 @Module({
   imports: [
+    GoodsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
