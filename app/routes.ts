@@ -48,6 +48,11 @@ export default [
     route("/them", "./routes/feedback/create.tsx"),
   ]),
 
+  ...prefix("hanghoa", [
+    index("./routes/goods/dashboard.tsx"),
+    route("/taophieu", "./routes/goods/create.tsx"),
+  ]),
+
   layout("./components/providers/PrivateProvider.tsx", [
     // Meals
     ...prefix("ansang", [route("/bophan", "./routes/meals/line.tsx")]),

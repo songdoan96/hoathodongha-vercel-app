@@ -43,4 +43,8 @@ export default () => ({
     dashboard: "/gop-y",
     create: "/gop-y/them",
   },
+  goods: {
+    dashboard: "/hanghoa",
+    create: "/hanghoa/taophieu",
+  },
 });
