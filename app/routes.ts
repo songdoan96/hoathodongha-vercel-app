@@ -51,6 +51,9 @@ export default [
   ...prefix("hanghoa", [
     index("./routes/goods/dashboard.tsx"),
     route("/taophieu", "./routes/goods/create.tsx"),
+    route("/baove", "./routes/goods/security.tsx"),
+
+    route("/chitiet/:id", "./routes/goods/detail.tsx"),
   ]),
 
   layout("./components/providers/PrivateProvider.tsx", [

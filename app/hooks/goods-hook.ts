@@ -1,5 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { apiGoodsCreate, apiGoodsFindAll } from "~/apis/goods.api";
+import {
+  apiGoodsCreate,
+  apiGoodsFindAll,
+  apiGoodsFindOne,
+  apiGoodsSecuritySignature,
+  apiGoodsSignature,
+} from "~/apis/goods.api";
 import type { GoodsCreateDto, GoodsType } from "~/types/goods-type";
 
 export const useGoodsCreate = () => {
@@ -13,3 +19,21 @@ export const useGoodsFindAll = () =>
     queryKey: ["goods"],
     queryFn: () => apiGoodsFindAll(),
   });
+export const useGoodsFinOne = (id: string) =>
+  useQuery<GoodsType>({
+    queryKey: ["goods", id],
+    queryFn: () => apiGoodsFindOne(id),
+    enabled: !!id,
+  });
+export const useGoodsSignature = () => {
+  return useMutation({
+    mutationFn: ({ id, formData }: { id: string; formData: { ten: string; chucvu: string } }) =>
+      apiGoodsSignature(id, formData),
+  });
+};
+export const useGoodsSecuritySignature = () => {
+  return useMutation({
+    mutationFn: ({ id, formData }: { id: string; formData: { ten: string } }) =>
+      apiGoodsSecuritySignature(id, formData),
+  });
+};

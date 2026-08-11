@@ -6,6 +6,7 @@ import {
   NotebookText,
   Salad,
   Signature,
+  Truck,
 } from "lucide-react";
 import { Link } from "react-router";
 import routers from "~/lib/routers";
@@ -173,6 +174,21 @@ function Home() {
                 </div>
               </div>
               <p className="font-bold bg-blue-500 w-full inline-block py-2 mt-auto">Tăng ca</p>
+            </Link>
+          </div>
+          <div className="w-1/2 md:w-1/4 p-2">
+            <Link
+              to={"/hanghoa"}
+              className="bg-gray-50 min-h-32 border-2 border-orange-600 flex flex-col justify-center items-center rounded-xl overflow-hidden"
+            >
+              <div className="h-3/4 flex justify-center items-center my-auto">
+                <div className="bg-blue-100 h-16 w-16 rounded-full flex justify-center items-center">
+                  <Truck color="blue" className="w-10 h-10" />
+                </div>
+              </div>
+              <p className="font-bold bg-blue-500 w-full inline-block py-2 mt-auto">
+                Hàng hóa ra cổng
+              </p>
             </Link>
           </div>
           <div className="w-1/2 md:w-1/4 p-2">

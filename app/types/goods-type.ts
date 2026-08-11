@@ -2,13 +2,15 @@ export interface GoodsType {
   id: string;
   hoten: string;
   bophan: string;
-  tungay: string | null;
+  tungay?: Date;
+  denngay?: Date;
   createdAt: Date;
   totruong: string | null;
   quandoc: string | null;
   lanhdao: string | null;
   baove: string | null;
   taisan: GoodsOutItemsType[];
+  guixe: boolean;
 }
 export interface GoodsOutItemsType {
   hanghoa: string;
@@ -20,4 +22,6 @@ export interface GoodsCreateDto {
   bophan: string;
   taisan: GoodsOutItemsType[];
   tungay?: string;
+  denngay?: string;
+  guixe: boolean;
 }

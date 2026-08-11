@@ -45,6 +45,8 @@ export default () => ({
   },
   goods: {
     dashboard: "/hanghoa",
+    security: "/hanghoa/baove",
     create: "/hanghoa/taophieu",
+    detail: (id: string) => "/hanghoa/chitiet/" + id,
   },
 });
