@@ -147,7 +147,6 @@ export class FormsService {
   }
 
   async update(id: string, updateFormDto: UpdateFormDto) {
-    console.log('🚀 ~ FormsService ~ update ~ updateFormDto:', updateFormDto);
     const form = await this.prisma.form.findFirst({
       where: { id },
     });

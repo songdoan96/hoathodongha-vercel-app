@@ -224,13 +224,15 @@ model GoodsOut {
   id        String          @id @default(auto()) @map("_id") @db.ObjectId
   hoten     String
   bophan    String
-  tungay    String?
+  tungay    DateTime?
+  denngay   DateTime?
   taisan    GoodsOutItems[]
   totruong  String?
   quandoc   String?
   lanhdao   String?
   baove     String?
   createdAt DateTime        @default(now())
+  guixe     Boolean         @default(true)
 
   @@map("goods_outs")
 }

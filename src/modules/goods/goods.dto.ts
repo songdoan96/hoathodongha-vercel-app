@@ -11,6 +11,10 @@ export class GoodsCreateDto {
   @IsOptional()
   tungay: string;
 
+  @IsString()
+  @IsOptional()
+  denngay: string;
+
   @IsArray()
   taisan: {
     hanghoa: string;
