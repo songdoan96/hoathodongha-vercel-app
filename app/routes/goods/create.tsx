@@ -86,44 +86,48 @@ export default function create() {
             <button
               type="button"
               onClick={() => setGuixe("false")}
-              className="bg-teal-600 hover:bg-teal-500 min-w-32 text-base uppercase text-white inline-flex gap-2 items-center justify-center p-1 rounded"
+              className={`${guixe === "false" ? "bg-teal-600 hover:bg-teal-500" : "bg-gray-600 hover:bg-gray-500"} w-32 text-base uppercase text-white inline-flex gap-2 items-center justify-center p-1 rounded`}
             >
-              <House size={30} />
+              <House size={20} />
               <span>Hàng hóa</span>
             </button>
             <button
               type="button"
               onClick={() => setGuixe("true")}
-              className="bg-pink-600 hover:bg-pink-500 min-w-32 text-base uppercase text-white inline-flex gap-2 items-center justify-center p-1 rounded"
+              className={`${guixe === "true" ? "bg-pink-600 hover:bg-pink-500" : "bg-gray-600 hover:bg-gray-500"} w-32 text-base uppercase text-white inline-flex gap-2 items-center justify-center p-1 rounded`}
             >
-              <Truck size={30} />
+              <Truck size={20} />
               <span> Gửi xe</span>
             </button>
           </div>
           {guixe && (
             <>
-              <FieldGroup className="px-2 gap-4 grid grid-cols-2">
-                <Field>
-                  <FieldLabel htmlFor="tungay">Từ ngày: </FieldLabel>
-                  <Input
-                    id="tungay"
-                    type="date"
-                    value={tungay || ""}
-                    onChange={(e) => setTuNgay(e.target.value)}
-                    required
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="denngay">Đến ngày: </FieldLabel>
-                  <Input
-                    id="denngay"
-                    type="date"
-                    value={denngay || ""}
-                    onChange={(e) => setDenNgay(e.target.value)}
-                    required
-                  />
-                </Field>
-              </FieldGroup>
+              {guixe === "false" && (
+                <>
+                  <FieldGroup className="px-2 gap-4 grid grid-cols-2">
+                    <Field>
+                      <FieldLabel htmlFor="tungay">Từ ngày: </FieldLabel>
+                      <Input
+                        id="tungay"
+                        type="date"
+                        value={tungay || ""}
+                        onChange={(e) => setTuNgay(e.target.value)}
+                        required
+                      />
+                    </Field>
+                    <Field>
+                      <FieldLabel htmlFor="denngay">Đến ngày: </FieldLabel>
+                      <Input
+                        id="denngay"
+                        type="date"
+                        value={denngay || ""}
+                        onChange={(e) => setDenNgay(e.target.value)}
+                        required
+                      />
+                    </Field>
+                  </FieldGroup>
+                </>
+              )}
               {lists.map((list, index) => (
                 <div key={index} className="border p-2 flex m-1 bg-gray-50 shadow">
                   <div className="flex flex-col flex-1 gap-1">

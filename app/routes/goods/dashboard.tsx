@@ -4,7 +4,7 @@ import React from "react";
 import { Link } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
-import { useGoodsFindAll } from "~/hooks/goods-hook";
+import { useGoodsFindAll, useGoodsSignature } from "~/hooks/goods-hook";
 import routers from "~/lib/routers";
 import { linesList } from "~/lib/variables";
 import useAuthStore from "~/stores/auth-store";
@@ -13,13 +13,15 @@ export default function dashboard() {
   const { user } = useAuthStore();
   console.log("🚀 ~ dashboard ~ user:", user);
   const { data, isLoading } = useGoodsFindAll();
+  const mutateGoodsSignature = useGoodsSignature();
+
   console.log(`🚀 ~ dashboard ~  { data, isLoading }:`, { data, isLoading });
   if (isLoading) return <Loading fullScreen />;
   return (
     <div className="w-full h-full min-h-screen bg-white flex flex-col">
       <HeaderComponent>
         <span className="uppercase text-white font-bold text-center w-full lg:text-2xl">
-          Danh sách phiếu đem hàng hóa ra cổng
+          Phiếu đem hàng hóa ra cổng
         </span>
       </HeaderComponent>
       <div className="text-blue-600 my-4 flex justify-center items-center">
@@ -38,7 +40,7 @@ export default function dashboard() {
               <th className="border p-1 bg-blue-700 text-white">Ngày tạo</th>
               <th className="border p-1 bg-blue-700 text-white">Họ tên</th>
               <th className="border p-1 bg-blue-700 text-white">Bộ phận</th>
-              <th className="border p-1 bg-blue-700 text-white">Ngày</th>
+              <th className="border p-1 bg-blue-700 text-white">Loại</th>
               <th className="border p-1 bg-blue-700 text-white">Tài sản</th>
               <th className="border p-1 bg-blue-700 text-white">Tổ trưởng</th>
               <th className="border p-1 bg-blue-700 text-white">Quản đốc</th>
@@ -64,9 +66,11 @@ export default function dashboard() {
                 </td>
                 <td className="border p-1 text-center">
                   <Link to={routers().goods.detail(good.id)}>
-                    {isSameDay(good.tungay, good.denngay)
-                      ? format(good.denngay, "dd/MM")
-                      : `${format(good.tungay, "dd/MM")}-${format(good.denngay, "dd/MM")}`}
+                    {good.guixe ? (
+                      <span className="text-pink-700 font-semibold">Gửi xe</span>
+                    ) : (
+                      <span className="text-teal-700 font-semibold">Hàng hóa</span>
+                    )}
                   </Link>
                 </td>
                 <td className="border p-1">
