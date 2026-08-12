@@ -115,7 +115,7 @@ export default function detail() {
                 <p className="mt-2 font-semibold">
                   {data.quandoc ? (
                     data.quandoc
-                  ) : user?.bophan.includes("_quandoc") ? (
+                  ) : user?.bophan?.includes("_quandoc") ? (
                     <button
                       className="text-red-500 underline"
                       onClick={() => handleSignature("quandoc")}

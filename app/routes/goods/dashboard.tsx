@@ -128,7 +128,7 @@ export default function dashboard() {
                 <td className="border p-1 text-center min-w-32">
                   {good.guixe ? null : good.quandoc ? (
                     good.quandoc
-                  ) : user?.bophan.includes("_quandoc") ? (
+                  ) : user?.bophan?.includes("_quandoc") ? (
                     <button
                       className="text-red-500 underline"
                       onClick={() => handleSignature(good.id, "quandoc")}
