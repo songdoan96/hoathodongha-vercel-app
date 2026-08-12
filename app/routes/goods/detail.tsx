@@ -66,23 +66,23 @@ export default function detail() {
             )}
 
             <p>Đề nghị được mang ra khỏi cổng công ty tài sản, trang thiết bị, hàng hóa sau:</p>
-            <div className="w-full overflow-hidden my-4">
+            <div className="w-full overflow-auto my-4">
               <table className="table w-full">
                 <thead>
                   <tr>
                     <th className="border p-1 bg-gray-50">STT</th>
                     <th className="border p-1 bg-gray-50">Tên hàng hóa</th>
                     <th className="border p-1 bg-gray-50">Số lượng</th>
-                    <th className="border p-1 bg-gray-50">Lý do đưa hàng hóa đi</th>
+                    <th className="border p-1 bg-gray-50">Lý do</th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.taisan.map((item, index) => (
                     <tr key={index}>
                       <td className="border p-1 text-center">{index + 1}</td>
-                      <td className="border p-1">{item.hanghoa}</td>
+                      <td className="border p-1 min-w-40">{item.hanghoa}</td>
                       <td className="border p-1 text-center">{item.soluong}</td>
-                      <td className="border p-1">{item.lydo}</td>
+                      <td className="border p-1 min-w-12">{item.lydo}</td>
                     </tr>
                   ))}
                 </tbody>
