@@ -33,7 +33,7 @@ export default function dashboard() {
           <span>Tạo phiếu</span>
         </Link>
       </div>
-      <div className="w-full overflow-hidden">
+      <div className="w-full overflow-scroll">
         <table className="table w-full">
           <thead>
             <tr>
@@ -67,15 +67,17 @@ export default function dashboard() {
                     </Link>
                   )}
                 </td>
-                <td className="border p-1 text-center">
-                  <Link to={routers().goods.detail(good.id)}>{good.hoten}</Link>
+                <td className="border text-center min-w-32">
+                  <Link className="" to={routers().goods.detail(good.id)}>
+                    {good.hoten}
+                  </Link>
                 </td>
-                <td className="border p-1 text-center">
+                <td className="border p-1 text-center min-w-20">
                   <Link to={routers().goods.detail(good.id)}>
                     {linesList.find((line) => line.value === good.bophan)?.name}
                   </Link>
                 </td>
-                <td className="border p-1 text-center">
+                <td className="border text-center min-w-20">
                   <Link to={routers().goods.detail(good.id)}>
                     {good.guixe ? (
                       <span className="text-pink-700 font-semibold">Gửi xe</span>
@@ -84,19 +86,19 @@ export default function dashboard() {
                     )}
                   </Link>
                 </td>
-                <td className="border p-1">
+                <td className="border p-1 min-w-52">
                   <Link to={routers().goods.detail(good.id)} className="flex flex-col">
                     {good.taisan.map((item, index) => (
                       <p key={index}>
-                        {index + 1}.{item.hanghoa} ({item.soluong})
+                        &#x2022;{item.hanghoa} ({item.soluong})
                       </p>
                     ))}
                   </Link>
                 </td>
-                <td className="border p-1 text-center">{good.totruong}</td>
-                <td className="border p-1 text-center">{good.quandoc}</td>
-                <td className="border p-1 text-center">{good.lanhdao}</td>
-                <td className="border p-1 text-center">
+                <td className="border p-1 text-center min-w-32">{good.totruong}</td>
+                <td className="border p-1 text-center min-w-32">{good.quandoc}</td>
+                <td className="border p-1 text-center min-w-32">{good.lanhdao}</td>
+                <td className="border p-1 text-center min-w-32">
                   <div className="flex flex-col">
                     <p>{good.baove}</p>
                     {good.baoveTime && (
