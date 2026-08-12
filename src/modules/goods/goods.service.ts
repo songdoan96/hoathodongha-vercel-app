@@ -43,7 +43,7 @@ export class GoodsService {
     const { ten } = formDto;
     return await this.prismaService.goodsOut.update({
       where: { id },
-      data: { baove: ten },
+      data: { baove: ten, baoveTime: new Date() },
     });
   }
 }

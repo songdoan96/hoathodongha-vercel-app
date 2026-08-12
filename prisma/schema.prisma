@@ -231,6 +231,7 @@ model GoodsOut {
   quandoc   String?
   lanhdao   String?
   baove     String?
+  baoveTime DateTime?
   createdAt DateTime        @default(now())
   guixe     Boolean         @default(true)
 
