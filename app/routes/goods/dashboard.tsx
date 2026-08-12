@@ -2,6 +2,7 @@ import { format, isSameDay } from "date-fns";
 import { ClipboardPlus } from "lucide-react";
 import React from "react";
 import { Link } from "react-router";
+import { toast } from "sonner";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
 import { useGoodsFindAll, useGoodsSignature } from "~/hooks/goods-hook";
@@ -23,7 +24,13 @@ export default function dashboard() {
           chucvu,
         },
       },
-      { onSuccess: () => refetch() },
+      {
+        onSuccess: () => {
+          refetch();
+          toast.success("Thành công");
+        },
+        onError: () => toast.error("Có lỗi"),
+      },
     );
   }
   console.log(`🚀 ~ dashboard ~  { data, isLoading }:`, { data, isLoading });

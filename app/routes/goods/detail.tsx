@@ -1,6 +1,7 @@
 import { format, isSameDay } from "date-fns";
 import React from "react";
 import { Link, useParams } from "react-router";
+import { toast } from "sonner";
 import Loading from "~/components/Loading";
 import { useGoodsFinOne, useGoodsSignature } from "~/hooks/goods-hook";
 import routers from "~/lib/routers";
@@ -23,7 +24,13 @@ export default function detail() {
           chucvu,
         },
       },
-      { onSuccess: () => refetch() },
+      {
+        onSuccess: () => {
+          refetch();
+          toast.success("Thành công");
+        },
+        onError: () => toast.error("Có lỗi"),
+      },
     );
   }
   if (isLoading) return <Loading fullScreen />;
