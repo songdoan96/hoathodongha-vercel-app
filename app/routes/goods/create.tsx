@@ -23,7 +23,6 @@ export default function create() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    console.log(lists, bophan, hoten);
     if (lists.length === 0 || !bophan || !hoten || !guixe) return;
     mutateGoodsCreate.mutate(
       {

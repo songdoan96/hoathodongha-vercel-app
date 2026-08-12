@@ -39,7 +39,6 @@ export default function security() {
   if (isLoading) return <Loading fullScreen />;
   function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    console.log("🚀 ~ handleSubmit ~ baove:", baove);
 
     if (!idSelect || !baove) return;
     mutateGoodsSignature.mutate(

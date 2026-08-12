@@ -33,7 +33,6 @@ export default function dashboard() {
       },
     );
   }
-  console.log(`🚀 ~ dashboard ~  { data, isLoading }:`, { data, isLoading });
   if (isLoading) return <Loading fullScreen />;
   return (
     <div className="w-full h-full min-h-screen bg-white flex flex-col">
