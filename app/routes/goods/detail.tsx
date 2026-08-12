@@ -82,8 +82,8 @@ export default function detail() {
               </table>
             </div>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-3 w-full gap-6 lg:gap-0 mt-4">
-            <div className="flex flex-col items-center">
+          <div className="flex flex-wrap justify-between w-full gap-6 lg:gap-0 mt-4">
+            <div className="flex flex-col items-center min-w-1/3">
               <p>Tổ trưởng</p>
               <p className="mt-2 font-semibold">
                 {data.totruong ? (
@@ -103,7 +103,7 @@ export default function detail() {
               </p>
             </div>
             {!data.guixe && (
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center min-w-1/3">
                 <p>Quản đốc</p>
                 <p className="mt-2 font-semibold">
                   {data.quandoc ? (
@@ -124,9 +124,35 @@ export default function detail() {
               </div>
             )}
 
-            <div className="flex flex-col items-center col-span-2 lg:col-span-1">
+            <div className="flex flex-col items-center min-w-1/3 col-span-2 lg:col-span-1">
               <p>Ban Giám Đốc</p>
               <p className="mt-2 font-semibold">
+                {data.lanhdao}
+                {!data.lanhdao && user?.bophan !== "giamdoc" && user?.bophan !== "lanhdao" && (
+                  <Link className="text-red-500 underline" to={routers().auth.login}>
+                    Ký đơn
+                  </Link>
+                )}
+                {!data.lanhdao && data.guixe && user?.bophan === "giamdoc" && (
+                  <button
+                    className="text-red-500 underline"
+                    onClick={() => handleSignature("lanhdao")}
+                  >
+                    Ký đơn
+                  </button>
+                )}
+                {!data.lanhdao &&
+                  !data.guixe &&
+                  (user?.bophan === "giamdoc" || user?.bophan === "lanhdao") && (
+                    <button
+                      className="text-red-500 underline"
+                      onClick={() => handleSignature("lanhdao")}
+                    >
+                      Ký đơn
+                    </button>
+                  )}
+              </p>
+              <p className="mt-2 font-semibold hidden">
                 {data.lanhdao ? (
                   data.lanhdao
                 ) : user?.bophan === "giamdoc" || user?.bophan === "lanhdao" ? (

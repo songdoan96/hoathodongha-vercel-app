@@ -54,7 +54,6 @@ export default function security() {
           localStorage.setItem("hanghoa-baove", baove);
           setOpen(false);
           setIdSelect(undefined);
-          setBaove("");
           toast.success("Thành công");
         },
         onError: () => toast.error("Có lỗi"),
@@ -72,10 +71,10 @@ export default function security() {
         <table className="table w-full">
           <thead>
             <tr>
-              <th className="border p-1 bg-blue-700 text-white">Ngày tạo</th>
+              <th className="border p-1 bg-blue-700 text-white">Ngày</th>
               <th className="border p-1 bg-blue-700 text-white">Họ tên</th>
               <th className="border p-1 bg-blue-700 text-white">Bộ phận</th>
-              <th className="border p-1 bg-blue-700 text-white">Ngày</th>
+              <th className="border p-1 bg-blue-700 text-white">Loại</th>
               <th className="border p-1 bg-blue-700 text-white">Tài sản</th>
               <th className="border p-1 bg-blue-700 text-white">Tổ trưởng</th>
               <th className="border p-1 bg-blue-700 text-white">Quản đốc</th>
@@ -87,9 +86,16 @@ export default function security() {
             {data?.map((good, index) => (
               <tr key={index}>
                 <td className="border p-1 text-center">
-                  <Link to={routers().goods.detail(good.id)}>
-                    {format(good.createdAt, "dd/MM")}
-                  </Link>
+                  {good.guixe ? (
+                    <Link to={routers().goods.detail(good.id)}>
+                      {format(good.createdAt, "dd/MM")}
+                    </Link>
+                  ) : (
+                    <Link to={routers().goods.detail(good.id)}>
+                      {format(good?.tungay || good.createdAt, "dd/MM")}-
+                      {format(good?.denngay || good.createdAt, "dd/MM")}
+                    </Link>
+                  )}
                 </td>
                 <td className="border p-1 text-center">
                   <Link to={routers().goods.detail(good.id)}>{good.hoten}</Link>
@@ -101,9 +107,11 @@ export default function security() {
                 </td>
                 <td className="border p-1 text-center">
                   <Link to={routers().goods.detail(good.id)}>
-                    {isSameDay(good.tungay, good.denngay)
-                      ? format(good.denngay, "dd/MM")
-                      : `${format(good.tungay, "dd/MM")}-${format(good.denngay, "dd/MM")}`}
+                    {good.guixe ? (
+                      <span className="text-pink-700 font-semibold">Gửi xe</span>
+                    ) : (
+                      <span className="text-teal-700 font-semibold">Hàng hóa</span>
+                    )}
                   </Link>
                 </td>
                 <td className="border p-1">
@@ -119,17 +127,26 @@ export default function security() {
                 <td className="border p-1 text-center">{good.quandoc}</td>
                 <td className="border p-1 text-center">{good.lanhdao}</td>
                 <td className="border p-1 text-center">
-                  {good.baove || (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setOpen(true);
-                        setIdSelect(good.id);
-                      }}
-                    >
-                      ---
-                    </button>
-                  )}
+                  <div className="flex flex-col">
+                    <p>
+                      {good.baove || (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setOpen(true);
+                            setIdSelect(good.id);
+                          }}
+                        >
+                          ---
+                        </button>
+                      )}
+                    </p>
+                    {good.baoveTime && (
+                      <p className="text-[12px] text-green-600 font-semibold">
+                        {format(good.baoveTime, "dd/MM-HH:mm")}
+                      </p>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

@@ -37,7 +37,7 @@ export default function dashboard() {
         <table className="table w-full">
           <thead>
             <tr>
-              <th className="border p-1 bg-blue-700 text-white">Ngày tạo</th>
+              <th className="border p-1 bg-blue-700 text-white">Ngày</th>
               <th className="border p-1 bg-blue-700 text-white">Họ tên</th>
               <th className="border p-1 bg-blue-700 text-white">Bộ phận</th>
               <th className="border p-1 bg-blue-700 text-white">Loại</th>
@@ -52,9 +52,20 @@ export default function dashboard() {
             {data?.map((good, index) => (
               <tr key={index}>
                 <td className="border p-1 text-center">
-                  <Link to={routers().goods.detail(good.id)}>
-                    {format(good.createdAt, "dd/MM")}
-                  </Link>
+                  {good.guixe ? (
+                    <Link to={routers().goods.detail(good.id)}>
+                      {format(good.createdAt, "dd/MM")}
+                    </Link>
+                  ) : good.tungay && good.denngay && isSameDay(good.tungay, good.denngay) ? (
+                    <Link to={routers().goods.detail(good.id)}>
+                      {format(good?.denngay || good.createdAt, "dd/MM")}
+                    </Link>
+                  ) : (
+                    <Link to={routers().goods.detail(good.id)}>
+                      {format(good?.tungay || good.createdAt, "dd")}-
+                      {format(good?.denngay || good.createdAt, "dd/MM")}
+                    </Link>
+                  )}
                 </td>
                 <td className="border p-1 text-center">
                   <Link to={routers().goods.detail(good.id)}>{good.hoten}</Link>
@@ -85,7 +96,16 @@ export default function dashboard() {
                 <td className="border p-1 text-center">{good.totruong}</td>
                 <td className="border p-1 text-center">{good.quandoc}</td>
                 <td className="border p-1 text-center">{good.lanhdao}</td>
-                <td className="border p-1 text-center">{good.baove}</td>
+                <td className="border p-1 text-center">
+                  <div className="flex flex-col">
+                    <p>{good.baove}</p>
+                    {good.baoveTime && (
+                      <p className="text-[12px] text-green-600 font-semibold">
+                        {format(good.baoveTime, "dd/MM-HH:mm")}
+                      </p>
+                    )}
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>

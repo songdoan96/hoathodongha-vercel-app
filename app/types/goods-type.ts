@@ -9,6 +9,7 @@ export interface GoodsType {
   quandoc: string | null;
   lanhdao: string | null;
   baove: string | null;
+  baoveTime: Date | null;
   taisan: GoodsOutItemsType[];
   guixe: boolean;
 }

@@ -201,6 +201,7 @@ export default function create() {
                   onClick={(e) => {
                     setLists(() => [...lists, { hanghoa: "", soluong: 0 }]);
                   }}
+                  className="h-10 w-10 border rounded-full flex justify-center items-center bg-blue-50"
                 >
                   <Plus color="blue" size={30} />
                 </button>
