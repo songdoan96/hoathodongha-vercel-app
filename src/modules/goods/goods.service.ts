@@ -22,7 +22,7 @@ export class GoodsService {
   async findAll() {
     return await this.prismaService.goodsOut.findMany({
       where: {
-        baove: undefined,
+        // baove: undefined,
         createdAt: {
           gte: startOfMonth(new Date()),
         },
@@ -30,6 +30,16 @@ export class GoodsService {
       orderBy: {
         id: 'desc',
       },
+    });
+  }
+  async securityFindAll() {
+    return await this.prismaService.goodsOut.findMany({
+      where: {
+        createdAt: {
+          gte: startOfMonth(new Date()),
+        },
+      },
+      orderBy: [{ baoveTime: 'asc' }, { id: 'desc' }],
     });
   }
   async signature(id: string, formDto: { ten: string; chucvu: string }) {

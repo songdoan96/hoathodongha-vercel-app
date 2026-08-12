@@ -25,6 +25,11 @@ export class GoodsController {
     return this.goodsService.findAll();
   }
 
+  @Get('security')
+  securityFindAll() {
+    return this.goodsService.securityFindAll();
+  }
+
   @Get('/:id')
   findOne(@Param('id') id: string) {
     return this.goodsService.findOne(id);
