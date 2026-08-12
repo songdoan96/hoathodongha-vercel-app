@@ -11,6 +11,10 @@ export const apiGoodsFindAll = async () => {
   const { data } = await apiClient.get(router);
   return data;
 };
+export const apiGoodsSecurityFindAll = async () => {
+  const { data } = await apiClient.get(router + "/security");
+  return data;
+};
 export const apiGoodsFindOne = async (id: string) => {
   const { data } = await apiClient.get(router + "/" + id);
   return data;

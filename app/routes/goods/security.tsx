@@ -1,13 +1,17 @@
-import { format, isSameDay } from "date-fns";
+import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
-import { useGoodsFindAll, useGoodsSecuritySignature, useGoodsSignature } from "~/hooks/goods-hook";
+import {
+  useGoodsFindAll,
+  useGoodsSecurityFindAll,
+  useGoodsSecuritySignature,
+} from "~/hooks/goods-hook";
 import routers from "~/lib/routers";
 import { linesList } from "~/lib/variables";
-import useAuthStore from "~/stores/auth-store";
 
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,14 +23,11 @@ import {
   AlertDialogTitle,
 } from "~/components/ui/alert-dialog";
 import { Input } from "~/components/ui/input";
-import { toast } from "sonner";
 
 export default function security() {
-  const { user } = useAuthStore();
-  const { data, isLoading, refetch } = useGoodsFindAll();
+  const { data, isLoading, refetch } = useGoodsSecurityFindAll();
   const [open, setOpen] = React.useState(false);
   const [baove, setBaove] = useState("");
-  console.log("🚀 ~ security ~ baove:", baove);
   const mutateGoodsSignature = useGoodsSecuritySignature();
   const [idSelect, setIdSelect] = useState<string>();
 

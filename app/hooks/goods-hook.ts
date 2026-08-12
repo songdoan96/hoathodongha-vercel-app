@@ -3,6 +3,7 @@ import {
   apiGoodsCreate,
   apiGoodsFindAll,
   apiGoodsFindOne,
+  apiGoodsSecurityFindAll,
   apiGoodsSecuritySignature,
   apiGoodsSignature,
 } from "~/apis/goods.api";
@@ -19,9 +20,14 @@ export const useGoodsFindAll = () =>
     queryKey: ["goods"],
     queryFn: () => apiGoodsFindAll(),
   });
+export const useGoodsSecurityFindAll = () =>
+  useQuery<GoodsType[]>({
+    queryKey: ["goods", "security"],
+    queryFn: () => apiGoodsSecurityFindAll(),
+  });
 export const useGoodsFinOne = (id: string) =>
   useQuery<GoodsType>({
-    queryKey: ["goods", id],
+    queryKey: ["goods", "one", id],
     queryFn: () => apiGoodsFindOne(id),
     enabled: !!id,
   });
