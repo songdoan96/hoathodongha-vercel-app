@@ -11,10 +11,21 @@ import useAuthStore from "~/stores/auth-store";
 
 export default function dashboard() {
   const { user } = useAuthStore();
-  console.log("🚀 ~ dashboard ~ user:", user);
-  const { data, isLoading } = useGoodsFindAll();
+  const { data, isLoading, refetch } = useGoodsFindAll();
   const mutateGoodsSignature = useGoodsSignature();
-
+  function handleSignature(id: string, chucvu: "totruong" | "quandoc" | "lanhdao") {
+    if (!id || !user || !chucvu) return;
+    mutateGoodsSignature.mutate(
+      {
+        id,
+        formData: {
+          ten: user.name,
+          chucvu,
+        },
+      },
+      { onSuccess: () => refetch() },
+    );
+  }
   console.log(`🚀 ~ dashboard ~  { data, isLoading }:`, { data, isLoading });
   if (isLoading) return <Loading fullScreen />;
   return (
@@ -90,14 +101,75 @@ export default function dashboard() {
                   <Link to={routers().goods.detail(good.id)} className="flex flex-col">
                     {good.taisan.map((item, index) => (
                       <p key={index}>
-                        &#x2022;{item.hanghoa} ({item.soluong})
+                        &#x2022; {item.hanghoa} ({item.soluong})
                       </p>
                     ))}
                   </Link>
                 </td>
-                <td className="border p-1 text-center min-w-32">{good.totruong}</td>
-                <td className="border p-1 text-center min-w-32">{good.quandoc}</td>
-                <td className="border p-1 text-center min-w-32">{good.lanhdao}</td>
+                <td className="border p-1 text-center min-w-32">
+                  {good.totruong ? (
+                    good.totruong
+                  ) : good.bophan === user?.bophan ? (
+                    <button
+                      className="text-red-500 underline"
+                      onClick={() => handleSignature(good.id, "totruong")}
+                    >
+                      Ký đơn
+                    </button>
+                  ) : null}
+                </td>
+                <td className="border p-1 text-center min-w-32">
+                  {good.guixe ? null : good.quandoc ? (
+                    good.quandoc
+                  ) : user?.bophan.includes("_quandoc") ? (
+                    <button
+                      className="text-red-500 underline"
+                      onClick={() => handleSignature(good.id, "quandoc")}
+                    >
+                      Ký đơn
+                    </button>
+                  ) : null}
+
+                  {/* {!good.guixe && (
+                    <>
+                      {good.quandoc ? (
+                        good.quandoc
+                      ) : user?.bophan.includes("_quandoc") ? (
+                        <button
+                          className="text-red-500 underline"
+                          onClick={() => handleSignature(good.id, "quandoc")}
+                        >
+                          Ký đơn
+                        </button>
+                      ) : (
+                        <Link className="text-red-500 underline" to={routers().auth.login}>
+                          Ký đơn
+                        </Link>
+                      )}
+                    </>
+                  )} */}
+                </td>
+                <td className="border p-1 text-center min-w-32">
+                  {good.lanhdao ? (
+                    good.lanhdao
+                  ) : good.guixe ? (
+                    user?.bophan === "giamdoc" ? (
+                      <button
+                        className="text-red-500 underline"
+                        onClick={() => handleSignature(good.id, "lanhdao")}
+                      >
+                        Ký đơn
+                      </button>
+                    ) : null
+                  ) : user?.bophan === "giamdoc" || user?.bophan === "lanhdao" ? (
+                    <button
+                      className="text-red-500 underline"
+                      onClick={() => handleSignature(good.id, "lanhdao")}
+                    >
+                      Ký đơn
+                    </button>
+                  ) : null}
+                </td>
                 <td className="border p-1 text-center min-w-32">
                   <div className="flex flex-col">
                     <p>{good.baove}</p>

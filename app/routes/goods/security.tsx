@@ -118,7 +118,7 @@ export default function security() {
                   <Link to={routers().goods.detail(good.id)} className="flex flex-col">
                     {good.taisan.map((item, index) => (
                       <p key={index}>
-                        &#x2022;{item.hanghoa} ({item.soluong})
+                        &#x2022; {item.hanghoa} ({item.soluong})
                       </p>
                     ))}
                   </Link>
