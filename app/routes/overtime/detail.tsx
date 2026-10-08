@@ -14,7 +14,10 @@ import { Link } from "react-router";
 import Loading from "~/components/Loading";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { useOvertimesFindOne, useOvertimesUpdate } from "~/hooks/overtimes-hook";
+import {
+  useOvertimesFindOne,
+  useOvertimesUpdate,
+} from "~/hooks/overtimes-hook";
 import { checkRole } from "~/lib/helpers";
 import routers from "~/lib/routers";
 import { linesList } from "~/lib/variables";
@@ -32,7 +35,11 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
   const { data: overtime, isLoading } = useOvertimesFindOne(id);
   const { user } = useAuthStore();
   const { mutate: mutateUpdate } = useOvertimesUpdate();
-  const [employeeAdd, setEmployeeAdd] = useState({ hoten: "", msnv: "", congdoan: "" });
+  const [employeeAdd, setEmployeeAdd] = useState({
+    hoten: "",
+    msnv: "",
+    congdoan: "",
+  });
   function handleSignature(id: string, bophan: "quandoc" | "lanhdao") {
     if (user) {
       mutateUpdate({
@@ -80,7 +87,9 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
         <Link to={routers().overtime.dashboard}>
           <img src="/images/logo.png" className="w-8" alt="" />
         </Link>
-        <h1 className="mx-auto text-white font-bold lg:text-2xl">PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ</h1>
+        <h1 className="mx-auto text-white font-bold lg:text-2xl">
+          PHIẾU ĐĂNG KÝ LÀM THÊM GIỜ
+        </h1>
       </div>
       {isLoading && <Loading fullScreen />}
       <div className="p-1 lg:p-4">
@@ -89,31 +98,46 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 px-2 lg:px-8 gap-y-4 w-full">
               <div className="flex gap-2 items-center">
                 <Hash color="green" />
-                <span className="font-semibold text-blue-600 uppercase w-20">Bộ phận</span>
-                <span>: {linesList.find((line) => line.value === overtime.bophan)?.name}</span>
+                <span className="font-semibold text-blue-600 uppercase w-20">
+                  Bộ phận
+                </span>
+                <span>
+                  :{" "}
+                  {
+                    linesList.find((line) => line.value === overtime.bophan)
+                      ?.name
+                  }
+                </span>
               </div>
               <div className="flex gap-2 items-center">
                 <CalendarDays color="green" />
-                <span className="font-semibold text-blue-600 uppercase w-20">Ngày</span>
+                <span className="font-semibold text-blue-600 uppercase w-20">
+                  Ngày
+                </span>
                 <span>
                   :
                   {isSameDay(overtime.tungay, overtime.denngay) ? (
                     format(overtime.tungay, "dd/MM")
                   ) : (
                     <>
-                      {format(overtime.tungay, "dd/MM")} - {format(overtime.denngay, "dd/MM")}
+                      {format(overtime.tungay, "dd/MM")} -{" "}
+                      {format(overtime.denngay, "dd/MM")}
                     </>
                   )}
                 </span>
               </div>
               <div className="flex gap-2 items-center">
                 <Clock3 color="green" />
-                <span className="font-semibold text-blue-600 uppercase w-20">Giờ</span>
+                <span className="font-semibold text-blue-600 uppercase w-20">
+                  Giờ
+                </span>
                 <span className="flex-1">: {overtime?.gio}</span>
               </div>
               <div className="flex gap-2 items-center">
                 <MessageCircleQuestionMark color="green" />
-                <span className="font-semibold text-blue-600 uppercase w-20">Lý do</span>
+                <span className="font-semibold text-blue-600 uppercase w-20">
+                  Lý do
+                </span>
                 <span className="flex-1">: {overtime?.lydo}</span>
               </div>
             </div>
@@ -130,11 +154,12 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                       <th className="text-center border p-1">STT</th>
                       <th className="text-center border p-1">Họ tên</th>
                       <th className="text-center border p-1">MSNV</th>
-                      {user?.bophan !== "tochuc" &&
+                      <th className="text-center border p-1">Công đoạn</th>
+                      {/* {user?.bophan !== "tochuc" &&
                         overtime.bophan.startsWith("X1") &&
                         overtime.bophan.startsWith("X2") && (
                           <th className="text-center border p-1">Công đoạn</th>
-                        )}
+                        )} */}
                       {isSameDay(overtime.tungay, overtime.denngay) ? (
                         <th className="text-center border p-1">Có mặt</th>
                       ) : (
@@ -173,18 +198,25 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                             )}
                           </div>
                         </td>
-                        <td className="text-center border p-1 text-nowrap">{emp.hoten}</td>
+                        <td className="text-center border p-1 text-nowrap">
+                          {emp.hoten}
+                        </td>
                         <td className="text-center border p-1">{emp.msnv}</td>
-                        {user?.bophan !== "tochuc" &&
+                        <td className="text-center border p-1">
+                          {emp.congdoan}
+                        </td>
+                        {/* {user?.bophan !== "tochuc" &&
                           overtime.bophan.startsWith("X1") &&
                           overtime.bophan.startsWith("X2") && (
                             <td className="text-center border p-1">{emp.congdoan}</td>
-                          )}
+                          )} */}
                         {isSameDay(overtime.tungay, overtime.denngay) ? (
                           <td className="text-center border p-1">
                             <div className="flex items-center justify-center">
-                              {emp.days?.find((d) => d.day === format(new Date(), "yyyy-MM-dd"))
-                                ?.status && <CircleCheckBig />}
+                              {emp.days?.find(
+                                (d) =>
+                                  d.day === format(new Date(), "yyyy-MM-dd"),
+                              )?.status && <CircleCheckBig />}
                             </div>
                             {/* <Checkbox
                               disabled
@@ -211,8 +243,9 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                                 }
                               /> */}
                               <div className="flex items-center justify-center">
-                                {emp.days?.find((d) => d.day === format(day, "yyyy-MM-dd"))
-                                  ?.status && <CircleCheckBig />}
+                                {emp.days?.find(
+                                  (d) => d.day === format(day, "yyyy-MM-dd"),
+                                )?.status && <CircleCheckBig />}
                               </div>
                             </td>
                           ))
@@ -235,7 +268,10 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                             placeholder="Họ tên"
                             value={employeeAdd.hoten}
                             onChange={(e) =>
-                              setEmployeeAdd({ ...employeeAdd, hoten: e.target.value })
+                              setEmployeeAdd({
+                                ...employeeAdd,
+                                hoten: e.target.value,
+                              })
                             }
                           />
                         </td>
@@ -245,7 +281,10 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                             placeholder="MSNV"
                             value={employeeAdd.msnv}
                             onChange={(e) =>
-                              setEmployeeAdd({ ...employeeAdd, msnv: e.target.value })
+                              setEmployeeAdd({
+                                ...employeeAdd,
+                                msnv: e.target.value,
+                              })
                             }
                           />
                         </td>
@@ -255,7 +294,10 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                             placeholder="Công đoạn"
                             value={employeeAdd.congdoan}
                             onChange={(e) =>
-                              setEmployeeAdd({ ...employeeAdd, congdoan: e.target.value })
+                              setEmployeeAdd({
+                                ...employeeAdd,
+                                congdoan: e.target.value,
+                              })
                             }
                           />
                         </td>
@@ -283,15 +325,22 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
 
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-y-8 mt-10">
               <div className="flex flex-col items-center gap-2">
-                <span className="uppercase font-bold text-blue-600 text-xl">Tổ trưởng</span>
-                <span className="text-center text-green-900">{overtime?.totruong}</span>
+                <span className="uppercase font-bold text-blue-600 text-xl">
+                  Tổ trưởng
+                </span>
+                <span className="text-center text-green-900">
+                  {overtime?.totruong}
+                </span>
               </div>
               <div className="flex flex-col items-center gap-2">
-                <span className="uppercase font-bold text-blue-600 text-xl">Quản đốc</span>
+                <span className="uppercase font-bold text-blue-600 text-xl">
+                  Quản đốc
+                </span>
                 <span className="text-center text-green-900">
                   {overtime.quandoc}
                   {!overtime.quandoc &&
-                    user?.bophan === overtime.bophan.slice(0, 3) + "quandoc" && (
+                    user?.bophan ===
+                      overtime.bophan.slice(0, 3) + "quandoc" && (
                       <Button
                         variant="link"
                         className="underline text-red-500"
@@ -304,14 +353,18 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
               </div>
 
               <div className="flex flex-col items-center col-span-2 lg:col-span-1 gap-2">
-                <span className="uppercase font-bold text-blue-600 text-xl">Ban giám đốc</span>
+                <span className="uppercase font-bold text-blue-600 text-xl">
+                  Ban giám đốc
+                </span>
                 <span className="text-center text-green-900">
                   {overtime.lanhdao}
                   {!overtime.lanhdao &&
                     overtime.status &&
-                    (user?.bophan === "lanhdao" || user?.bophan === "giamdoc") &&
+                    (user?.bophan === "lanhdao" ||
+                      user?.bophan === "giamdoc") &&
                     (!overtime.bophan.startsWith("X") ||
-                      (overtime.bophan.startsWith("X") && overtime.quandoc)) && (
+                      (overtime.bophan.startsWith("X") &&
+                        overtime.quandoc)) && (
                       <div className="flex justify-center items-center gap-2">
                         <Button
                           variant="link"
@@ -323,7 +376,9 @@ function OvertimeCreate({ params: { id } }: Route.LoaderArgs) {
                         <Button
                           variant="link"
                           className="text-blue-500 inline-flex bg-blue-100"
-                          onClick={() => handleSignature(overtime.id, "lanhdao")}
+                          onClick={() =>
+                            handleSignature(overtime.id, "lanhdao")
+                          }
                         >
                           <Signature /> Ký đơn
                         </Button>
