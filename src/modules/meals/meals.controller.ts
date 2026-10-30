@@ -3,11 +3,11 @@ import {
   Controller,
   Get,
   Header,
-  Param,
   Post,
   Query,
   StreamableFile,
 } from '@nestjs/common';
+import { MealsCreateDto, MealsUpdateNextDayDto } from './meals.dto';
 import { MealsService } from './meals.service';
 
 @Controller('meals')
@@ -20,7 +20,7 @@ export class MealsController {
   }
 
   @Post()
-  async create(@Body() data: any) {
+  async create(@Body() data: MealsCreateDto) {
     return this.mealsService.create(data);
   }
 
@@ -30,22 +30,24 @@ export class MealsController {
   }
 
   @Get('line/next-day')
-  findMealNextDay(@Query('bophan') bophan: string) {
-    return this.mealsService.findMealNextDay(bophan);
+  findMealNextDay() {
+    return this.mealsService.findMealNextDay();
   }
   @Get('line/print-next-day')
   findMealPrintNextDay(@Query('day') day: string) {
     return this.mealsService.findMealPrintNextDay(day);
   }
   @Post('line/next-day')
-  updateNextDay(@Body() formData: any) {
+  updateNextDay(@Body() formData: MealsUpdateNextDayDto) {
     return this.mealsService.updateNextDay(formData);
   }
 
   @Get('download')
-  @Header('Content-Disposition', 'attachment; filename="SheetJSNest.xlsx"')
-  async downloadXlsxFile(): Promise<StreamableFile> {
-    return this.mealsService.exportData();
+  @Header('Content-Disposition', 'attachment; filename="ansang.xlsx"')
+  async downloadXlsxFile(
+    @Query('month') month: string,
+  ): Promise<StreamableFile> {
+    return this.mealsService.exportData(month);
   }
 
   // @Get(':id')
