@@ -1,4 +1,11 @@
-import { ClipboardPlus, FilePlus, Mail, Mails, Salad, Truck } from "lucide-react";
+import {
+  ClipboardPlus,
+  FilePlus,
+  Mail,
+  Mails,
+  Salad,
+  Truck,
+} from "lucide-react";
 import { Link } from "react-router";
 import routers from "~/lib/routers";
 import useAuthStore from "~/stores/auth-store";
@@ -28,7 +35,7 @@ export default function FormButtonComponent() {
               <span>Ra cổng</span>
             </Link>
           </div>
-          <div className="flex justify-center items-center w-1/2 lg:w-1/3 mx-2">
+          {/* <div className="flex justify-center items-center w-1/2 lg:w-1/3 mx-2">
             <Link
               to={routers().goods.dashboard}
               className="btn bg-yellow-600 hover:bg-yellow-500 w-40 text-base uppercase"
@@ -36,7 +43,7 @@ export default function FormButtonComponent() {
               <Truck />
               <span>Hàng ra cổng</span>
             </Link>
-          </div>
+          </div> */}
         </>
       ) : user.bophan !== "lanhdao" && user.bophan !== "giamdoc" ? (
         <>
@@ -76,7 +83,7 @@ export default function FormButtonComponent() {
               <span>Ăn sáng</span>
             </Link>
           </div>
-          <div className="flex justify-center items-center w-1/3 mx-2">
+          {/* <div className="flex justify-center items-center w-1/3 mx-2">
             <Link
               to={routers().goods.dashboard}
               className="btn bg-yellow-600 hover:bg-yellow-500 w-40 text-base uppercase"
@@ -84,7 +91,7 @@ export default function FormButtonComponent() {
               <Truck />
               <span>Hàng ra cổng</span>
             </Link>
-          </div>
+          </div> */}
         </>
       ) : (
         <>

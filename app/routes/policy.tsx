@@ -144,6 +144,14 @@ export const POLICIES_DATA: PolicyItem[] = [
           "Mức hưởng trợ cấp ốm đau: Bằng 75% mức tiền lương đóng BHXH chia 24 nhân với số ngày thực tế nghỉ.",
         ],
       },
+      {
+        title: "THỦ TỤC NỘP ĐỂ HƯỞNG CHẾ ĐỘ THAI SẢN",
+        details: [
+          `Đối với Lao động Nữ hưởng chế độ thai sản: - Giấy chứng sinh hoặc bản sao giấy khai sinh của con -	Phiếu phẩu thuật nếu sinh con là sinh mổ`,
+          `Đối với Lao động Nam hưởng chế độ vợ sinh: - Giấy chứng sinh hoặc giấy khai sinh của con -	Phiếu phẩu thuật nếu sinh con là sinh mổ`,
+          `=> những giấy tờ trên đều phải có dấu đỏ hoặc có mã QR`,
+        ],
+      },
     ],
   },
   {
@@ -256,7 +264,8 @@ export const POLICIES_DATA: PolicyItem[] = [
     color: "text-[#02abb1]",
     contents: [
       {
-        title: "Người lao động được cử đi tập huấn/ học nghiệp vụ được hưởng 100% lương",
+        title:
+          "Người lao động được cử đi tập huấn/ học nghiệp vụ được hưởng 100% lương",
         details: [
           "Các trưởng hợp Công ty chi trả, hỗ trợ tiền học phí, thời gian, tiền lương và các chi phí liên quan đến học tập, nếu người lao động không làm việc tại Công ty theo thời gian cam kết sau đào tạo sẽ phải hoàn 100% tổng tiền Công ty đã chi cho học tập ( Người lao động phải làm việc tại công ty trên 05 năm kể từ ngày cấp bằng chứng nhận).",
         ],
@@ -286,9 +295,15 @@ export default function policy() {
         <div className="relative w-full overflow-hidden bg-linear-to-r from-blue-900 to-blue-950 text-white p-2 md:p-8 pb-10 rounded-b-3xl shadow-lg">
           <div className="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
             <div className="col-span-1 md:col-span-7 flex flex-col justify-center space-y-4 md:space-y-5 z-10 text-left">
-              <div className="space-y-2 md:space-y-3" style={{ opacity: 1, transform: "none" }}>
+              <div
+                className="space-y-2 md:space-y-3"
+                style={{ opacity: 1, transform: "none" }}
+              >
                 <div className="flex w-full flex-col sm:flex-row gap-4">
-                  <img src="/images/logo.png" className="w-12 mx-auto lg:mx-0" />
+                  <img
+                    src="/images/logo.png"
+                    className="w-12 mx-auto lg:mx-0"
+                  />
                   <h1 className="text-3xl text-center flex sm:text-4xl font-black tracking-tight text-white">
                     CHÍNH SÁCH LAO ĐỘNG
                   </h1>
@@ -491,7 +506,10 @@ export default function policy() {
                         <div
                           className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl  shadow-[0_3px_8px_rgba(0,0,0,0.02)]`}
                         >
-                          <img src={"/images/" + item.iconSrc} className="h-10 w-10" />
+                          <img
+                            src={"/images/" + item.iconSrc}
+                            className="h-10 w-10"
+                          />
                         </div>
 
                         <div className="min-w-0 flex-1">
@@ -526,9 +544,13 @@ export default function policy() {
                               {item.details.map((detail, index) => (
                                 <div key={index} className="gap-2.5">
                                   <div className="inline-flex items-center mr-1">
-                                    <CheckCircle2 className={`h-4 w-4 text-emerald-700`} />
+                                    <CheckCircle2
+                                      className={`h-4 w-4 text-emerald-700`}
+                                    />
                                   </div>
-                                  <span className="leading-relaxed text-black">{detail}</span>
+                                  <span className="leading-relaxed text-black">
+                                    {detail}
+                                  </span>
                                 </div>
                               ))}
                             </div>

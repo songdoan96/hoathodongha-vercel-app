@@ -22,7 +22,11 @@ function Home() {
   const { user } = useAuthStore();
   return (
     <div className="min-h-screen w-full relative">
-      <img src="/images/bg.JPG" alt="BG" className="absolute w-full h-full z-10" />
+      <img
+        src="/images/bg.JPG"
+        alt="BG"
+        className="absolute w-full h-full z-10"
+      />
       <div className="w-full h-full z-20 absolute opacity-80 bg-black"></div>
       {/* <div className="absolute z-30 w-full h-full text-white flex flex-col justify-center items-center">
         <div className="flex flex-col md:flex-row items-center gap-4 p-2">
@@ -132,7 +136,9 @@ function Home() {
                   <ClipboardPenLine color="blue" className="w-10 h-10" />
                 </div>
               </div>
-              <p className="font-bold bg-blue-500 w-full inline-block py-2 mt-auto">Tạo đơn</p>
+              <p className="font-bold bg-blue-500 w-full inline-block py-2 mt-auto">
+                Tạo đơn
+              </p>
             </Link>
           </div>
           <div className="w-1/2 md:w-1/4 p-2">
@@ -145,7 +151,9 @@ function Home() {
                   <Signature color="blue" className="w-10 h-10" />
                 </div>
               </div>
-              <p className="font-bold bg-blue-500 w-full inline-block py-2 mt-auto">Duyệt đơn</p>
+              <p className="font-bold bg-blue-500 w-full inline-block py-2 mt-auto">
+                Duyệt đơn
+              </p>
             </Link>
           </div>
           <div className="w-1/2 md:w-1/4 p-2">
@@ -173,10 +181,12 @@ function Home() {
                   <ClipboardPlus color="blue" className="w-10 h-10" />
                 </div>
               </div>
-              <p className="font-bold bg-blue-500 w-full inline-block py-2 mt-auto">Tăng ca</p>
+              <p className="font-bold bg-blue-500 w-full inline-block py-2 mt-auto">
+                Tăng ca
+              </p>
             </Link>
           </div>
-          <div className="w-1/2 md:w-1/4 p-2">
+          {/* <div className="w-1/2 md:w-1/4 p-2">
             <Link
               to={"/hanghoa"}
               className="bg-gray-50 min-h-32 border-2 border-orange-600 flex flex-col justify-center items-center rounded-xl overflow-hidden"
@@ -190,7 +200,7 @@ function Home() {
                 Hàng hóa ra cổng
               </p>
             </Link>
-          </div>
+          </div> */}
           <div className="w-1/2 md:w-1/4 p-2">
             <Link
               to={"/ansang"}
@@ -201,11 +211,15 @@ function Home() {
                   <Salad color="blue" className="w-10 h-10" />
                 </div>
               </div>
-              <p className="font-bold bg-blue-500 w-full inline-block py-2 mt-auto">Ăn sáng</p>
+              <p className="font-bold bg-blue-500 w-full inline-block py-2 mt-auto">
+                Ăn sáng
+              </p>
             </Link>
           </div>
           {user &&
-          (user.bophan === "lanhdao" || user.bophan === "giamdoc" || user.bophan === "admin") ? (
+          (user.bophan === "lanhdao" ||
+            user.bophan === "giamdoc" ||
+            user.bophan === "admin") ? (
             <div className="w-1/2 md:w-1/4 p-2">
               <Link
                 to={routers().feedback.dashboard}
