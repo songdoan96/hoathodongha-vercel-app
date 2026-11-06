@@ -1,4 +1,3 @@
-import { GoodsModule } from './modules/goods/goods.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
@@ -9,6 +8,8 @@ import { EmployeesModule } from './modules/employees/employees.module';
 import { FeedbackModule } from './modules/feedback/feedback.module';
 import { FirebaseModule } from './modules/firebase/firebase.module';
 import { FormsModule } from './modules/forms/forms.module';
+import { GoodsModule } from './modules/goods/goods.module';
+import { GuestFlowModule } from './modules/guestflow/guestflow.module';
 import { MealsModule } from './modules/meals/meals.module';
 import { OvertimesModule } from './modules/overtimes/overtimes.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
@@ -30,6 +31,7 @@ import { SalariesModule } from './modules/salaries/salaries.module';
     OvertimesModule,
     MealsModule,
     FeedbackModule,
+    GuestFlowModule,
   ],
   controllers: [AppController],
   providers: [AppService],

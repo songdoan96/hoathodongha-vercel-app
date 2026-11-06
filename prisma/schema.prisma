@@ -243,3 +243,25 @@ type GoodsOutItems {
   soluong Int
   lydo    String?
 }
+
+model GuestFlow {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  khachhang     String
+  phuongtien    Int            @default(0) //0: xetai/container , 1: oto, 2: xemay 
+  soluongnguoi  Int            @default(1)
+  createdAt     DateTime       @default(now())
+  guestFlowOuts GuestFlowOut[]
+
+  @@map("guest_flow")
+}
+
+model GuestFlowOut {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  guestFlowId String    @db.ObjectId
+  guestFlow   GuestFlow @relation(fields: [guestFlowId], references: [id])
+  soluong     Int
+  ghichu      String?
+  giora       DateTime
+
+  @@map("guest_flow_out")
+}
