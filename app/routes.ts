@@ -1,4 +1,10 @@
-import { type RouteConfig, index, layout, prefix, route } from "@react-router/dev/routes";
+import {
+  type RouteConfig,
+  index,
+  layout,
+  prefix,
+  route,
+} from "@react-router/dev/routes";
 
 export default [
   index("./routes/home.tsx"),
@@ -54,6 +60,14 @@ export default [
     route("/baove", "./routes/goods/security.tsx"),
 
     route("/chitiet/:id", "./routes/goods/detail.tsx"),
+  ]),
+
+  ...prefix("khachhang", [
+    index("./routes/guest/dashboard.tsx"),
+    route("/them", "./routes/guest/add.tsx"),
+    // route("/baove", "./routes/goods/security.tsx"),
+
+    // route("/chitiet/:id", "./routes/goods/detail.tsx"),
   ]),
 
   layout("./components/providers/PrivateProvider.tsx", [
