@@ -49,4 +49,10 @@ export default () => ({
     create: "/hanghoa/taophieu",
     detail: (id: string) => "/hanghoa/chitiet/" + id,
   },
+
+  guestFlow: {
+    dashboard: "/khachhang",
+    add: "/khachhang/them",
+    out: (id: string) => "/khachhang/rave/" + id,
+  },
 });

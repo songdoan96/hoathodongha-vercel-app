@@ -1,131 +1,136 @@
-import { Briefcase, Minus, Plus, Truck, Users, Wrench } from "lucide-react";
-import React from "react";
-import { HeaderComponent } from "~/components/Header";
-import { Field, FieldGroup, FieldLabel } from "~/components/ui/field";
-import { FormDescription, FormField, FormItem } from "~/components/ui/form";
+import { Minus, Plus } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
+import { Button } from "~/components/ui/button";
+import { Field, FieldLabel } from "~/components/ui/field";
 import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
+import GuestIcon from "~/features/guest/components/GuestIcon";
+import { GUEST_VEHICLE } from "~/features/guest/libs";
+import { useGuestFlowCreate } from "~/hooks/guestflow-hook";
+import routers from "~/lib/routers";
 
 export default function add() {
+  const navigate = useNavigate();
+  const [khachhang, setKhachhang] = useState("");
+  const [soluongnguoi, setSoluongnguoi] = useState(1);
+  const [phuongtien, setPhuongtien] = useState(0); //0: xetai/container , 1: oto, 2: xemay, 3: di bo
+  const [bienso, setBienso] = useState<string>();
+  const mutateGuestFlowCreate = useGuestFlowCreate();
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!khachhang) return;
+    mutateGuestFlowCreate.mutate(
+      { khachhang, soluongnguoi, phuongtien, bienso },
+      {
+        onSuccess: () => {
+          toast.success("Đăng ký thành công");
+          setKhachhang("");
+          navigate(routers().guestFlow.dashboard);
+        },
+      },
+    );
+  }
   return (
-    <div>
-      <HeaderComponent>
-        <div className="flex justify-center items-center flex-1">
-          <h1 className="uppercase text-white font-semibold">
+    <div className="h-screen md:h-auto w-screen flex justify-center items-center p-2">
+      <div className="shadow-lg border border-blue-500 mx-auto w-full max-w-3xl rounded-2xl overflow-hidden">
+        <div className="bg-blue-500 flex items-center p-2">
+          <img src="/images/logo.png" alt="Logo" className="w-12" />
+          <h1 className="uppercase text-white font-semibold text-xl md:text-3xl text-center w-full">
             Đăng ký vào cổng
           </h1>
         </div>
-      </HeaderComponent>
-      <div className="flex p-2">
-        <div className="shadow">
-          <form>
-            <Field>
-              <FieldLabel htmlFor="checkout-7j9-card-name-43j">
-                Tên khách
-              </FieldLabel>
-              <Input required />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="checkout-7j9-card-number-uw1">
-                Phương tiện
-              </FieldLabel>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <button
-                  type="button"
-                  //   onClick={() => handleSelectPurpose("giaohang")}
-                  className={`p-3 rounded-xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between `}
-                >
-                  <Truck className={`w-6 h-6 mb-1text-slate-500`} />
-                  <span className="font-extrabold text-sm text-slate-900 block leading-tight">
-                    Giao Nhận Hàng
-                  </span>
-                  <span className="text-[11px] text-slate-500">
-                    Xuống kho hàng
-                  </span>
-                </button>
+        <form className="p-4 grid gap-8" onSubmit={handleSubmit}>
+          <Field className="gap-1">
+            <FieldLabel
+              htmlFor="khachhang"
+              className="font-semibold text-xl uppercase"
+            >
+              1.Tên khách (*)
+            </FieldLabel>
+            <Input
+              required
+              id="khachhang"
+              name="khachhang"
+              className="w-full h-12 px-4 text-base sm:text-lg font-bold text-slate-900 bg-white border-2 border-slate-300 rounded-lg focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              value={khachhang}
+              onChange={(e) => setKhachhang(e.target.value)}
+            />
+          </Field>
+          <Field className="gap-1">
+            <FieldLabel
+              htmlFor="phuongtien"
+              className="font-semibold text-xl uppercase"
+            >
+              2.Phương tiện
+            </FieldLabel>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {GUEST_VEHICLE.map((item) => {
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`flex justify-center items-center p-2 md:p-4 rounded-2xl border-2 ${phuongtien === item.id ? "border-blue-500 bg-blue-50" : ""}`}
+                    onClick={() => setPhuongtien(item.id)}
+                  >
+                    <GuestIcon id={item.id} isActive={phuongtien === item.id} />
+                  </button>
+                );
+              })}
+            </div>
+          </Field>
+          <Field className="gap-1">
+            <FieldLabel className="font-semibold text-xl uppercase">
+              3.Số lượng Người ?
+            </FieldLabel>
+            <div className="flex items-center justify-between bg-slate-50 border border-slate-300 rounded-xl p-2 h-20 px-8">
+              <button
+                type="button"
+                onClick={() => setSoluongnguoi(Math.max(1, soluongnguoi - 1))}
+                className="w-16 h-16 bg-blue-800 hover:bg-blue-900 text-white rounded-lg flex items-center justify-center text-2xl font-bold cursor-pointer active:scale-95"
+              >
+                <Minus />
+              </button>
 
-                <button
-                  type="button"
-                  //   onClick={() => handleSelectPurpose("suachua")}
-                  className={`p-3 rounded-xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between `}
-                >
-                  <Wrench className={`w-6 h-6 mb-1text-slate-500`} />
-                  <span className="font-extrabold text-sm text-slate-900 block leading-tight">
-                    Sửa Chữa Máy
-                  </span>
-                  <span className="text-[11px] text-slate-500">
-                    Vào khu vực xưởng
-                  </span>
-                </button>
-
-                <button
-                  type="button"
-                  //   onClick={() => handleSelectPurpose("hop")}
-                  className={`p-3 rounded-xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between `}
-                >
-                  <Briefcase className={`w-6 h-6 mb-1text-slate-500`} />
-                  <span className="font-extrabold text-sm text-slate-900 block leading-tight">
-                    Gặp Lãnh Đạo
-                  </span>
-                  <span className="text-[11px] text-slate-500">
-                    Lên văn phòng họp
-                  </span>
-                </button>
-
-                <button
-                  type="button"
-                  //   onClick={() => handleSelectPurpose("phongvan")}
-                  className={`p-3 rounded-xl border-2 text-left transition-all cursor-pointer flex flex-col justify-between`}
-                >
-                  <Users className={`w-6 h-6 mb-1text-slate-500`} />
-                  <span className="font-extrabold text-sm text-slate-900 block leading-tight">
-                    Phỏng Vấn
-                  </span>
-                  <span className="text-[11px] text-slate-500">
-                    Phòng nhân sự
-                  </span>
-                </button>
-              </div>
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="checkout-7j9-card-number-uw1">
-                Đoàn Đi Mấy Người?
-              </FieldLabel>
-              <div className="flex items-center justify-between bg-slate-50 border border-slate-300 rounded-xl p-2 h-20">
-                <button
-                  type="button"
-                  //   onClick={() =>
-                  //     // setCompanionCount(Math.max(0, companionCount - 1))
-                  //   }
-                  className="w-14 h-14 bg-white border border-slate-300 hover:bg-slate-100 rounded-lg flex items-center justify-center text-slate-800 text-2xl font-bold cursor-pointer active:scale-95"
-                >
-                  <Minus className="w-6 h-6" />
-                </button>
-
-                <div className="text-center">
-                  <div className="text-3xl font-black font-mono text-blue-900 tabular-nums">
-                    {/* {1 + companionCount} */}
-                    111
-                  </div>
-                  <div className="text-[11px] text-slate-500 font-bold">
-                    {/* {companionCount === 0
-                      ? "Đi 1 mình"
-                      : `1 khách + ${companionCount} người đi cùng`} */}
-                    Đi 1 mình
-                  </div>
+              <div className="text-center">
+                <div className="text-5xl font-black font-mono text-blue-900 tabular-nums">
+                  {soluongnguoi}
                 </div>
-
-                <button
-                  type="button"
-                  //   onClick={() => setCompanionCount(companionCount + 1)}
-                  className="w-14 h-14 bg-blue-800 hover:bg-blue-900 rounded-lg flex items-center justify-center text-white text-2xl font-bold cursor-pointer active:scale-95"
-                >
-                  <Plus className="w-6 h-6" />
-                </button>
               </div>
-            </Field>
-          </form>
-        </div>
+
+              <button
+                type="button"
+                onClick={() => setSoluongnguoi(soluongnguoi + 1)}
+                className="w-16 h-16 bg-blue-800 hover:bg-blue-900 rounded-lg flex items-center justify-center text-white text-2xl font-bold cursor-pointer active:scale-95"
+              >
+                <Plus />
+              </button>
+            </div>
+          </Field>
+          <Field className="gap-1">
+            <FieldLabel
+              htmlFor="bienso"
+              className="font-semibold text-xl uppercase"
+            >
+              4.Biển số
+            </FieldLabel>
+            <Input
+              id="bienso"
+              name="bienso"
+              className="w-full h-12 px-4 text-base sm:text-lg font-bold text-slate-900 bg-white border-2 border-slate-300 rounded-lg focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              value={bienso || ""}
+              onChange={(e) => setBienso(e.target.value)}
+            />
+          </Field>
+          <Field className="gap-1 mt-6">
+            <Button
+              className="p-6 text-3xl uppercase font-semibold"
+              type="submit"
+            >
+              Đăng ký
+            </Button>
+          </Field>
+        </form>
       </div>
     </div>
   );
