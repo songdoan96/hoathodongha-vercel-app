@@ -1,5 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { GuestFlowCreateDto } from './guestflow.dto';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { GuestFlowCreateDto, GuestFlowOutCreateDto } from './guestflow.dto';
 import { GuestFlowService } from './guestflow.service';
 
 @Controller('guestflow')
@@ -8,10 +8,21 @@ export class GuestFlowController {
 
   @Post()
   create(@Body() guestFlowCreateDto: GuestFlowCreateDto) {
-    console.log(
-      '🚀 ~ GuestFlowController ~ create ~ guestFlowCreateDto:',
-      guestFlowCreateDto,
-    );
     return this.guestFlowService.create(guestFlowCreateDto);
+  }
+
+  @Get()
+  findAll(@Query('date') date: string) {
+    return this.guestFlowService.findAll(date);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.guestFlowService.findOne(id);
+  }
+
+  @Post('out')
+  createOut(@Body() guestFlowOutCreateDto: GuestFlowOutCreateDto) {
+    return this.guestFlowService.createOut(guestFlowOutCreateDto);
   }
 }

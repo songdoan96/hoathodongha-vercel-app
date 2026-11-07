@@ -247,8 +247,9 @@ type GoodsOutItems {
 model GuestFlow {
   id            String         @id @default(auto()) @map("_id") @db.ObjectId
   khachhang     String
-  phuongtien    Int            @default(0) //0: xetai/container , 1: oto, 2: xemay 
+  phuongtien    Int            @default(0) //0: xetai/container , 1: oto, 2: xemay, 3: di bo
   soluongnguoi  Int            @default(1)
+  bienso        String?
   createdAt     DateTime       @default(now())
   guestFlowOuts GuestFlowOut[]
 
@@ -258,10 +259,10 @@ model GuestFlow {
 model GuestFlowOut {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   guestFlowId String    @db.ObjectId
-  guestFlow   GuestFlow @relation(fields: [guestFlowId], references: [id])
+  guestFlow   GuestFlow @relation(fields: [guestFlowId], references: [id], onDelete: Cascade)
   soluong     Int
   ghichu      String?
-  giora       DateTime
+  giora       DateTime  @default(now())
 
   @@map("guest_flow_out")
 }
