@@ -1,5 +1,6 @@
 import { differenceInMinutes, format } from "date-fns";
-import { ArrowRight, Clock, Plus, User } from "lucide-react";
+import { ArrowRight, Clock, Factory, LogOut, User, Users } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
@@ -10,59 +11,125 @@ import routers from "~/lib/routers";
 export default function dashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
   const date = searchParams.get("date") || format(new Date(), "yyyy-MM-dd");
-
   const { data, isLoading } = useGuestFlowFindAll(date);
+  const [filter, setFilter] = useState<"all" | "leave" | "here">("here");
+  const [dataFilter, setDataFilter] = useState<GuestFlowType[]>();
+  const [countAllCustomer, setCountAllCustomer] = useState(0);
+  const [countHereCustomer, setCountHereCustomer] = useState(0);
+  const [countLeaveCustomer, setCountLeaveCustomer] = useState(0);
+  useEffect(() => {
+    if (!data) return;
+    var countAll = 0,
+      countHere = 0,
+      countLeave = 0;
+    data.forEach((guest) => {
+      countAll += guest.soluongnguoi;
+      const dave = guest.guestFlowOuts.reduce(
+        (total, out) => total + out.soluong,
+        0,
+      );
+      if (dave < guest.soluongnguoi) countHere += guest.soluongnguoi - dave;
+      if (dave === guest.soluongnguoi) countLeave += guest.soluongnguoi;
+    });
+    setCountAllCustomer(countAll);
+    setCountHereCustomer(countHere);
+    setCountLeaveCustomer(countLeave);
+  }, [data]);
+  useEffect(() => {
+    if (!data) return;
+    if (filter === "all") {
+      return setDataFilter(data);
+    }
+    if (filter === "here") {
+      const dHere = data.filter((guest) => {
+        const dave = guest.guestFlowOuts.reduce(
+          (total, out) => total + out.soluong,
+          0,
+        );
+        if (dave < guest.soluongnguoi) return guest;
+      });
+      return setDataFilter(dHere);
+    }
+    if (filter === "leave") {
+      const dLeave = data.filter((guest) => {
+        const dave = guest.guestFlowOuts.reduce(
+          (total, out) => total + out.soluong,
+          0,
+        );
+        if (dave === guest.soluongnguoi) return guest;
+      });
+      return setDataFilter(dLeave);
+    }
+  }, [filter, data]);
+
   if (isLoading) return <Loading fullScreen />;
   return (
-    <div>
-      <HeaderComponent>
-        <div className="flex flex-col md:flex-row gap-2 justify-center items-center w-full">
-          <h1 className="uppercase text-xl md:text-2xl text-white font-semibold flex-1 text-center px-4">
-            Danh sách Khách Ra Vào Nhà Máy
+    <div className="bg-white">
+      {/*  Danh sách Khách Ra Vào Nhà Máy */}
+      <div className="flex bg-(--primary-bg) p-1 items-center">
+        <img src="/images/logo.png" className="w-10" alt="" />
+        <div className="mx-auto">
+          <h1 className="text-center uppercase text-white font-semibold text-xl md:text-2xl">
+            Danh sách Khách hàng <br className="md:hidden" /> Ra Vào Nhà Máy
           </h1>
         </div>
-      </HeaderComponent>
-      <div className="p-0.5 md:p-2">
-        <div className="bg-white rounded-2xl border-2 border-slate-300 shadow-sm overflow-hidden">
-          <div className="p-4 border-b border-slate-200 bg-slate-50 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-            <div className="relative flex-1 max-w-lg">
-              <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl">
-                <button className="px-3.5 py-2 font-black rounded-lg transition-colors cursor-pointer bg-blue-800 text-white shadow-xs">
-                  Đang ở nhà máy (5)
+      </div>
+      <div className="p-1 md:p-2">
+        <div className="bg-white overflow-hidden min-h-screen">
+          <div className="p-1 md:p-4 md:py-6 shadow border border-blue-300 mb-4 rounded-xl">
+            <div className="flex gap-2 w-full">
+              <div className="flex-1 flex flex-col md:flex-row gap-2 md:gap-4 ">
+                <button
+                  onClick={() => setFilter("here")}
+                  className={`rounded-xl p-2 flex gap-1 items-center border border-slate-600 shadow text-slate-600 font-semibold ${filter === "here" && "bg-(--primary-bg) text-white"}`}
+                >
+                  <Factory />
+                  <span>Đang ở nhà máy</span>
+                  <span className="ml-auto">({countHereCustomer})</span>
                 </button>
-                <button className="px-3.5 py-2 font-bold rounded-lg transition-colors cursor-pointer text-slate-600 hover:text-slate-900">
-                  Tất cả hôm nay (0)
+                <button
+                  onClick={() => setFilter("all")}
+                  className={`rounded-xl p-2 flex gap-1 items-center border border-slate-600 shadow text-slate-600 font-semibold ${filter === "all" && "bg-(--primary-bg) text-white"}`}
+                >
+                  <Users />
+                  <span>Tất cả hôm nay</span>
+                  <span className="ml-auto">({countAllCustomer})</span>
                 </button>
-                <button className="px-3.5 py-2 font-bold rounded-lg transition-colors cursor-pointer text-slate-600 hover:text-slate-900">
-                  Đã ra về
+                <button
+                  onClick={() => setFilter("leave")}
+                  className={`rounded-xl p-2 flex gap-1 items-center border border-slate-600 shadow text-slate-600 font-semibold ${filter === "leave" && "bg-(--primary-bg) text-white"}`}
+                >
+                  <LogOut />
+                  <span>Đã ra về</span>
+                  <span className="ml-auto">({countLeaveCustomer})</span>
                 </button>
               </div>
-            </div>
-            <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
-              <div className="flex items-center gap-1.5 bg-white border border-slate-300 px-3 py-2 rounded-xl">
-                <input
-                  className="text-xs sm:text-sm text-slate-800 font-bold focus:outline-none cursor-pointer"
-                  type="date"
-                  value={date}
-                  onChange={(e) => setSearchParams({ date: e.target.value })}
-                  max={format(new Date(), "yyyy-MM-dd")}
-                />
+              <div className="flex flex-col w-1/3 gap-2 md:flex-row md:justify-end">
+                <Link
+                  to={routers().guestFlow.add}
+                  className="flex items-center gap-1 bg-green-300 text-green-900 hover:bg-green-400 uppercase transition-all py-2 px-1 rounded border border-green-600 font-semibold md:order-1"
+                >
+                  <span>Đăng ký</span>
+                  <ArrowRight />
+                </Link>
+                <div className="flex items-center gap-1.5 bg-white border border-slate-300 px-3 py-2 rounded-xl">
+                  <input
+                    type="date"
+                    value={date}
+                    onChange={(e) => setSearchParams({ date: e.target.value })}
+                    max={format(new Date(), "yyyy-MM-dd")}
+                    className="text-xs sm:text-sm text-slate-800 font-bold focus:outline-none cursor-pointer"
+                  />
+                </div>
               </div>
-              <Link
-                to={routers().guestFlow.add}
-                className="text-black flex items-center gap-1 bg-green-300 hover:bg-green-400 uppercase transition-all px-2 py-1 rounded border border-green-600 font-semibold"
-              >
-                <span>Đăng ký</span>
-                <ArrowRight />
-              </Link>
             </div>
           </div>
 
-          <div className="overflow-x-auto my-4 pb-8">
-            <div className="table w-full px-1">
-              <table className="w-full text-left border">
+          <div className="overflow-x-auto pb-8">
+            <div className="table w-full border border-blue-300 shadow rounded-xl overflow-hidden">
+              <table className="w-full text-left">
                 <thead>
-                  <tr className="border-b-2 border-blue-300 bg-blue-500 text-white font-black uppercase tracking-wider">
+                  <tr className="bg-(--primary-bg) text-white font-black uppercase tracking-wider">
                     <th className="p-2 whitespace-nowrap">Khách</th>
                     <th className="p-2 whitespace-nowrap text-center">
                       Số Người
@@ -79,15 +146,18 @@ export default function dashboard() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200">
-                  {data?.map((guest, index) => {
+                <tbody>
+                  {dataFilter?.map((guest, index) => {
                     const dave = guest.guestFlowOuts.reduce(
                       (total, out) => total + out.soluong,
                       0,
                     );
                     const conlai = guest.soluongnguoi - dave;
                     return (
-                      <tr key={guest.id} className="even:bg-gray-100">
+                      <tr
+                        key={guest.id}
+                        className="border-b border-blue-300 last:border-none"
+                      >
                         <td className="p-2 min-w-30 pl-2 font-bold text-slate-900 text-sm sm:text-base leading-tight">
                           {index + 1}. {guest.khachhang}
                         </td>
@@ -111,7 +181,10 @@ export default function dashboard() {
                           </Link>
                         </td>
                         <td className="p-2 whitespace-nowrap text-center">
-                          <div className="flex justify-center items-center gap-2">
+                          <Link
+                            to={routers().guestFlow.out(guest.id)}
+                            className="flex justify-center items-center gap-2"
+                          >
                             <GuestIcon
                               id={guest.phuongtien}
                               isActive={true}
@@ -122,7 +195,7 @@ export default function dashboard() {
                                 {guest.bienso}
                               </span>
                             )}
-                          </div>
+                          </Link>
                         </td>
 
                         <td className="p-2 whitespace-nowrap">

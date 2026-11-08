@@ -1,6 +1,7 @@
 import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { Field, FieldLabel } from "~/components/ui/field";
@@ -11,7 +12,10 @@ import { useGuestFlowCreate } from "~/hooks/guestflow-hook";
 import routers from "~/lib/routers";
 
 export default function add() {
+  const location = useLocation();
+  console.log("🚀 ~ add ~ location:", location);
   const navigate = useNavigate();
+  console.log("🚀 ~ add ~ navigate:", navigate);
   const [khachhang, setKhachhang] = useState("");
   const [soluongnguoi, setSoluongnguoi] = useState(1);
   const [phuongtien, setPhuongtien] = useState(0); //0: xetai/container , 1: oto, 2: xemay, 3: di bo
@@ -26,21 +30,24 @@ export default function add() {
         onSuccess: () => {
           toast.success("Đăng ký thành công");
           setKhachhang("");
-          navigate(routers().guestFlow.dashboard);
+          if (location.state) navigate(location.state.from);
+          else navigate(routers().guestFlow.dashboard);
         },
       },
     );
   }
   return (
-    <div className="h-screen md:h-auto w-screen flex justify-center items-center p-2">
+    <div className="flex justify-center md:items-center p-2">
       <div className="shadow-lg border border-blue-500 mx-auto w-full max-w-3xl rounded-2xl overflow-hidden">
         <div className="bg-blue-500 flex items-center p-2">
-          <img src="/images/logo.png" alt="Logo" className="w-12" />
+          <Link to={routers().guestFlow.dashboard}>
+            <img src="/images/logo.png" alt="Logo" className="w-12" />
+          </Link>
           <h1 className="uppercase text-white font-semibold text-xl md:text-3xl text-center w-full">
             Đăng ký vào cổng
           </h1>
         </div>
-        <form className="p-4 grid gap-8" onSubmit={handleSubmit}>
+        <form className="p-4 grid gap-4" onSubmit={handleSubmit}>
           <Field className="gap-1">
             <FieldLabel
               htmlFor="khachhang"

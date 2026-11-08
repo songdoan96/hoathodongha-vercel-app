@@ -158,6 +158,21 @@ function Home() {
           </div>
           <div className="w-1/2 md:w-1/4 p-2">
             <Link
+              to={routers().guestFlow.dashboard}
+              className="bg-gray-50 min-h-32 border-2 border-orange-600 flex flex-col justify-center items-center rounded-xl overflow-hidden"
+            >
+              <div className="h-3/4 flex justify-center items-center my-auto">
+                <div className="bg-blue-100 h-16 w-16 rounded-full flex justify-center items-center">
+                  <Truck color="blue" className="w-10 h-10" />
+                </div>
+              </div>
+              <p className="font-bold bg-blue-500 w-full inline-block py-2 mt-auto">
+                khách ra vào
+              </p>
+            </Link>
+          </div>
+          <div className="w-1/2 md:w-1/4 p-2">
+            <Link
               to={"/luong"}
               className="bg-gray-50 min-h-32 border-2 border-orange-600 flex flex-col justify-center items-center rounded-xl overflow-hidden"
             >
@@ -201,21 +216,23 @@ function Home() {
               </p>
             </Link>
           </div> */}
-          <div className="w-1/2 md:w-1/4 p-2">
-            <Link
-              to={"/ansang"}
-              className="bg-gray-50 min-h-32 border-2 border-orange-600 flex flex-col justify-center items-center rounded-xl overflow-hidden"
-            >
-              <div className="h-3/4 flex justify-center items-center my-auto">
-                <div className="bg-blue-100 h-16 w-16 rounded-full flex justify-center items-center">
-                  <Salad color="blue" className="w-10 h-10" />
+          {user && (
+            <div className="w-1/2 md:w-1/4 p-2">
+              <Link
+                to={"/ansang"}
+                className="bg-gray-50 min-h-32 border-2 border-orange-600 flex flex-col justify-center items-center rounded-xl overflow-hidden"
+              >
+                <div className="h-3/4 flex justify-center items-center my-auto">
+                  <div className="bg-blue-100 h-16 w-16 rounded-full flex justify-center items-center">
+                    <Salad color="blue" className="w-10 h-10" />
+                  </div>
                 </div>
-              </div>
-              <p className="font-bold bg-blue-500 w-full inline-block py-2 mt-auto">
-                Ăn sáng
-              </p>
-            </Link>
-          </div>
+                <p className="font-bold bg-blue-500 w-full inline-block py-2 mt-auto">
+                  Ăn sáng
+                </p>
+              </Link>
+            </div>
+          )}
           {user &&
           (user.bophan === "lanhdao" ||
             user.bophan === "giamdoc" ||

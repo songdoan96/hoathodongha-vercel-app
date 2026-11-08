@@ -302,7 +302,7 @@ export default function policy() {
                 <div className="flex w-full flex-col sm:flex-row gap-4">
                   <img
                     src="/images/logo.png"
-                    className="w-12 mx-auto lg:mx-0"
+                    className="w-12 h-12 mx-auto lg:mx-0"
                   />
                   <h1 className="text-3xl text-center flex sm:text-4xl font-black tracking-tight text-white">
                     CHÍNH SÁCH LAO ĐỘNG

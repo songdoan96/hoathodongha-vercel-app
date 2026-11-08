@@ -19,7 +19,7 @@ export default function out() {
   const [soluong, setSoluong] = useState(0);
   const [dave, setDave] = useState(0); //0: xetai/container , 1: oto, 2: xemay, 3: di bo
   const [isOver, setIsOver] = useState(true);
-  const [ghichu, setGhiChu] = useState("");
+  const [ghichu, setGhiChu] = useState<string>();
   const mutateGuestFlowOutCreate = useGuestFlowOutCreate();
   if (!id) return null;
   const { data: guest, isLoading } = useGuestFlowFindOne(id);
@@ -56,7 +56,9 @@ export default function out() {
     <div className="h-screen md:h-auto min-h-100 w-screen flex p-2">
       <div className="shadow-lg border border-green-500 mx-auto w-full max-w-3xl rounded-2xl overflow-hidden">
         <div className="bg-green-700 flex items-center p-2">
-          <img src="/images/logo.png" alt="Logo" className="w-12" />
+          <Link to={routers().guestFlow.dashboard}>
+            <img src="/images/logo.png" alt="Logo" className="w-12" />
+          </Link>
           <h1 className="uppercase text-white font-semibold text-xl md:text-3xl text-center w-full">
             Ghi nhận giờ ra
           </h1>
