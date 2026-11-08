@@ -58,3 +58,34 @@ NODE_ENV="production"
 DATABASE_URL_MONGO="mongodb+srv://root:tarikaka@cluster0.t9w6auu.mongodb.net/hoatho?retryWrites=true&w=majority&appName=Cluster0"
 PORT="8888"
 ```
+<!-- FIX LỖI Replica Set -->
+### Thêm vào User env path
+C:\Program Files\MongoDB\Server\x.x\bin
+### Mở terminal 
+net stop MongoDB
+### Mở file : C:\Program Files\MongoDB\Server\x.x\bin\mongod.cfg
+```
+replication: 
+    replSetName: "rs0"
+```
+### Terminal
+```
+mongod --config "C:\Program Files\MongoDB\Server\8.0\bin\mongod.cfg" --install 
+
+net start MongoDB
+```
+### Cài mongo shell
+### Terminal
+```
+mongosh
+
+rs.initiate({
+  _id: "rs0",
+  members: [
+    {
+      _id: 0,
+      host: "localhost:27017"
+    }
+  ]
+})
+```
