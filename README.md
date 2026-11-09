@@ -1,28 +1,9 @@
-hoathodongha-backend.vercel.app
-
-<!-- NODE_ENV="development"
-DATABASE_URL_MONGO="mongodb://localhost:27017/hoatho?replicaSet=rs0"
-
-# DATABASE_URL_MONGO="mongodb+srv://root:tarikaka@cluster0.t9w6auu.mongodb.net/hoatho?retryWrites=true&w=majority&appName=Cluster0"
-
-PORT=8888
-JWT_NAME="jwt"
-JWT_SECRET="d2b67382-8f59-4c5f-9536-ff96c9bd1996
-JWT_EXPIRES="10d" -->
-
-APP_URL="https://hoathodongha.vercel.app"
+```env
 NODE_ENV="development"
 DATABASE_URL_MONGO="mongodb://localhost:27017/hoatho?replicaSet=rs0"
 
-# DATABASE_URL_MONGO="mongodb+srv://root:tarikaka@cluster0.t9w6auu.mongodb.net/hoatho?retryWrites=true&w=majority&appName=Cluster0"
-
-PORT=8888
-JWT_SECRET="d2b67382-8f59-4c5f-9536-ff96c9bd1996"
-JWT_EXPIRES="10d"
-
-```
 JWT_SECRET="98dcb39c-ed9e-4a88-a15d-e10aa5835886"
-FRONTEND_URL="https://hoathodongha.vercel.app"
+# FRONTEND_URL="https://hoathodongha.vercel.app"
 FIREBASE_PROJECT_ID="hoathodongha-7aeb3"
 FIREBASE_CLIENT_EMAIL="firebase-adminsdk-fbsvc@hoathodongha-7aeb3.iam.gserviceaccount.com"
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----
@@ -54,8 +35,6 @@ OY7ID/Yxeoz/bbsmwAyw6x4DxLWVUTieNFD01XFaa79fH56Z/WvkGn0YC4h0sjrG
 SU0efstl+8HTqzsIdP1ih2Ah
 -----END PRIVATE KEY-----"
 JWT_EXPIRES="20d"
-NODE_ENV="production"
-DATABASE_URL_MONGO="mongodb+srv://root:tarikaka@cluster0.t9w6auu.mongodb.net/hoatho?retryWrites=true&w=majority&appName=Cluster0"
 PORT="8888"
 ```
 <!-- FIX LỖI Replica Set -->
