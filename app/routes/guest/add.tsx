@@ -1,4 +1,4 @@
-import { Minus, Plus } from "lucide-react";
+import { ArrowLeft, Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { useLocation } from "react-router";
 import { Link, useNavigate } from "react-router";
@@ -13,9 +13,7 @@ import routers from "~/lib/routers";
 
 export default function add() {
   const location = useLocation();
-  console.log("🚀 ~ add ~ location:", location);
   const navigate = useNavigate();
-  console.log("🚀 ~ add ~ navigate:", navigate);
   const [khachhang, setKhachhang] = useState("");
   const [soluongnguoi, setSoluongnguoi] = useState(1);
   const [phuongtien, setPhuongtien] = useState(0); //0: xetai/container , 1: oto, 2: xemay, 3: di bo
@@ -30,7 +28,8 @@ export default function add() {
         onSuccess: () => {
           toast.success("Đăng ký thành công");
           setKhachhang("");
-          if (location.state === "bao-ve") navigate(location.state.from);
+          if (location.state?.from.includes("bao-ve"))
+            navigate(location.state.from);
           else navigate(routers().guestFlow.dashboard);
         },
       },
@@ -136,6 +135,18 @@ export default function add() {
             >
               Đăng ký
             </Button>
+            {location.state?.from.includes("bao-ve") && (
+              <div className="flex justify-center items-center">
+                <button
+                  onClick={() => navigate(-1)}
+                  className="text-center inline-flex gap-2 mt-4 px-8 py-2 mx-auto uppercase text-xl text-red-600 hover:bg-red-100 rounded"
+                  type="button"
+                >
+                  <ArrowLeft />
+                  Hủy
+                </button>
+              </div>
+            )}
           </Field>
         </form>
       </div>

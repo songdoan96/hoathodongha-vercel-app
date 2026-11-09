@@ -52,7 +52,7 @@ export default () => ({
 
   guestFlow: {
     dashboard: "/khachhang",
-    add: "/khachhang/them",
+    add: "/khachhang/dangky",
     out: (id: string) => "/khachhang/rave/" + id,
   },
 });

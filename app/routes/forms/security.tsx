@@ -6,6 +6,14 @@ import { Link, useLocation } from "react-router";
 import FormSecurityListComponent from "~/components/Forms/Security";
 import { HeaderComponent, HeaderRight, HeaderTitle } from "~/components/Header";
 import Loading from "~/components/Loading";
+import { Card, CardContent } from "~/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "~/components/ui/carousel";
 import GuestIcon from "~/features/guest/components/GuestIcon";
 import { FORMS_QUERY_KEY } from "~/hooks/forms-hook";
 import { useGuestFlowFindAll } from "~/hooks/guestflow-hook";
@@ -63,8 +71,12 @@ function FormDashboard() {
           </Link>
         </HeaderRight>
       </HeaderComponent>
-      <div className="flex p-2 gap-6">
-        <div className="w-1/6 p-2 flex flex-col justify-around gap-2 border-2 border-blue-800 uppercase text-xl font-semibold">
+      <div className="flex flex-col md:flex-row p-2 gap-6">
+        <Link
+          to={routers().guestFlow.add}
+          state={{ from: location.pathname }}
+          className="w-full md:w-1/5 p-2 flex flex-col justify-around gap-2 border-2 border-blue-800 uppercase text-xl font-semibold"
+        >
           <div className="flex items-center gap-2 text-green-700">
             <Factory />
             <span className="">Đang ở nhà máy</span>
@@ -79,10 +91,63 @@ function FormDashboard() {
               {leaveCount}
             </span>
           </div>
-        </div>
-        <div className="flex-1 bg-white shadow-xl overflow-x-auto">
+        </Link>
+        <div className="flex-1">
           <div className="flex h-full gap-2">
-            {guests?.map((guest) => {
+            <Carousel className="w-full max-w-350 mx-auto h-full">
+              <CarouselContent className="-ml-1">
+                {guests?.map((guest, index) => {
+                  const dave = guest.guestFlowOuts.reduce(
+                    (total, out) => total + out.soluong,
+                    0,
+                  );
+                  if (dave < guest.soluongnguoi)
+                    return (
+                      <CarouselItem
+                        key={index}
+                        className="basis-full md:basis-1/5 pl-4 first:pl-1"
+                      >
+                        <Link
+                          to={routers().guestFlow.out(guest.id)}
+                          state={{ from: location.pathname }}
+                          className="flex flex-col justify-between border-2 border-blue-800 h-full md:min-w-52 p-1 px-2 font-bold gap-1"
+                          key={guest.id}
+                        >
+                          <h1 className="text-red-700 md:text-lg">
+                            {guest.khachhang}
+                          </h1>
+                          <div className="text-blue-700 flex justify-between mt-auto">
+                            <h1>
+                              Còn {guest.soluongnguoi - dave}/
+                              {guest.soluongnguoi} người
+                            </h1>
+                            <GuestIcon
+                              id={guest.phuongtien}
+                              isActive={true}
+                              size={24}
+                            />
+                          </div>
+                          <div className="flex justify-between text-green-900">
+                            <h1>{format(guest.createdAt, "HH:mm")}</h1>
+                            <h1>
+                              {(
+                                differenceInMinutes(
+                                  new Date(),
+                                  guest.createdAt,
+                                ) / 60
+                              ).toFixed(1)}
+                              h
+                            </h1>
+                          </div>
+                        </Link>
+                      </CarouselItem>
+                    );
+                })}
+              </CarouselContent>
+              <CarouselPrevious variant={"default"} />
+              <CarouselNext variant={"default"} />
+            </Carousel>
+            {/* {guests?.map((guest) => {
               const dave = guest.guestFlowOuts.reduce(
                 (total, out) => total + out.soluong,
                 0,
@@ -98,7 +163,8 @@ function FormDashboard() {
                     <h1 className="text-red-700 text-lg">{guest.khachhang}</h1>
                     <div className="text-blue-700 flex justify-between mt-auto">
                       <h1>
-                        {guest.soluongnguoi - dave}/{guest.soluongnguoi} người
+                        Còn {guest.soluongnguoi - dave}/{guest.soluongnguoi}{" "}
+                        người
                       </h1>
                       <GuestIcon
                         id={guest.phuongtien}
@@ -117,7 +183,7 @@ function FormDashboard() {
                     </div>
                   </Link>
                 );
-            })}
+            })} */}
           </div>
         </div>
       </div>

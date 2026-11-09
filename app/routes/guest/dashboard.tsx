@@ -3,6 +3,12 @@ import { ArrowRight, Clock, Factory, LogOut, User, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
+import { Button } from "~/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 import GuestIcon from "~/features/guest/components/GuestIcon";
 import { useGuestFlowFindAll } from "~/hooks/guestflow-hook";
 import routers from "~/lib/routers";
@@ -232,10 +238,27 @@ export default function dashboard() {
                                   <span className="ml-1 w-16 text-orange-700">
                                     {format(out.giora, "HH:mm")}
                                   </span>
-                                  <User color="green" size={16} />
-                                  <span className="ml-1 text-orange-700">
-                                    {out.soluong} người
-                                  </span>
+                                  {out.ghichu ? (
+                                    <Tooltip>
+                                      <TooltipTrigger className="flex">
+                                        <User color="green" size={16} />
+                                        <span className="ml-1 text-orange-700">
+                                          {out.soluong} người
+                                        </span>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                        {out.ghichu}
+                                      </TooltipContent>
+                                    </Tooltip>
+                                  ) : (
+                                    <>
+                                      {" "}
+                                      <User color="green" size={16} />
+                                      <span className="ml-1 text-orange-700">
+                                        {out.soluong} người
+                                      </span>
+                                    </>
+                                  )}
                                 </li>
                               ))}
                             </ul>

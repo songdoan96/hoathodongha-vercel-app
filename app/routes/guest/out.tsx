@@ -1,7 +1,7 @@
 import { differenceInMinutes } from "date-fns";
 import { ArrowLeft, Clock, Minus, Plus, User, Users } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useLocation, useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
 import Loading from "~/components/Loading";
 import { Button } from "~/components/ui/button";
@@ -16,6 +16,8 @@ import routers from "~/lib/routers";
 export default function out() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log("🚀 ~ out ~ location:", location);
   const [soluong, setSoluong] = useState(0);
   const [dave, setDave] = useState(0); //0: xetai/container , 1: oto, 2: xemay, 3: di bo
   const [isOver, setIsOver] = useState(true);
@@ -46,7 +48,9 @@ export default function out() {
       {
         onSuccess: () => {
           toast.success("Thành công");
-          navigate(routers().guestFlow.dashboard);
+          if (location.state?.from.includes("bao-ve"))
+            navigate(location.state.from);
+          else navigate(routers().guestFlow.dashboard);
         },
       },
     );
@@ -76,6 +80,7 @@ export default function out() {
                     <h1 className="font-semibold">{guest.khachhang}</h1>
                   </div>
                   <div className="flex items-center justify-center gap-1">
+                    <Clock color="teal" />
                     <h1 className="font-semibold">
                       {(
                         differenceInMinutes(
@@ -85,10 +90,9 @@ export default function out() {
                       ).toFixed(1)}
                       h
                     </h1>
-                    <Clock color="teal" />
                   </div>
                 </div>
-                <div className="flex justify-between font-semibold">
+                <div className="flex justify-between font-semibold uppercase">
                   <h1>Vào cổng: {guest.soluongnguoi} người</h1>
                   <h1>Đã về: {dave} người</h1>
                 </div>

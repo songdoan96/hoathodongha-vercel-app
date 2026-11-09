@@ -64,7 +64,7 @@ export default [
 
   ...prefix("khachhang", [
     index("./routes/guest/dashboard.tsx"),
-    route("/them", "./routes/guest/add.tsx"),
+    route("/dangky", "./routes/guest/add.tsx"),
     route("/rave/:id", "./routes/guest/out.tsx"),
 
     // route("/baove", "./routes/goods/security.tsx"),
