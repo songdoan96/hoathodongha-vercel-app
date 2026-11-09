@@ -1,9 +1,14 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { Truck } from "lucide-react";
+import { differenceInMinutes, format } from "date-fns";
+import { CaseSensitive, Factory, LogOut, Truck, User } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import FormSecurityListComponent from "~/components/Forms/Security";
 import { HeaderComponent, HeaderRight, HeaderTitle } from "~/components/Header";
+import Loading from "~/components/Loading";
+import GuestIcon from "~/features/guest/components/GuestIcon";
 import { FORMS_QUERY_KEY } from "~/hooks/forms-hook";
+import { useGuestFlowFindAll } from "~/hooks/guestflow-hook";
 import routers from "~/lib/routers";
 export function meta() {
   return [
@@ -15,6 +20,29 @@ export function meta() {
 function FormDashboard() {
   const queryClient = useQueryClient();
   const location = useLocation();
+  const { data: guests, isLoading } = useGuestFlowFindAll(
+    format(new Date(), "yyyy-MM-dd"),
+  );
+  const [hereCount, setHereCount] = useState(0);
+  const [leaveCount, setLeaveCount] = useState(0);
+  useEffect(() => {
+    if (!guests) return;
+    var countHere = 0,
+      countLeave = 0;
+    guests.forEach((guest) => {
+      const dave = guest.guestFlowOuts.reduce(
+        (total, out) => total + out.soluong,
+        0,
+      );
+      const conlai = guest.soluongnguoi - dave;
+      countHere += conlai;
+      countLeave += dave;
+    });
+    setHereCount(countHere);
+    setLeaveCount(countLeave);
+  }, [guests]);
+
+  if (isLoading) return <Loading fullScreen />;
   return (
     <div>
       <HeaderComponent
@@ -35,101 +63,61 @@ function FormDashboard() {
           </Link>
         </HeaderRight>
       </HeaderComponent>
-      <div className="flex p-2 gap-2">
-        <div className="w-1/4 grid grid-cols-2 gap-2">
-          <div className="border border-(--primary-bg) rounded text-center flex">
-            <h6 className="uppercase text-xl">đang ở nhà máy</h6>
+      <div className="flex p-2 gap-6">
+        <div className="w-1/6 p-2 flex flex-col justify-around gap-2 border-2 border-blue-800 uppercase text-xl font-semibold">
+          <div className="flex items-center gap-2 text-green-700">
+            <Factory />
+            <span className="">Đang ở nhà máy</span>
+            <span className="ml-auto w-10 h-10 rounded-full bg-green-700 text-white flex justify-center items-center">
+              {hereCount}
+            </span>
           </div>
-          <div className="border border-(--primary-bg) rounded text-center flex">
-            <h6 className="uppercase text-xl"> đã về</h6>
+          <div className="flex items-center gap-2 text-red-700">
+            <LogOut />
+            <span className="">Đã về</span>
+            <span className="ml-auto w-10 h-10 rounded-full bg-red-700 text-white flex justify-center items-center">
+              {leaveCount}
+            </span>
           </div>
         </div>
-        <div className="flex-1 bg-white shadow-xl dark:bg-gray-800">
-          <div className="flex overflow-x-auto">
-            <div className="flex-none px-3 py-6 border">
-              <div className="flex">
-                <strong className="text-xs font-medium text-gray-900 dark:text-gray-200">
-                  Khách Motives
-                </strong>
-              </div>
-            </div>
-            <div className="flex-none px-3 py-6 border">
-              <div className="flex">
-                <strong className="text-xs font-medium text-gray-900 dark:text-gray-200">
-                  Khách Motives
-                </strong>
-              </div>
-            </div>
-            <div className="flex-none px-3 py-6 border">
-              <div className="flex">
-                <strong className="text-xs font-medium text-gray-900 dark:text-gray-200">
-                  Khách Motives
-                </strong>
-              </div>
-            </div>
-            <div className="flex-none px-3 py-6 border">
-              <div className="flex">
-                <strong className="text-xs font-medium text-gray-900 dark:text-gray-200">
-                  Khách Motives
-                </strong>
-              </div>
-            </div>
-            <div className="flex-none px-3 py-6 border">
-              <div className="flex">
-                <strong className="text-xs font-medium text-gray-900 dark:text-gray-200">
-                  Khách Motives
-                </strong>
-              </div>
-            </div>
-            <div className="flex-none px-3 py-6 border">
-              <div className="flex">
-                <strong className="text-xs font-medium text-gray-900 dark:text-gray-200">
-                  Khách Motives
-                </strong>
-              </div>
-            </div>
-            <div className="flex-none px-3 py-6 border">
-              <div className="flex">
-                <strong className="text-xs font-medium text-gray-900 dark:text-gray-200">
-                  Khách Motives
-                </strong>
-              </div>
-            </div>
-            <div className="flex-none px-3 py-6 border">
-              <div className="flex">
-                <strong className="text-xs font-medium text-gray-900 dark:text-gray-200">
-                  Khách Motives
-                </strong>
-              </div>
-            </div>
-            <div className="flex-none px-3 py-6 border">
-              <div className="flex">
-                <strong className="text-xs font-medium text-gray-900 dark:text-gray-200">
-                  Khách Motives
-                </strong>
-              </div>
-            </div>
-            <div className="flex-none px-3 py-6 border">
-              <div className="flex">
-                <strong className="text-xs font-medium text-gray-900 dark:text-gray-200">
-                  Khách Motives
-                </strong>
-              </div>
-            </div>
-            <div className="flex-none px-3 py-6 border">
-              <div className="flex">
-                <strong className="text-xs font-medium text-gray-900 dark:text-gray-200">
-                  Khách Motives
-                </strong>
-              </div>
-            </div>
-            <div className="flex-none px-3 py-6 border">
-              <div className="flex">
-                <strong className="text-xs font-medium text-gray-900 dark:text-gray-200">
-                  Khách Motives
-                </strong>
-              </div>
-            </div>
+        <div className="flex-1 bg-white shadow-xl overflow-x-auto">
+          <div className="flex h-full gap-2">
+            {guests?.map((guest) => {
+              const dave = guest.guestFlowOuts.reduce(
+                (total, out) => total + out.soluong,
+                0,
+              );
+              if (dave < guest.soluongnguoi)
+                return (
+                  <Link
+                    to={routers().guestFlow.out(guest.id)}
+                    state={{ from: location.pathname }}
+                    className="flex flex-col justify-between border-2 border-blue-800 h-full min-w-52 p-1 px-2 font-bold gap-1"
+                    key={guest.id}
+                  >
+                    <h1 className="text-red-700 text-lg">{guest.khachhang}</h1>
+                    <div className="text-blue-700 flex justify-between mt-auto">
+                      <h1>
+                        {guest.soluongnguoi - dave}/{guest.soluongnguoi} người
+                      </h1>
+                      <GuestIcon
+                        id={guest.phuongtien}
+                        isActive={true}
+                        size={24}
+                      />
+                    </div>
+                    <div className="flex justify-between text-green-900">
+                      <h1>{format(guest.createdAt, "HH:mm")}</h1>
+                      <h1>
+                        {(
+                          differenceInMinutes(new Date(), guest.createdAt) / 60
+                        ).toFixed(1)}
+                        h
+                      </h1>
+                    </div>
+                  </Link>
+                );
+            })}
           </div>
         </div>
       </div>

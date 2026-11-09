@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useDebounce } from "use-debounce";
 import { HeaderComponent, HeaderTitle } from "~/components/Header";
 import { Button } from "~/components/ui/button";
@@ -26,18 +26,27 @@ import { useFormsCreate } from "~/hooks/forms-hook";
 import { linesList, linesListFilter } from "~/lib/variables";
 
 import { format } from "date-fns";
-import { FormOutCreateSchema, type FormOutCreateSchemaType } from "~/schemas/forms.schema";
+import {
+  FormOutCreateSchema,
+  type FormOutCreateSchemaType,
+} from "~/schemas/forms.schema";
 import type { EmployeeType } from "~/types/employee-type";
+import routers from "~/lib/routers";
 export function meta() {
-  return [{ title: "Tạo đơn ra cổng" }, { name: "description", content: "Tạo đơn ra cổng" }];
+  return [
+    { title: "Tạo đơn ra cổng" },
+    { name: "description", content: "Tạo đơn ra cổng" },
+  ];
 }
 export default function FormCreateOut() {
   const navigate = useNavigate();
   const create = useFormsCreate();
+  const location = useLocation();
 
   const [employeeSearch, setEmployeeSearch] = useState("");
   const [debouncedSearch] = useDebounce(employeeSearch, 300);
-  const { data: employeesFindByStaffId } = useEmployeesFindByStaffId(debouncedSearch);
+  const { data: employeesFindByStaffId } =
+    useEmployeesFindByStaffId(debouncedSearch);
 
   const form = useForm<FormOutCreateSchemaType>({
     resolver: zodResolver(FormOutCreateSchema),
@@ -78,14 +87,17 @@ export default function FormCreateOut() {
                   <FormItem>
                     <FormLabel>
                       MSNV:
-                      <span className="text-red-500">chọn tên ở dưới để tự động chọn tổ</span>
+                      <span className="text-red-500">
+                        chọn tên ở dưới để tự động chọn tổ
+                      </span>
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Tìm MSNV"
                         {...field}
                         onChange={(e) => {
-                          if (e.target.value.length > 3) setEmployeeSearch(e.target.value);
+                          if (e.target.value.length > 3)
+                            setEmployeeSearch(e.target.value);
                           field.onChange(e.target.value);
                         }}
                       />
@@ -105,7 +117,10 @@ export default function FormCreateOut() {
                         <div
                           onClick={() => {
                             form.setValue("msnv", employeesFindByStaffId.msnv);
-                            form.setValue("hoten", employeesFindByStaffId.hoten);
+                            form.setValue(
+                              "hoten",
+                              employeesFindByStaffId.hoten,
+                            );
                             form.setValue("to", employeesFindByStaffId.bophan, {
                               shouldValidate: true,
                             });
@@ -113,13 +128,19 @@ export default function FormCreateOut() {
                           }}
                           className="inline-flex gap-2 items-center border-b cursor-pointer"
                         >
-                          <p className="font-bold">{employeesFindByStaffId.msnv}:</p>
-                          <p className="font-bold">{employeesFindByStaffId.hoten}</p>
+                          <p className="font-bold">
+                            {employeesFindByStaffId.msnv}:
+                          </p>
+                          <p className="font-bold">
+                            {employeesFindByStaffId.hoten}
+                          </p>
                           <p className="font-bold text-red-500">
                             (
                             {
-                              linesList.find((line) => line.value === employeesFindByStaffId.bophan)
-                                ?.name
+                              linesList.find(
+                                (line) =>
+                                  line.value === employeesFindByStaffId.bophan,
+                              )?.name
                             }
                             )
                           </p>
@@ -165,7 +186,10 @@ export default function FormCreateOut() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Tổ, bộ phận: <span className="text-red-500">chọn lại tổ nếu chưa đúng</span>
+                    Tổ, bộ phận:{" "}
+                    <span className="text-red-500">
+                      chọn lại tổ nếu chưa đúng
+                    </span>
                   </FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl className="w-full">
@@ -257,7 +281,11 @@ export default function FormCreateOut() {
               <Button
                 asChild
                 className="bg-red-500 hover:bg-red-600 cursor-pointer"
-                onClick={() => navigate(-1)}
+                onClick={() => {
+                  if (location.state === "bao-ve")
+                    navigate(location.state.from);
+                  else navigate(routers().guestFlow.dashboard);
+                }}
               >
                 <span>Quay lại</span>
               </Button>

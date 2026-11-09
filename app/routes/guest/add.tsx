@@ -30,7 +30,7 @@ export default function add() {
         onSuccess: () => {
           toast.success("Đăng ký thành công");
           setKhachhang("");
-          if (location.state) navigate(location.state.from);
+          if (location.state === "bao-ve") navigate(location.state.from);
           else navigate(routers().guestFlow.dashboard);
         },
       },

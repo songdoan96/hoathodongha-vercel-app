@@ -2,7 +2,6 @@ import { differenceInMinutes, format } from "date-fns";
 import { ArrowRight, Clock, Factory, LogOut, User, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
-import { HeaderComponent } from "~/components/Header";
 import Loading from "~/components/Loading";
 import GuestIcon from "~/features/guest/components/GuestIcon";
 import { useGuestFlowFindAll } from "~/hooks/guestflow-hook";
@@ -125,8 +124,8 @@ export default function dashboard() {
             </div>
           </div>
 
-          <div className="overflow-x-auto pb-8">
-            <div className="table w-full border border-blue-300 shadow rounded-xl overflow-hidden">
+          <div className="overflow-x-auto">
+            <div className="table w-full border border-blue-300 shadow rounded-xl overflow-hidden min-h-100">
               <table className="w-full text-left">
                 <thead>
                   <tr className="bg-(--primary-bg) text-white font-black uppercase tracking-wider">
@@ -154,10 +153,7 @@ export default function dashboard() {
                     );
                     const conlai = guest.soluongnguoi - dave;
                     return (
-                      <tr
-                        key={guest.id}
-                        className="border-b border-blue-300 last:border-none"
-                      >
+                      <tr key={guest.id} className="border-b border-blue-300">
                         <td className="p-2 min-w-30 pl-2 font-bold text-slate-900 text-sm sm:text-base leading-tight">
                           {index + 1}. {guest.khachhang}
                         </td>
