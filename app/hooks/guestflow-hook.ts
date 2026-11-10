@@ -20,6 +20,7 @@ export const useGuestFlowFindAll = (date: string) => {
     queryKey: ["guestflow", "findAll", date],
     queryFn: () => apiGuestFlowFindAll(date),
     enabled: !!date,
+    refetchInterval: 1000 * 60 * 15,
   });
 };
 export const useGuestFlowFindOne = (id: string) => {

@@ -17,7 +17,6 @@ export default function out() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("🚀 ~ out ~ location:", location);
   const [soluong, setSoluong] = useState(0);
   const [dave, setDave] = useState(0); //0: xetai/container , 1: oto, 2: xemay, 3: di bo
   const [isOver, setIsOver] = useState(true);

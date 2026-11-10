@@ -3,7 +3,6 @@ import { ArrowRight, Clock, Factory, LogOut, User, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import Loading from "~/components/Loading";
-import { Button } from "~/components/ui/button";
 import {
   Tooltip,
   TooltipContent,

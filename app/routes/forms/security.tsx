@@ -1,12 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { differenceInMinutes, format } from "date-fns";
-import { CaseSensitive, Factory, LogOut, Truck, User } from "lucide-react";
+import { Factory, LogOut, Truck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import FormSecurityListComponent from "~/components/Forms/Security";
 import { HeaderComponent, HeaderRight, HeaderTitle } from "~/components/Header";
 import Loading from "~/components/Loading";
-import { Card, CardContent } from "~/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -73,7 +72,7 @@ function FormDashboard() {
       </HeaderComponent>
       <div className="flex flex-col md:flex-row p-2 gap-6">
         <Link
-          to={routers().guestFlow.add}
+          to={routers().guestFlow.dashboard}
           state={{ from: location.pathname }}
           className="w-full md:w-1/5 p-2 flex flex-col justify-around gap-2 border-2 border-blue-800 uppercase text-xl font-semibold"
         >
@@ -147,43 +146,6 @@ function FormDashboard() {
               <CarouselPrevious variant={"default"} />
               <CarouselNext variant={"default"} />
             </Carousel>
-            {/* {guests?.map((guest) => {
-              const dave = guest.guestFlowOuts.reduce(
-                (total, out) => total + out.soluong,
-                0,
-              );
-              if (dave < guest.soluongnguoi)
-                return (
-                  <Link
-                    to={routers().guestFlow.out(guest.id)}
-                    state={{ from: location.pathname }}
-                    className="flex flex-col justify-between border-2 border-blue-800 h-full min-w-52 p-1 px-2 font-bold gap-1"
-                    key={guest.id}
-                  >
-                    <h1 className="text-red-700 text-lg">{guest.khachhang}</h1>
-                    <div className="text-blue-700 flex justify-between mt-auto">
-                      <h1>
-                        Còn {guest.soluongnguoi - dave}/{guest.soluongnguoi}{" "}
-                        người
-                      </h1>
-                      <GuestIcon
-                        id={guest.phuongtien}
-                        isActive={true}
-                        size={24}
-                      />
-                    </div>
-                    <div className="flex justify-between text-green-900">
-                      <h1>{format(guest.createdAt, "HH:mm")}</h1>
-                      <h1>
-                        {(
-                          differenceInMinutes(new Date(), guest.createdAt) / 60
-                        ).toFixed(1)}
-                        h
-                      </h1>
-                    </div>
-                  </Link>
-                );
-            })} */}
           </div>
         </div>
       </div>
