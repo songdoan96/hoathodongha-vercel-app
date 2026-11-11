@@ -60,7 +60,7 @@ export default function add() {
               name="khachhang"
               className="w-full h-12 px-4 text-base sm:text-lg font-bold text-slate-900 bg-white border-2 border-slate-300 rounded-lg focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
               value={khachhang}
-              onChange={(e) => setKhachhang(e.target.value)}
+              onChange={(e) => setKhachhang(e.target.value.toUpperCase())}
             />
           </Field>
           <Field className="gap-1">
