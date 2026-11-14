@@ -15,7 +15,10 @@ export default function FormSecurityListComponent() {
           <table className="w-full text-sm text-left rtl:text-right text-black dark:text-gray-400 shadow-2xl">
             <thead className="text-white uppercase bg-[#27AE60]">
               <tr>
-                <th scope="col" className="p-2 border border-black text-center">
+                <th
+                  scope="col"
+                  className="p-2 border border-black text-center max-w-32"
+                >
                   Họ tên
                 </th>
                 <th scope="col" className="p-2 border border-black text-center">

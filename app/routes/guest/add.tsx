@@ -132,6 +132,7 @@ export default function add() {
             <Button
               className="p-6 text-3xl uppercase font-semibold"
               type="submit"
+              disabled={mutateGuestFlowCreate.isPending}
             >
               Đăng ký
             </Button>

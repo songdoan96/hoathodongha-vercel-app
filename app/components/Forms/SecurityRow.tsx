@@ -8,12 +8,20 @@ import type { FormsType } from "~/types/forms-type";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
-export default function FormSecurityRowComponent({ form }: { form: FormsType }) {
+export default function FormSecurityRowComponent({
+  form,
+}: {
+  form: FormsType;
+}) {
   const update = useFormsSecurityUpdate();
   const [gioRa, setGioRa] = useState<string>();
   const [gioVao, setGioVao] = useState<string>();
-  const needToTruong = linesList.find((line) => line.value === form.to)?.needToTruong;
-  const needQuanDoc = linesList.find((line) => line.value === form.to)?.needQuanDoc;
+  const needToTruong = linesList.find(
+    (line) => line.value === form.to,
+  )?.needToTruong;
+  const needQuanDoc = linesList.find(
+    (line) => line.value === form.to,
+  )?.needQuanDoc;
 
   function handleDeleteTimeOut(id: string) {
     update.mutate({
@@ -30,7 +38,7 @@ export default function FormSecurityRowComponent({ form }: { form: FormsType }) 
   }
   return (
     <tr key={form.id} className="bg-white" title={`${form.id}`}>
-      <td className="p-2 border border-black text-left font-bold bg-white md:bg-transparent sticky left-0 min-w-16">
+      <td className="p-2 border border-black text-left font-bold bg-white md:bg-transparent sticky left-0 max-w-80 overflow-hidden">
         {form.hoten}
       </td>
       <td className="p-2 border border-black bg-white md:bg-transparent sticky left-16 min-w-12 text-center">
@@ -89,7 +97,11 @@ export default function FormSecurityRowComponent({ form }: { form: FormsType }) 
           </div>
         ) : (
           <div className="flex gap-1">
-            <Input type="time" className="w-28" onChange={(e) => setGioRa(e.target.value)} />
+            <Input
+              type="time"
+              className="w-28"
+              onChange={(e) => setGioRa(e.target.value)}
+            />
             {gioRa && (
               <Button
                 className="p-2"
@@ -135,7 +147,11 @@ export default function FormSecurityRowComponent({ form }: { form: FormsType }) 
           </div>
         ) : (
           <div className="flex gap-1">
-            <Input type="time" className="w-28" onChange={(e) => setGioVao(e.target.value)} />
+            <Input
+              type="time"
+              className="w-28"
+              onChange={(e) => setGioVao(e.target.value)}
+            />
             {gioVao && (
               <Button
                 className="p-2"
