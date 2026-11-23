@@ -33,11 +33,6 @@ function SalaryDetailsPage() {
     msnv,
     cccd,
   });
-  // const { salary, salaries } = data || {};
-  // const totalIncome =
-  //   salaries?.reduce((acc, salary) => {
-  //     return acc + (salary.tien_luong_thuc_linh || 0);
-  //   }, 0) || 0;
 
   return (
     <div className="bg-[#f4f7fd] min-h-screen w-full flex flex-col">
@@ -86,7 +81,8 @@ function SalaryDetailsPage() {
             <SalaryDetail salary={salary} />
             <div className="bg-white p-2 lg:p-4 mt-4 shadow-lg">
               <p className="text-red-700 text-sm md:text-base text-center font-semibold">
-                Lưu ý: Nếu CBCNV nào có thắc mắc vui lòng nhập nội dung vào bên dưới để khiếu nại.
+                Lưu ý: Nếu CBCNV nào có thắc mắc vui lòng nhập nội dung vào bên
+                dưới để khiếu nại.
               </p>
               <p className="text-sm md:text-base text-center mb-2">
                 (Tra cứu lại bảng lương để xem phản hồi của KT)
