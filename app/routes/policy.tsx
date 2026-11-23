@@ -130,7 +130,7 @@ export const POLICIES_DATA: PolicyItem[] = [
         details: [
           "Khi vợ sinh con, được nghỉ việc hưởng chế độ thai sản trong 60 ngày đầu kể từ ngày vợ sinh.",
           "Vợ sinh thường: Nghỉ 05 ngày làm việc.",
-          "Vợ sinh mổ hoặc sinh non: Nghỉ 07 ngày làm việc.",
+          "Lao động nam đang tham gia BHXH khi vợ sinh đôi hoặc sinh con thứ hai được nghỉ 10 ngày làm việc; trường hợp sinh ba trở lên thì từ con thứ ba trở đi được nghỉ thêm 03 ngày làm việc đối với mỗi con.",
           "Vợ sinh đôi (thường): Nghỉ 10 ngày; Vợ sinh đôi (mổ): Nghỉ 14 ngày.",
           "Vợ sinh ba trở lên: Cứ thêm 1 con thì nghỉ thêm 03 ngày.",
         ],
